@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StudyVibe — flashcards that stick</title>
+<meta name="description" content="A free spaced-repetition flashcard app built by the Vibe Coding Club. Study smarter, share decks, and see what we build." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#home" data-tab-link="home">
+      <span class="brand-mark">⚡</span>
+      <span class="brand-name">StudyVibe</span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab-btn is-active" data-tab-link="home" role="tab" aria-selected="true">Home</button>
+      <button class="tab-btn" data-tab-link="study" role="tab" aria-selected="false">Study</button>
+      <button class="tab-btn" data-tab-link="decks" role="tab" aria-selected="false">Decks</button>
+      <button class="tab-btn" data-tab-link="timer" role="tab" aria-selected="false">Focus Timer</button>
+      <button class="tab-btn" data-tab-link="stats" role="tab" aria-selected="false">Stats</button>
+    </nav>
+    <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Toggle light/dark theme">
+      <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section id="home" class="tab-panel is-active">
+    <div class="hero">
+      <div class="hero-badge">Built by the Vibe Coding Club</div>
+      <h1>Flashcards that actually <span class="grad-text">stick.</span></h1>
+      <p class="hero-sub">
+        StudyVibe schedules your reviews with spaced repetition so you spend time on what
+        you're about to forget — not what you already know. Free, no sign-up, works offline,
+        and every deck can be shared with a single file.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-tab-link="study">Start studying →</button>
+        <button class="btn btn-ghost" data-tab-link="decks">Browse decks</button>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Spaced repetition</h3>
+        <p>Every card gets its own schedule. Nail it and the interval grows; miss it and it comes right back.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📤</div>
+        <h3>Share a deck in one click</h3>
+        <p>Export any deck to a small JSON file and text it to a classmate. They import it and they're studying in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔥</div>
+        <h3>Streaks &amp; stats</h3>
+        <p>Track your daily streak and cards reviewed so studying feels a little bit like a game.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱️</div>
+        <h3>Built-in focus timer</h3>
+        <p>A Pomodoro-style timer for study sessions — because flashcards are better with breaks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>100% local &amp; private</h3>
+        <p>Everything lives in your browser's storage. No account, no server, no tracking.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛠️</div>
+        <h3>Open source</h3>
+        <p>It's a club project — read the code, fork it, or add a feature for the next meeting.</p>
+      </div>
+    </div>
+
+    <div class="club-cta" id="join">
+      <div class="club-cta-inner">
+        <h2>Made by students, for students</h2>
+        <p id="club-blurb">
+          This app is a project from our school's <strong id="club-name-inline">Vibe Coding Club</strong> —
+          a group that builds real things together, learns by shipping, and welcomes anyone
+          curious about code, no experience required.
+        </p>
+        <div class="club-meta" id="club-meta">
+          <!-- filled by CLUB_INFO in app.js -->
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" id="club-join-link" href="#" target="_blank" rel="noopener">Come to a meeting</a>
+          <a class="btn btn-ghost" id="club-repo-link" href="#" target="_blank" rel="noopener">View the source</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDY -->
+  <section id="study" class="tab-panel">
+    <div id="study-picker" class="panel-block">
+      <div class="panel-header">
+        <h2>Pick a deck to study</h2>
+        <p class="muted">Cards that are due today show up first. New decks start fully due.</p>
+      </div>
+      <div id="study-deck-list" class="deck-pick-grid"></div>
+    </div>
+
+    <div id="study-session" class="panel-block" hidden>
+      <div class="study-top">
+        <button class="btn btn-ghost btn-sm" id="study-exit">← Exit deck</button>
+        <div class="study-progress">
+          <div class="study-progress-bar"><div id="study-progress-fill"></div></div>
+          <span id="study-progress-text">0 / 0</span>
+        </div>
+      </div>
+
+      <div class="card-stage">
+        <div id="flashcard" class="flashcard">
+          <div class="flashcard-face flashcard-front">
+            <span class="flashcard-hint">Question — click or press space to flip</span>
+            <div id="flashcard-front-text" class="flashcard-text"></div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <span class="flashcard-hint">Answer</span>
+            <div id="flashcard-back-text" class="flashcard-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="rating-row" class="rating-row" hidden>
+        <button class="rate-btn rate-again" data-rating="again"><span>Again</span><small>&lt;1d</small></button>
+        <button class="rate-btn rate-hard" data-rating="hard"><span>Hard</span><small id="hint-hard"></small></button>
+        <button class="rate-btn rate-good" data-rating="good"><span>Good</span><small id="hint-good"></small></button>
+        <button class="rate-btn rate-easy" data-rating="easy"><span>Easy</span><small id="hint-easy"></small></button>
+      </div>
+      <div class="flip-hint muted">Space = flip · 1-4 = rate after flipping</div>
+    </div>
+
+    <div id="study-empty" class="panel-block empty-state" hidden>
+      <div class="empty-icon">🎉</div>
+      <h3>All caught up!</h3>
+      <p class="muted">No cards due in this deck right now. Come back later, or study anyway.</p>
+      <button class="btn btn-primary" id="study-anyway">Study anyway</button>
+    </div>
+  </section>
+
+  <!-- DECKS -->
+  <section id="decks" class="tab-panel">
+    <div class="panel-header row">
+      <div>
+        <h2>Your decks</h2>
+        <p class="muted">Create a deck, add cards, or import one a friend sent you.</p>
+      </div>
+      <div class="header-actions">
+        <label class="btn btn-ghost btn-sm file-btn">
+          Import deck
+          <input type="file" id="import-deck-input" accept="application/json" hidden />
+        </label>
+        <button class="btn btn-primary btn-sm" id="new-deck-btn">+ New deck</button>
+      </div>
+    </div>
+
+    <div id="deck-manager-list" class="deck-manage-grid"></div>
+
+    <!-- Deck editor -->
+    <div id="deck-editor" class="panel-block" hidden>
+      <div class="panel-header row">
+        <div>
+          <input id="deck-editor-name" class="inline-input inline-input-lg" placeholder="Deck name" />
+          <input id="deck-editor-desc" class="inline-input" placeholder="Short description (optional)" />
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-ghost btn-sm" id="deck-export-btn">Export JSON</button>
+          <button class="btn btn-ghost btn-sm" id="deck-editor-close">Close</button>
+        </div>
+      </div>
+
+      <form id="add-card-form" class="add-card-form">
+        <input id="add-card-front" class="inline-input" placeholder="Front (question)" required />
+        <input id="add-card-back" class="inline-input" placeholder="Back (answer)" required />
+        <button class="btn btn-primary btn-sm" type="submit">Add card</button>
+      </form>
+
+      <div id="card-list" class="card-list"></div>
+    </div>
+  </section>
+
+  <!-- TIMER -->
+  <section id="timer" class="tab-panel">
+    <div class="panel-block timer-block">
+      <h2>Focus timer</h2>
+      <p class="muted">Simple Pomodoro: focus, then break, repeat.</p>
+
+      <div class="timer-display">
+        <div class="timer-ring">
+          <svg viewBox="0 0 120 120" class="timer-svg">
+            <circle cx="60" cy="60" r="54" class="timer-track" />
+            <circle cx="60" cy="60" r="54" class="timer-progress" id="timer-progress-circle" />
+          </svg>
+          <div class="timer-time" id="timer-time">25:00</div>
+          <div class="timer-mode" id="timer-mode">Focus</div>
+        </div>
+      </div>
+
+      <div class="timer-controls">
+        <button class="btn btn-primary" id="timer-start">Start</button>
+        <button class="btn btn-ghost" id="timer-reset">Reset</button>
+      </div>
+
+      <div class="timer-settings">
+        <label>Focus <input type="number" id="timer-focus-min" min="1" max="90" value="25" /> min</label>
+        <label>Break <input type="number" id="timer-break-min" min="1" max="30" value="5" /> min</label>
+        <span class="muted" id="timer-session-count">0 focus sessions completed today</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats" class="tab-panel">
+    <div class="panel-header">
+      <h2>Your stats</h2>
+      <p class="muted">Local to this browser — nothing is uploaded anywhere.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-streak">0</div>
+        <div class="stat-label">Day streak 🔥</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-today">0</div>
+        <div class="stat-label">Cards reviewed today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Cards reviewed all-time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-decks">0</div>
+        <div class="stat-label">Decks</div>
+      </div>
+    </div>
+
+    <div class="panel-block">
+      <h3>Last 14 days</h3>
+      <div id="stats-heatmap" class="heatmap"></div>
+    </div>
+
+    <div class="panel-block danger-zone">
+      <h3>Reset data</h3>
+      <p class="muted">Clears all decks, cards, and stats from this browser. Export your decks first if you want to keep them.</p>
+      <button class="btn btn-danger btn-sm" id="reset-data-btn">Erase all local data</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Built with ⚡ by <span id="footer-club-name">the Vibe Coding Club</span> — <a id="footer-repo-link" href="#" target="_blank" rel="noopener">source on GitHub</a></p>
+</footer>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
