@@ -14,9 +14,8 @@ const CLUB_INFO = {
  * Storage
  * ------------------------------------------------------------------- */
 const STORAGE_KEYS = {
-  decks: "vibeclub_studyvibe_decks_v1",
-  stats: "vibeclub_studyvibe_stats_v1",
-  theme: "vibeclub_studyvibe_theme_v1",
+  gallery: "vibeclub_memeforge_gallery_v1",
+  theme: "vibeclub_memeforge_theme_v1",
 };
 
 function loadJSON(key, fallback) {
@@ -27,143 +26,16 @@ function loadJSON(key, fallback) {
     return fallback;
   }
 }
-
 function saveJSON(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch {
-    /* storage unavailable (private mode, quota) — app still works this session */
+    return false;
   }
 }
-
 function uid() {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
-}
-
-function todayKey(d = new Date()) {
-  return d.toISOString().slice(0, 10);
-}
-
-/* ---------------------------------------------------------------------
- * Sample decks (seeded once, on first run only)
- * ------------------------------------------------------------------- */
-function makeSeedDecks() {
-  const now = new Date().toISOString();
-  const seed = (name, description, pairs) => ({
-    id: uid(),
-    name,
-    description,
-    createdAt: now,
-    cards: pairs.map(([front, back]) => newCard(front, back)),
-  });
-  return [
-    seed("Welcome to StudyVibe", "A quick tour of how the app works.", [
-      ["How do I flip a card?", "Click the card, or press Space."],
-      ["How do I rate a card?", "Press 1 (Again), 2 (Hard), 3 (Good), or 4 (Easy) after flipping."],
-      ["Where do decks live?", "In your browser's local storage — nothing leaves your device."],
-      ["How do I share a deck?", "Open it in Decks → Export JSON, then send the file to a friend."],
-    ]),
-    seed("Big-O Cheat Sheet", "Common time complexities every CS student should know cold.", [
-      ["O(1)", "Constant time — doesn't grow with input size."],
-      ["O(log n)", "Logarithmic — e.g. binary search."],
-      ["O(n)", "Linear — e.g. a single loop over the input."],
-      ["O(n log n)", "Linearithmic — e.g. merge sort, quicksort (average)."],
-      ["O(n^2)", "Quadratic — e.g. nested loops, bubble sort."],
-      ["O(2^n)", "Exponential — e.g. naive recursive Fibonacci."],
-    ]),
-  ];
-}
-
-/* ---------------------------------------------------------------------
- * Spaced repetition (lightweight SM-2 variant)
- * ------------------------------------------------------------------- */
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-function newCard(front, back) {
-  return {
-    id: uid(),
-    front,
-    back,
-    interval: 0, // days
-    ease: 2.5,
-    due: new Date().toISOString(),
-    reps: 0,
-    lapses: 0,
-  };
-}
-
-function isDue(card, now = new Date()) {
-  return new Date(card.due).getTime() <= now.getTime();
-}
-
-function previewInterval(card, rating) {
-  const { interval, ease } = card;
-  let nextInterval;
-  switch (rating) {
-    case "again":
-      nextInterval = 0; // due again today
-      break;
-    case "hard":
-      nextInterval = Math.max(1, Math.round((interval || 1) * 1.2));
-      break;
-    case "good":
-      nextInterval = interval <= 0 ? 1 : Math.round(interval * ease);
-      break;
-    case "easy":
-      nextInterval = interval <= 0 ? 3 : Math.round(interval * ease * 1.3);
-      break;
-  }
-  return nextInterval;
-}
-
-function formatIntervalShort(days) {
-  if (days <= 0) return "<10m";
-  if (days === 1) return "1d";
-  if (days < 30) return `${days}d`;
-  if (days < 365) return `${Math.round(days / 30)}mo`;
-  return `${(days / 365).toFixed(1)}y`;
-}
-
-function applyRating(card, rating) {
-  const nextInterval = previewInterval(card, rating);
-  if (rating === "again") {
-    card.ease = Math.max(1.3, card.ease - 0.2);
-    card.lapses += 1;
-    const due = new Date();
-    due.setMinutes(due.getMinutes() + 10);
-    card.due = due.toISOString();
-  } else {
-    if (rating === "hard") card.ease = Math.max(1.3, card.ease - 0.15);
-    if (rating === "easy") card.ease = card.ease + 0.15;
-    const due = new Date();
-    due.setTime(due.getTime() + nextInterval * MS_PER_DAY);
-    card.due = due.toISOString();
-  }
-  card.interval = nextInterval;
-  card.reps += 1;
-  return card;
-}
-
-/* ---------------------------------------------------------------------
- * App state
- * ------------------------------------------------------------------- */
-let decks = loadJSON(STORAGE_KEYS.decks, null);
-if (!decks) {
-  decks = makeSeedDecks();
-  saveJSON(STORAGE_KEYS.decks, decks);
-}
-
-let stats = loadJSON(STORAGE_KEYS.stats, { totalReviews: 0, byDate: {}, lastStudyDate: null, streak: 0 });
-
-function persistDecks() {
-  saveJSON(STORAGE_KEYS.decks, decks);
-}
-function persistStats() {
-  saveJSON(STORAGE_KEYS.stats, stats);
-}
-
-function findDeck(id) {
-  return decks.find((d) => d.id === id) || null;
 }
 
 /* ---------------------------------------------------------------------
@@ -213,12 +85,10 @@ function activateTab(tabId) {
     b.classList.toggle("is-active", active);
     b.setAttribute("aria-selected", String(active));
   });
-  if (tabId === "decks") renderDeckManager();
-  if (tabId === "study") renderStudyPicker();
-  if (tabId === "stats") renderStats();
+  if (tabId === "gallery") renderGallery();
+  if (tabId === "create") requestAnimationFrame(renderCanvas);
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
-
 function initTabs() {
   document.querySelectorAll("[data-tab-link]").forEach((el) => {
     el.addEventListener("click", (e) => {
@@ -237,10 +107,8 @@ function renderClubInfo() {
   document.getElementById("club-join-link").href = CLUB_INFO.joinUrl;
   document.getElementById("club-repo-link").href = CLUB_INFO.repoUrl;
   document.getElementById("footer-repo-link").href = CLUB_INFO.repoUrl;
-  const meta = document.getElementById("club-meta");
-  meta.innerHTML = `<span>📍 ${escapeHTML(CLUB_INFO.meets)}</span>`;
+  document.getElementById("club-meta").innerHTML = `<span>📍 ${escapeHTML(CLUB_INFO.meets)}</span>`;
 }
-
 function escapeHTML(str) {
   const div = document.createElement("div");
   div.textContent = str ?? "";
@@ -248,497 +116,666 @@ function escapeHTML(str) {
 }
 
 /* ---------------------------------------------------------------------
- * Study picker
+ * Meme editor state
  * ------------------------------------------------------------------- */
-function renderStudyPicker() {
-  document.getElementById("study-session").hidden = true;
-  document.getElementById("study-empty").hidden = true;
-  document.getElementById("study-picker").hidden = false;
-
-  const list = document.getElementById("study-deck-list");
-  list.innerHTML = "";
-
-  if (decks.length === 0) {
-    list.innerHTML = `<p class="muted">No decks yet — head to the Decks tab to create one.</p>`;
-    return;
-  }
-
-  decks.forEach((deck) => {
-    const dueCount = deck.cards.filter((c) => isDue(c)).length;
-    const btn = document.createElement("button");
-    btn.className = "deck-card";
-    btn.innerHTML = `
-      <h4>${escapeHTML(deck.name)}</h4>
-      <p>${escapeHTML(deck.description || "")}</p>
-      <div class="deck-card-meta">
-        <span class="badge-due">${dueCount} due</span>
-        <span>${deck.cards.length} cards</span>
-      </div>
-    `;
-    btn.addEventListener("click", () => startStudySession(deck.id));
-    list.appendChild(btn);
-  });
-}
-
-/* ---------------------------------------------------------------------
- * Study session
- * ------------------------------------------------------------------- */
-const session = {
-  deckId: null,
-  queue: [],
-  index: 0,
-  flipped: false,
-  total: 0,
+const FONT_STACKS = {
+  impact: '"Arial Black", Impact, sans-serif',
+  mono: '"Courier New", monospace',
+  comic: '"Comic Sans MS", "Comic Sans", cursive',
 };
 
-function startStudySession(deckId, includeAllIfEmpty = false) {
-  const deck = findDeck(deckId);
-  if (!deck) return;
+const TEMPLATES = [
+  { id: "gradient", icon: "🌈", label: "Gradient" },
+  { id: "blank", icon: "⬜", label: "Blank card" },
+  { id: "terminal", icon: "💻", label: "Terminal" },
+  { id: "chatbubble", icon: "💬", label: "Chat bubble" },
+  { id: "badge", icon: "🏆", label: "Badge" },
+  { id: "flyer", icon: "📣", label: "Club flyer" },
+];
 
-  let due = deck.cards.filter((c) => isDue(c));
-  if (due.length === 0 && !includeAllIfEmpty) {
-    document.getElementById("study-picker").hidden = true;
-    document.getElementById("study-session").hidden = true;
-    document.getElementById("study-empty").hidden = false;
-    document.getElementById("study-anyway").onclick = () => startStudySession(deckId, true);
-    session.deckId = deckId;
-    return;
-  }
-  if (due.length === 0 && includeAllIfEmpty) due = deck.cards.slice();
+const CANVAS_SIZE = 800;
 
-  // shuffle
-  for (let i = due.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [due[i], due[j]] = [due[j], due[i]];
-  }
-
-  session.deckId = deckId;
-  session.queue = due;
-  session.index = 0;
-  session.total = due.length;
-  session.flipped = false;
-
-  document.getElementById("study-picker").hidden = true;
-  document.getElementById("study-empty").hidden = true;
-  document.getElementById("study-session").hidden = false;
-  renderStudyCard();
-}
-
-function currentCard() {
-  return session.queue[session.index] || null;
-}
-
-function renderStudyCard() {
-  const card = currentCard();
-  const flashcard = document.getElementById("flashcard");
-  const ratingRow = document.getElementById("rating-row");
-
-  if (!card) {
-    // session complete
-    document.getElementById("study-session").hidden = true;
-    document.getElementById("study-picker").hidden = false;
-    renderStudyPicker();
-    toast(`Nice! You reviewed ${session.total} card${session.total === 1 ? "" : "s"}.`);
-    return;
-  }
-
-  session.flipped = false;
-  flashcard.classList.remove("is-flipped");
-  ratingRow.hidden = true;
-  document.getElementById("flashcard-front-text").textContent = card.front;
-  document.getElementById("flashcard-back-text").textContent = card.back;
-
-  const done = session.index;
-  document.getElementById("study-progress-text").textContent = `${done} / ${session.total}`;
-  document.getElementById("study-progress-fill").style.width = `${(done / session.total) * 100}%`;
-
-  document.getElementById("hint-hard").textContent = formatIntervalShort(previewInterval(card, "hard"));
-  document.getElementById("hint-good").textContent = formatIntervalShort(previewInterval(card, "good"));
-  document.getElementById("hint-easy").textContent = formatIntervalShort(previewInterval(card, "easy"));
-}
-
-function flipCard() {
-  const card = currentCard();
-  if (!card) return;
-  session.flipped = !session.flipped;
-  document.getElementById("flashcard").classList.toggle("is-flipped", session.flipped);
-  document.getElementById("rating-row").hidden = !session.flipped;
-}
-
-function rateCurrentCard(rating) {
-  const card = currentCard();
-  if (!card || !session.flipped) return;
-
-  applyRating(card, rating);
-  persistDecks();
-  recordReview();
-
-  session.index += 1;
-  renderStudyCard();
-}
-
-function recordReview() {
-  stats.totalReviews += 1;
-  const key = todayKey();
-  stats.byDate[key] = (stats.byDate[key] || 0) + 1;
-
-  const last = stats.lastStudyDate;
-  if (last !== key) {
-    const yesterday = todayKey(new Date(Date.now() - MS_PER_DAY));
-    stats.streak = last === yesterday ? stats.streak + 1 : 1;
-    stats.lastStudyDate = key;
-  }
-  persistStats();
-}
-
-function initStudySession() {
-  document.getElementById("flashcard").addEventListener("click", flipCard);
-  document.getElementById("study-exit").addEventListener("click", () => activateTab("study"));
-  document.querySelectorAll("[data-rating]").forEach((btn) => {
-    btn.addEventListener("click", () => rateCurrentCard(btn.dataset.rating));
-  });
-
-  document.addEventListener("keydown", (e) => {
-    const studyVisible = document.getElementById("study-session").hidden === false;
-    if (!studyVisible) return;
-    if (e.code === "Space") {
-      e.preventDefault();
-      flipCard();
-    } else if (["1", "2", "3", "4"].includes(e.key) && session.flipped) {
-      const map = { 1: "again", 2: "hard", 3: "good", 4: "easy" };
-      rateCurrentCard(map[e.key]);
-    }
-  });
-}
-
-/* ---------------------------------------------------------------------
- * Deck manager
- * ------------------------------------------------------------------- */
-let editingDeckId = null;
-
-function renderDeckManager() {
-  const list = document.getElementById("deck-manager-list");
-  list.innerHTML = "";
-
-  if (decks.length === 0) {
-    list.innerHTML = `<p class="muted">No decks yet. Click "+ New deck" to create your first one.</p>`;
-  }
-
-  decks.forEach((deck) => {
-    const card = document.createElement("div");
-    card.className = "deck-card";
-    card.innerHTML = `
-      <h4>${escapeHTML(deck.name)}</h4>
-      <p>${escapeHTML(deck.description || "")}</p>
-      <div class="deck-card-meta"><span>${deck.cards.length} cards</span></div>
-      <div class="deck-card-actions">
-        <button data-action="edit">Edit</button>
-        <button data-action="delete">Delete</button>
-      </div>
-    `;
-    card.querySelector('[data-action="edit"]').addEventListener("click", () => openDeckEditor(deck.id));
-    card.querySelector('[data-action="delete"]').addEventListener("click", () => {
-      if (confirm(`Delete "${deck.name}"? This can't be undone.`)) {
-        decks = decks.filter((d) => d.id !== deck.id);
-        persistDecks();
-        renderDeckManager();
-      }
-    });
-    list.appendChild(card);
-  });
-}
-
-function openDeckEditor(deckId) {
-  editingDeckId = deckId;
-  const deck = findDeck(deckId);
-  if (!deck) return;
-  document.getElementById("deck-editor").hidden = false;
-  document.getElementById("deck-editor-name").value = deck.name;
-  document.getElementById("deck-editor-desc").value = deck.description || "";
-  renderCardList();
-  document.getElementById("deck-editor").scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function closeDeckEditor() {
-  editingDeckId = null;
-  document.getElementById("deck-editor").hidden = true;
-}
-
-function renderCardList() {
-  const deck = findDeck(editingDeckId);
-  const list = document.getElementById("card-list");
-  list.innerHTML = "";
-  if (!deck) return;
-
-  if (deck.cards.length === 0) {
-    list.innerHTML = `<p class="muted">No cards yet — add one above.</p>`;
-    return;
-  }
-
-  deck.cards.forEach((card) => {
-    const row = document.createElement("div");
-    row.className = "card-row";
-    row.innerHTML = `
-      <div class="card-field"><small>Front</small>${escapeHTML(card.front)}</div>
-      <div class="card-field"><small>Back</small>${escapeHTML(card.back)}</div>
-      <button title="Delete card">✕</button>
-    `;
-    row.querySelector("button").addEventListener("click", () => {
-      deck.cards = deck.cards.filter((c) => c.id !== card.id);
-      persistDecks();
-      renderCardList();
-      renderDeckManager();
-    });
-    list.appendChild(row);
-  });
-}
-
-function initDeckManager() {
-  document.getElementById("new-deck-btn").addEventListener("click", () => {
-    const deck = { id: uid(), name: "New deck", description: "", createdAt: new Date().toISOString(), cards: [] };
-    decks.push(deck);
-    persistDecks();
-    renderDeckManager();
-    openDeckEditor(deck.id);
-  });
-
-  document.getElementById("deck-editor-close").addEventListener("click", () => {
-    closeDeckEditor();
-    renderDeckManager();
-  });
-
-  document.getElementById("deck-editor-name").addEventListener("input", (e) => {
-    const deck = findDeck(editingDeckId);
-    if (!deck) return;
-    deck.name = e.target.value;
-    persistDecks();
-  });
-  document.getElementById("deck-editor-name").addEventListener("blur", renderDeckManager);
-
-  document.getElementById("deck-editor-desc").addEventListener("input", (e) => {
-    const deck = findDeck(editingDeckId);
-    if (!deck) return;
-    deck.description = e.target.value;
-    persistDecks();
-  });
-  document.getElementById("deck-editor-desc").addEventListener("blur", renderDeckManager);
-
-  document.getElementById("add-card-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const deck = findDeck(editingDeckId);
-    if (!deck) return;
-    const frontEl = document.getElementById("add-card-front");
-    const backEl = document.getElementById("add-card-back");
-    const front = frontEl.value.trim();
-    const back = backEl.value.trim();
-    if (!front || !back) return;
-    deck.cards.push(newCard(front, back));
-    persistDecks();
-    frontEl.value = "";
-    backEl.value = "";
-    frontEl.focus();
-    renderCardList();
-    renderDeckManager();
-  });
-
-  document.getElementById("deck-export-btn").addEventListener("click", () => {
-    const deck = findDeck(editingDeckId);
-    if (!deck) return;
-    const blob = new Blob([JSON.stringify(deck, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${deck.name.replace(/[^a-z0-9-_]+/gi, "_") || "deck"}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast("Deck exported");
-  });
-
-  document.getElementById("import-deck-input").addEventListener("change", async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    try {
-      const text = await file.text();
-      const imported = JSON.parse(text);
-      if (!imported || !Array.isArray(imported.cards)) throw new Error("Not a valid deck file");
-      const deck = {
-        id: uid(),
-        name: imported.name ? `${imported.name} (imported)` : "Imported deck",
-        description: imported.description || "",
-        createdAt: new Date().toISOString(),
-        cards: imported.cards.map((c) => newCard(c.front ?? "", c.back ?? "")),
-      };
-      decks.push(deck);
-      persistDecks();
-      renderDeckManager();
-      toast(`Imported "${deck.name}" (${deck.cards.length} cards)`);
-    } catch (err) {
-      alert("Couldn't import that file — make sure it's a deck exported from StudyVibe.");
-    } finally {
-      e.target.value = "";
-    }
-  });
-}
-
-/* ---------------------------------------------------------------------
- * Stats
- * ------------------------------------------------------------------- */
-function renderStats() {
-  document.getElementById("stat-streak").textContent = stats.streak || 0;
-  document.getElementById("stat-today").textContent = stats.byDate[todayKey()] || 0;
-  document.getElementById("stat-total").textContent = stats.totalReviews || 0;
-  document.getElementById("stat-decks").textContent = decks.length;
-
-  const heatmap = document.getElementById("stats-heatmap");
-  heatmap.innerHTML = "";
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date(Date.now() - i * MS_PER_DAY);
-    const key = todayKey(d);
-    const count = stats.byDate[key] || 0;
-    const cell = document.createElement("div");
-    cell.className = "heatmap-cell";
-    cell.title = `${key}: ${count} cards`;
-    cell.textContent = count > 0 ? String(count) : "";
-    const intensity = Math.min(1, count / 20);
-    if (count > 0) {
-      cell.style.background = `color-mix(in srgb, var(--accent) ${20 + intensity * 60}%, var(--bg-sunken))`;
-      cell.style.color = intensity > 0.4 ? "white" : "var(--text)";
-    }
-    heatmap.appendChild(cell);
-  }
-}
-
-function initStats() {
-  document.getElementById("reset-data-btn").addEventListener("click", () => {
-    if (!confirm("This will permanently erase all decks and stats in this browser. Continue?")) return;
-    localStorage.removeItem(STORAGE_KEYS.decks);
-    localStorage.removeItem(STORAGE_KEYS.stats);
-    decks = makeSeedDecks();
-    stats = { totalReviews: 0, byDate: {}, lastStudyDate: null, streak: 0 };
-    persistDecks();
-    persistStats();
-    renderDeckManager();
-    renderStats();
-    toast("All local data erased");
-  });
-}
-
-/* ---------------------------------------------------------------------
- * Focus timer
- * ------------------------------------------------------------------- */
-const timerState = {
-  mode: "focus", // "focus" | "break"
-  remaining: 25 * 60,
-  total: 25 * 60,
-  running: false,
-  intervalHandle: null,
-  sessionsToday: 0,
+const editor = {
+  templateId: "gradient",
+  bgImage: null, // HTMLImageElement, only when templateId === "image"
+  width: CANVAS_SIZE,
+  height: CANVAS_SIZE,
+  layers: [], // { id, kind: 'text'|'emoji', text, xFrac, yFrac, fontSize, color, font, uppercase }
+  selectedId: null,
+  dragging: false,
+  dragOffset: { x: 0, y: 0 },
 };
 
-const TIMER_CIRCUMFERENCE = 2 * Math.PI * 54;
+let canvas, ctx;
 
-function formatTime(sec) {
-  const m = Math.floor(sec / 60).toString().padStart(2, "0");
-  const s = Math.floor(sec % 60).toString().padStart(2, "0");
-  return `${m}:${s}`;
+function newTextLayer(overrides = {}) {
+  return {
+    id: uid(),
+    kind: "text",
+    text: "YOUR TEXT HERE",
+    xFrac: 0.5,
+    yFrac: 0.5,
+    fontSize: 64,
+    color: "#ffffff",
+    font: "impact",
+    uppercase: true,
+    ...overrides,
+  };
 }
 
-function renderTimer() {
-  document.getElementById("timer-time").textContent = formatTime(timerState.remaining);
-  document.getElementById("timer-mode").textContent = timerState.mode === "focus" ? "Focus" : "Break";
-  const progressEl = document.getElementById("timer-progress-circle");
-  const fraction = timerState.total > 0 ? timerState.remaining / timerState.total : 0;
-  progressEl.style.strokeDasharray = String(TIMER_CIRCUMFERENCE);
-  progressEl.style.strokeDashoffset = String(TIMER_CIRCUMFERENCE * (1 - fraction));
-  document.getElementById("timer-start").textContent = timerState.running ? "Pause" : "Start";
-  document.getElementById("timer-session-count").textContent =
-    `${timerState.sessionsToday} focus session${timerState.sessionsToday === 1 ? "" : "s"} completed today`;
+function selectedLayer() {
+  return editor.layers.find((l) => l.id === editor.selectedId) || null;
 }
 
-function playChime() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = 660;
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.6);
-  } catch {
-    /* audio unsupported — silent fallback */
+/* ---------------------------------------------------------------------
+ * Drawing helpers
+ * ------------------------------------------------------------------- */
+function roundedRectPath(c, x, y, w, h, r) {
+  c.beginPath();
+  c.moveTo(x + r, y);
+  c.arcTo(x + w, y, x + w, y + h, r);
+  c.arcTo(x + w, y + h, x, y + h, r);
+  c.arcTo(x, y + h, x, y, r);
+  c.arcTo(x, y, x + w, y, r);
+  c.closePath();
+}
+
+function drawBackground() {
+  const { width: W, height: H } = editor;
+  ctx.clearRect(0, 0, W, H);
+
+  if (editor.templateId === "image" && editor.bgImage) {
+    drawImageCover(editor.bgImage, W, H);
+    return;
   }
-}
 
-function timerTick() {
-  timerState.remaining -= 1;
-  if (timerState.remaining <= 0) {
-    playChime();
-    if (timerState.mode === "focus") {
-      timerState.sessionsToday += 1;
-      timerState.mode = "break";
-      const breakMin = Number(document.getElementById("timer-break-min").value) || 5;
-      timerState.total = breakMin * 60;
-    } else {
-      timerState.mode = "focus";
-      const focusMin = Number(document.getElementById("timer-focus-min").value) || 25;
-      timerState.total = focusMin * 60;
+  switch (editor.templateId) {
+    case "blank": {
+      ctx.fillStyle = "#f4f4f8";
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = "#d8d8e2";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(2, 2, W - 4, H - 4);
+      break;
     }
-    timerState.remaining = timerState.total;
-    toast(timerState.mode === "break" ? "Focus session done — take a break!" : "Break's over — back to it.");
+    case "terminal": {
+      ctx.fillStyle = "#12131b";
+      ctx.fillRect(0, 0, W, H);
+      const barH = H * 0.09;
+      ctx.fillStyle = "#1c1e29";
+      ctx.fillRect(0, 0, W, barH);
+      const dotR = barH * 0.14;
+      const dotY = barH / 2;
+      ["#ff5f57", "#febc2e", "#28c840"].forEach((color, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(barH * 0.5 + i * dotR * 3, dotY, dotR, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.fillStyle = "#6f7280";
+      ctx.font = `${barH * 0.34}px "Courier New", monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("vibe@club: ~$", W / 2, dotY);
+      break;
+    }
+    case "chatbubble": {
+      ctx.fillStyle = "#e5e5ea";
+      ctx.fillRect(0, 0, W, H);
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, "#6d5ef2");
+      grad.addColorStop(1, "#ef5da8");
+      const bx = W * 0.08, by = H * 0.15, bw = W * 0.84, bh = H * 0.55;
+      roundedRectPath(ctx, bx, by, bw, bh, 40);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(bx + bw * 0.18, by + bh);
+      ctx.lineTo(bx + bw * 0.06, by + bh + 46);
+      ctx.lineTo(bx + bw * 0.34, by + bh);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    }
+    case "badge": {
+      ctx.fillStyle = "#181a23";
+      ctx.fillRect(0, 0, W, H);
+      const cx = W / 2, cy = H * 0.42, r = W * 0.3;
+      const grad = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+      grad.addColorStop(0, "#ffd76b");
+      grad.addColorStop(0.5, "#ef5da8");
+      grad.addColorStop(1, "#6d5ef2");
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 0.82, 0, Math.PI * 2);
+      ctx.fillStyle = "#181a23";
+      ctx.fill();
+      ctx.font = `${r * 0.9}px sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("⚡", cx, cy + r * 0.05);
+      break;
+    }
+    case "flyer": {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, "#6d5ef2");
+      grad.addColorStop(0.55, "#ef5da8");
+      grad.addColorStop(1, "#34d9c4");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      break;
+    }
+    case "gradient":
+    default: {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, "#8b7bff");
+      grad.addColorStop(0.5, "#ef5da8");
+      grad.addColorStop(1, "#34d9c4");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      break;
+    }
   }
-  document.title = `${formatTime(timerState.remaining)} · ${timerState.mode === "focus" ? "Focus" : "Break"} — StudyVibe`;
-  renderTimer();
 }
 
-function toggleTimer() {
-  timerState.running = !timerState.running;
-  if (timerState.running) {
-    timerState.intervalHandle = setInterval(timerTick, 1000);
+function drawImageCover(img, W, H) {
+  const imgRatio = img.naturalWidth / img.naturalHeight;
+  const canvasRatio = W / H;
+  let sx, sy, sw, sh;
+  if (imgRatio > canvasRatio) {
+    sh = img.naturalHeight;
+    sw = sh * canvasRatio;
+    sx = (img.naturalWidth - sw) / 2;
+    sy = 0;
   } else {
-    clearInterval(timerState.intervalHandle);
-    document.title = "StudyVibe — flashcards that stick";
+    sw = img.naturalWidth;
+    sh = sw / canvasRatio;
+    sx = 0;
+    sy = (img.naturalHeight - sh) / 2;
   }
-  renderTimer();
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
 }
 
-function resetTimer() {
-  clearInterval(timerState.intervalHandle);
-  timerState.running = false;
-  timerState.mode = "focus";
-  const focusMin = Number(document.getElementById("timer-focus-min").value) || 25;
-  timerState.total = focusMin * 60;
-  timerState.remaining = timerState.total;
-  document.title = "StudyVibe — flashcards that stick";
-  renderTimer();
+function applyLayerFont(layer) {
+  const family = FONT_STACKS[layer.font] || FONT_STACKS.impact;
+  const weight = layer.font === "impact" ? "900" : "700";
+  ctx.font = `${weight} ${layer.fontSize}px ${family}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 }
 
-function initTimer() {
-  document.getElementById("timer-start").addEventListener("click", toggleTimer);
-  document.getElementById("timer-reset").addEventListener("click", resetTimer);
-  document.getElementById("timer-focus-min").addEventListener("change", () => {
-    if (!timerState.running && timerState.mode === "focus") resetTimer();
+function layerDisplayText(layer) {
+  if (layer.kind === "emoji") return layer.text;
+  return layer.uppercase ? layer.text.toUpperCase() : layer.text;
+}
+
+function drawLayer(layer, isSelected) {
+  const { width: W, height: H } = editor;
+  applyLayerFont(layer);
+  const text = layerDisplayText(layer);
+  const x = layer.xFrac * W;
+  const y = layer.yFrac * H;
+
+  const lines = text.split("\n");
+  const lineHeight = layer.fontSize * 1.15;
+  const startY = y - ((lines.length - 1) * lineHeight) / 2;
+
+  lines.forEach((line, i) => {
+    const ly = startY + i * lineHeight;
+    if (layer.kind === "text") {
+      ctx.lineWidth = Math.max(2, layer.fontSize / 10);
+      ctx.strokeStyle = layer.color === "#000000" ? "#ffffff" : "#000000";
+      ctx.strokeText(line, x, ly);
+      ctx.fillStyle = layer.color;
+      ctx.fillText(line, x, ly);
+    } else {
+      ctx.fillText(line, x, ly);
+    }
   });
-  document.getElementById("timer-break-min").addEventListener("change", () => {
-    if (!timerState.running && timerState.mode === "break") resetTimer();
+
+  if (isSelected) {
+    const box = layerBBox(layer);
+    ctx.save();
+    ctx.strokeStyle = "#6d5ef2";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8, 6]);
+    ctx.strokeRect(box.x, box.y, box.w, box.h);
+    ctx.restore();
+  }
+}
+
+function layerBBox(layer) {
+  const { width: W, height: H } = editor;
+  applyLayerFont(layer);
+  const text = layerDisplayText(layer);
+  const lines = text.split("\n");
+  const lineHeight = layer.fontSize * 1.15;
+  let maxWidth = 0;
+  lines.forEach((line) => {
+    maxWidth = Math.max(maxWidth, ctx.measureText(line).width);
   });
-  renderTimer();
+  const w = maxWidth + 24;
+  const h = lines.length * lineHeight + 16;
+  const x = layer.xFrac * W - w / 2;
+  const y = layer.yFrac * H - h / 2;
+  return { x, y, w, h };
+}
+
+function drawWatermark() {
+  if (!document.getElementById("watermark-toggle")?.checked) return;
+  const { width: W, height: H } = editor;
+  const fontSize = Math.max(14, W * 0.024);
+  ctx.font = `600 ${fontSize}px "Inter", sans-serif`;
+  ctx.textAlign = "right";
+  ctx.textBaseline = "bottom";
+  const label = `⚡ ${CLUB_INFO.name}`;
+  const paddingX = W * 0.025;
+  const paddingY = H * 0.02;
+  const metrics = ctx.measureText(label);
+  const bx = W - paddingX - metrics.width - 10;
+  const by = H - paddingY - fontSize - 6;
+  ctx.fillStyle = "rgba(0,0,0,0.35)";
+  roundedRectPath(ctx, bx, by, metrics.width + 20, fontSize + 12, 8);
+  ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,0.92)";
+  ctx.fillText(label, W - paddingX, H - paddingY);
+}
+
+function renderCanvas() {
+  if (!ctx) return;
+  drawBackground();
+  editor.layers.forEach((layer) => drawLayer(layer, layer.id === editor.selectedId));
+  drawWatermark();
+}
+
+/* ---------------------------------------------------------------------
+ * Templates
+ * ------------------------------------------------------------------- */
+function selectTemplate(templateId) {
+  editor.templateId = templateId;
+  editor.bgImage = null;
+  editor.width = CANVAS_SIZE;
+  editor.height = CANVAS_SIZE;
+  canvas.width = editor.width;
+  canvas.height = editor.height;
+
+  if (templateId === "flyer" && editor.layers.length === 0) {
+    editor.layers.push(newTextLayer({ text: CLUB_INFO.name.toUpperCase(), yFrac: 0.32, fontSize: 72 }));
+    editor.layers.push(newTextLayer({ text: CLUB_INFO.meets, yFrac: 0.48, fontSize: 34, uppercase: false, font: "mono" }));
+    editor.layers.push(newTextLayer({ text: "JOIN US", yFrac: 0.68, fontSize: 46 }));
+  }
+
+  renderTemplateRow();
+  renderCanvas();
+}
+
+function renderTemplateRow() {
+  const row = document.getElementById("template-row");
+  row.innerHTML = "";
+  TEMPLATES.forEach((t) => {
+    const btn = document.createElement("button");
+    btn.className = "template-thumb" + (editor.templateId === t.id ? " is-active" : "");
+    btn.innerHTML = `<span class="t-icon">${t.icon}</span>${escapeHTML(t.label)}`;
+    btn.addEventListener("click", () => selectTemplate(t.id));
+    row.appendChild(btn);
+  });
+  const uploadActive = editor.templateId === "image";
+  if (uploadActive) {
+    const btn = document.createElement("button");
+    btn.className = "template-thumb is-active";
+    btn.innerHTML = `<span class="t-icon">🖼️</span>Your image`;
+    btn.disabled = true;
+    row.appendChild(btn);
+  }
+}
+
+function handleImageUpload(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const maxDim = 1000;
+      const ratio = img.naturalWidth / img.naturalHeight;
+      let w = img.naturalWidth, h = img.naturalHeight;
+      if (Math.max(w, h) > maxDim) {
+        if (w > h) { w = maxDim; h = Math.round(maxDim / ratio); }
+        else { h = maxDim; w = Math.round(maxDim * ratio); }
+      }
+      editor.templateId = "image";
+      editor.bgImage = img;
+      editor.width = w;
+      editor.height = h;
+      canvas.width = w;
+      canvas.height = h;
+      renderTemplateRow();
+      renderCanvas();
+      toast("Image loaded");
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ---------------------------------------------------------------------
+ * Layer selection panel
+ * ------------------------------------------------------------------- */
+const COLOR_SWATCHES = ["#ffffff", "#000000", "#ffe600", "#ff4d4d", "#8b7bff", "#ff6fb8"];
+const FONT_CHOICES = [
+  { id: "impact", label: "Impact" },
+  { id: "mono", label: "Mono" },
+  { id: "comic", label: "Comic" },
+];
+
+function selectLayer(id) {
+  editor.selectedId = id;
+  renderLayerPanel();
+  renderCanvas();
+}
+
+function deselectLayer() {
+  editor.selectedId = null;
+  renderLayerPanel();
+  renderCanvas();
+}
+
+function renderLayerPanel() {
+  const panel = document.getElementById("layer-editor");
+  const layer = selectedLayer();
+  if (!layer) {
+    panel.hidden = true;
+    return;
+  }
+  panel.hidden = false;
+
+  const textInput = document.getElementById("layer-text-input");
+  if (document.activeElement !== textInput) textInput.value = layer.text;
+
+  document.getElementById("layer-size-input").value = layer.fontSize;
+  document.getElementById("layer-uppercase-input").checked = layer.uppercase;
+  document.getElementById("layer-uppercase-input").closest(".checkbox-label").style.display =
+    layer.kind === "emoji" ? "none" : "flex";
+
+  const fontRow = document.getElementById("font-row");
+  fontRow.innerHTML = "";
+  if (layer.kind === "text") {
+    FONT_CHOICES.forEach((f) => {
+      const btn = document.createElement("button");
+      btn.textContent = f.label;
+      btn.className = f.id === layer.font ? "is-active" : "";
+      btn.addEventListener("click", () => {
+        layer.font = f.id;
+        renderLayerPanel();
+        renderCanvas();
+      });
+      fontRow.appendChild(btn);
+    });
+    fontRow.parentElement.style.display = "";
+  } else {
+    fontRow.parentElement.style.display = "none";
+  }
+
+  const colorRow = document.getElementById("color-row");
+  colorRow.innerHTML = "";
+  if (layer.kind === "text") {
+    COLOR_SWATCHES.forEach((c) => {
+      const btn = document.createElement("button");
+      btn.className = "color-swatch" + (c === layer.color ? " is-active" : "");
+      btn.style.background = c;
+      btn.addEventListener("click", () => {
+        layer.color = c;
+        renderLayerPanel();
+        renderCanvas();
+      });
+      colorRow.appendChild(btn);
+    });
+    colorRow.parentElement.style.display = "";
+  } else {
+    colorRow.parentElement.style.display = "none";
+  }
+}
+
+/* ---------------------------------------------------------------------
+ * Canvas pointer interaction (select + drag)
+ * ------------------------------------------------------------------- */
+function getCanvasCoords(evt) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  return {
+    x: (evt.clientX - rect.left) * scaleX,
+    y: (evt.clientY - rect.top) * scaleY,
+  };
+}
+
+function hitTestLayer(point) {
+  for (let i = editor.layers.length - 1; i >= 0; i--) {
+    const layer = editor.layers[i];
+    const box = layerBBox(layer);
+    if (point.x >= box.x && point.x <= box.x + box.w && point.y >= box.y && point.y <= box.y + box.h) {
+      return layer;
+    }
+  }
+  return null;
+}
+
+function initCanvasInteraction() {
+  canvas.addEventListener("pointerdown", (e) => {
+    const point = getCanvasCoords(e);
+    const hit = hitTestLayer(point);
+    if (hit) {
+      editor.selectedId = hit.id;
+      editor.dragging = true;
+      editor.dragOffset = { x: point.x - hit.xFrac * editor.width, y: point.y - hit.yFrac * editor.height };
+      canvas.style.cursor = "grabbing";
+      canvas.setPointerCapture(e.pointerId);
+      renderLayerPanel();
+      renderCanvas();
+    } else {
+      deselectLayer();
+    }
+  });
+
+  canvas.addEventListener("pointermove", (e) => {
+    if (!editor.dragging) return;
+    const layer = selectedLayer();
+    if (!layer) return;
+    const point = getCanvasCoords(e);
+    const nx = (point.x - editor.dragOffset.x) / editor.width;
+    const ny = (point.y - editor.dragOffset.y) / editor.height;
+    layer.xFrac = Math.min(1, Math.max(0, nx));
+    layer.yFrac = Math.min(1, Math.max(0, ny));
+    renderCanvas();
+  });
+
+  const endDrag = () => {
+    editor.dragging = false;
+    canvas.style.cursor = "grab";
+  };
+  canvas.addEventListener("pointerup", endDrag);
+  canvas.addEventListener("pointercancel", endDrag);
+}
+
+/* ---------------------------------------------------------------------
+ * Editor controls (add text, emoji, upload, export, save)
+ * ------------------------------------------------------------------- */
+const EMOJI_CHOICES = ["😂", "💀", "🔥", "⚡", "🐛", "✅", "🤡", "💯", "👀", "🚀"];
+
+function initEditorControls() {
+  document.getElementById("add-text-btn").addEventListener("click", () => {
+    const layer = newTextLayer();
+    editor.layers.push(layer);
+    selectLayer(layer.id);
+  });
+
+  const emojiRow = document.getElementById("emoji-row");
+  EMOJI_CHOICES.forEach((emoji) => {
+    const btn = document.createElement("button");
+    btn.textContent = emoji;
+    btn.title = "Add sticker";
+    btn.addEventListener("click", () => {
+      const layer = newTextLayer({
+        kind: "emoji",
+        text: emoji,
+        fontSize: 90,
+        uppercase: false,
+        xFrac: 0.5 + (Math.random() - 0.5) * 0.2,
+        yFrac: 0.5 + (Math.random() - 0.5) * 0.2,
+      });
+      editor.layers.push(layer);
+      selectLayer(layer.id);
+    });
+    emojiRow.appendChild(btn);
+  });
+
+  document.getElementById("layer-text-input").addEventListener("input", (e) => {
+    const layer = selectedLayer();
+    if (!layer) return;
+    layer.text = e.target.value || " ";
+    renderCanvas();
+  });
+
+  document.getElementById("layer-size-input").addEventListener("input", (e) => {
+    const layer = selectedLayer();
+    if (!layer) return;
+    layer.fontSize = Number(e.target.value);
+    renderCanvas();
+  });
+
+  document.getElementById("layer-uppercase-input").addEventListener("change", (e) => {
+    const layer = selectedLayer();
+    if (!layer) return;
+    layer.uppercase = e.target.checked;
+    renderCanvas();
+  });
+
+  document.getElementById("delete-layer-btn").addEventListener("click", () => {
+    const layer = selectedLayer();
+    if (!layer) return;
+    editor.layers = editor.layers.filter((l) => l.id !== layer.id);
+    deselectLayer();
+  });
+
+  document.getElementById("watermark-toggle").addEventListener("change", renderCanvas);
+
+  document.getElementById("image-upload-input").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) handleImageUpload(file);
+    e.target.value = "";
+  });
+
+  document.getElementById("download-btn").addEventListener("click", () => {
+    deselectLayer();
+    requestAnimationFrame(() => {
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `meme-${Date.now()}.png`;
+      a.click();
+      toast("Downloaded!");
+    });
+  });
+
+  document.getElementById("save-gallery-btn").addEventListener("click", saveCurrentToGallery);
+}
+
+/* ---------------------------------------------------------------------
+ * Gallery
+ * ------------------------------------------------------------------- */
+const GALLERY_MAX = 8;
+
+function saveCurrentToGallery() {
+  const wasSelected = editor.selectedId;
+  deselectLayer();
+  requestAnimationFrame(() => {
+    const dataUrl = canvas.toDataURL("image/png");
+    let gallery = loadJSON(STORAGE_KEYS.gallery, []);
+    gallery.unshift({ id: uid(), dataUrl, createdAt: new Date().toISOString() });
+    gallery = gallery.slice(0, GALLERY_MAX);
+
+    while (gallery.length > 0 && !saveJSON(STORAGE_KEYS.gallery, gallery)) {
+      gallery.pop();
+    }
+    toast("Saved to My Memes");
+    if (wasSelected) selectLayer(wasSelected);
+  });
+}
+
+function renderGallery() {
+  const gallery = loadJSON(STORAGE_KEYS.gallery, []);
+  const grid = document.getElementById("gallery-grid");
+  const empty = document.getElementById("gallery-empty");
+  grid.innerHTML = "";
+
+  if (gallery.length === 0) {
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+
+  gallery.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "gallery-card";
+    card.innerHTML = `
+      <img src="${item.dataUrl}" alt="Saved meme" />
+      <div class="gallery-card-actions">
+        <button data-action="remix">Remix</button>
+        <button data-action="download">Download</button>
+        <button data-action="delete" class="danger-text">Delete</button>
+      </div>
+    `;
+    card.querySelector('[data-action="remix"]').addEventListener("click", () => remixFromGallery(item));
+    card.querySelector('[data-action="download"]').addEventListener("click", () => {
+      const a = document.createElement("a");
+      a.href = item.dataUrl;
+      a.download = `meme-${item.id}.png`;
+      a.click();
+    });
+    card.querySelector('[data-action="delete"]').addEventListener("click", () => {
+      const next = loadJSON(STORAGE_KEYS.gallery, []).filter((g) => g.id !== item.id);
+      saveJSON(STORAGE_KEYS.gallery, next);
+      renderGallery();
+    });
+    grid.appendChild(card);
+  });
+}
+
+function remixFromGallery(item) {
+  const img = new Image();
+  img.onload = () => {
+    editor.templateId = "image";
+    editor.bgImage = img;
+    editor.width = img.naturalWidth;
+    editor.height = img.naturalHeight;
+    editor.layers = [];
+    editor.selectedId = null;
+    canvas.width = editor.width;
+    canvas.height = editor.height;
+    renderTemplateRow();
+    renderLayerPanel();
+    renderCanvas();
+    activateTab("create");
+    toast("Loaded into editor — add more text and save again");
+  };
+  img.src = item.dataUrl;
 }
 
 /* ---------------------------------------------------------------------
  * Init
  * ------------------------------------------------------------------- */
 function init() {
+  canvas = document.getElementById("meme-canvas");
+  ctx = canvas.getContext("2d");
+
   initTheme();
   initTabs();
   renderClubInfo();
-  initStudySession();
-  initDeckManager();
-  initStats();
-  initTimer();
-  renderStudyPicker();
+  initCanvasInteraction();
+  initEditorControls();
+  selectTemplate("gradient");
+  renderCanvas();
 }
 
 document.addEventListener("DOMContentLoaded", init);

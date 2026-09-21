@@ -1,23 +1,27 @@
-# StudyVibe ⚡
+# MemeForge ⚡
 
-A free, no-sign-up flashcard app built by our school's **Vibe Coding Club**. It uses
-spaced repetition to schedule reviews, so studying stays focused on the cards you're
-about to forget instead of the ones you already know.
+A free, no-sign-up meme generator built by our school's **Vibe Coding Club**. Pick a
+template (or upload your own image), drag text and stickers onto it, and download a
+real PNG — all in your browser, in under a minute.
 
 **[Live demo →](https://xcodevoid.github.io/Public-Tool/)**
 
 ## Features
 
-- 🧠 **Spaced repetition** — a lightweight SM-2-style scheduler adjusts each card's
-  review interval based on how well you know it (Again / Hard / Good / Easy).
-- 📤 **Share decks as files** — export any deck to JSON and send it to a classmate;
-  they import it and start studying immediately.
-- 🔥 **Streaks & stats** — daily streak, cards reviewed, and a 14-day activity heatmap.
-- ⏱️ **Built-in focus timer** — a simple Pomodoro timer for study sessions.
-- 🔒 **Local-first** — everything is stored in the browser's `localStorage`. No
-  accounts, no backend, no tracking.
-- 🛠️ **Just HTML/CSS/JS** — no build step, no dependencies. Easy to read, easy to
-  contribute to at a club meeting.
+- 🖼️ **Templates or your own image** — a terminal window, a chat bubble, an
+  achievement badge, a club flyer, a gradient card, or upload any picture.
+- ✋ **Drag-and-drop text & stickers** — add as many text boxes and emoji as you want,
+  drag them into place, resize and recolor on the fly, switch fonts (Impact / mono /
+  comic sans).
+- ⬇️ **One-click PNG download** — exports straight to the device, ready to post.
+- 🏷️ **Optional club watermark** — a small toggle stamps a subtle club tag onto
+  anything exported, so shared memes point people back to the club.
+- 🔁 **Local gallery** — everything you save stays in the browser so you can reopen
+  and remix it later.
+- 🔒 **Local-first** — everything runs in `localStorage`. No accounts, no backend, no
+  uploads to anywhere but your own downloads folder.
+- 🛠️ **Just HTML/CSS/JS + Canvas** — no build step, no dependencies. Easy to read,
+  easy to extend at a club meeting.
 
 ## Running it locally
 
@@ -55,30 +59,31 @@ const CLUB_INFO = {
 };
 ```
 
-That single block drives the "Come to a meeting" CTA, the footer, and the club blurb
-on the home page.
+That single block drives the "Come to a meeting" CTA, the footer, the club blurb on
+the home page, the watermark text, and the pre-filled club flyer template.
 
 ## Project structure
 
 ```
-index.html   — page structure & all tabs (Home, Study, Decks, Timer, Stats)
+index.html   — page structure & all tabs (Home, Create, My Memes)
 style.css    — design tokens, layout, light/dark theme
-app.js       — app logic: scheduling, storage, rendering, timer
+app.js       — editor logic: canvas rendering, drag/drop, templates, gallery
 ```
 
 Everything lives in three files on purpose — it's meant to be readable and forkable
-by anyone in the club, including people brand new to web dev.
+by anyone in the club, including people brand new to web dev. The whole editor is
+built on the HTML5 Canvas 2D API — no image libraries required.
 
 ## Ideas for contributions
 
 Good first issues for a club meeting:
 
-- Add a "shuffle vs. sequential" study mode toggle.
-- Add tags/categories to decks and filter by them.
-- Add a keyboard shortcut cheat-sheet overlay.
-- Swap the scheduler for full SM-2 (this one is intentionally simplified).
-- Add CSV import (many teachers export vocab lists as CSV/Quizlet exports).
-- Add an "export all decks" / "import all data" backup feature.
+- Add more built-in templates (poll card, event countdown, "vote for us" banner).
+- Add layer reordering (bring to front / send to back) and duplicate-layer.
+- Add an undo/redo stack for the editor.
+- Add a text outline color picker (currently auto black/white).
+- Add keyboard shortcuts (Delete to remove selected layer, arrow keys to nudge it).
+- Add a "share" button using the Web Share API on mobile.
 
 ## License
 

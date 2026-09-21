@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>StudyVibe — flashcards that stick</title>
-<meta name="description" content="A free spaced-repetition flashcard app built by the Vibe Coding Club. Study smarter, share decks, and see what we build." />
+<title>MemeForge — memes in 30 seconds</title>
+<meta name="description" content="A free meme generator built by the Vibe Coding Club. No sign-up, no upload required, works on your phone, and every meme can carry the club's name when you share it." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,14 +17,12 @@
   <div class="topbar-inner">
     <a class="brand" href="#home" data-tab-link="home">
       <span class="brand-mark">⚡</span>
-      <span class="brand-name">StudyVibe</span>
+      <span class="brand-name">MemeForge</span>
     </a>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab-btn is-active" data-tab-link="home" role="tab" aria-selected="true">Home</button>
-      <button class="tab-btn" data-tab-link="study" role="tab" aria-selected="false">Study</button>
-      <button class="tab-btn" data-tab-link="decks" role="tab" aria-selected="false">Decks</button>
-      <button class="tab-btn" data-tab-link="timer" role="tab" aria-selected="false">Focus Timer</button>
-      <button class="tab-btn" data-tab-link="stats" role="tab" aria-selected="false">Stats</button>
+      <button class="tab-btn" data-tab-link="create" role="tab" aria-selected="false">Create</button>
+      <button class="tab-btn" data-tab-link="gallery" role="tab" aria-selected="false">My Memes</button>
     </nav>
     <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Toggle light/dark theme">
       <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -39,48 +37,48 @@
   <section id="home" class="tab-panel is-active">
     <div class="hero">
       <div class="hero-badge">Built by the Vibe Coding Club</div>
-      <h1>Flashcards that actually <span class="grad-text">stick.</span></h1>
+      <h1>Make a meme in <span class="grad-text">30 seconds.</span></h1>
       <p class="hero-sub">
-        StudyVibe schedules your reviews with spaced repetition so you spend time on what
-        you're about to forget — not what you already know. Free, no sign-up, works offline,
-        and every deck can be shared with a single file.
+        Pick a template or upload your own image, drag some text on, download it.
+        No account, no watermark you didn't ask for, nothing saved anywhere but your
+        own browser.
       </p>
       <div class="hero-actions">
-        <button class="btn btn-primary" data-tab-link="study">Start studying →</button>
-        <button class="btn btn-ghost" data-tab-link="decks">Browse decks</button>
+        <button class="btn btn-primary" data-tab-link="create">Start creating →</button>
+        <button class="btn btn-ghost" data-tab-link="gallery">My memes</button>
       </div>
     </div>
 
     <div class="feature-grid">
       <div class="feature-card">
-        <div class="feature-icon">🧠</div>
-        <h3>Spaced repetition</h3>
-        <p>Every card gets its own schedule. Nail it and the interval grows; miss it and it comes right back.</p>
+        <div class="feature-icon">🖼️</div>
+        <h3>Templates or your own pic</h3>
+        <p>A terminal window, a chat bubble, an achievement badge, a flyer — or drop in any image.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📤</div>
-        <h3>Share a deck in one click</h3>
-        <p>Export any deck to a small JSON file and text it to a classmate. They import it and they're studying in seconds.</p>
+        <div class="feature-icon">✋</div>
+        <h3>Drag text anywhere</h3>
+        <p>Add as many text boxes and emoji as you want, drag them into place, resize and recolor on the fly.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🔥</div>
-        <h3>Streaks &amp; stats</h3>
-        <p>Track your daily streak and cards reviewed so studying feels a little bit like a game.</p>
+        <div class="feature-icon">⬇️</div>
+        <h3>One-click download</h3>
+        <p>Exports a real PNG straight to your device, ready to post anywhere.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⏱️</div>
-        <h3>Built-in focus timer</h3>
-        <p>A Pomodoro-style timer for study sessions — because flashcards are better with breaks.</p>
+        <div class="feature-icon">🏷️</div>
+        <h3>Optional club tag</h3>
+        <p>Flip on a small watermark and every meme you share quietly points people back to us.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔁</div>
+        <h3>Remix your old ones</h3>
+        <p>Everything you make is saved locally so you can reopen and keep editing later.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🔒</div>
         <h3>100% local &amp; private</h3>
-        <p>Everything lives in your browser's storage. No account, no server, no tracking.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛠️</div>
-        <h3>Open source</h3>
-        <p>It's a club project — read the code, fork it, or add a feature for the next meeting.</p>
+        <p>Runs entirely in your browser. Nothing you make is ever uploaded anywhere.</p>
       </div>
     </div>
 
@@ -103,160 +101,80 @@
     </div>
   </section>
 
-  <!-- STUDY -->
-  <section id="study" class="tab-panel">
-    <div id="study-picker" class="panel-block">
-      <div class="panel-header">
-        <h2>Pick a deck to study</h2>
-        <p class="muted">Cards that are due today show up first. New decks start fully due.</p>
-      </div>
-      <div id="study-deck-list" class="deck-pick-grid"></div>
-    </div>
+  <!-- CREATE -->
+  <section id="create" class="tab-panel">
+    <div class="editor-layout">
 
-    <div id="study-session" class="panel-block" hidden>
-      <div class="study-top">
-        <button class="btn btn-ghost btn-sm" id="study-exit">← Exit deck</button>
-        <div class="study-progress">
-          <div class="study-progress-bar"><div id="study-progress-fill"></div></div>
-          <span id="study-progress-text">0 / 0</span>
-        </div>
-      </div>
-
-      <div class="card-stage">
-        <div id="flashcard" class="flashcard">
-          <div class="flashcard-face flashcard-front">
-            <span class="flashcard-hint">Question — click or press space to flip</span>
-            <div id="flashcard-front-text" class="flashcard-text"></div>
+      <div class="editor-stage-col">
+        <div class="panel-block canvas-panel">
+          <div class="canvas-wrap">
+            <canvas id="meme-canvas" width="800" height="800"></canvas>
           </div>
-          <div class="flashcard-face flashcard-back">
-            <span class="flashcard-hint">Answer</span>
-            <div id="flashcard-back-text" class="flashcard-text"></div>
+          <p class="muted canvas-hint">Click a text box to select it, drag to move. Click empty space to deselect.</p>
+        </div>
+
+        <div class="panel-block">
+          <div class="template-row" id="template-row"></div>
+          <label class="btn btn-ghost btn-sm file-btn" style="margin-top:10px">
+            📤 Upload your own image
+            <input type="file" id="image-upload-input" accept="image/*" hidden />
+          </label>
+        </div>
+      </div>
+
+      <div class="editor-controls-col">
+        <div class="panel-block">
+          <h3>Add stuff</h3>
+          <button class="btn btn-primary btn-sm" id="add-text-btn" style="width:100%">+ Add text</button>
+          <div class="emoji-row" id="emoji-row"></div>
+        </div>
+
+        <div class="panel-block" id="layer-editor" hidden>
+          <h3>Selected text</h3>
+          <textarea id="layer-text-input" class="inline-input layer-textarea" rows="2"></textarea>
+
+          <label class="control-label">Size</label>
+          <input type="range" id="layer-size-input" min="16" max="140" value="64" />
+
+          <label class="control-label">Font</label>
+          <div class="font-row" id="font-row"></div>
+
+          <label class="control-label">Color</label>
+          <div class="color-row" id="color-row"></div>
+
+          <label class="control-label checkbox-label">
+            <input type="checkbox" id="layer-uppercase-input" /> ALL CAPS
+          </label>
+
+          <button class="btn btn-ghost btn-sm danger-text" id="delete-layer-btn" style="width:100%; margin-top:10px">Delete this text</button>
+        </div>
+
+        <div class="panel-block">
+          <label class="control-label checkbox-label">
+            <input type="checkbox" id="watermark-toggle" checked /> Add small club watermark
+          </label>
+          <div class="header-actions" style="margin-top:14px">
+            <button class="btn btn-ghost btn-sm" id="save-gallery-btn">💾 Save to My Memes</button>
+            <button class="btn btn-primary btn-sm" id="download-btn">⬇️ Download PNG</button>
           </div>
         </div>
       </div>
 
-      <div id="rating-row" class="rating-row" hidden>
-        <button class="rate-btn rate-again" data-rating="again"><span>Again</span><small>&lt;1d</small></button>
-        <button class="rate-btn rate-hard" data-rating="hard"><span>Hard</span><small id="hint-hard"></small></button>
-        <button class="rate-btn rate-good" data-rating="good"><span>Good</span><small id="hint-good"></small></button>
-        <button class="rate-btn rate-easy" data-rating="easy"><span>Easy</span><small id="hint-easy"></small></button>
-      </div>
-      <div class="flip-hint muted">Space = flip · 1-4 = rate after flipping</div>
-    </div>
-
-    <div id="study-empty" class="panel-block empty-state" hidden>
-      <div class="empty-icon">🎉</div>
-      <h3>All caught up!</h3>
-      <p class="muted">No cards due in this deck right now. Come back later, or study anyway.</p>
-      <button class="btn btn-primary" id="study-anyway">Study anyway</button>
     </div>
   </section>
 
-  <!-- DECKS -->
-  <section id="decks" class="tab-panel">
-    <div class="panel-header row">
-      <div>
-        <h2>Your decks</h2>
-        <p class="muted">Create a deck, add cards, or import one a friend sent you.</p>
-      </div>
-      <div class="header-actions">
-        <label class="btn btn-ghost btn-sm file-btn">
-          Import deck
-          <input type="file" id="import-deck-input" accept="application/json" hidden />
-        </label>
-        <button class="btn btn-primary btn-sm" id="new-deck-btn">+ New deck</button>
-      </div>
-    </div>
-
-    <div id="deck-manager-list" class="deck-manage-grid"></div>
-
-    <!-- Deck editor -->
-    <div id="deck-editor" class="panel-block" hidden>
-      <div class="panel-header row">
-        <div>
-          <input id="deck-editor-name" class="inline-input inline-input-lg" placeholder="Deck name" />
-          <input id="deck-editor-desc" class="inline-input" placeholder="Short description (optional)" />
-        </div>
-        <div class="header-actions">
-          <button class="btn btn-ghost btn-sm" id="deck-export-btn">Export JSON</button>
-          <button class="btn btn-ghost btn-sm" id="deck-editor-close">Close</button>
-        </div>
-      </div>
-
-      <form id="add-card-form" class="add-card-form">
-        <input id="add-card-front" class="inline-input" placeholder="Front (question)" required />
-        <input id="add-card-back" class="inline-input" placeholder="Back (answer)" required />
-        <button class="btn btn-primary btn-sm" type="submit">Add card</button>
-      </form>
-
-      <div id="card-list" class="card-list"></div>
-    </div>
-  </section>
-
-  <!-- TIMER -->
-  <section id="timer" class="tab-panel">
-    <div class="panel-block timer-block">
-      <h2>Focus timer</h2>
-      <p class="muted">Simple Pomodoro: focus, then break, repeat.</p>
-
-      <div class="timer-display">
-        <div class="timer-ring">
-          <svg viewBox="0 0 120 120" class="timer-svg">
-            <circle cx="60" cy="60" r="54" class="timer-track" />
-            <circle cx="60" cy="60" r="54" class="timer-progress" id="timer-progress-circle" />
-          </svg>
-          <div class="timer-time" id="timer-time">25:00</div>
-          <div class="timer-mode" id="timer-mode">Focus</div>
-        </div>
-      </div>
-
-      <div class="timer-controls">
-        <button class="btn btn-primary" id="timer-start">Start</button>
-        <button class="btn btn-ghost" id="timer-reset">Reset</button>
-      </div>
-
-      <div class="timer-settings">
-        <label>Focus <input type="number" id="timer-focus-min" min="1" max="90" value="25" /> min</label>
-        <label>Break <input type="number" id="timer-break-min" min="1" max="30" value="5" /> min</label>
-        <span class="muted" id="timer-session-count">0 focus sessions completed today</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section id="stats" class="tab-panel">
+  <!-- GALLERY -->
+  <section id="gallery" class="tab-panel">
     <div class="panel-header">
-      <h2>Your stats</h2>
-      <p class="muted">Local to this browser — nothing is uploaded anywhere.</p>
+      <h2>My memes</h2>
+      <p class="muted">Saved locally in this browser. Remix one to keep editing, or download it again.</p>
     </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-value" id="stat-streak">0</div>
-        <div class="stat-label">Day streak 🔥</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="stat-today">0</div>
-        <div class="stat-label">Cards reviewed today</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="stat-total">0</div>
-        <div class="stat-label">Cards reviewed all-time</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="stat-decks">0</div>
-        <div class="stat-label">Decks</div>
-      </div>
-    </div>
-
-    <div class="panel-block">
-      <h3>Last 14 days</h3>
-      <div id="stats-heatmap" class="heatmap"></div>
-    </div>
-
-    <div class="panel-block danger-zone">
-      <h3>Reset data</h3>
-      <p class="muted">Clears all decks, cards, and stats from this browser. Export your decks first if you want to keep them.</p>
-      <button class="btn btn-danger btn-sm" id="reset-data-btn">Erase all local data</button>
+    <div id="gallery-grid" class="gallery-grid"></div>
+    <div id="gallery-empty" class="empty-state" hidden>
+      <div class="empty-icon">🖼️</div>
+      <h3>Nothing here yet</h3>
+      <p class="muted">Make a meme in the Create tab, then hit "Save to My Memes".</p>
+      <button class="btn btn-primary" data-tab-link="create">Start creating</button>
     </div>
   </section>
 
