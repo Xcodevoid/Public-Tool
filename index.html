@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Blockworld — explore in your browser</title>
-<meta name="description" content="A free, playable 3D block world built by the Vibe Coding Club. Procedurally generated terrain, walk around, break and place blocks — no install, runs in any browser." />
+<title>MotifForge — generative melodies from grouped motifs</title>
+<meta name="description" content="A free generative music tool built by the Vibe Coding Club. Randomly seeds a melody, groups it into motifs, then recombines and transforms those motifs into a brand-new piece — playable and downloadable as MIDI." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,11 +17,11 @@
   <div class="topbar-inner">
     <a class="brand" href="#home" data-tab-link="home">
       <span class="brand-mark">⚡</span>
-      <span class="brand-name">Blockworld</span>
+      <span class="brand-name">MotifForge</span>
     </a>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab-btn is-active" data-tab-link="home" role="tab" aria-selected="true">Home</button>
-      <button class="tab-btn" data-tab-link="play" role="tab" aria-selected="false">Explore</button>
+      <button class="tab-btn" data-tab-link="compose" role="tab" aria-selected="false">Compose</button>
     </nav>
     <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Toggle light/dark theme">
       <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -36,48 +36,48 @@
   <section id="home" class="tab-panel is-active">
     <div class="hero">
       <div class="hero-badge">Built by the Vibe Coding Club</div>
-      <h1>Step into a <span class="grad-text">block world.</span></h1>
+      <h1>New music from <span class="grad-text">old motifs.</span></h1>
       <p class="hero-sub">
-        A procedurally generated 3D island you can walk around, climb, and reshape —
-        entirely in your browser, no install, no login. Break blocks, place blocks,
-        go explore.
+        MotifForge seeds a random melody, breaks it into short motifs, then transposes,
+        reverses, and inverts those motifs to weave them into a brand-new piece — the
+        same trick composers have used for centuries, automated in your browser.
       </p>
       <div class="hero-actions">
-        <button class="btn btn-primary" data-tab-link="play">Enter the world →</button>
-        <button class="btn btn-ghost" data-tab-link="play">See controls</button>
+        <button class="btn btn-primary" data-tab-link="compose">Start composing →</button>
+        <button class="btn btn-ghost" data-tab-link="compose">See how it works</button>
       </div>
     </div>
 
     <div class="feature-grid">
       <div class="feature-card">
-        <div class="feature-icon">🗺️</div>
-        <h3>A new island every load</h3>
-        <p>Terrain, hills, beaches and trees are generated with layered noise — refresh for a different world.</p>
+        <div class="feature-icon">🎲</div>
+        <h3>A random seed melody</h3>
+        <p>Every phrase starts as a scale-constrained random walk — different every time, always in key.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🧱</div>
-        <h3>Break &amp; place blocks</h3>
-        <p>Seven block types on the hotbar. Dig into hills, build a tower, terraform the coastline.</p>
+        <div class="feature-icon">✂️</div>
+        <h3>Grouped into motifs</h3>
+        <p>The seed is chopped into short 3-4 note motifs — the reusable building blocks of the new piece.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🕹️</div>
-        <h3>First-person exploring</h3>
-        <p>Mouse look, WASD movement, jumping — the controls you already know from every block game.</p>
+        <div class="feature-icon">🔁</div>
+        <h3>Transposed, reversed, inverted</h3>
+        <p>Each motif returns later transformed — the classic technique behind how real melodies develop.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⚙️</div>
-        <h3>Built on Three.js</h3>
-        <p>A real WebGL renderer, a hand-rolled voxel mesher, and Perlin noise terrain — all readable club code.</p>
+        <div class="feature-icon">🎧</div>
+        <h3>Plays right in the browser</h3>
+        <p>A synthesized instrument via the Web Audio API — no samples, no plugins, no downloads to hear it.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🚫</div>
-        <h3>No install, no account</h3>
-        <p>It's a webpage. Send the link, it loads, you're exploring in seconds.</p>
+        <div class="feature-icon">⬇️</div>
+        <h3>Export as MIDI</h3>
+        <p>Like what you hear? Download it as a real .mid file and drop it into GarageBand, Ableton, anything.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🔓</div>
         <h3>Open source</h3>
-        <p>The whole engine is one readable file — a great first look at how 3D on the web works.</p>
+        <p>The whole generator is one readable file — a fun first look at algorithmic composition.</p>
       </div>
     </div>
 
@@ -100,44 +100,61 @@
     </div>
   </section>
 
-  <!-- PLAY -->
-  <section id="play" class="tab-panel play-panel">
-    <div id="game-container" class="game-container">
-      <canvas id="game-canvas"></canvas>
+  <!-- COMPOSE -->
+  <section id="compose" class="tab-panel">
+    <div class="panel-header">
+      <h2>Compose</h2>
+      <p class="muted">Generate a seed, watch it get grouped into motifs, then hear those motifs turned into a new piece.</p>
+    </div>
 
-      <div class="game-crosshair" aria-hidden="true">
-        <span></span><span></span>
+    <div class="panel-block">
+      <div class="roll-header">
+        <h3>1. Seed motifs</h3>
+        <p class="muted">The raw random material, chopped into labeled groups.</p>
       </div>
+      <div class="piano-roll" id="seed-roll"></div>
+    </div>
 
-      <div class="game-hotbar" id="game-hotbar" hidden></div>
-
-      <div class="game-overlay" id="game-start-overlay">
-        <div class="game-overlay-card">
-          <h2>Click to explore</h2>
-          <p class="muted">Your browser will ask to lock the mouse pointer — that's normal, it's just for looking around.</p>
-          <div class="controls-grid">
-            <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move</span></div>
-            <div><kbd>Mouse</kbd><span>Look around</span></div>
-            <div><kbd>Space</kbd><span>Jump</span></div>
-            <div><kbd>Shift</kbd><span>Sprint</span></div>
-            <div><kbd>Click</kbd><span>Break block</span></div>
-            <div><kbd>Right-click</kbd><span>Place block</span></div>
-            <div><kbd>1</kbd>–<kbd>7</kbd><span>Choose block</span></div>
-            <div><kbd>Esc</kbd><span>Release mouse</span></div>
-          </div>
-          <button class="mc-btn" id="game-start-btn">Enter World</button>
-          <p class="muted game-note" id="game-note"></p>
-        </div>
+    <div class="panel-block">
+      <div class="roll-header">
+        <h3>2. Generated piece</h3>
+        <p class="muted">Those motifs, repeated and transformed into a new arrangement.</p>
       </div>
+      <div class="piano-roll piano-roll-lg" id="piece-roll">
+        <div class="playhead" id="playhead" hidden></div>
+      </div>
+      <div class="motif-legend" id="motif-legend"></div>
+    </div>
 
-      <div class="game-overlay" id="game-loading-overlay">
-        <div class="game-overlay-card">
-          <h2>Generating your island…</h2>
-          <p class="muted">Building terrain and meshing chunks. Takes a second.</p>
-        </div>
+    <div class="panel-block controls-panel">
+      <div class="control-group">
+        <label class="control-label">Scale</label>
+        <div class="chip-row" id="scale-row"></div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Tempo — <span id="tempo-value">100</span> BPM</label>
+        <input type="range" id="tempo-input" min="60" max="160" value="100" />
+      </div>
+      <div class="header-actions compose-actions">
+        <button class="btn btn-ghost btn-sm" id="new-seed-btn">🎲 New seed</button>
+        <button class="btn btn-ghost btn-sm" id="reshuffle-btn">🔁 Reshuffle</button>
+        <button class="btn btn-primary btn-sm" id="play-btn">▶ Play</button>
+        <button class="btn btn-ghost btn-sm" id="download-btn">⬇️ Download MIDI</button>
       </div>
     </div>
-    <p class="muted play-hint">Tip: this works best on a laptop or desktop with a mouse. Refresh the page for a brand-new island.</p>
+
+    <div class="panel-block">
+      <h3>How this works</h3>
+      <p class="muted">
+        A random walk through the chosen scale produces a 4-bar seed melody. That seed is
+        split into motifs of 3–4 notes each, labeled A, B, C…. To build the new piece, every
+        motif is introduced once in its original form, then revisited later — sometimes
+        <strong>transposed</strong> (shifted up or down in pitch), sometimes played in
+        <strong>retrograde</strong> (backwards), sometimes <strong>inverted</strong> (its
+        melodic shape flipped upside-down). That mix of repetition and variation is what
+        makes the result sound composed rather than random.
+      </p>
+    </div>
   </section>
 
 </main>
@@ -149,6 +166,6 @@
 <div id="toast" class="toast" hidden></div>
 
 <script src="app.js"></script>
-<script type="module" src="world.js"></script>
+<script src="music.js"></script>
 </body>
 </html>

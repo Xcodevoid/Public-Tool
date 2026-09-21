@@ -1,45 +1,43 @@
-# Blockworld ⚡
+# MotifForge ⚡
 
-A free, playable 3D block world built by our school's **Vibe Coding Club** — a
-Minecraft-inspired voxel island you explore in first person, right in the browser.
-Procedurally generated terrain, break and place blocks, no install, no login.
+A free, generative music tool built by our school's **Vibe Coding Club**. It seeds a
+random melody, groups it into short motifs, then transposes, reverses, and inverts
+those motifs to weave them into a new piece — playable right in the browser and
+downloadable as a real MIDI file.
 
 **[Live demo →](https://xcodevoid.github.io/Public-Tool/)**
 
+## How it works
+
+1. **Seed** — a bounded random walk through a chosen scale produces a 4-bar melody.
+   Every note stays in key; the walk keeps it melodic rather than jumping randomly.
+2. **Group** — the seed is chopped into motifs of 3–4 consecutive notes, labeled
+   A, B, C…
+3. **Arrange** — each motif is scheduled to appear twice across the new piece. The
+   first appearance is always the motif in its original form; every later repeat is
+   randomly **transposed** (shifted up/down in scale degrees), played in
+   **retrograde** (backwards), or **inverted** (its melodic shape flipped upside
+   down) — or left as-is. That mix of repetition and variation is a real technique
+   composers use for thematic development, automated here.
+4. **Play** — the result is synthesized live with the Web Audio API (no samples) and
+   can be exported as a `.mid` file to open in any DAW.
+
 ## Features
 
-- 🗺️ **Procedural terrain** — a 64×64 island generated with layered Perlin noise
-  (hills, beaches, a water line, sparse trees). Refresh for a new one.
-- 🧱 **Break & place blocks** — 7 block types on a hotbar (grass, dirt, stone, sand,
-  wood, leaves, snow). Left-click breaks, right-click places.
-- 🕹️ **First-person controls** — pointer-lock mouse look, WASD movement, jump,
-  sprint — the standard block-game control scheme.
-- ⚙️ **A real voxel engine** — a hand-rolled greedy-ish face-culling mesher (only
-  exposed faces are rendered) built on [Three.js](https://threejs.org/), flat-shaded,
-  no textures or external assets.
-- 🚫 **No backend, no build step** — everything runs client-side; Three.js is
-  vendored directly in the repo so the site has zero external dependencies at runtime.
-
-## Controls
-
-| Key | Action |
-|---|---|
-| `W A S D` | Move |
-| Mouse | Look around |
-| `Space` | Jump |
-| `Shift` | Sprint |
-| Left click | Break block |
-| Right click | Place block |
-| `1`–`7` | Choose block from hotbar |
-| `Esc` | Release the mouse |
-
-Best experienced on a laptop/desktop with a mouse — it's a first-person pointer-lock
-experience, which touch devices can't drive.
+- 🎲 **New seed** — regenerate the random source melody from scratch.
+- 🔁 **Reshuffle** — keep the same motifs, generate a new arrangement/transformation
+  of them (a different "piece" from the same raw material).
+- 🎼 **5 scales** — Major, Natural Minor, Major/Minor Pentatonic, Dorian.
+- 🎚️ **Tempo control** — 60–160 BPM.
+- 🎨 **Color-coded piano roll** — see which notes came from which motif, and what
+  transformation was applied to each repeat.
+- ⬇️ **MIDI export** — a hand-written, dependency-free MIDI file writer.
+- 🔒 **Local-first** — everything runs client-side. No accounts, no backend, no
+  uploads.
 
 ## Running it locally
 
-This site uses ES modules (`<script type="module">`), which browsers block from
-loading over `file://` — you need to serve it, not just open the HTML file:
+No build tools required — it's a static site.
 
 ```bash
 git clone https://github.com/xcodevoid/public-tool.git
@@ -77,29 +75,24 @@ page.
 ## Project structure
 
 ```
-index.html               — page structure: Home tab + the Explore/game tab
-style.css                — design tokens, layout, light/dark theme, game overlay UI
-app.js                    — shared UI: tabs, theme toggle, club info
-world.js                  — the voxel engine (ES module): noise, terrain generation,
-                            meshing, camera/controls, physics, block break/place
-vendor/three.module.min.js — Three.js (MIT), vendored so there's no CDN dependency
+index.html  — page structure: Home tab + the Compose tab
+style.css   — design tokens, layout, light/dark theme, piano-roll UI
+app.js      — shared UI: tabs, theme toggle, club info
+music.js    — the generator: scales, random seed, motif grouping,
+              transformations, arrangement, Web Audio playback, MIDI export
 ```
-
-`world.js` lazily initializes the first time you open the Explore tab, and pauses its
-render loop (and releases the pointer lock) when you navigate away.
 
 ## Ideas for contributions
 
 Good first issues for a club meeting:
 
-- Add more block types (glass, water reflections, ore veins underground).
-- Add a minimap or a compass overlay.
-- Add simple caves (3D noise carving into the terrain instead of a pure heightmap).
-- Add a day/night cycle by animating the directional light and fog color.
-- Add touch controls (on-screen joystick + drag-to-look) for mobile.
-- Persist the world to `localStorage` so edits survive a refresh.
+- Add a chord accompaniment track generated from the same motifs.
+- Add more transformations (augmentation/diminution — stretch or shrink durations).
+- Let the user pick which instrument timbre to synthesize.
+- Add a "lock this motif" toggle so reshuffling leaves a favorite motif untouched.
+- Persist generated pieces to `localStorage` so you can revisit past favorites.
+- Add swing/groove by nudging off-beat note timing slightly.
 
 ## License
 
 MIT — see [LICENSE](LICENSE). Use it, fork it, remix it for your own club.
-Three.js itself is © the Three.js authors, also MIT-licensed.

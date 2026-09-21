@@ -15,7 +15,7 @@ window.CLUB_INFO = CLUB_INFO;
  * Storage
  * ------------------------------------------------------------------- */
 const STORAGE_KEYS = {
-  theme: "vibeclub_blockworld_theme_v1",
+  theme: "vibeclub_motifforge_theme_v1",
 };
 function loadJSON(key, fallback) {
   try {
