@@ -71,19 +71,141 @@ const BLOCK = {
   AIR: 0, GRASS: 1, DIRT: 2, STONE: 3, SAND: 4, WATER: 5, WOOD: 6, LEAVES: 7, SNOW: 8, BEDROCK: 9,
 };
 
-const BLOCK_COLORS = {
-  [BLOCK.GRASS]: 0x5fb85c,
-  [BLOCK.DIRT]: 0x8a5a34,
-  [BLOCK.STONE]: 0x8a8a92,
-  [BLOCK.SAND]: 0xe3d189,
-  [BLOCK.WATER]: 0x3d7dd6,
-  [BLOCK.WOOD]: 0x6b4a2f,
-  [BLOCK.LEAVES]: 0x3f9142,
-  [BLOCK.SNOW]: 0xf2f6fb,
-  [BLOCK.BEDROCK]: 0x35343d,
+const HOTBAR_BLOCKS = [BLOCK.GRASS, BLOCK.DIRT, BLOCK.STONE, BLOCK.SAND, BLOCK.WOOD, BLOCK.LEAVES, BLOCK.SNOW];
+const HOTBAR_ICON_KEY = {
+  [BLOCK.GRASS]: 'grass_top',
+  [BLOCK.DIRT]: 'dirt',
+  [BLOCK.STONE]: 'stone',
+  [BLOCK.SAND]: 'sand',
+  [BLOCK.WOOD]: 'wood_side',
+  [BLOCK.LEAVES]: 'leaves',
+  [BLOCK.SNOW]: 'snow',
 };
 
-const HOTBAR_BLOCKS = [BLOCK.GRASS, BLOCK.DIRT, BLOCK.STONE, BLOCK.SAND, BLOCK.WOOD, BLOCK.LEAVES, BLOCK.SNOW];
+/* ---------------------------------------------------------------------
+ * Procedural pixel-art block textures — no external image assets.
+ * Each is a tiny hand-painted-noise canvas, sampled with NearestFilter
+ * so it reads as crisp, blocky pixel art rather than blurry photo-texture.
+ * ------------------------------------------------------------------- */
+function clampByte(v) { return Math.max(0, Math.min(255, v | 0)); }
+function rgb(r, g, b) { return `rgb(${clampByte(r)},${clampByte(g)},${clampByte(b)})`; }
+
+function paintNoise(ctx, size, [r, g, b], variance) {
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const d = (Math.random() - 0.5) * 2 * variance;
+      ctx.fillStyle = rgb(r + d, g + d, b + d);
+      ctx.fillRect(x, y, 1, 1);
+    }
+  }
+}
+
+const GRASS_RGB = [92, 168, 82];
+const DIRT_RGB = [122, 84, 51];
+const WOOD_RGB = [96, 68, 44];
+
+const TEXTURE_DRAWERS = {
+  grass_top(ctx, size) { paintNoise(ctx, size, GRASS_RGB, 20); },
+  dirt(ctx, size) {
+    paintNoise(ctx, size, DIRT_RGB, 22);
+    ctx.fillStyle = 'rgba(80,52,28,0.5)';
+    for (let i = 0; i < size * 2; i++) {
+      if (Math.random() < 0.4) ctx.fillRect((Math.random() * size) | 0, (Math.random() * size) | 0, 1, 1);
+    }
+  },
+  grass_side(ctx, size) {
+    paintNoise(ctx, size, DIRT_RGB, 18);
+    for (let x = 0; x < size; x++) {
+      const h = 3 + Math.floor(Math.random() * 3);
+      for (let y = 0; y < h; y++) {
+        const d = (Math.random() - 0.5) * 24;
+        ctx.fillStyle = rgb(GRASS_RGB[0] + d, GRASS_RGB[1] + d, GRASS_RGB[2] + d);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  },
+  stone(ctx, size) {
+    paintNoise(ctx, size, [128, 128, 138], 14);
+    ctx.fillStyle = 'rgba(58,58,66,0.55)';
+    for (let i = 0; i < 12; i++) {
+      const w = 1 + ((Math.random() * 2) | 0);
+      ctx.fillRect((Math.random() * size) | 0, (Math.random() * size) | 0, w, w);
+    }
+  },
+  sand(ctx, size) { paintNoise(ctx, size, [222, 202, 140], 12); },
+  snow(ctx, size) { paintNoise(ctx, size, [239, 245, 250], 6); },
+  bedrock(ctx, size) {
+    paintNoise(ctx, size, [58, 57, 66], 10);
+    ctx.fillStyle = 'rgba(8,8,12,0.65)';
+    for (let i = 0; i < 16; i++) {
+      ctx.fillRect((Math.random() * size) | 0, (Math.random() * size) | 0, 2, 2);
+    }
+  },
+  leaves(ctx, size) {
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        if (Math.random() < 0.14) continue; // hole -> transparent, gives a leafy silhouette
+        const d = (Math.random() - 0.5) * 34;
+        ctx.fillStyle = rgb(58 + d, 138 + d, 64 + d);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  },
+  wood_side(ctx, size) {
+    for (let x = 0; x < size; x++) {
+      const grain = Math.random() < 0.3 ? -18 : 0;
+      for (let y = 0; y < size; y++) {
+        const d = (Math.random() - 0.5) * 10 + grain;
+        ctx.fillStyle = rgb(WOOD_RGB[0] + d, WOOD_RGB[1] + d, WOOD_RGB[2] + d);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  },
+  wood_top(ctx, size) {
+    const c = size / 2;
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const dist = Math.hypot(x - c + 0.5, y - c + 0.5);
+        const ring = Math.sin(dist * 1.3) * 12;
+        const d = ring + (Math.random() - 0.5) * 6;
+        ctx.fillStyle = rgb(150 + d, 112 + d, 72 + d);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  },
+  water(ctx, size) {
+    for (let y = 0; y < size; y++) {
+      const wave = Math.sin(y * 0.8) * 10;
+      for (let x = 0; x < size; x++) {
+        const d = wave + (Math.random() - 0.5) * 8;
+        ctx.fillStyle = rgb(61 + d, 125 + d, 214 + d);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  },
+};
+
+function makeTexture(key, size = 16) {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  TEXTURE_DRAWERS[key](ctx, size);
+  const dataUrl = canvas.toDataURL();
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  return { texture, dataUrl };
+}
+
+const TEXTURE_KEYS = Object.keys(TEXTURE_DRAWERS);
+const TEXTURES = {};
+for (const key of TEXTURE_KEYS) TEXTURES[key] = makeTexture(key);
+
+// Feed the same pixel-art textures into the game menu's CSS background.
+document.documentElement.style.setProperty('--mc-dirt-tile', `url(${TEXTURES.dirt.dataUrl})`);
+document.documentElement.style.setProperty('--mc-stone-tile', `url(${TEXTURES.stone.dataUrl})`);
 
 class VoxelWorld {
   constructor(seed) {
@@ -181,8 +303,8 @@ class VoxelWorld {
 }
 
 /* ---------------------------------------------------------------------
- * Meshing: cull faces hidden by a solid neighbor, one merged
- * BufferGeometry per block type (flat-shaded, no textures).
+ * Meshing: cull faces hidden by a solid neighbor, one merged textured
+ * BufferGeometry per material (flat-shaded pixel-art blocks).
  * ------------------------------------------------------------------- */
 const FACES = [
   { n: [1, 0, 0], corners: [[1, 0, 0], [1, 1, 0], [1, 1, 1], [1, 0, 1]] },
@@ -192,6 +314,33 @@ const FACES = [
   { n: [0, 0, 1], corners: [[1, 0, 1], [1, 1, 1], [0, 1, 1], [0, 0, 1]] },
   { n: [0, 0, -1], corners: [[0, 0, 0], [0, 1, 0], [1, 1, 0], [1, 0, 0]] },
 ];
+// Same winding for every face direction (verified: index 1 & 2 are always
+// the "up" corners), so one UV template lines up grass_side's green
+// overhang and wood_side's grain correctly on every side face.
+const FACE_UV = [[0, 0], [0, 1], [1, 1], [1, 0]];
+
+const FACE_TOP = 2, FACE_BOTTOM = 3;
+
+function faceMaterialKey(type, dirIndex) {
+  if (type === BLOCK.GRASS) {
+    if (dirIndex === FACE_TOP) return 'grass_top';
+    if (dirIndex === FACE_BOTTOM) return 'dirt';
+    return 'grass_side';
+  }
+  if (type === BLOCK.WOOD) {
+    return (dirIndex === FACE_TOP || dirIndex === FACE_BOTTOM) ? 'wood_top' : 'wood_side';
+  }
+  switch (type) {
+    case BLOCK.DIRT: return 'dirt';
+    case BLOCK.STONE: return 'stone';
+    case BLOCK.SAND: return 'sand';
+    case BLOCK.WATER: return 'water';
+    case BLOCK.LEAVES: return 'leaves';
+    case BLOCK.SNOW: return 'snow';
+    case BLOCK.BEDROCK: return 'bedrock';
+    default: return 'stone';
+  }
+}
 
 function buildMeshes(world, materials, group) {
   for (const child of [...group.children]) {
@@ -200,9 +349,9 @@ function buildMeshes(world, materials, group) {
   }
 
   const buffers = new Map();
-  const getBuf = (type) => {
-    if (!buffers.has(type)) buffers.set(type, { positions: [], indices: [], count: 0 });
-    return buffers.get(type);
+  const getBuf = (key) => {
+    if (!buffers.has(key)) buffers.set(key, { positions: [], uvs: [], indices: [], count: 0 });
+    return buffers.get(key);
   };
 
   for (let x = 0; x < SIZE_X; x++) {
@@ -210,13 +359,16 @@ function buildMeshes(world, materials, group) {
       for (let y = 0; y < SIZE_Y; y++) {
         const type = world.getBlock(x, y, z);
         if (type === BLOCK.AIR) continue;
-        for (const face of FACES) {
+        for (let d = 0; d < FACES.length; d++) {
+          const face = FACES[d];
           const nb = world.getBlock(x + face.n[0], y + face.n[1], z + face.n[2]);
           if (nb !== BLOCK.AIR) continue;
-          const buf = getBuf(type);
+          const buf = getBuf(faceMaterialKey(type, d));
           const base = buf.count;
-          for (const c of face.corners) {
+          for (let ci = 0; ci < 4; ci++) {
+            const c = face.corners[ci];
             buf.positions.push(x + c[0], y + c[1], z + c[2]);
+            buf.uvs.push(FACE_UV[ci][0], FACE_UV[ci][1]);
           }
           buf.indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
           buf.count += 4;
@@ -225,14 +377,15 @@ function buildMeshes(world, materials, group) {
     }
   }
 
-  for (const [type, buf] of buffers) {
+  for (const [key, buf] of buffers) {
     if (buf.count === 0) continue;
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(buf.positions, 3));
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(buf.uvs, 2));
     geometry.setIndex(buf.indices);
     geometry.computeVertexNormals();
-    const mesh = new THREE.Mesh(geometry, materials[type]);
-    mesh.userData.blockType = type;
+    const mesh = new THREE.Mesh(geometry, materials[key]);
+    mesh.userData.materialKey = key;
     group.add(mesh);
   }
 }
@@ -264,12 +417,13 @@ const REACH = 6;
 
 function buildMaterials() {
   const mats = {};
-  for (const [type, color] of Object.entries(BLOCK_COLORS)) {
-    mats[type] = new THREE.MeshLambertMaterial({
-      color,
+  for (const key of TEXTURE_KEYS) {
+    mats[key] = new THREE.MeshLambertMaterial({
+      map: TEXTURES[key].texture,
       flatShading: true,
-      transparent: Number(type) === BLOCK.WATER,
-      opacity: Number(type) === BLOCK.WATER ? 0.8 : 1,
+      transparent: key === 'water' || key === 'leaves',
+      opacity: key === 'water' ? 0.85 : 1,
+      alphaTest: key === 'leaves' ? 0.5 : 0,
     });
   }
   return mats;
@@ -337,7 +491,7 @@ function resizeRenderer() {
 function updatePlayer(dt) {
   const cam = state.camera;
   const forward = new THREE.Vector3(Math.sin(state.yaw), 0, Math.cos(state.yaw)).multiplyScalar(-1);
-  const right = new THREE.Vector3(forward.z, 0, -forward.x);
+  const right = new THREE.Vector3(-forward.z, 0, forward.x);
 
   let moveX = 0, moveZ = 0;
   if (state.keys['KeyW']) { moveX += forward.x; moveZ += forward.z; }
@@ -497,7 +651,7 @@ function renderHotbar() {
   HOTBAR_BLOCKS.forEach((type, i) => {
     const slot = document.createElement('div');
     slot.className = 'hotbar-slot' + (type === state.selectedBlock ? ' is-active' : '');
-    slot.style.background = '#' + BLOCK_COLORS[type].toString(16).padStart(6, '0');
+    slot.style.backgroundImage = `url(${TEXTURES[HOTBAR_ICON_KEY[type]].dataUrl})`;
     slot.innerHTML = `<span class="slot-key">${i + 1}</span>`;
     slot.addEventListener('click', () => {
       state.selectedBlock = type;
@@ -517,6 +671,8 @@ function tick(t) {
   lastTime = t;
   if (!state.running) return;
   updatePlayer(dt);
+  const waterMap = state.materials?.water?.map;
+  if (waterMap) waterMap.offset.x += dt * 0.02;
   state.renderer.render(state.scene, state.camera);
 }
 
