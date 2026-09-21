@@ -1,31 +1,45 @@
-# MemeForge ⚡
+# Blockworld ⚡
 
-A free, no-sign-up meme generator built by our school's **Vibe Coding Club**. Pick a
-template (or upload your own image), drag text and stickers onto it, and download a
-real PNG — all in your browser, in under a minute.
+A free, playable 3D block world built by our school's **Vibe Coding Club** — a
+Minecraft-inspired voxel island you explore in first person, right in the browser.
+Procedurally generated terrain, break and place blocks, no install, no login.
 
 **[Live demo →](https://xcodevoid.github.io/Public-Tool/)**
 
 ## Features
 
-- 🖼️ **Templates or your own image** — a terminal window, a chat bubble, an
-  achievement badge, a club flyer, a gradient card, or upload any picture.
-- ✋ **Drag-and-drop text & stickers** — add as many text boxes and emoji as you want,
-  drag them into place, resize and recolor on the fly, switch fonts (Impact / mono /
-  comic sans).
-- ⬇️ **One-click PNG download** — exports straight to the device, ready to post.
-- 🏷️ **Optional club watermark** — a small toggle stamps a subtle club tag onto
-  anything exported, so shared memes point people back to the club.
-- 🔁 **Local gallery** — everything you save stays in the browser so you can reopen
-  and remix it later.
-- 🔒 **Local-first** — everything runs in `localStorage`. No accounts, no backend, no
-  uploads to anywhere but your own downloads folder.
-- 🛠️ **Just HTML/CSS/JS + Canvas** — no build step, no dependencies. Easy to read,
-  easy to extend at a club meeting.
+- 🗺️ **Procedural terrain** — a 64×64 island generated with layered Perlin noise
+  (hills, beaches, a water line, sparse trees). Refresh for a new one.
+- 🧱 **Break & place blocks** — 7 block types on a hotbar (grass, dirt, stone, sand,
+  wood, leaves, snow). Left-click breaks, right-click places.
+- 🕹️ **First-person controls** — pointer-lock mouse look, WASD movement, jump,
+  sprint — the standard block-game control scheme.
+- ⚙️ **A real voxel engine** — a hand-rolled greedy-ish face-culling mesher (only
+  exposed faces are rendered) built on [Three.js](https://threejs.org/), flat-shaded,
+  no textures or external assets.
+- 🚫 **No backend, no build step** — everything runs client-side; Three.js is
+  vendored directly in the repo so the site has zero external dependencies at runtime.
+
+## Controls
+
+| Key | Action |
+|---|---|
+| `W A S D` | Move |
+| Mouse | Look around |
+| `Space` | Jump |
+| `Shift` | Sprint |
+| Left click | Break block |
+| Right click | Place block |
+| `1`–`7` | Choose block from hotbar |
+| `Esc` | Release the mouse |
+
+Best experienced on a laptop/desktop with a mouse — it's a first-person pointer-lock
+experience, which touch devices can't drive.
 
 ## Running it locally
 
-No build tools required — it's a static site.
+This site uses ES modules (`<script type="module">`), which browsers block from
+loading over `file://` — you need to serve it, not just open the HTML file:
 
 ```bash
 git clone https://github.com/xcodevoid/public-tool.git
@@ -33,8 +47,6 @@ cd public-tool
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
-
-Or just open `index.html` directly in a browser.
 
 ## Deployment
 
@@ -59,32 +71,35 @@ const CLUB_INFO = {
 };
 ```
 
-That single block drives the "Come to a meeting" CTA, the footer, the club blurb on
-the home page, the watermark text, and the pre-filled club flyer template.
+That drives the "Come to a meeting" CTA, the footer, and the club blurb on the home
+page.
 
 ## Project structure
 
 ```
-index.html   — page structure & all tabs (Home, Create, My Memes)
-style.css    — design tokens, layout, light/dark theme
-app.js       — editor logic: canvas rendering, drag/drop, templates, gallery
+index.html               — page structure: Home tab + the Explore/game tab
+style.css                — design tokens, layout, light/dark theme, game overlay UI
+app.js                    — shared UI: tabs, theme toggle, club info
+world.js                  — the voxel engine (ES module): noise, terrain generation,
+                            meshing, camera/controls, physics, block break/place
+vendor/three.module.min.js — Three.js (MIT), vendored so there's no CDN dependency
 ```
 
-Everything lives in three files on purpose — it's meant to be readable and forkable
-by anyone in the club, including people brand new to web dev. The whole editor is
-built on the HTML5 Canvas 2D API — no image libraries required.
+`world.js` lazily initializes the first time you open the Explore tab, and pauses its
+render loop (and releases the pointer lock) when you navigate away.
 
 ## Ideas for contributions
 
 Good first issues for a club meeting:
 
-- Add more built-in templates (poll card, event countdown, "vote for us" banner).
-- Add layer reordering (bring to front / send to back) and duplicate-layer.
-- Add an undo/redo stack for the editor.
-- Add a text outline color picker (currently auto black/white).
-- Add keyboard shortcuts (Delete to remove selected layer, arrow keys to nudge it).
-- Add a "share" button using the Web Share API on mobile.
+- Add more block types (glass, water reflections, ore veins underground).
+- Add a minimap or a compass overlay.
+- Add simple caves (3D noise carving into the terrain instead of a pure heightmap).
+- Add a day/night cycle by animating the directional light and fog color.
+- Add touch controls (on-screen joystick + drag-to-look) for mobile.
+- Persist the world to `localStorage` so edits survive a refresh.
 
 ## License
 
 MIT — see [LICENSE](LICENSE). Use it, fork it, remix it for your own club.
+Three.js itself is © the Three.js authors, also MIT-licensed.

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MemeForge — memes in 30 seconds</title>
-<meta name="description" content="A free meme generator built by the Vibe Coding Club. No sign-up, no upload required, works on your phone, and every meme can carry the club's name when you share it." />
+<title>Blockworld — explore in your browser</title>
+<meta name="description" content="A free, playable 3D block world built by the Vibe Coding Club. Procedurally generated terrain, walk around, break and place blocks — no install, runs in any browser." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,12 +17,11 @@
   <div class="topbar-inner">
     <a class="brand" href="#home" data-tab-link="home">
       <span class="brand-mark">⚡</span>
-      <span class="brand-name">MemeForge</span>
+      <span class="brand-name">Blockworld</span>
     </a>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab-btn is-active" data-tab-link="home" role="tab" aria-selected="true">Home</button>
-      <button class="tab-btn" data-tab-link="create" role="tab" aria-selected="false">Create</button>
-      <button class="tab-btn" data-tab-link="gallery" role="tab" aria-selected="false">My Memes</button>
+      <button class="tab-btn" data-tab-link="play" role="tab" aria-selected="false">Explore</button>
     </nav>
     <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Toggle light/dark theme">
       <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -37,48 +36,48 @@
   <section id="home" class="tab-panel is-active">
     <div class="hero">
       <div class="hero-badge">Built by the Vibe Coding Club</div>
-      <h1>Make a meme in <span class="grad-text">30 seconds.</span></h1>
+      <h1>Step into a <span class="grad-text">block world.</span></h1>
       <p class="hero-sub">
-        Pick a template or upload your own image, drag some text on, download it.
-        No account, no watermark you didn't ask for, nothing saved anywhere but your
-        own browser.
+        A procedurally generated 3D island you can walk around, climb, and reshape —
+        entirely in your browser, no install, no login. Break blocks, place blocks,
+        go explore.
       </p>
       <div class="hero-actions">
-        <button class="btn btn-primary" data-tab-link="create">Start creating →</button>
-        <button class="btn btn-ghost" data-tab-link="gallery">My memes</button>
+        <button class="btn btn-primary" data-tab-link="play">Enter the world →</button>
+        <button class="btn btn-ghost" data-tab-link="play">See controls</button>
       </div>
     </div>
 
     <div class="feature-grid">
       <div class="feature-card">
-        <div class="feature-icon">🖼️</div>
-        <h3>Templates or your own pic</h3>
-        <p>A terminal window, a chat bubble, an achievement badge, a flyer — or drop in any image.</p>
+        <div class="feature-icon">🗺️</div>
+        <h3>A new island every load</h3>
+        <p>Terrain, hills, beaches and trees are generated with layered noise — refresh for a different world.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">✋</div>
-        <h3>Drag text anywhere</h3>
-        <p>Add as many text boxes and emoji as you want, drag them into place, resize and recolor on the fly.</p>
+        <div class="feature-icon">🧱</div>
+        <h3>Break &amp; place blocks</h3>
+        <p>Seven block types on the hotbar. Dig into hills, build a tower, terraform the coastline.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⬇️</div>
-        <h3>One-click download</h3>
-        <p>Exports a real PNG straight to your device, ready to post anywhere.</p>
+        <div class="feature-icon">🕹️</div>
+        <h3>First-person exploring</h3>
+        <p>Mouse look, WASD movement, jumping — the controls you already know from every block game.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🏷️</div>
-        <h3>Optional club tag</h3>
-        <p>Flip on a small watermark and every meme you share quietly points people back to us.</p>
+        <div class="feature-icon">⚙️</div>
+        <h3>Built on Three.js</h3>
+        <p>A real WebGL renderer, a hand-rolled voxel mesher, and Perlin noise terrain — all readable club code.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🔁</div>
-        <h3>Remix your old ones</h3>
-        <p>Everything you make is saved locally so you can reopen and keep editing later.</p>
+        <div class="feature-icon">🚫</div>
+        <h3>No install, no account</h3>
+        <p>It's a webpage. Send the link, it loads, you're exploring in seconds.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h3>100% local &amp; private</h3>
-        <p>Runs entirely in your browser. Nothing you make is ever uploaded anywhere.</p>
+        <div class="feature-icon">🔓</div>
+        <h3>Open source</h3>
+        <p>The whole engine is one readable file — a great first look at how 3D on the web works.</p>
       </div>
     </div>
 
@@ -101,81 +100,44 @@
     </div>
   </section>
 
-  <!-- CREATE -->
-  <section id="create" class="tab-panel">
-    <div class="editor-layout">
+  <!-- PLAY -->
+  <section id="play" class="tab-panel play-panel">
+    <div id="game-container" class="game-container">
+      <canvas id="game-canvas"></canvas>
 
-      <div class="editor-stage-col">
-        <div class="panel-block canvas-panel">
-          <div class="canvas-wrap">
-            <canvas id="meme-canvas" width="800" height="800"></canvas>
+      <div class="game-crosshair" aria-hidden="true">
+        <span></span><span></span>
+      </div>
+
+      <div class="game-hotbar" id="game-hotbar" hidden></div>
+
+      <div class="game-overlay" id="game-start-overlay">
+        <div class="game-overlay-card">
+          <h2>Click to explore</h2>
+          <p class="muted">Your browser will ask to lock the mouse pointer — that's normal, it's just for looking around.</p>
+          <div class="controls-grid">
+            <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move</span></div>
+            <div><kbd>Mouse</kbd><span>Look around</span></div>
+            <div><kbd>Space</kbd><span>Jump</span></div>
+            <div><kbd>Shift</kbd><span>Sprint</span></div>
+            <div><kbd>Click</kbd><span>Break block</span></div>
+            <div><kbd>Right-click</kbd><span>Place block</span></div>
+            <div><kbd>1</kbd>–<kbd>7</kbd><span>Choose block</span></div>
+            <div><kbd>Esc</kbd><span>Release mouse</span></div>
           </div>
-          <p class="muted canvas-hint">Click a text box to select it, drag to move. Click empty space to deselect.</p>
-        </div>
-
-        <div class="panel-block">
-          <div class="template-row" id="template-row"></div>
-          <label class="btn btn-ghost btn-sm file-btn" style="margin-top:10px">
-            📤 Upload your own image
-            <input type="file" id="image-upload-input" accept="image/*" hidden />
-          </label>
+          <button class="btn btn-primary" id="game-start-btn">Enter world</button>
+          <p class="muted game-note" id="game-note"></p>
         </div>
       </div>
 
-      <div class="editor-controls-col">
-        <div class="panel-block">
-          <h3>Add stuff</h3>
-          <button class="btn btn-primary btn-sm" id="add-text-btn" style="width:100%">+ Add text</button>
-          <div class="emoji-row" id="emoji-row"></div>
-        </div>
-
-        <div class="panel-block" id="layer-editor" hidden>
-          <h3>Selected text</h3>
-          <textarea id="layer-text-input" class="inline-input layer-textarea" rows="2"></textarea>
-
-          <label class="control-label">Size</label>
-          <input type="range" id="layer-size-input" min="16" max="140" value="64" />
-
-          <label class="control-label">Font</label>
-          <div class="font-row" id="font-row"></div>
-
-          <label class="control-label">Color</label>
-          <div class="color-row" id="color-row"></div>
-
-          <label class="control-label checkbox-label">
-            <input type="checkbox" id="layer-uppercase-input" /> ALL CAPS
-          </label>
-
-          <button class="btn btn-ghost btn-sm danger-text" id="delete-layer-btn" style="width:100%; margin-top:10px">Delete this text</button>
-        </div>
-
-        <div class="panel-block">
-          <label class="control-label checkbox-label">
-            <input type="checkbox" id="watermark-toggle" checked /> Add small club watermark
-          </label>
-          <div class="header-actions" style="margin-top:14px">
-            <button class="btn btn-ghost btn-sm" id="save-gallery-btn">💾 Save to My Memes</button>
-            <button class="btn btn-primary btn-sm" id="download-btn">⬇️ Download PNG</button>
-          </div>
+      <div class="game-overlay" id="game-loading-overlay">
+        <div class="game-overlay-card">
+          <h2>Generating your island…</h2>
+          <p class="muted">Building terrain and meshing chunks. Takes a second.</p>
         </div>
       </div>
-
     </div>
-  </section>
-
-  <!-- GALLERY -->
-  <section id="gallery" class="tab-panel">
-    <div class="panel-header">
-      <h2>My memes</h2>
-      <p class="muted">Saved locally in this browser. Remix one to keep editing, or download it again.</p>
-    </div>
-    <div id="gallery-grid" class="gallery-grid"></div>
-    <div id="gallery-empty" class="empty-state" hidden>
-      <div class="empty-icon">🖼️</div>
-      <h3>Nothing here yet</h3>
-      <p class="muted">Make a meme in the Create tab, then hit "Save to My Memes".</p>
-      <button class="btn btn-primary" data-tab-link="create">Start creating</button>
-    </div>
+    <p class="muted play-hint">Tip: this works best on a laptop or desktop with a mouse. Refresh the page for a brand-new island.</p>
   </section>
 
 </main>
@@ -187,5 +149,6 @@
 <div id="toast" class="toast" hidden></div>
 
 <script src="app.js"></script>
+<script type="module" src="world.js"></script>
 </body>
 </html>
