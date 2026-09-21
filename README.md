@@ -4,7 +4,7 @@ A free, no-sign-up flashcard app built by our school's **Vibe Coding Club**. It 
 spaced repetition to schedule reviews, so studying stays focused on the cards you're
 about to forget instead of the ones you already know.
 
-**[Live demo →](#)** _(fill in once deployed — see below)_
+**[Live demo →](https://xcodevoid.github.io/Public-Tool/)**
 
 ## Features
 
@@ -32,14 +32,15 @@ python3 -m http.server 8000
 
 Or just open `index.html` directly in a browser.
 
-## Deploying it for free (GitHub Pages)
+## Deployment
 
-1. Push this repo to GitHub.
-2. Go to **Settings → Pages**.
-3. Under "Build and deployment", set **Source** to `Deploy from a branch`, pick your
-   default branch and `/ (root)`, then save.
-4. Your app will be live at `https://<your-username>.github.io/<repo-name>/` within a
-   minute or two.
+This repo deploys itself automatically via
+[`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) — every push
+to the main branch publishes the site to GitHub Pages. If Pages has never been enabled
+for this repo before, the first workflow run configures it automatically (it needs
+`pages: write` permission, which the workflow already requests). If a run ever fails
+with a permissions error, check **Settings → Pages → Source** is set to
+`GitHub Actions`.
 
 ## Making it your club's
 
