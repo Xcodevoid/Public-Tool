@@ -5,7 +5,7 @@ Each course is broken into its official units, and each unit comes with a plain-
 summary, flashcards, practice questions that explain every answer, and free-response
 practice with a scoring guide.
 
-**[Live demo →](https://xcodevoid.github.io/ap-prep-hub/)**
+**[Live demo →](https://xcodevoid.github.io/Crack-AP/)**
 
 ## Features
 
@@ -42,8 +42,8 @@ for a contributor (see below).
 No dependencies. Just Python 3 to build.
 
 ```bash
-git clone https://github.com/Xcodevoid/ap-prep-hub.git
-cd ap-prep-hub
+git clone https://github.com/Xcodevoid/Crack-AP.git
+cd Crack-AP
 python3 build.py          # bundles everything into index.html
 open index.html           # or double-click it; no server needed
 ```
