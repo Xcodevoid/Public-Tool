@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AP Prep Hub | Study guides and practice for every AP exam</title>
+<meta name="description" content="Free study guides for every AP exam: plain-English unit summaries, flashcards, practice questions with explanations, free-response practice, and progress tracking." />
+<meta name="theme-color" content="#4f46e5" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M9 22.5A2 2 0 0 1 11 20.5h12M11 7h12v18H11a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<script>
+  // Set the theme before first paint to avoid a flash.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("apprep.theme"); } catch (e) {}
+    document.documentElement.dataset.theme = t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  })();
+</script>
+<!-- @inline-css style.css -->
+</head>
+<body>
+
+<a class="skip" href="#app">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#/" aria-label="AP Prep Hub home">
+      <span class="brand-mark" data-icon="book" data-size="18"></span>
+      <span class="brand-name">AP Prep Hub</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#/" data-nav="home"><span data-icon="grid" data-size="16"></span><span>Courses</span></a>
+      <a href="#/dashboard" data-nav="dashboard"><span data-icon="chart" data-size="16"></span><span>Progress</span></a>
+      <a href="#/review" data-nav="review"><span data-icon="rotate" data-size="16"></span><span>Mistakes</span><span id="mistake-count" class="count-pill" hidden></span></a>
+    </nav>
+    <button class="search-btn" data-open-search aria-label="Search">
+      <span data-icon="search" data-size="16"></span><span class="search-label">Search…</span><kbd>Ctrl K</kbd>
+    </button>
+    <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme"></button>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="#/"><span class="brand-mark" data-icon="book" data-size="16"></span><span class="brand-name">AP Prep Hub</span></a>
+      <p>Free, unit-by-unit AP study guides built by our school's Vibe Coding Club.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Study</h4>
+      <a href="#/">All courses</a>
+      <a href="#/dashboard">My progress</a>
+      <a href="#/review">My mistakes</a>
+    </div>
+    <div class="footer-col">
+      <h4>Official resources</h4>
+      <a href="https://apcentral.collegeboard.org/courses" target="_blank" rel="noopener">AP course descriptions</a>
+      <a href="https://apstudents.collegeboard.org/exam-dates" target="_blank" rel="noopener">2027 exam dates</a>
+      <a href="https://github.com/xcodevoid/public-tool" target="_blank" rel="noopener">Source code</a>
+    </div>
+  </div>
+  <p class="footer-legal">
+    Not affiliated with or endorsed by College Board. AP® is a trademark registered by College Board.
+    Always check the official course and exam descriptions. Your progress is saved only in this browser: no accounts, no tracking.
+  </p>
+</footer>
+
+<!-- @inline-js ../data/catalog.js -->
+<!-- @inline-content ../content -->
+<!-- @inline-js app.js -->
+</body>
+</html>

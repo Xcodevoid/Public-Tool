@@ -10,7 +10,8 @@ practice with a scoring guide.
 ## Features
 
 - 🗂️ **All 42 AP courses (2026-27)**: exam format and weighting, what's changing for May 2027,
-  and links to each official Course and Exam Description (CED).
+  and links to each official Course and Exam Description (CED). Courses are color-coded by subject.
+- 🔎 **Instant search**: press `/` or `Ctrl K` to jump to any course, unit or key term.
 - 💡 **Plain English first**: every concept opens with a simple explanation. Students can
   open "Go deeper" for exam-level detail, plus worked examples and memory hooks.
 - 🃏 **Flashcards**: flip through key terms (Space to flip, arrow keys to move), mark the
@@ -21,11 +22,14 @@ practice with a scoring guide.
   scoring guide. Answers are saved automatically.
 - ⏱️ **Mixed quizzes**: shuffle questions across chosen units, with an optional timer set to
   the real exam's multiple-choice pace.
+- 📈 **Progress dashboard**: study streak, accuracy, flashcards known, per-course mastery, and a
+  "Study next" list of your weakest units.
 - 🔁 **My mistakes**: every missed question goes into a review list until you answer it correctly.
-- 📈 **Progress tracking**: mastery per unit and per course, plus a "My courses" shelf.
-- ⚠️ **Watch out**: common mistakes for each unit and exam strategy for each course.
-- 🌙 Light/dark theme, mobile-friendly, keyboard shortcuts.
+- ▶️ **Continue where you left off** from the home page, plus a "My courses" shelf.
+- 🌙 Light/dark theme, mobile-friendly, keyboard shortcuts, accessible focus states.
 - 🔒 **Local-first**: no accounts, no backend, no tracking. Progress is saved in `localStorage`.
+- 📄 **One file**: the whole site builds into a single self-contained `index.html` that works
+  on any web host, or opened straight from your computer.
 
 Full study guides are ready for **9 courses**: AP Calculus AB, AP Calculus BC, AP Physics 1,
 AP Chemistry, AP Biology, AP Microeconomics, AP Psychology, AP U.S. History and AP English
@@ -35,30 +39,35 @@ for a contributor (see below).
 
 ## Running it locally
 
-No build tools required. It's a static site.
+No dependencies. Just Python 3 to build.
 
 ```bash
 git clone https://github.com/xcodevoid/public-tool.git
 cd public-tool
-python3 -m http.server 8000
-# open http://localhost:8000
+python3 build.py          # bundles everything into index.html
+open index.html           # or double-click it; no server needed
 ```
+
+**After editing anything in `src/`, `data/` or `content/`, run `python3 build.py` again.**
+The deploy workflow also runs it automatically before publishing.
 
 ## Project structure
 
 ```
-index.html            page shell (header, footer, script tags)
-style.css             design tokens, light/dark theme, all component styles
-app.js                router, views (home, course, unit tabs, quiz, review), progress storage
+index.html            GENERATED: the whole site in one file (don't edit by hand)
+build.py              inlines the files below into index.html
+src/index.html        page template (header, footer, @inline markers)
+src/style.css         design system: tokens, light/dark theme, components, responsive rules
+src/app.js            router + views: home, course, unit tabs, quiz, review, dashboard, search
 data/catalog.js       all 42 courses: exam format, weights, units, 2026-27 changes, CED links
-content/<id>.js       full study guide for one course (loaded only when needed)
+content/<id>.js       full study guide for one course
 research/             notes from researching the official College Board CEDs
 ```
 
 ## Adding a study guide (great club project!)
 
 1. Pick a course in `data/catalog.js` and note its `id` (e.g. `"chemistry"`).
-2. Create `content/<id>.js`, copying the shape of `content/biology.js`:
+2. Create `content/<id>.js`, copying the shape of `content/biology.js`. `build.py` picks it up automatically:
 
 ```js
 window.AP_CONTENT = window.AP_CONTENT || {};
@@ -90,7 +99,8 @@ window.AP_CONTENT["chemistry"] = {
      to reuse AB's units, with BC exam `weights`, BC-only `patches` per unit, and extra `units`.
    - Units that aren't weighted by topic (like English Language's skills) can use
      `weightLabel` instead of `weight`.
-4. Check facts against the official CED. Write **original** questions. Don't copy College
+4. Run `python3 build.py` and open `index.html` to check your guide.
+5. Check facts against the official CED. Write **original** questions. Don't copy College
    Board's released exam questions.
 
 ## Disclaimer
