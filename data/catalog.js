@@ -115,13 +115,13 @@ const COURSES = [
     ced: null, page: PAGE("ap-macroeconomics"),
   },
   {
-    id: "microeconomics", name: "AP Microeconomics", cat: "History & Social Sciences", status: "changed",
+    id: "microeconomics", name: "AP Microeconomics", cat: "History & Social Sciences", guide: true, status: "changed",
     blurb: "How individuals, firms and markets make choices about scarce resources.",
     exam: [
       { name: "Multiple choice", detail: "60 questions · 70 min", weight: 66.7 },
       { name: "Free response", detail: "3 questions · 60 min", weight: 33.3 },
     ],
-    changes: "A revised course and exam description takes effect in fall 2026. Check the CED for the updated unit list.",
+    changes: "A revised course and exam description takes effect in fall 2026. This guide follows the six-unit framework; check the official CED for any topic changes.",
     ced: CED("ap-microeconomics"), page: PAGE("ap-microeconomics"),
   },
 
@@ -136,7 +136,7 @@ const COURSES = [
     ced: CED("ap-calculus-ab-and-bc"), page: PAGE("ap-calculus-ab"),
   },
   {
-    id: "calculus-bc", name: "AP Calculus BC", cat: "Math & Computer Science",
+    id: "calculus-bc", name: "AP Calculus BC", cat: "Math & Computer Science", guide: true,
     blurb: "Everything in Calculus AB plus parametric, polar and vector functions and infinite series.",
     exam: [
       { name: "Multiple choice", detail: "45 questions · 1 hr 45 min", weight: 50 },
@@ -198,7 +198,7 @@ const COURSES = [
     ced: CED("ap-biology"), page: PAGE("ap-biology"),
   },
   {
-    id: "chemistry", name: "AP Chemistry", cat: "Sciences",
+    id: "chemistry", name: "AP Chemistry", cat: "Sciences", guide: true,
     blurb: "Atoms, bonding, reactions, equilibrium and energy.",
     exam: [
       { name: "Multiple choice", detail: "60 questions · 90 min", weight: 50 },
@@ -218,7 +218,7 @@ const COURSES = [
     ced: CED("ap-environmental-science"), page: PAGE("ap-environmental-science"),
   },
   {
-    id: "physics-1", name: "AP Physics 1: Algebra-Based", cat: "Sciences",
+    id: "physics-1", name: "AP Physics 1: Algebra-Based", cat: "Sciences", guide: true,
     blurb: "Motion, forces, energy, momentum, rotation, oscillations and fluids.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
@@ -259,7 +259,7 @@ const COURSES = [
 
   // ---------- English ----------
   {
-    id: "english-language", name: "AP English Language and Composition", cat: "English",
+    id: "english-language", name: "AP English Language and Composition", cat: "English", guide: true,
     blurb: "Rhetoric: how writers build arguments, and how to write your own.",
     exam: [
       { name: "Multiple choice", detail: "45 questions · 60 min", weight: 45 },

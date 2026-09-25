@@ -87,7 +87,6 @@ function mcqPace(course) {
 
 const loaded = {};
 function loadContent(id) {
-  if (window.AP_CONTENT && window.AP_CONTENT[id]) return Promise.resolve(window.AP_CONTENT[id]);
   if (!loaded[id]) {
     loaded[id] = new Promise((resolve, reject) => {
       const s = document.createElement("script");
@@ -95,10 +94,32 @@ function loadContent(id) {
       s.onload = () => resolve(window.AP_CONTENT[id]);
       s.onerror = () => reject(new Error(`Could not load study guide for ${id}`));
       document.head.appendChild(s);
-    });
+    }).then((raw) => (raw && raw.extends ? mergeGuide(id, raw) : raw));
   }
   return loaded[id];
 }
+
+// A guide can extend another (Calculus BC extends AB): reuse the base units with
+// optional per-unit weight overrides and appended BC-only material, then add new units.
+async function mergeGuide(id, raw) {
+  const base = await loadContent(raw.extends);
+  const units = base.units.map((u, i) => {
+    const p = (raw.patches && raw.patches[i]) || {};
+    return {
+      ...u,
+      weight: (raw.weights && raw.weights[i]) || u.weight,
+      concepts: [...u.concepts, ...(p.concepts || [])],
+      terms: [...u.terms, ...(p.terms || [])],
+      mistakes: [...u.mistakes, ...(p.mistakes || [])],
+      questions: [...u.questions, ...(p.questions || [])],
+    };
+  });
+  const merged = { ...raw, units: [...units, ...raw.units] };
+  window.AP_CONTENT[id] = merged;
+  return merged;
+}
+
+const weightText = (u, long) => u.weightLabel || (u.weight ? `${u.weight} of ${long ? "the " : ""}exam` : "");
 
 /* ---------------- Router ---------------- */
 
@@ -228,7 +249,7 @@ async function renderCourse(course) {
       return `
         <a class="card unit-item" href="#/course/${course.id}/unit/${i + 1}">
           <div class="unit-num">${i + 1}</div>
-          <div><h3>${esc(u.title)}</h3><div class="sub">${esc(u.weight)} of exam · ${u.concepts.length} concepts · ${u.questions.length} questions</div></div>
+          <div><h3>${esc(u.title)}</h3><div class="sub">${esc(weightText(u))} · ${u.concepts.length} concepts · ${u.questions.length} questions</div></div>
           <div class="mastery">${m.tried ? `${m.right}/${m.total} correct` : "Not started"}${pctBar(m.pct)}</div>
         </a>`;
     }).join("")}</div>`;
@@ -282,6 +303,7 @@ async function renderCourse(course) {
     ${content && content.tips ? `<h2>Exam strategy</h2><ul class="mistake-list tip-list">${content.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
 
     <h2>Units</h2>
+    ${content && content.intro ? `<p class="muted">${esc(content.intro)}</p>` : ""}
     ${unitsHtml}
   `;
 
@@ -315,7 +337,7 @@ async function renderUnit(course, idx, tab) {
   app.innerHTML = `
     <div class="crumbs"><a href="#/">Courses</a> / <a href="#/course/${course.id}">${esc(course.name)}</a> / Unit ${idx + 1}</div>
     <h1>Unit ${idx + 1}: ${esc(unit.title)}</h1>
-    <div class="muted small">${esc(unit.weight)} of the exam · ${m.tried ? `${m.right}/${m.total} practice questions correct` : "Practice not started"}</div>
+    <div class="muted small">${esc(weightText(unit, true))} · ${m.tried ? `${m.right}/${m.total} practice questions correct` : "Practice not started"}</div>
     <nav class="tabs" role="tablist">
       ${TABS.map(([k, label]) => `<a class="tab ${k === tab ? "is-active" : ""}" href="${base}/${k}" role="tab">${label}</a>`).join("")}
     </nav>

@@ -27,10 +27,11 @@ practice with a scoring guide.
 - 🌙 Light/dark theme, mobile-friendly, keyboard shortcuts.
 - 🔒 **Local-first**: no accounts, no backend, no tracking. Progress is saved in `localStorage`.
 
-Full study guides are ready for **AP Calculus AB, AP Biology, AP Psychology and AP U.S. History**
-(30 units, 122 practice questions, 179 flashcards, 30 free-response prompts). Every other
-course has its exam overview, its unit list where known, and official links. Its study guide is
-waiting for a contributor (see below).
+Full study guides are ready for **9 courses**: AP Calculus AB, AP Calculus BC, AP Physics 1,
+AP Chemistry, AP Biology, AP Microeconomics, AP Psychology, AP U.S. History and AP English
+Language (62 units, 256 practice questions, 62 free-response prompts). Every other course has
+its exam overview, its unit list where known, and official links. Its study guide is waiting
+for a contributor (see below).
 
 ## Running it locally
 
@@ -85,6 +86,10 @@ window.AP_CONTENT["chemistry"] = {
 ```
 
 3. Set `guide: true` on that course in `data/catalog.js`.
+   - A guide can build on another one: `content/calculus-bc.js` uses `extends: "calculus-ab"`
+     to reuse AB's units, with BC exam `weights`, BC-only `patches` per unit, and extra `units`.
+   - Units that aren't weighted by topic (like English Language's skills) can use
+     `weightLabel` instead of `weight`.
 4. Check facts against the official CED. Write **original** questions. Don't copy College
    Board's released exam questions.
 
