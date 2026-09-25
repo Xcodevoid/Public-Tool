@@ -23,7 +23,7 @@ Official change pages: [AP Course and Exam Changes](https://apcentral.collegeboa
 
 ---
 
-## Full catalog (40 courses / 42 exams incl. 3 Art & Design portfolios)
+## Full catalog (43 courses, counting the 3 Art & Design portfolios separately)
 
 ### Arts
 | Course | CED | Structure | Exam / assessment |
