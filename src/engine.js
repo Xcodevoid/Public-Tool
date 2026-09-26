@@ -42,6 +42,21 @@ const Engine = (() => {
   }
   const BASE_CONCEPTS = {};
 
+  // Append the extra concepts in content/deep/<id>.js to each unit. They go after the
+  // original concepts, so saved concept keys keep pointing at the same concepts. Each extra
+  // concept brings its own AP trap and flashcards; termOwner ties those cards to it.
+  function deepen(id, content) {
+    const deep = (window.AP_DEEP && window.AP_DEEP[id]) || {};
+    content.units.forEach((u, ui) => {
+      u.core = u.concepts.length;
+      (deep[content.extends ? `u${ui}` : ui] || []).forEach(({ terms = [], ...c }) => {
+        const ci = u.concepts.length;
+        u.concepts.push({ ...c, deep: true });
+        terms.forEach((t) => { u.terms.push(t); (u.termOwner ||= [])[u.terms.length - 1] = ci; });
+      });
+    });
+  }
+
   // Map each flashcard term to the concept whose text mentions it (fallback: best word overlap).
   const termMaps = {};
   function termConcepts(courseId, unitIdx) {
@@ -50,7 +65,8 @@ const Engine = (() => {
     const unit = window.AP_CONTENT[courseId].units[unitIdx];
     const texts = unit.concepts.map((c) => `${c.title} ${c.simple} ${c.detail} ${c.example || ""} ${c.hook || ""}`.toLowerCase());
     const words = (s) => new Set(s.toLowerCase().match(/[a-z]{4,}/g) || []);
-    termMaps[k] = unit.terms.map(([term, def]) => {
+    termMaps[k] = unit.terms.map(([term, def], ti) => {
+      if (unit.termOwner?.[ti] !== undefined) return unit.termOwner[ti];
       const t = term.toLowerCase().replace(/\s*\(.*?\)\s*/g, " ").trim();
       const parts = t.split(/\s*\/\s*/);
       let best = texts.findIndex((x) => parts.some((p) => p.length > 2 && x.includes(p)));
@@ -116,13 +132,14 @@ const Engine = (() => {
     const out = shuffle(authored).map((i) => item(courseId, unitIdx, i)).filter((x) => x.key !== excludeKey);
     const unitTerms = window.AP_CONTENT[courseId].units[unitIdx].terms.map((_, i) => i);
     const termOrder = [...shuffle(terms), ...shuffle(unitTerms.filter((i) => !terms.includes(i)))];
+    const filler = [];
     for (const t of termOrder) {
-      if (out.length >= n) break;
+      if (out.length + filler.length >= n) break;
       const it = termItem(courseId, unitIdx, t);
       if (terms.includes(t)) out.push(it);
-      else out.push({ ...it, q: { ...it.q, concept: conceptIdx } }); // unit-level filler still counts toward this concept
+      else filler.push({ ...it, q: { ...it.q, concept: conceptIdx } }); // unit-level filler still counts toward this concept
     }
-    return shuffle(out.slice(0, n));
+    return [...shuffle(out), ...filler].slice(0, n); // the concept's own questions come first
   }
 
   /* ---------- Learner state ---------- */
@@ -202,12 +219,21 @@ const Engine = (() => {
       const used = new Set();
       const out = [];
       const add = (it) => { if (it && !used.has(it.key) && out.length < n) { used.add(it.key); out.push(it); } };
-      // Pass 1: one question per concept (a written one when it exists).
-      units.forEach((u, ui) => u.concepts.forEach((_, ci) => {
-        const a = shuffle(pool(courseId, ui, ci).authored);
-        if (a.length) add(item(courseId, ui, a[0]));
-        else add(conceptItems(courseId, ui, ci, 6).find((it) => !used.has(it.key))); // skip generated questions already used
-      }));
+      // Pass 1: one question per concept (a written one when it exists), taking turns between
+      // units so every unit is covered even when n is smaller than the number of concepts.
+      const queues = units.map((u, ui) => {
+        const cs = shuffle(u.concepts.map((_, ci) => ci));
+        return [...cs.filter((ci) => pool(courseId, ui, ci).authored.length), ...cs.filter((ci) => !pool(courseId, ui, ci).authored.length)];
+      });
+      while (out.length < n && queues.some((q) => q.length)) {
+        queues.forEach((q, ui) => {
+          if (!q.length) return;
+          const ci = q.shift();
+          const a = shuffle(pool(courseId, ui, ci).authored);
+          if (a.length) add(item(courseId, ui, a[0]));
+          else add(conceptItems(courseId, ui, ci, 6).find((it) => !used.has(it.key))); // skip generated questions already used
+        });
+      }
       // Pass 2: the remaining written questions, then flashcard-generated ones, round-robin by concept.
       const rest = units.flatMap((u, ui) => u.questions.map((_, qi) => item(courseId, ui, qi))).filter((it) => !used.has(it.key));
       shuffle(rest).forEach(add);
@@ -330,7 +356,8 @@ const Engine = (() => {
   // Unit check: two questions per concept (written first, flashcard-generated to fill).
   function unitCheck(courseId, unitIdx, perConcept = 2) {
     const u = window.AP_CONTENT[courseId].units[unitIdx];
-    return interleave(shuffle(u.concepts.flatMap((_, ci) => conceptItems(courseId, unitIdx, ci, perConcept))));
+    return interleave(shuffle(u.concepts.flatMap((_, ci) =>
+      conceptItems(courseId, unitIdx, ci, pool(courseId, unitIdx, ci).authored.length ? perConcept : 1))));
   }
 
   // A focused review around specific weak concepts (used after diagnostics and unit checks).
@@ -397,7 +424,7 @@ const Engine = (() => {
   }
 
   return {
-    annotate, pool, conceptItems, item, record, state, status, conceptKey, reviewInDays,
+    annotate, deepen, pool, conceptItems, item, record, state, status, conceptKey, reviewInDays,
     concepts, unitMastery, courseMastery, diagnostic, smartSession, weakest, due, weekStats, recommend, migrate,
     studyPlan, mistakesIn, conceptOfKey, errorProfile, unitCheck, focusedReview, MIN_PER_QUESTION,
   };
