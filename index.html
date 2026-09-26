@@ -813,6 +813,45 @@ main { outline: none; min-height: 70vh; }
   .tab { padding: 10px 11px; }
 }
 
+/* ---------- Student-code sign-in ---------- */
+.account-btn { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text-2); font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
+.account-btn:hover { background: var(--surface-2); color: var(--text); }
+.account-btn.is-in { padding-left: 5px; }
+.account-btn .avatar, .signin-avatar { display: grid; place-items: center; border-radius: 50%; background: var(--brand); color: var(--on-brand); font-weight: 700; }
+.account-btn .avatar { width: 28px; height: 28px; font-size: 0.8rem; }
+.signin-overlay { align-items: flex-start; }
+.signin { position: relative; width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 28px 24px 22px; display: flex; flex-direction: column; gap: 12px; }
+.signin h2 { margin: 0; font-size: 1.3rem; }
+.signin p { margin: 0; }
+.signin-x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; }
+.signin-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--brand) 14%, transparent); color: var(--brand); }
+.signin-avatar { width: 52px; height: 52px; font-size: 1.3rem; }
+.signin-field { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.9rem; }
+.signin-field input { font: inherit; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); width: 100%; box-sizing: border-box; }
+.signin-field input::placeholder { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+.signin-field input:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+.signin-msg:empty { display: none; }
+.signin-msg { display: flex; gap: 8px; align-items: flex-start; font-size: 0.88rem; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); }
+.signin-msg .ico { flex-shrink: 0; margin-top: 2px; }
+.signin-msg.is-info { background: color-mix(in srgb, var(--brand) 10%, transparent); }
+.signin-msg.is-err { background: color-mix(in srgb, #dc2626 12%, transparent); color: var(--text); }
+.signin-move { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; cursor: pointer; }
+.signin-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-block { width: 100%; justify-content: center; }
+.signin-new { font-size: 0.9rem; text-align: center; }
+.linklike { background: none; border: 0; padding: 0; font: inherit; color: var(--brand); font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.signin-note { border-top: 1px solid var(--border); padding-top: 12px; }
+@media (max-width: 1020px) {
+  .account-btn .account-label { display: none; }
+  .account-btn { padding: 0; width: 38px; justify-content: center; }
+  .account-btn.is-in { padding: 0; }
+}
+.brand-name { white-space: nowrap; }
+@media (max-width: 1360px) { .search-btn { width: 200px; } }
+@media (max-width: 900px) { .topbar .brand-name { display: none; } }
+@media (max-width: 1120px) { .search-btn { width: auto; } .search-btn .search-label, .search-btn kbd { display: none; } }
+@media (max-width: 800px) { .nav a span:not(.count-pill):not([data-icon]) { display: none; } .nav a { padding: 7px 9px; } }
+
 </style>
 </head>
 <body>
@@ -834,6 +873,7 @@ main { outline: none; min-height: 70vh; }
     <button class="search-btn" data-open-search aria-label="Search">
       <span data-icon="search" data-size="16"></span><span class="search-label">Search…</span><kbd>Ctrl K</kbd>
     </button>
+    <button id="account-btn" class="account-btn" aria-label="Sign in with a student code"></button>
     <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme"></button>
   </div>
 </header>
@@ -862,7 +902,7 @@ main { outline: none; min-height: 70vh; }
   </div>
   <p class="footer-legal">
     Not affiliated with or endorsed by College Board. AP® is a trademark registered by College Board.
-    Always check the official course and exam descriptions. Your progress is saved only in this browser: no accounts, no tracking.
+    Always check the official course and exam descriptions. Progress is saved in this browser, separately for each student code: no email, no tracking.
   </p>
 </footer>
 
@@ -8062,6 +8102,9 @@ const ICON_PATHS = {
   palette: '<circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.6 5.6 0 0 0 22 11c0-5-4.5-9-10-9z"/>',
   globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/>',
   compass: '<circle cx="12" cy="12" r="10"/><path d="m16 8-2 6-6 2 2-6z"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+  key: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.8-9.8M17 6l3 3M14.5 8.5l2 2"/>',
   briefcase: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
 };
 const icon = (name, size = 18) =>
@@ -8081,21 +8124,33 @@ const catVars = (cat) => `--c:${(CAT_META[cat] || CAT_META["AP Capstone"]).color
 const catIcon = (cat, size = 20) => icon((CAT_META[cat] || CAT_META["AP Capstone"]).icon, size);
 
 
-/* ================= Storage (per-browser only; see src/engine.js for the data model) ================= */
+/* ================= Storage (per browser; one progress file per student code; see src/engine.js) ================= */
 
+// Signed out, progress lives under "apprep.v1" (guest). Signing in with a student code
+// switches to "apprep.v1.s.<CODE>", so students sharing a computer each keep their own progress.
 const STORE_KEY = "apprep.v1";
+const STUDENT_KEY = "apprep.student";
 const EMPTY = () => ({ v: 2, q: {}, cs: {}, hist: [], diag: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
-const store = (() => {
-  let data = EMPTY();
+const keyFor = (code) => (code ? `${STORE_KEY}.s.${code}` : STORE_KEY);
+function readProgress(code) {
   try {
-    const raw = localStorage.getItem(STORE_KEY);
-    if (raw) { const saved = JSON.parse(raw); data = { ...data, ...saved, v: saved.v || 1 }; }
-  } catch (_) { /* private mode or blocked storage: keep in memory */ }
+    const raw = localStorage.getItem(keyFor(code));
+    if (raw) { const saved = JSON.parse(raw); return { ...EMPTY(), ...saved, v: saved.v || 1 }; }
+  } catch (_) { /* private mode or blocked storage: start empty */ }
+  return EMPTY();
+}
+const hasProgress = (d) => d.hist.length > 0 || Object.keys(d.q).length > 0 || Object.keys(d.known).length > 0 || d.mine.length > 0;
+const store = (() => {
+  let student = null;
+  try { student = localStorage.getItem(STUDENT_KEY) || null; } catch (_) {}
+  const data = readProgress(student);
   const save = () => {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (_) {}
+    try { localStorage.setItem(keyFor(store.student), JSON.stringify(data)); } catch (_) {}
     updateMistakeCount();
   };
-  return { data, save };
+  // Swap in another progress file. `data` is changed in place so every reference stays valid.
+  const replace = (next) => { Object.keys(data).forEach((k) => delete data[k]); Object.assign(data, EMPTY(), next); };
+  return { data, save, replace, student };
 })();
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -9653,7 +9708,7 @@ function renderDashboard() {
 
   app.innerHTML = `
     <div class="page">
-      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Mastery per concept, not lessons completed. Saved only in this browser.</p></div>
+      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Mastery per concept, not lessons completed. ${store.student ? `Signed in as <b>${esc(store.student)}</b>. Saved in this browser.` : `Saved in this browser as a guest. <a href="#" data-sign-in>Sign in with a student code</a> to keep your own progress.`}</p></div>
         <div class="btn-row"><button class="btn btn-ghost" id="export">${icon("download", 16)} Back up</button><label class="btn btn-ghost">${icon("upload", 16)} Restore<input type="file" id="import" accept="application/json" hidden></label></div></div>
 
       ${rec ? `
@@ -9698,9 +9753,8 @@ function renderDashboard() {
   app.querySelectorAll("[data-sort]").forEach((b) => b.addEventListener("click", () => { dashSort = b.dataset.sort; renderDashboard(); }));
   app.querySelectorAll(".mt-more").forEach((b) => b.addEventListener("click", () => { b.previousElementSibling.querySelector(".mt-rest").hidden = false; b.remove(); }));
   app.querySelector("#reset")?.addEventListener("click", () => {
-    if (!confirm("Erase all progress, flashcards, saved answers and My courses in this browser? This can't be undone.")) return;
-    Object.keys(store.data).forEach((k) => delete store.data[k]);
-    Object.assign(store.data, EMPTY());
+    if (!confirm(`Erase all ${store.student ? `of ${store.student}'s` : "guest"} progress, flashcards, saved answers and My courses in this browser? This can't be undone.`)) return;
+    store.replace(EMPTY());
     store.save();
     toast("Progress reset");
     renderDashboard();
@@ -9721,8 +9775,7 @@ function renderDashboard() {
       const data = JSON.parse(await file.text());
       if (!data || typeof data.q !== "object" || typeof data.cs !== "object") throw new Error("not a progress file");
       if (!confirm("Replace your current progress with this backup?")) return;
-      Object.keys(store.data).forEach((k) => delete store.data[k]);
-      Object.assign(store.data, EMPTY(), data);
+      store.replace(data);
       store.save();
       toast(`${icon("check", 14)} Progress restored`);
       renderDashboard();
@@ -9822,6 +9875,157 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "Escape" && paletteOpen()) closePalette();
 });
 
+/* ================= Student codes ================= */
+
+// A student code picks which progress file this browser uses. No server, no email, no Google:
+// codes work anywhere, including where Google services are blocked.
+const CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // no 0/O, 1/I/L
+const normCode = (s) => String(s || "").toUpperCase().replace(/\s+/g, "").replace(/[^A-Z0-9-]/g, "");
+const validCode = (c) => /^[A-Z0-9-]{4,20}$/.test(c);
+const codeExists = (c) => { try { return localStorage.getItem(keyFor(c)) !== null; } catch (_) { return false; } };
+function newCode() {
+  for (;;) {
+    let c = "AP-";
+    for (let i = 0; i < 6; i++) c += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];
+    if (!codeExists(c)) return c;
+  }
+}
+
+function switchStudent(code, moveGuest = false) {
+  let next = readProgress(code);
+  if (code && moveGuest) {
+    next = readProgress(null);
+    try { localStorage.removeItem(keyFor(null)); } catch (_) {}
+  }
+  store.student = code || null;
+  try { code ? localStorage.setItem(STUDENT_KEY, code) : localStorage.removeItem(STUDENT_KEY); } catch (_) {}
+  store.replace(next);
+  store.save(); // creates the code's file, so it's recognized next time
+  if (!code) try { if (!hasProgress(next)) localStorage.removeItem(keyFor(null)); } catch (_) {}
+  updateAccountButton();
+  route();
+}
+
+function updateAccountButton() {
+  const btn = document.getElementById("account-btn");
+  if (!btn) return;
+  const code = store.student;
+  btn.classList.toggle("is-in", !!code);
+  btn.innerHTML = code
+    ? `<span class="avatar" aria-hidden="true">${esc(code.replace(/^AP-/, "")[0] || "?")}</span><span class="account-label">${esc(code)}</span>`
+    : `${icon("user", 16)}<span class="account-label">Sign in</span>`;
+  btn.setAttribute("aria-label", code ? `Signed in as ${code}. Switch student or sign out` : "Sign in with a student code");
+}
+
+let signInEl = null;
+function closeSignIn() {
+  if (!signInEl) return;
+  signInEl.remove(); signInEl = null;
+  document.body.classList.remove("no-scroll");
+}
+
+function openSignIn(showForm = false) {
+  if (signInEl) return;
+  signInEl = document.createElement("div");
+  signInEl.className = "palette-overlay signin-overlay";
+  document.body.appendChild(signInEl);
+  document.body.classList.add("no-scroll");
+  signInEl.addEventListener("click", (e) => { if (e.target === signInEl || e.target.closest("[data-close]")) closeSignIn(); });
+  const code = store.student;
+
+  if (code && !showForm) {
+    signInEl.innerHTML = `
+      <div class="signin" role="dialog" aria-modal="true" aria-labelledby="si-title">
+        <button class="icon-btn signin-x" data-close aria-label="Close">${icon("x", 16)}</button>
+        <div class="signin-avatar">${esc(code.replace(/^AP-/, "")[0] || "?")}</div>
+        <h2 id="si-title">Signed in as ${esc(code)}</h2>
+        <p class="muted">Your progress on this device is saved under this code. Keep it somewhere safe: it's how you get back in.</p>
+        <div class="signin-actions">
+          <button class="btn btn-primary" id="si-switch">${icon("user", 16)} Switch student</button>
+          <button class="btn btn-ghost" id="si-out">${icon("logout", 16)} Sign out</button>
+        </div>
+      </div>`;
+    signInEl.querySelector("#si-out").addEventListener("click", () => { closeSignIn(); switchStudent(null); toast("Signed out. You're studying as a guest."); });
+    signInEl.querySelector("#si-switch").addEventListener("click", () => { closeSignIn(); openSignIn(true); });
+    signInEl.querySelector("#si-switch").focus();
+    return;
+  }
+  drawSignInForm();
+}
+
+function drawSignInForm() {
+  const guestHas = !store.student && hasProgress(store.data);
+  signInEl.innerHTML = `
+    <form class="signin" role="dialog" aria-modal="true" aria-labelledby="si-title" novalidate>
+      <button type="button" class="icon-btn signin-x" data-close aria-label="Close">${icon("x", 16)}</button>
+      <div class="signin-icon">${icon("key", 22)}</div>
+      <h2 id="si-title">Sign in with your student code</h2>
+      <p class="muted">Each code has its own progress: mastery, mistakes, flashcards and diagnostics. Everyone who shares this computer can have their own.</p>
+      <label class="signin-field">
+        <span>Student code</span>
+        <input id="si-code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" placeholder="e.g. AP-7K3QXM" />
+      </label>
+      <div id="si-msg" class="signin-msg" role="status"></div>
+      <label class="signin-move" id="si-move-row" hidden><input type="checkbox" id="si-move" checked /> Move the progress I made as a guest into this code</label>
+      <button class="btn btn-primary btn-block" id="si-go">Sign in</button>
+      <p class="signin-new">New here? <button type="button" class="linklike" id="si-new">Create a code for me</button></p>
+      <p class="small muted signin-note">Codes and progress are stored in this browser only, with no email and no tracking. To study on another device, use <b>Back up</b> and <b>Restore</b> on My progress.</p>
+    </form>`;
+  const form = signInEl.querySelector("form");
+  const input = form.querySelector("#si-code");
+  const msg = form.querySelector("#si-msg");
+  const go = form.querySelector("#si-go");
+  const moveRow = form.querySelector("#si-move-row");
+  let created = null;      // code we just generated
+  let confirmNew = null;   // unknown code the student has been warned about once
+
+  const refresh = () => {
+    const c = normCode(input.value);
+    const fresh = validCode(c) && !codeExists(c);
+    moveRow.hidden = !(guestHas && fresh);
+    go.textContent = fresh && (c === created || c === confirmNew) ? `Start as ${c}` : "Sign in";
+    if (c !== confirmNew && c !== created) { msg.textContent = ""; msg.className = "signin-msg"; }
+  };
+  input.addEventListener("input", refresh);
+  form.querySelector("#si-new").addEventListener("click", () => {
+    created = newCode();
+    input.value = created;
+    msg.className = "signin-msg is-info";
+    msg.innerHTML = `${icon("alert", 14)} <span>Write down <b>${created}</b>. It's how you get back to your progress.</span>`;
+    refresh();
+    input.focus();
+  });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const c = normCode(input.value);
+    if (!validCode(c)) {
+      msg.className = "signin-msg is-err";
+      msg.textContent = "Codes are 4–20 letters, numbers or dashes.";
+      input.focus();
+      return;
+    }
+    if (!codeExists(c) && c !== created && c !== confirmNew) {
+      confirmNew = c;
+      msg.className = "signin-msg is-info";
+      msg.innerHTML = `${icon("alert", 14)} <span>There's no progress for <b>${esc(c)}</b> on this device yet. Check the spelling, or continue to start fresh with this code.</span>`;
+      refresh();
+      return;
+    }
+    const move = !moveRow.hidden && form.querySelector("#si-move").checked;
+    closeSignIn();
+    switchStudent(c, move);
+    toast(`${icon("check", 14)} Signed in as ${esc(c)}${move ? ". Your guest progress moved with you." : ""}`);
+  });
+  input.focus();
+}
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest("#account-btn")) openSignIn();
+  else if (e.target.closest("[data-sign-in]")) { e.preventDefault(); openSignIn(); }
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && signInEl) closeSignIn(); });
+
+
 /* ================= Theme ================= */
 
 (function initTheme() {
@@ -9849,6 +10053,7 @@ document.addEventListener("keydown", (e) => {
 
 document.querySelectorAll("[data-icon]").forEach((el) => { el.innerHTML = icon(el.dataset.icon, +el.dataset.size || 18); });
 window.addEventListener("hashchange", () => { if (location.hash !== "#start") route(); });
+updateAccountButton();
 loadAllGuides().then(() => { Engine.migrate(); updateMistakeCount(); });
 route();
 

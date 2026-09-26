@@ -50,8 +50,11 @@ right before you'd forget it.
   practice with scoring guides, common mistakes, and exam strategy for 14 courses.
 - 🗂️ **All 42 AP courses (2026-27)**: exam formats, 2027 changes, and official CED links.
 - 🔎 Search (`/` or `Ctrl K`), timed mixed quizzes, dark mode, mobile layout, keyboard shortcuts.
-- 🔒 **Local-first**: no accounts and no tracking. Progress lives in `localStorage`, with backup/restore
-  as a JSON file.
+- 🔑 **Student codes**: sign in with a code like `AP-7K3QXM` (or make your own) and your progress is kept
+  separate from everyone else who uses the same computer. No email, no Google, no server, so it works
+  in China too. A guest's progress can move into a new code.
+- 🔒 **Local-first**: no tracking. Progress lives in `localStorage`, with backup/restore as a JSON file
+  (the way to move a code's progress to another device).
 - 📄 **One file**: the whole site builds into a single self-contained `index.html`.
 
 Adaptive courses: AP Precalculus, Calculus AB, Calculus BC, Physics 1, Physics 2, Physics C: Mechanics,
@@ -92,7 +95,8 @@ research/                    notes from researching the official College Board C
 
 ### The data model
 
-Progress is stored per browser, shaped so it can later sync to a backend with accounts:
+Progress is stored per browser: `apprep.v1` for a guest and `apprep.v1.s.<CODE>` for each student
+code (`apprep.student` remembers who is signed in). It's shaped so it can later sync to a backend:
 
 ```
 learner
