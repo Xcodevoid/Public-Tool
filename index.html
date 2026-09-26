@@ -8339,6 +8339,898 @@ window.AP_DEEP["calculus-ab"] = {
 };
 
 </script>
+<script>/* content/deep/chemistry.js */
+// More key concepts for content/chemistry.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["chemistry"] = {
+  0: [
+    {
+      title: "Mass spectra and average atomic mass",
+      simple: "A mass spectrum shows an element's isotopes and how common each is.",
+      detail: "Each peak is an isotope: its position is the mass, its height the relative abundance. Average atomic mass = Σ(isotope mass × fractional abundance). The periodic table mass is this weighted average, which is why it's rarely a whole number.",
+      example: "Chlorine: 75.8% ³⁵Cl and 24.2% ³⁷Cl gives about 35.45 amu.",
+      trap: "The average atomic mass is closest to the MOST ABUNDANT isotope, not the midpoint between isotopes.",
+      terms: [
+        ["Mass spectrum", "Graph of isotope masses versus relative abundance."],
+        ["Average atomic mass", "Weighted average of an element's isotope masses by abundance."],
+      ],
+    },
+    {
+      title: "Mixtures and purity",
+      simple: "Mass percent tells you how much of a sample is a given substance, which reveals impurities.",
+      detail: "Pure substances have fixed composition (law of definite proportions); mixtures vary. Mass percent = (mass of component ÷ total mass) × 100. Elemental analysis compares measured mass percents to a formula's predicted ones; an impurity shifts the result predictably.",
+      trap: "If an impurity has a LOWER percentage of the element than the pure compound, the measured percent comes out lower. Reason it through; don't guess the direction.",
+      terms: [
+        ["Law of definite proportions", "A pure compound always has the same elements in the same mass ratio."],
+        ["Mass percent", "Mass of a component divided by total mass, times 100."],
+      ],
+    },
+    {
+      title: "Valence electrons and ion formation",
+      simple: "Valence electrons determine how an element reacts and what ions it forms.",
+      detail: "Main-group elements lose or gain electrons to reach a noble-gas configuration: group 1 → +1, group 2 → +2, group 17 → −1, group 16 → −2. Transition metals lose their 4s electrons before 3d electrons. Cations are smaller than their parent atoms; anions are larger.",
+      trap: "For transition metal ions, remove electrons from the s orbital FIRST. Fe²⁺ is [Ar]3d⁶, not [Ar]4s²3d⁴.",
+      terms: [
+        ["Valence electrons", "Electrons in the outermost shell, involved in bonding."],
+        ["Isoelectronic", "Having the same number of electrons (e.g., Na⁺, Ne, F⁻)."],
+        ["Cation", "A positively charged ion, formed by losing electrons."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Bond length, bond energy and potential energy curves",
+      simple: "Atoms bond at the distance where potential energy is lowest.",
+      detail: "A potential energy vs. internuclear distance graph shows repulsion at short distances and weak attraction at long distances. The minimum gives the bond length; its depth is the bond energy. Triple bonds are shorter and stronger than double bonds, which are shorter and stronger than single bonds. Larger atoms form longer bonds.",
+      trap: "On a PE curve, the bond length is the x-value at the MINIMUM, not where the curve crosses zero.",
+      terms: [
+        ["Bond length", "Distance between nuclei at minimum potential energy."],
+        ["Bond energy", "Energy required to break a bond; the depth of the PE well."],
+      ],
+    },
+    {
+      title: "Ionic solids and lattice energy",
+      simple: "Ionic compounds form lattices held together by strong attractions between opposite charges.",
+      detail: "Lattice energy follows Coulomb's law: larger charges and smaller ions give stronger attraction and higher melting points. MgO > NaCl because of +2/−2 charges. Ionic solids are brittle and conduct only when melted or dissolved, when ions can move.",
+      trap: "Charge usually matters more than size: compare charges first, then ion size.",
+      terms: [
+        ["Lattice energy", "Energy released when gaseous ions form an ionic solid."],
+        ["Coulomb's law", "Force between charges ∝ (q₁q₂)/r²."],
+      ],
+    },
+    {
+      title: "Metallic bonding and alloys",
+      simple: "Metals share a sea of electrons, which makes them conductive and malleable.",
+      detail: "Metal cations sit in a sea of delocalized valence electrons. Interstitial alloys have small atoms in the gaps (carbon in steel), making the metal harder and less malleable. Substitutional alloys replace atoms with ones of similar size (brass: copper and zinc).",
+      trap: "Interstitial = small atoms FILLING GAPS. Substitutional = similar-size atoms SWAPPING places. Match the alloy to its atom sizes.",
+      terms: [
+        ["Electron sea model", "Metals are cations surrounded by mobile delocalized electrons."],
+        ["Interstitial alloy", "Small atoms occupy spaces between larger metal atoms."],
+        ["Substitutional alloy", "Atoms of similar size replace host metal atoms."],
+      ],
+    },
+    {
+      title: "Sigma and pi bonds",
+      simple: "Every single bond is one sigma bond; double and triple bonds add pi bonds.",
+      detail: "Single bond: 1 σ. Double bond: 1 σ + 1 π. Triple bond: 1 σ + 2 π. Sigma bonds form from end-to-end overlap (including hybrid orbitals); pi bonds form from side-by-side p orbital overlap and prevent rotation. Resonance delocalizes pi electrons.",
+      trap: "Count sigma bonds by counting EVERY bond once, then add one pi per extra bond in doubles and triples.",
+      terms: [
+        ["Sigma bond", "Head-on orbital overlap; every single bond is a sigma bond."],
+        ["Pi bond", "Side-by-side p-orbital overlap in double and triple bonds."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Kinetic molecular theory and real gases",
+      simple: "Ideal gases are tiny particles in random motion with no attractions; real gases deviate from that.",
+      detail: "KMT: particles have negligible volume, no intermolecular forces, and elastic collisions; average kinetic energy ∝ Kelvin temperature. Maxwell-Boltzmann distributions widen and shift right as temperature rises. Real gases deviate at HIGH pressure (volume matters) and LOW temperature (attractions matter). Polar and large gases deviate more.",
+      trap: "At the same temperature, all gases have the same average KINETIC ENERGY, but lighter gases move FASTER.",
+      terms: [
+        ["Kinetic molecular theory", "Model of gases as small particles in constant random motion."],
+        ["Real gas deviation", "Departure from ideal behavior, greatest at high P and low T."],
+      ],
+    },
+    {
+      title: "Solubility and \"like dissolves like\"",
+      simple: "Substances dissolve best in solvents with similar intermolecular forces.",
+      detail: "Polar and ionic solutes dissolve in polar solvents (water); nonpolar solutes dissolve in nonpolar solvents (hexane). Dissolving requires breaking solute–solute and solvent–solvent interactions and forming solute–solvent interactions. Particulate diagrams should show water's partial negative oxygen facing cations and hydrogens facing anions.",
+      trap: "In particle drawings of dissolved ions, the OXYGEN end of water points toward cations. Drawing it backwards is a common deduction.",
+      terms: [
+        ["Like dissolves like", "Solutes dissolve in solvents with similar polarity and forces."],
+        ["Ion-dipole force", "Attraction between an ion and a polar molecule."],
+      ],
+    },
+    {
+      title: "Photons and the electromagnetic spectrum",
+      simple: "Light comes in packets called photons, and each type of radiation causes a different change in molecules.",
+      detail: "E = hν and c = λν, so shorter wavelength means higher energy. Microwaves → molecular rotation; infrared → bond vibrations; UV/visible → electronic transitions. Absorption spectra identify substances and concentrations.",
+      trap: "Energy is proportional to FREQUENCY and inversely proportional to wavelength. Doubling wavelength halves the energy.",
+      terms: [
+        ["Photon energy", "E = hν, where h is Planck's constant."],
+        ["Infrared radiation", "Causes changes in molecular vibrations."],
+      ],
+    },
+    {
+      title: "Vapor pressure and boiling point",
+      simple: "Weaker intermolecular forces mean more evaporation, higher vapor pressure, and lower boiling point.",
+      detail: "Vapor pressure rises with temperature. A liquid boils when its vapor pressure equals the external pressure. Substances with weak IMFs (like diethyl ether) are volatile. Rank boiling points by IMF strength: London dispersion (larger electron clouds are stronger) < dipole-dipole < hydrogen bonding.",
+      trap: "Large nonpolar molecules can beat small polar ones. Dispersion forces grow with molecular size, so compare carefully.",
+      terms: [
+        ["Vapor pressure", "Pressure of a vapor in equilibrium with its liquid."],
+        ["Volatile", "Evaporates easily; has a high vapor pressure."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Types of chemical reactions",
+      simple: "Most reactions on the exam are precipitation, acid–base, or redox.",
+      detail: "Precipitation: two soluble ionic compounds form an insoluble solid (all Na⁺, K⁺, NH₄⁺ and NO₃⁻ salts are soluble). Acid–base: proton transfer (Brønsted-Lowry). Redox: electron transfer, seen as changes in oxidation numbers. Combustion of hydrocarbons produces CO₂ and H₂O.",
+      trap: "Identify redox by checking oxidation numbers. A reaction can form a precipitate AND be a redox reaction, so don't assume the categories are exclusive.",
+      terms: [
+        ["Precipitation reaction", "Reaction forming an insoluble solid from ions in solution."],
+        ["Combustion", "Reaction with O₂, typically producing CO₂ and H₂O."],
+      ],
+    },
+    {
+      title: "Brønsted-Lowry acids and bases",
+      simple: "An acid donates a proton, a base accepts one, and each forms a conjugate partner.",
+      detail: "HA + H₂O ⇌ H₃O⁺ + A⁻. HA and A⁻ are a conjugate acid-base pair. Water is amphoteric: it can act as an acid or a base. The stronger the acid, the weaker its conjugate base.",
+      trap: "A conjugate pair differs by exactly ONE H⁺. H₂SO₄ and SO₄²⁻ aren't a conjugate pair; H₂SO₄ and HSO₄⁻ are.",
+      terms: [
+        ["Brønsted-Lowry acid", "A proton (H⁺) donor."],
+        ["Amphoteric", "Able to act as either an acid or a base."],
+        ["Conjugate acid-base pair", "Two species differing by one proton."],
+      ],
+    },
+    {
+      title: "Gravimetric analysis",
+      simple: "Find how much of an ion is in a sample by precipitating it and weighing the solid.",
+      detail: "Add excess precipitating agent, filter, wash, dry to constant mass, then use stoichiometry from the precipitate's mass to find the moles of the ion. Errors: incomplete drying (mass too high), loss during filtering (mass too low).",
+      trap: "Leftover water in the precipitate makes the calculated amount TOO HIGH. Error-analysis questions ask for this direction.",
+      terms: [
+        ["Gravimetric analysis", "Determining amount of a substance by measuring the mass of a precipitate."],
+        ["Dry to constant mass", "Heating and weighing until the mass stops changing."],
+      ],
+    },
+    {
+      title: "Particulate representations of reactions",
+      simple: "Particle diagrams must show atoms conserved and the right particles present.",
+      detail: "A balanced reaction diagram has the same number of each atom on both sides. Strong electrolytes are shown as separate ions in solution; weak acids mostly as intact molecules; precipitates as clustered solids. Excess reactant particles remain after the reaction.",
+      trap: "Strong acids like HCl should appear as separate H₃O⁺ and Cl⁻ in solution, not as HCl molecules.",
+      terms: [
+        ["Particulate diagram", "A drawing showing atoms, ions and molecules in a sample."],
+        ["Strong electrolyte", "A substance that dissociates completely into ions in solution."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Factors that affect reaction rate",
+      simple: "Rates increase with more concentration, higher temperature, more surface area, and catalysts.",
+      detail: "Higher concentration → more frequent collisions. Higher temperature → more collisions AND a larger fraction with energy ≥ Eₐ (the bigger effect). More surface area of a solid → more collisions. Catalysts provide a lower-Eₐ pathway. Rates are measured by changes in concentration, pressure, color or mass over time.",
+      trap: "Temperature speeds up reactions mainly by increasing the fraction of collisions with enough energy, not just the number of collisions.",
+      terms: [
+        ["Reaction rate", "Change in concentration per unit time."],
+        ["Effective collision", "Collision with enough energy and the correct orientation to react."],
+      ],
+    },
+    {
+      title: "Elementary reactions and the rate-determining step",
+      simple: "Each single step's rate law comes straight from its equation, and the slowest step controls the overall rate.",
+      detail: "For an elementary step, the exponents in the rate law equal the coefficients (molecularity): A + B → C has rate = k[A][B]. The overall rate law matches the slow step. Intermediates are produced then consumed; catalysts are consumed then regenerated. If a fast step comes first, substitute to remove intermediates.",
+      trap: "You can only read exponents from coefficients for ELEMENTARY steps. For an overall reaction, the rate law must come from experiment.",
+      terms: [
+        ["Elementary reaction", "A single-step reaction whose rate law follows its coefficients."],
+        ["Rate-determining step", "The slowest step in a mechanism, which sets the overall rate."],
+        ["Molecularity", "Number of particles colliding in an elementary step."],
+      ],
+    },
+    {
+      title: "The Maxwell-Boltzmann distribution",
+      simple: "Particles have a range of energies, and only those above the activation energy can react.",
+      detail: "The curve shows the number of particles vs. kinetic energy. At higher temperature, it flattens and shifts right, so more particles exceed Eₐ. A catalyst lowers Eₐ, moving the threshold left without changing the curve.",
+      trap: "A catalyst doesn't change the Maxwell-Boltzmann curve. Temperature changes the CURVE; a catalyst changes the THRESHOLD.",
+      terms: [
+        ["Maxwell-Boltzmann distribution", "Distribution of particle kinetic energies at a given temperature."],
+        ["Activation energy threshold", "The minimum energy particles need to react."],
+      ],
+    },
+    {
+      title: "Catalysis",
+      simple: "Catalysts speed up reactions by providing an easier path, without being used up.",
+      detail: "Catalysts lower Eₐ by creating a new mechanism. Homogeneous catalysts are in the same phase as the reactants; heterogeneous catalysts (like metal surfaces) provide sites where reactants adsorb. Enzymes are biological catalysts. Catalysts speed up both forward and reverse reactions equally, so they don't change K or ΔH.",
+      trap: "A catalyst does NOT shift equilibrium or change ΔH. It only makes equilibrium arrive faster.",
+      terms: [
+        ["Heterogeneous catalyst", "A catalyst in a different phase from the reactants."],
+        ["Enzyme", "A biological protein catalyst."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "Heat transfer and thermal equilibrium",
+      simple: "Heat flows from hotter to colder objects until they reach the same temperature.",
+      detail: "Heat lost by the hot object = heat gained by the cold one (−q_hot = q_cold). Particle collisions transfer kinetic energy. The final temperature lies between the two starting temperatures and closer to the one with the larger heat capacity (m × c).",
+      trap: "Use q = mcΔT with ΔT = T_final − T_initial for EACH object. Sign errors come from mixing up which is which.",
+      terms: [
+        ["Thermal equilibrium", "State where objects in contact reach the same temperature."],
+        ["Heat capacity", "Energy needed to raise an object's temperature by 1 °C (m × c)."],
+      ],
+    },
+    {
+      title: "Bond enthalpies",
+      simple: "Breaking bonds costs energy and forming bonds releases it; the balance gives ΔH.",
+      detail: "ΔH ≈ Σ(bond energies broken) − Σ(bond energies formed). A reaction is exothermic if the bonds formed are stronger overall than the bonds broken. Bond enthalpy values are averages, so the result is an estimate.",
+      trap: "It's bonds BROKEN minus bonds FORMED, the reverse of the products-minus-reactants rule used with ΔH°f.",
+      terms: [
+        ["Bond enthalpy", "Average energy needed to break one mole of a given bond."],
+        ["Bond breaking", "Always endothermic (requires energy)."],
+      ],
+    },
+    {
+      title: "Enthalpy of formation and dissolution",
+      simple: "Formation enthalpies let you calculate ΔH for any reaction, and dissolving can absorb or release heat.",
+      detail: "ΔH°rxn = ΣΔH°f(products) − ΣΔH°f(reactants). ΔH°f of an element in its standard state is 0. Dissolution involves breaking solute–solute and solvent–solvent interactions (endothermic) and forming solute–solvent interactions (exothermic); the net can be either sign.",
+      trap: "Multiply each ΔH°f by its coefficient, and don't forget elements in standard state (like O₂(g)) are ZERO.",
+      terms: [
+        ["Standard state", "The most stable form of a substance at 1 atm and a specified temperature (usually 25 °C)."],
+        ["Enthalpy of solution", "Heat absorbed or released when a solute dissolves."],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "Magnitude of K",
+      simple: "A big K means products are favored at equilibrium; a small K means reactants are.",
+      detail: "K ≫ 1: mostly products. K ≪ 1: mostly reactants. K depends only on temperature. Pure solids and liquids are left out of K expressions. Kp uses partial pressures for gases.",
+      trap: "K tells you WHERE equilibrium lies, not how fast it gets there. A huge K can still be a very slow reaction.",
+      terms: [
+        ["Kp", "Equilibrium constant written with partial pressures."],
+        ["Heterogeneous equilibrium", "Equilibrium with more than one phase; solids and liquids are omitted from K."],
+      ],
+    },
+    {
+      title: "Manipulating K",
+      simple: "Changing how you write a reaction changes K in predictable ways.",
+      detail: "Reverse the reaction: K becomes 1/K. Multiply coefficients by n: K becomes Kⁿ. Add reactions: multiply their K values. These rules mirror Hess's law for ΔH (where you add instead of multiply).",
+      trap: "When you ADD reactions, you MULTIPLY the K values. Adding K values is a common error.",
+      terms: [
+        ["Reverse reaction K", "K_reverse = 1/K_forward"],
+        ["Combined reactions", "K_overall = K₁ × K₂ when reactions are added."],
+      ],
+    },
+    {
+      title: "Calculating equilibrium concentrations with ICE tables",
+      simple: "An ICE table tracks Initial, Change and Equilibrium amounts to solve for unknowns.",
+      detail: "Write initial concentrations, express the change with x using stoichiometric coefficients, write equilibrium values, and substitute into K. If K is very small, x is negligible compared to the initial concentration (check that it's under about 5%).",
+      trap: "Use CONCENTRATIONS (or partial pressures) in K, not moles, unless the volume is 1 L.",
+      terms: [
+        ["ICE table", "Initial–Change–Equilibrium table for equilibrium calculations."],
+        ["Small-x approximation", "Ignoring x when K is small relative to initial concentrations."],
+      ],
+    },
+    {
+      title: "Molar solubility and factors affecting solubility",
+      simple: "Ksp can tell you how much of a salt dissolves, and pH or common ions can change that.",
+      detail: "For AB: Ksp = s². For AB₂: Ksp = 4s³. A common ion lowers solubility (Le Châtelier). Salts with basic anions (like OH⁻, F⁻, CO₃²⁻) become MORE soluble in acidic solutions because H⁺ removes the anion. Compare solubilities with s, not directly with Ksp, unless formulas have the same ratio.",
+      trap: "Only compare Ksp values directly when the salts have the SAME ion ratio. Otherwise, calculate molar solubility.",
+      terms: [
+        ["Molar solubility", "Moles of solute that dissolve per liter of saturated solution."],
+        ["pH effect on solubility", "Salts of basic anions dissolve more in acidic solution."],
+      ],
+    },
+  ],
+  7: [
+    {
+      title: "Autoionization of water and Kw",
+      simple: "Water forms a tiny amount of H₃O⁺ and OH⁻, and their product is always Kw.",
+      detail: "Kw = [H₃O⁺][OH⁻] = 1.0 × 10⁻¹⁴ at 25 °C, so pH + pOH = 14. Kw increases with temperature, so neutral pH is below 7 at higher temperatures (still neutral because [H₃O⁺] = [OH⁻]).",
+      trap: "Neutral means [H₃O⁺] = [OH⁻], not necessarily pH = 7. At 50 °C, neutral water has pH below 7.",
+      terms: [
+        ["Kw", "Ion-product constant of water, 1.0 × 10⁻¹⁴ at 25 °C."],
+        ["Neutral solution", "A solution where [H₃O⁺] = [OH⁻]."],
+      ],
+    },
+    {
+      title: "Weak acid and base calculations",
+      simple: "Weak acids partially ionize, so use Ka and an ICE table to find pH.",
+      detail: "For a weak acid: Ka = x²/(C − x), often ≈ x²/C, where x = [H₃O⁺]. For a weak base: Kb = x²/C gives [OH⁻]. Ka × Kb = Kw for a conjugate pair. Percent ionization = (x/C) × 100 and increases when the acid is diluted.",
+      trap: "For a weak base, x is [OH⁻], so calculate pOH first, then pH = 14 − pOH.",
+      terms: [
+        ["Kb", "Base dissociation constant."],
+        ["Percent ionization", "Fraction of a weak acid that ionizes, times 100."],
+      ],
+    },
+    {
+      title: "pH, pKa and the dominant form",
+      simple: "Comparing pH to pKa tells you whether the acid or its conjugate base is the main species.",
+      detail: "Henderson–Hasselbalch: pH = pKa + log([A⁻]/[HA]). pH < pKa → HA dominates; pH > pKa → A⁻ dominates; pH = pKa → equal amounts. Indicators change color near their pKa, so choose one with pKa near the equivalence point pH.",
+      trap: "Choose an indicator by the EQUIVALENCE point pH, not the half-equivalence point.",
+      terms: [
+        ["Henderson–Hasselbalch equation", "pH = pKa + log([A⁻]/[HA])"],
+        ["Indicator", "A weak acid whose color changes near its pKa."],
+      ],
+    },
+    {
+      title: "Buffer capacity and preparation",
+      simple: "A buffer resists pH change best when it has large, similar amounts of weak acid and conjugate base.",
+      detail: "Buffers are made from a weak acid and its conjugate base (or by partly neutralizing a weak acid with a strong base). Capacity grows with the amounts of both components. The buffer is most effective when pH ≈ pKa (±1). Added H⁺ reacts with A⁻; added OH⁻ reacts with HA.",
+      trap: "Diluting a buffer doesn't change its pH (the ratio stays the same), but it DOES lower its capacity.",
+      terms: [
+        ["Buffer capacity", "The amount of acid or base a buffer can absorb before its pH changes greatly."],
+        ["Buffer range", "pH values within about 1 unit of the pKa."],
+      ],
+    },
+    {
+      title: "Molecular structure and acid strength",
+      simple: "Acids are stronger when their conjugate base is more stable.",
+      detail: "Across a period, more electronegative atoms make stronger acids (HF > H₂O). Down a group, weaker, longer H–X bonds make stronger acids (HI > HF). For oxyacids, more oxygen atoms or more electronegative atoms pull electron density and stabilize the anion (HClO₄ > HClO). Resonance stabilizes the conjugate base (carboxylic acids).",
+      trap: "HF is a WEAK acid even though F is the most electronegative element. Down a group, bond strength wins.",
+      terms: [
+        ["Oxyacid", "An acid containing oxygen bonded to the acidic hydrogen, like HClO₄."],
+        ["Conjugate base stability", "More stable conjugate bases mean stronger acids."],
+      ],
+    },
+  ],
+  8: [
+    {
+      title: "ΔG° and the equilibrium constant",
+      simple: "A negative ΔG° means K > 1, so products are favored at equilibrium.",
+      detail: "ΔG° = −RT ln K. ΔG° < 0 → K > 1; ΔG° > 0 → K < 1; ΔG° = 0 → K = 1. Use R = 8.314 J/(mol·K) and match units (ΔG° often given in kJ). ΔG° = ΔH° − TΔS° determines temperature effects.",
+      trap: "Convert kJ to J before using R = 8.314 J/(mol·K). The factor of 1000 is the most common mistake.",
+      terms: [
+        ["ΔG° = −RT ln K", "Relates standard free energy change to the equilibrium constant."],
+        ["Thermodynamically favorable", "A process with ΔG° < 0."],
+      ],
+    },
+    {
+      title: "Thermodynamic vs. kinetic control",
+      simple: "A reaction can be favorable but still happen too slowly to notice.",
+      detail: "Thermodynamic favorability (ΔG < 0) says a reaction CAN proceed; kinetics (Eₐ) says how fast. Diamond turning into graphite is favorable but extremely slow, so diamond is kinetically stable. A favorable reaction that doesn't occur is \"under kinetic control.\"",
+      trap: "If a question says a favorable reaction isn't observed, the answer is a high ACTIVATION ENERGY, not a mistake in ΔG.",
+      terms: [
+        ["Kinetic control", "A favorable reaction that doesn't proceed measurably due to high Eₐ."],
+        ["Kinetically stable", "Slow to react despite being thermodynamically unstable."],
+      ],
+    },
+    {
+      title: "Coupled reactions",
+      simple: "An unfavorable reaction can be driven by pairing it with a very favorable one.",
+      detail: "Add the reactions and their ΔG° values; if the total is negative, the coupled process is favorable. Examples: ATP hydrolysis drives biological reactions; external current (electrolysis) drives nonspontaneous reactions; light drives photosynthesis.",
+      trap: "The coupled reactions must share an intermediate. You can't just add any two unrelated reactions.",
+      terms: [
+        ["Coupled reaction", "Pairing a favorable and unfavorable reaction so the total ΔG is negative."],
+        ["ATP hydrolysis", "Favorable reaction that drives many biological processes."],
+      ],
+    },
+    {
+      title: "Cell potential and free energy",
+      simple: "A positive cell potential means the reaction is favorable and the cell can do work.",
+      detail: "ΔG° = −nFE°. E°cell = E°(cathode) − E°(anode) using reduction potentials. Positive E° → negative ΔG° → K > 1. Nonstandard conditions: E drops as the reaction proceeds (Q increases) and reaches 0 at equilibrium (a dead battery). Changing coefficients doesn't change E°.",
+      trap: "Don't multiply E° by stoichiometric coefficients. Cell potential is intensive, unlike ΔG.",
+      terms: [
+        ["ΔG° = −nFE°", "Relates free energy change to standard cell potential."],
+        ["Nonstandard cell potential", "E changes as concentrations change; E = 0 at equilibrium."],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/physics-1.js */
+// More key concepts for content/physics-1.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["physics-1"] = {
+  0: [
+    {
+      title: "Scalars, vectors and components",
+      simple: "Some quantities have only size, while vectors also have direction and can be split into parts.",
+      detail: "Scalars: distance, speed, time, mass, energy. Vectors: displacement, velocity, acceleration, force, momentum. A vector at angle θ from the x-axis has components Aₓ = A cos θ and A_y = A sin θ. Add vectors by adding components.",
+      trap: "Distance and speed are scalars; displacement and velocity are vectors. A round trip has zero displacement but nonzero distance.",
+      terms: [
+        ["Scalar", "A quantity with magnitude only, like speed or mass."],
+        ["Vector components", "Perpendicular parts of a vector, e.g., A cos θ and A sin θ."],
+      ],
+    },
+    {
+      title: "Relative motion and reference frames",
+      simple: "How fast something moves depends on who is watching.",
+      detail: "Velocities add as vectors: v(object relative to ground) = v(object relative to train) + v(train relative to ground). All inertial frames see the same accelerations and the same physics. A boat crossing a river moves at its own velocity plus the current's.",
+      trap: "Velocities relative to different frames are VECTORS. Walking backward on a moving train means subtracting speeds.",
+      terms: [
+        ["Relative velocity", "Velocity measured with respect to a particular reference frame."],
+        ["Inertial reference frame", "A frame that isn't accelerating, where Newton's laws hold."],
+      ],
+    },
+    {
+      title: "Free fall",
+      simple: "Without air resistance, everything falls with the same acceleration, about 10 m/s² downward.",
+      detail: "a = −g ≈ −9.8 m/s² (AP allows 10 m/s²) throughout the flight, including at the top. A ball thrown up takes the same time to rise and fall back to launch height and returns with the same speed. Mass doesn't affect free-fall acceleration.",
+      trap: "At the TOP of a toss, velocity is zero but acceleration is still g downward.",
+      terms: [
+        ["Acceleration due to gravity (g)", "About 9.8 m/s² downward near Earth's surface."],
+        ["Symmetry of free fall", "Rising and falling to the same height take equal times."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Systems and internal vs. external forces",
+      simple: "Choosing a system decides which forces count: only outside forces change the system's motion.",
+      detail: "Internal forces between parts of a system cancel in pairs (Newton's third law). Only external forces change the velocity of the system's center of mass: ΣF_ext = M a_cm. Treating connected blocks as one system often gives the acceleration quickly; then isolate one block to find tension.",
+      trap: "Tension between two blocks is INTERNAL if both are in your system. It won't appear in the system's force equation.",
+      terms: [
+        ["System", "The object or group of objects chosen for analysis."],
+        ["External force", "A force exerted on the system by something outside it."],
+      ],
+    },
+    {
+      title: "Translational equilibrium and tension",
+      simple: "When the net force is zero, an object stays at rest or keeps moving at constant velocity.",
+      detail: "Equilibrium: ΣFₓ = 0 and ΣF_y = 0. Ropes (ideal, massless) pull along their length with the same tension throughout. For hanging masses with angled ropes, balance vertical components against weight and horizontal components against each other.",
+      trap: "Constant velocity is equilibrium too. A car cruising at a steady 30 m/s has zero net force.",
+      terms: [
+        ["Translational equilibrium", "State where the net force is zero."],
+        ["Tension", "The pulling force exerted by a rope or string."],
+      ],
+    },
+    {
+      title: "Apparent weight and elevators",
+      simple: "The scale reading equals the normal force, which changes when you accelerate up or down.",
+      detail: "In an elevator: N = m(g + a) accelerating upward, N = m(g − a) accelerating downward. In free fall, N = 0 (weightlessness). Your true weight mg never changes; apparent weight does.",
+      trap: "Direction of ACCELERATION matters, not direction of motion. Slowing down while moving upward is accelerating downward, so the scale reads less.",
+      terms: [
+        ["Apparent weight", "The normal force supporting an object; what a scale reads."],
+        ["Weightlessness", "Apparent weight of zero, as in free fall."],
+      ],
+    },
+    {
+      title: "Inclined planes",
+      simple: "On a ramp, split gravity into parts along and perpendicular to the surface.",
+      detail: "Parallel component: mg sin θ (down the slope). Perpendicular component: mg cos θ, balanced by the normal force (N = mg cos θ with no other perpendicular forces). Friction: f = μN = μmg cos θ, opposite the motion or the tendency to slide.",
+      trap: "The normal force on an incline is mg cos θ, NOT mg. Using mg overestimates friction.",
+      terms: [
+        ["Parallel component of weight", "mg sin θ, pulling an object down an incline."],
+        ["Static friction", "Friction that prevents motion, up to a maximum μₛN."],
+      ],
+    },
+    {
+      title: "Gravitational field strength",
+      simple: "Gravity weakens with distance squared, and g is the gravitational field at a location.",
+      detail: "g = GM/r², measured from the planet's CENTER. Doubling the distance from the center gives 1/4 the field. An object's weight on another planet is m × (that planet's g). Gravitational and inertial mass are equivalent.",
+      trap: "Measure r from the CENTER of the planet. A satellite 1 Earth radius above the surface is 2 radii from the center, so g is 1/4.",
+      terms: [
+        ["Gravitational field", "Gravitational force per unit mass, g = GM/r²."],
+        ["Inverse-square law", "A quantity that varies as 1/r²."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "The work-energy theorem",
+      simple: "The net work done on an object equals its change in kinetic energy.",
+      detail: "W_net = ΔK = ½mv_f² − ½mv_i². Positive net work speeds an object up; negative net work slows it down. Work by a force at angle θ to the displacement: W = Fd cos θ. The area under an F-vs-x graph is work.",
+      trap: "Only the NET work equals ΔK. The work done by one force alone doesn't tell you the speed change.",
+      terms: [
+        ["Work-energy theorem", "Net work equals the change in kinetic energy."],
+        ["Area under F-x graph", "Work done by the force."],
+      ],
+    },
+    {
+      title: "Spring potential energy",
+      simple: "A stretched or compressed spring stores energy that grows with the square of the stretch.",
+      detail: "Hooke's law: F = −kx. Spring potential energy: U = ½kx². Doubling the compression quadruples the stored energy. The area under the F-vs-x graph for a spring is ½kx².",
+      trap: "U_spring ∝ x². Compressing a spring twice as far stores FOUR times the energy, not twice.",
+      terms: [
+        ["Hooke's law", "F = −kx; spring force is proportional to displacement."],
+        ["Spring constant (k)", "Stiffness of a spring, in N/m."],
+      ],
+    },
+    {
+      title: "Energy bar charts and choosing systems",
+      simple: "Bar charts track how energy moves between kinds and in or out of a system.",
+      detail: "Bars show K, U_g, U_s, and internal (thermal) energy at the start and end, with work done by external forces in between. If Earth is in the system, gravitational PE is included; if not, gravity does external work. The totals must balance.",
+      trap: "Gravitational PE belongs to the object–Earth SYSTEM. A single object alone can't have gravitational potential energy.",
+      terms: [
+        ["Energy bar chart", "A diagram showing the amounts of energy types before and after a process."],
+        ["Closed system", "A system with no energy transferred in or out by external work."],
+      ],
+    },
+    {
+      title: "Work done by friction",
+      simple: "Friction turns mechanical energy into thermal energy, so K + U decreases.",
+      detail: "Kinetic friction does negative work: W_f = −f_k d. The lost mechanical energy becomes internal energy of the surfaces: ΔE_mech = −f_k d. The work depends on the path length, which makes friction a nonconservative force.",
+      trap: "With friction, mechanical energy is NOT conserved, but total energy still is. Say where the energy went.",
+      terms: [
+        ["Nonconservative force", "A force whose work depends on the path, like friction."],
+        ["Thermal energy", "Internal energy from random motion of particles."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Force–time graphs",
+      simple: "The area under a force–time graph is the impulse, which equals the change in momentum.",
+      detail: "J = ∫F dt = area under F(t). A longer collision time means a smaller average force for the same change in momentum; that's how airbags, helmets and bent knees protect you. F_avg = Δp/Δt.",
+      trap: "Airbags reduce FORCE, not impulse. The momentum change is the same; it's spread over more time.",
+      terms: [
+        ["Average force", "F_avg = Δp/Δt."],
+        ["Collision time", "Longer contact time lowers the average force for the same Δp."],
+      ],
+    },
+    {
+      title: "Explosions and recoil",
+      simple: "When something at rest breaks apart, the pieces fly off with equal and opposite momenta.",
+      detail: "Total momentum before = 0, so after, m₁v₁ = −m₂v₂. The lighter piece moves faster. A gun recoils; a rocket expels gas backward to move forward. Kinetic energy increases in explosions (from stored chemical or spring energy).",
+      trap: "Momentum is conserved in explosions, but kinetic energy is NOT: it increases from stored energy.",
+      terms: [
+        ["Recoil", "Backward motion of an object when it ejects mass forward."],
+        ["Explosion", "An internal force splitting a system; total momentum is unchanged."],
+      ],
+    },
+    {
+      title: "Energy in collisions",
+      simple: "Collisions always conserve momentum, but some kinetic energy is often turned into heat or deformation.",
+      detail: "Elastic: K conserved (billiard balls, approximately). Inelastic: some K lost. Perfectly inelastic: objects stick and the maximum K is lost (still conserving momentum). Compare K before and after to classify a collision.",
+      trap: "\"Perfectly inelastic\" doesn't mean ALL kinetic energy is lost. It means the objects stick together.",
+      terms: [
+        ["Inelastic collision", "A collision in which kinetic energy is not conserved."],
+        ["Coefficient of restitution", "Ratio of relative speeds after and before a collision (1 = elastic)."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Connecting linear and rotational motion",
+      simple: "A point on a spinning object moves faster the farther it is from the axis.",
+      detail: "Arc length s = rθ, tangential speed v = rω, tangential acceleration a_t = rα (θ in radians). All points on a rigid object share the same ω and α but have different v. Centripetal acceleration ω²r points inward.",
+      trap: "Every point on a rigid wheel has the SAME angular velocity, but points on the rim have greater linear speed.",
+      terms: [
+        ["Tangential speed", "v = rω, the linear speed of a point on a rotating object."],
+        ["Radian", "Angle for which the arc length equals the radius."],
+      ],
+    },
+    {
+      title: "How mass distribution affects rotational inertia",
+      simple: "Mass farther from the axis makes an object harder to spin.",
+      detail: "I = Σmr² for point masses. A hoop (MR²) has more rotational inertia than a solid disk (½MR²) of the same mass and radius. The parallel-axis theorem: I = I_cm + Md². Moving mass outward (a skater extending arms) increases I.",
+      trap: "Rotational inertia depends on the AXIS. The same rod is much harder to spin about its end than about its center.",
+      terms: [
+        ["Parallel-axis theorem", "I = I_cm + Md² for an axis a distance d from the center of mass."],
+        ["Rotational inertia of a point mass", "I = mr²"],
+      ],
+    },
+    {
+      title: "Rotational equilibrium in practice",
+      simple: "To solve balance problems, set net force and net torque to zero, picking a smart pivot.",
+      detail: "Choose the pivot where an unknown force acts so its torque is zero. Sum clockwise and counterclockwise torques. A uniform beam's weight acts at its center. Typical problems: seesaws, shelves on brackets, ladders against walls.",
+      trap: "Pick a pivot that eliminates an unknown. You can choose ANY point for the torque sum in equilibrium.",
+      terms: [
+        ["Rotational equilibrium", "Net torque is zero."],
+        ["Center of gravity", "Point where the weight of an object effectively acts."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "Conservation of angular momentum",
+      simple: "With no outside torque, spinning objects keep their angular momentum, so they speed up when they pull in.",
+      detail: "L = Iω stays constant if the net external torque is zero. I₁ω₁ = I₂ω₂. A skater pulling in her arms decreases I and increases ω. Collisions of a particle with a rotating object conserve angular momentum about the pivot.",
+      trap: "Angular momentum is conserved, but rotational KE (½Iω² = L²/2I) INCREASES when I decreases. The skater does work.",
+      terms: [
+        ["Conservation of angular momentum", "L stays constant when the net external torque is zero."],
+        ["Angular momentum of a rigid body", "L = Iω"],
+      ],
+    },
+    {
+      title: "Work done by torque",
+      simple: "A torque acting through an angle does work that changes rotational kinetic energy.",
+      detail: "W = τΔθ (constant torque, θ in radians). Net work by torques = ΔK_rot = ½Iω_f² − ½Iω_i². Power in rotation: P = τω.",
+      trap: "Use RADIANS for Δθ. One revolution is 2π rad, not 360.",
+      terms: [
+        ["Rotational work", "W = τΔθ"],
+        ["Rotational power", "P = τω"],
+      ],
+    },
+    {
+      title: "Energy of orbiting satellites",
+      simple: "A satellite's orbit is a balance of speed and gravity, and its energy depends on its distance.",
+      detail: "For circular orbits: v = √(GM/r), so higher orbits are slower. Gravitational PE = −GMm/r (zero at infinity). Total energy of a bound orbit is negative. In elliptical orbits, the satellite moves fastest closest to the planet (angular momentum is conserved).",
+      trap: "A satellite in a higher orbit moves SLOWER but has MORE total energy. It needs energy to get there.",
+      terms: [
+        ["Orbital speed", "v = √(GM/r) for a circular orbit."],
+        ["Escape velocity", "Minimum speed to escape a planet's gravity: √(2GM/r)."],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "Graphs of simple harmonic motion",
+      simple: "Position, velocity and acceleration in SHM are sine or cosine curves shifted from each other.",
+      detail: "If x = A cos(2πft), velocity is zero at the extremes and largest at equilibrium; acceleration is always opposite the displacement (a = −(k/m)x). On graphs, where x is maximum, a is maximum in the opposite direction and v is zero.",
+      trap: "Acceleration is greatest at the ENDPOINTS of motion, where the object is momentarily at rest.",
+      terms: [
+        ["Equilibrium position", "The position where the net force is zero; speed is maximum there."],
+        ["Phase", "Where an oscillating object is in its cycle."],
+      ],
+    },
+    {
+      title: "What changes the period",
+      simple: "A spring's period depends on mass and stiffness; a pendulum's depends on length and g.",
+      detail: "Spring: T = 2π√(m/k), independent of amplitude and g. Pendulum: T = 2π√(L/g), independent of mass and amplitude (for small angles). A pendulum on the Moon swings more slowly; a spring's period stays the same.",
+      trap: "Mass affects a SPRING's period but not a PENDULUM's. Mixing these up is a favorite exam trick.",
+      terms: [
+        ["Period of a spring", "T = 2π√(m/k)"],
+        ["Period of a pendulum", "T = 2π√(L/g) for small angles."],
+      ],
+    },
+    {
+      title: "Restoring forces",
+      simple: "SHM happens whenever the force pulling back is proportional to the displacement.",
+      detail: "Restoring force F = −kx always points toward equilibrium. For a pendulum, the restoring force is mg sin θ ≈ mgθ for small angles, which is why the small-angle approximation gives SHM. Vertical springs oscillate about the new stretched equilibrium with the same period.",
+      trap: "A vertical spring oscillates around its STRETCHED equilibrium position, not its natural length, but with the same period.",
+      terms: [
+        ["Vertical spring equilibrium", "The position where kx = mg; a vertical spring oscillates about it."],
+        ["Small-angle approximation", "sin θ ≈ θ for small θ (in radians)."],
+      ],
+    },
+  ],
+  7: [
+    {
+      title: "Hydrostatic pressure and Pascal's principle",
+      simple: "Pressure in a fluid grows with depth, and pressure applied to an enclosed fluid spreads everywhere.",
+      detail: "P = P₀ + ρgh. Pressure depends on depth, not container shape. Gauge pressure = P − P_atm. Pascal's principle: a pressure change is transmitted equally throughout an enclosed fluid, so hydraulic lifts multiply force (F₁/A₁ = F₂/A₂).",
+      trap: "Pressure at a given depth is the same regardless of container SHAPE. A narrow tube and a wide tank at the same depth have equal pressure.",
+      terms: [
+        ["Gauge pressure", "Pressure above atmospheric pressure."],
+        ["Pascal's principle", "Pressure applied to an enclosed fluid is transmitted undiminished."],
+      ],
+    },
+    {
+      title: "Fluids and Newton's laws",
+      simple: "Floating and sinking come from comparing weight with the buoyant force.",
+      detail: "An object floats when its average density is less than the fluid's; the fraction submerged = ρ_object/ρ_fluid. For a submerged object, apparent weight = mg − ρ_fluid V g. Buoyant force depends on the displaced volume, not the object's mass.",
+      trap: "A steel block and a wood block of the SAME volume, fully submerged, feel the SAME buoyant force.",
+      terms: [
+        ["Apparent weight in fluid", "True weight minus buoyant force."],
+        ["Fraction submerged", "For a floating object, ρ_object/ρ_fluid."],
+      ],
+    },
+    {
+      title: "Applying Bernoulli's equation",
+      simple: "Where a fluid moves faster, its pressure is lower.",
+      detail: "P + ½ρv² + ρgh is constant along a streamline (energy conservation per volume). Torricelli's theorem: fluid leaves a hole at depth h with speed √(2gh). Combine with continuity (A₁v₁ = A₂v₂) to solve for flow in pipes.",
+      trap: "Use continuity FIRST to find how speed changes with area, then Bernoulli to find pressure.",
+      terms: [
+        ["Torricelli's theorem", "Speed of fluid from a hole at depth h is √(2gh)."],
+        ["Streamline", "The path followed by a small bit of fluid in steady flow."],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/precalculus.js */
+// More key concepts for content/precalculus.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["precalculus"] = {
+  0: [
+    {
+      title: "Complex zeros and the number of zeros",
+      simple: "A degree-n polynomial has exactly n complex zeros, counting repeats.",
+      detail: "By the Fundamental Theorem of Algebra, a degree-n polynomial has n complex zeros (with multiplicity). Non-real zeros of polynomials with real coefficients come in conjugate pairs (a ± bi). A polynomial of odd degree must have at least one real zero. Even multiplicity: the graph touches the x-axis; odd multiplicity: it crosses.",
+      trap: "If 2 + 3i is a zero of a real polynomial, 2 − 3i must be too. Forgetting the conjugate undercounts the degree.",
+      terms: [
+        ["Fundamental Theorem of Algebra", "A degree-n polynomial has exactly n complex zeros, counting multiplicity."],
+        ["Complex conjugate pair", "Zeros a + bi and a − bi, which occur together for real polynomials."],
+      ],
+    },
+    {
+      title: "Polynomial and rational inequalities",
+      simple: "Solve inequalities by finding where the expression is zero or undefined, then testing the sign in between.",
+      detail: "Find zeros (and, for rational functions, where the denominator is zero), mark them on a number line, and test a value in each interval. Include zeros for ≤ or ≥, but never include values that make the denominator zero.",
+      trap: "Never multiply both sides by an expression that could be negative. Use a sign chart instead.",
+      terms: [
+        ["Sign chart", "A number line showing where an expression is positive or negative."],
+        ["Critical values", "Zeros and undefined points where an expression can change sign."],
+      ],
+    },
+    {
+      title: "Polynomial division and slant asymptotes",
+      simple: "Long division rewrites a rational function to show its end behavior.",
+      detail: "If the numerator's degree is exactly one more than the denominator's, dividing gives a quotient that is linear: that line is a slant asymptote. The remainder over the denominator goes to 0 as x → ±∞. The Remainder Theorem: p(a) is the remainder when p(x) is divided by (x − a).",
+      trap: "A slant asymptote only happens when the numerator's degree is EXACTLY one greater than the denominator's.",
+      terms: [
+        ["Slant asymptote", "A non-horizontal line a rational function approaches as x → ±∞."],
+        ["Remainder Theorem", "p(a) equals the remainder when p(x) is divided by x − a."],
+      ],
+    },
+    {
+      title: "The Binomial Theorem",
+      simple: "Expand (a + b)ⁿ quickly using coefficients from Pascal's Triangle.",
+      detail: "(a + b)ⁿ = Σ C(n, k) aⁿ⁻ᵏ bᵏ, for k = 0 to n. The coefficients are row n of Pascal's Triangle. There are n + 1 terms, and the exponents in each term add to n.",
+      example: "(x + 2)³ = x³ + 6x² + 12x + 8.",
+      trap: "Include the constants' powers: in (2x − 1)⁴, each term includes powers of 2 and of −1, which affects signs and coefficients.",
+      terms: [
+        ["Binomial Theorem", "Formula for expanding (a + b)ⁿ using combination coefficients."],
+        ["Pascal's Triangle", "Triangle of numbers giving binomial coefficients."],
+      ],
+    },
+    {
+      title: "Piecewise-defined functions",
+      simple: "A piecewise function uses different rules on different intervals of its domain.",
+      detail: "Evaluate by first finding which interval contains the input. Check the boundaries: open or closed endpoints determine which piece applies. Piecewise functions model tax brackets, shipping costs, and other rule changes.",
+      trap: "At a boundary, use the piece whose interval INCLUDES that point (≤ vs. <).",
+      terms: [
+        ["Piecewise-defined function", "A function given by different expressions on different intervals."],
+        ["Boundary point", "An x-value where the rule of a piecewise function changes."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Function composition",
+      simple: "Composing functions feeds the output of one into another.",
+      detail: "(f ∘ g)(x) = f(g(x)): apply g first, then f. Order matters; f(g(x)) usually differs from g(f(x)). The domain of f ∘ g includes only x-values in g's domain whose outputs are in f's domain. Composition can be read from tables and graphs.",
+      trap: "Work from the INSIDE out. f(g(2)) means find g(2) first.",
+      terms: [
+        ["Composition of functions", "Using the output of one function as the input of another."],
+        ["Decomposition", "Rewriting a function as a composition of simpler functions."],
+      ],
+    },
+    {
+      title: "Exponential function properties",
+      simple: "Exponential functions grow or decay by a constant factor over equal intervals.",
+      detail: "f(x) = abˣ with b > 0, b ≠ 1: growth if b > 1, decay if 0 < b < 1. Horizontal asymptote y = 0 (shifted by vertical translations). Product property: bᵐbⁿ = bᵐ⁺ⁿ. A horizontal shift is equivalent to a vertical dilation: b^(x+k) = bᵏ·bˣ.",
+      trap: "Exponential functions change by equal FACTORS (ratios), not equal differences. Check ratios in tables.",
+      terms: [
+        ["Growth factor", "The base b in abˣ; the ratio between consecutive outputs."],
+        ["Horizontal asymptote of an exponential", "A horizontal line the function approaches, y = 0 for abˣ."],
+      ],
+    },
+    {
+      title: "Logarithmic functions and their graphs",
+      simple: "A log function undoes an exponential, so its graph is the exponential reflected over y = x.",
+      detail: "f(x) = log_b(x) has domain x > 0, a vertical asymptote at x = 0, and passes through (1, 0) and (b, 1). It grows very slowly. Change of base: log_b(x) = ln x / ln b. Properties: log(mn) = log m + log n; log(m/n) = log m − log n; log(mᵖ) = p log m.",
+      trap: "log(m + n) is NOT log m + log n. The product rule applies to MULTIPLICATION inside the log.",
+      terms: [
+        ["Change of base formula", "log_b(x) = ln x / ln b"],
+        ["Vertical asymptote of a log", "The line x = 0 for y = log_b(x)."],
+      ],
+    },
+    {
+      title: "Solving exponential and logarithmic equations",
+      simple: "Use logs to bring down exponents and exponentials to undo logs.",
+      detail: "For bˣ = c, take logs: x = log_b c. For log_b(x) = c, rewrite as x = bᶜ. Combine log terms before solving. Check every solution in the original equation, since logs of zero or negative numbers are undefined.",
+      trap: "Always check for EXTRANEOUS solutions in log equations. A solution that makes an argument ≤ 0 must be rejected.",
+      terms: [
+        ["Extraneous solution", "A solution from the algebra that doesn't satisfy the original equation."],
+        ["Exponential form", "Rewriting log_b(x) = c as bᶜ = x."],
+      ],
+    },
+    {
+      title: "Choosing and validating a model",
+      simple: "Pick a model based on how the data changes, then check it with residuals.",
+      detail: "Linear: equal differences. Exponential: equal ratios. Quadratic: equal second differences. A residual = actual − predicted. A good model has residuals scattered randomly around 0; a pattern means a different model fits better. Semi-log plots turn exponential data into a line.",
+      trap: "A model can fit the data well and still be wrong to extrapolate far beyond it. State the model's limits.",
+      terms: [
+        ["Residual", "Actual value minus predicted value."],
+        ["Residual plot", "Graph of residuals; random scatter suggests a good model."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Periodic phenomena",
+      simple: "A periodic function repeats its values in regular cycles.",
+      detail: "The period is the length of one full cycle. Real examples: tides, daylight hours, Ferris wheels, sound waves. Once one cycle is known, the rest can be predicted. Features like max, min and midline come from the data.",
+      trap: "The period is the horizontal length of ONE full cycle, not the distance between a max and the next min (that's half a period).",
+      terms: [
+        ["Periodic function", "A function whose values repeat in regular intervals."],
+        ["Cycle", "One complete repetition of a periodic pattern."],
+      ],
+    },
+    {
+      title: "Sinusoidal modeling",
+      simple: "Build a sine or cosine model from a situation's max, min and timing.",
+      detail: "For f(x) = a sin(b(x − c)) + d: amplitude a = (max − min)/2, midline d = (max + min)/2, period = 2π/b, and c shifts the graph horizontally. Cosine starts at a max, which is convenient when the data begins at a peak.",
+      trap: "b is NOT the period. Period = 2π/b, so a 12-hour period means b = π/6.",
+      terms: [
+        ["Midline", "The horizontal line halfway between the max and min, y = d."],
+        ["Frequency", "Number of cycles per unit, the reciprocal of the period."],
+      ],
+    },
+    {
+      title: "Secant, cosecant and cotangent",
+      simple: "These are reciprocals of cosine, sine and tangent.",
+      detail: "sec θ = 1/cos θ, csc θ = 1/sin θ, cot θ = 1/tan θ = cos θ / sin θ. They have vertical asymptotes wherever the original function equals 0. Their graphs have the same period as the original function.",
+      trap: "sec θ is the reciprocal of COSINE (not sine), and csc θ is the reciprocal of SINE.",
+      terms: [
+        ["Secant", "sec θ = 1/cos θ"],
+        ["Cosecant", "csc θ = 1/sin θ"],
+      ],
+    },
+    {
+      title: "Trigonometric identities",
+      simple: "Identities are equations true for every angle, used to rewrite and simplify expressions.",
+      detail: "Pythagorean: sin²θ + cos²θ = 1 (and 1 + tan²θ = sec²θ). Sum formulas: sin(α + β) = sin α cos β + cos α sin β; cos(α + β) = cos α cos β − sin α sin β. Double angle: sin 2θ = 2 sin θ cos θ; cos 2θ = cos²θ − sin²θ.",
+      trap: "sin(α + β) is NOT sin α + sin β. Use the sum formula.",
+      terms: [
+        ["Pythagorean identity", "sin²θ + cos²θ = 1"],
+        ["Double-angle identity", "sin 2θ = 2 sin θ cos θ"],
+      ],
+    },
+    {
+      title: "Solving trigonometric equations and inequalities",
+      simple: "Trig equations usually have many solutions because the functions repeat.",
+      detail: "Isolate the trig function, find reference solutions on [0, 2π) using the unit circle or inverse trig, then add multiples of the period for all solutions. Inverse functions return only one value (in a restricted range), so use symmetry to find the others.",
+      trap: "arcsin gives only ONE solution. sin θ = 1/2 also has θ = 5π/6 in [0, 2π).",
+      terms: [
+        ["Reference angle", "The acute angle a terminal side makes with the x-axis."],
+        ["General solution", "All solutions, written with + 2πk (or the period) for integers k."],
+      ],
+    },
+    {
+      title: "Rates of change in polar functions",
+      simple: "In a polar graph, r changing tells you whether points move toward or away from the origin.",
+      detail: "If r is positive and increasing, points move away from the origin; if positive and decreasing, they move toward it. If r is negative, the point plots in the opposite direction, so reverse the reasoning using |r|. Average rate of change = Δr/Δθ.",
+      trap: "When r is NEGATIVE, increasing r means the point moves CLOSER to the origin. Think about distance |r|.",
+      terms: [
+        ["Polar function", "r = f(θ), giving distance from the origin at each angle."],
+        ["Distance from the origin", "|r| in polar coordinates."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Parametric rates of change",
+      simple: "With parametric equations, x and y each change with t, and their rates combine.",
+      detail: "Average rate of change of x: Δx/Δt; of y: Δy/Δt. The slope of the path is (Δy/Δt)/(Δx/Δt). A particle moves right when x increases and up when y increases. Parametric functions can trace lines, circles (x = cos t, y = sin t) and more.",
+      trap: "Direction depends on the parameter: the same curve can be traced clockwise or counterclockwise.",
+      terms: [
+        ["Parametric equations", "x and y both expressed as functions of a parameter t."],
+        ["Parametric slope", "(Δy/Δt)/(Δx/Δt)"],
+      ],
+    },
+    {
+      title: "Implicitly defined functions and conic sections",
+      simple: "Some curves are described by equations in x and y together, like circles and ellipses.",
+      detail: "Circle: (x − h)² + (y − k)² = r². Ellipse: (x − h)²/a² + (y − k)²/b² = 1. Hyperbola: (x − h)²/a² − (y − k)²/b² = 1. Parabola: y = a(x − h)² + k. Conics can be parametrized (e.g., x = a cos t, y = b sin t for an ellipse).",
+      trap: "An ellipse has a PLUS between its terms; a hyperbola has a MINUS.",
+      terms: [
+        ["Ellipse", "(x − h)²/a² + (y − k)²/b² = 1"],
+        ["Hyperbola", "(x − h)²/a² − (y − k)²/b² = 1"],
+      ],
+    },
+    {
+      title: "Vector-valued functions",
+      simple: "A vector-valued function gives a position vector for each time, describing motion.",
+      detail: "p(t) = ⟨x(t), y(t)⟩. Displacement between times is a vector difference. Rates of change of x and y give the velocity components. Its magnitude √(vₓ² + v_y²) is the speed.",
+      trap: "Speed is the MAGNITUDE of velocity. Adding the components together doesn't give speed.",
+      terms: [
+        ["Vector-valued function", "A function outputting a vector, like ⟨x(t), y(t)⟩."],
+        ["Unit vector", "A vector with magnitude 1."],
+      ],
+    },
+    {
+      title: "Matrix inverses and modeling transitions",
+      simple: "Matrices can undo transformations and model how populations shift between states.",
+      detail: "A 2×2 matrix [[a, b], [c, d]] has inverse (1/(ad − bc))[[d, −b], [−c, a]] if the determinant ad − bc ≠ 0. Transition matrices model changes between states (e.g., customers switching brands); multiplying by the state vector predicts the next step, and repeated multiplication predicts the long run.",
+      trap: "If the determinant is 0, the matrix has NO inverse. The transformation collapses space and can't be undone.",
+      terms: [
+        ["Inverse matrix", "A matrix that undoes a transformation: A⁻¹A = I."],
+        ["Transition matrix", "Matrix giving probabilities of moving between states."],
+      ],
+    },
+  ],
+};
+
+</script>
 <script>/* content/deep/psychology.js */
 // More key concepts for content/psychology.js, appended to each unit after the original concepts.
 // Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
@@ -9149,6 +10041,415 @@ window.AP_DEEP["us-history"] = {
       terms: [
         ["Deindustrialization", "Decline of manufacturing jobs, especially in the Rust Belt."],
         ["Rust Belt", "Former industrial region in the Northeast and Midwest."],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/world-history.js */
+// More key concepts for content/world-history.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["world-history"] = {
+  0: [
+    {
+      title: "Chinese influence in East Asia",
+      simple: "Japan, Korea and Vietnam adopted Chinese ideas like Confucianism and Buddhism but adapted them.",
+      detail: "Korea (Goryeo, later Joseon) paid tribute to China and adopted Confucian bureaucracy. Vietnam adopted Chinese writing and government but resisted political control. Japan borrowed Buddhism and writing but developed a feudal system under shoguns and samurai, not a civil-service bureaucracy.",
+      trap: "Japan was NOT part of the tribute system in the same way and never adopted the civil-service exam. Show adaptation, not copying.",
+      terms: [
+        ["Tributary state", "A state that sends tribute to a stronger state to acknowledge its superiority."],
+        ["Shogun", "Japanese military ruler who held real power while the emperor was a figurehead."],
+      ],
+    },
+    {
+      title: "New Turkic states in the Islamic world",
+      simple: "As the Abbasid Caliphate weakened, Turkic groups built new Muslim states.",
+      detail: "The Seljuk Turks controlled much of the Middle East; the Mamluks (former slave-soldiers) ruled Egypt; the Delhi Sultanate brought Muslim rule to northern India. The Mongols destroyed Baghdad in 1258, ending the Abbasid Caliphate. Islam spread through trade, Sufi missionaries and military expansion.",
+      trap: "The Abbasids lost real political power long before 1258. Show fragmentation into Turkic-led states, not one unified caliphate.",
+      terms: [
+        ["Seljuk Empire", "Turkic Muslim empire in the Middle East (11th–12th centuries)."],
+        ["Mamluk Sultanate", "Egypt-based state ruled by former slave-soldiers."],
+        ["Sufism", "Mystical form of Islam whose missionaries helped spread the faith."],
+      ],
+    },
+    {
+      title: "State building in the Americas",
+      simple: "The Mexica (Aztec) and Inca built powerful empires in very different ways.",
+      detail: "The Mexica ruled from Tenochtitlan and collected tribute from conquered peoples, with human sacrifice tied to religion. The Inca centralized power from Cusco, used the mit'a labor system, built roads, and kept records with quipu. The Mississippian culture built mound cities like Cahokia.",
+      trap: "Contrast methods of control: the Mexica relied on TRIBUTE from semi-independent city-states; the Inca used direct administration and labor obligations.",
+      terms: [
+        ["Tenochtitlan", "The Mexica capital, built on an island in Lake Texcoco."],
+        ["Quipu", "Knotted cords the Inca used for record-keeping."],
+      ],
+    },
+    {
+      title: "State building in Africa",
+      simple: "African states grew rich from trade and built strong governments.",
+      detail: "Mali (Mansa Musa) controlled trans-Saharan gold and salt trade, with Timbuktu as a center of Islamic learning. Great Zimbabwe built stone enclosures and traded gold through the Indian Ocean. Ethiopia was a Christian kingdom with rock-cut churches. The Swahili city-states blended African and Arab cultures.",
+      trap: "Avoid treating Africa as isolated. Each of these states was connected to wider trade networks and religions.",
+      terms: [
+        ["Great Zimbabwe", "Southern African state known for its massive stone walls and gold trade."],
+        ["Timbuktu", "City in Mali that was a center of trade and Islamic scholarship."],
+      ],
+    },
+    {
+      title: "Europe in the late Middle Ages",
+      simple: "Europe was politically divided, organized by feudalism and the Catholic Church.",
+      detail: "Feudalism tied lords and vassals through land and military service; manorialism bound serfs to the land. The Catholic Church was the strongest unifying institution. The Crusades increased contact with the Islamic world. Monarchies in England and France slowly centralized power.",
+      trap: "Europe in this period is one of the LESS powerful regions globally. Don't make it the center of Unit 1.",
+      terms: [
+        ["Manorialism", "Economic system where serfs worked a lord's land in exchange for protection."],
+        ["Crusades", "Religious wars to capture the Holy Land, increasing contact with the Islamic world."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Commercial innovations",
+      simple: "New ways of paying and lending made long-distance trade easier.",
+      detail: "Bills of exchange, banking houses, and China's paper money (\"flying cash\") let merchants trade without carrying coins. Caravanserai sheltered Silk Road travelers. Improved ships (junks, dhows), the compass and the astrolabe expanded maritime trade.",
+      trap: "Link each innovation to its EFFECT: credit and paper money increased the volume of trade over long distances.",
+      terms: [
+        ["Bill of exchange", "A document promising payment, used instead of carrying money."],
+        ["Flying cash", "Chinese paper credit that let merchants deposit money in one place and withdraw it elsewhere."],
+      ],
+    },
+    {
+      title: "Cultural and technological diffusion",
+      simple: "Trade routes spread religions, ideas and technologies along with goods.",
+      detail: "Buddhism spread along the Silk Roads; Islam spread through the Indian Ocean and across the Sahara. Technology moved too: Chinese gunpowder, paper and printing moved west; Arabic numerals and astronomy spread from the Islamic world. Syncretism blended local and foreign beliefs.",
+      trap: "Diffusion means ADAPTATION: Buddhism changed in China (Chan/Zen), and Islam blended with local practices in Africa and Southeast Asia.",
+      terms: [
+        ["Syncretism", "The blending of beliefs and practices from different cultures."],
+        ["Cultural diffusion", "The spread of ideas, beliefs and technology from one culture to another."],
+      ],
+    },
+    {
+      title: "Travelers and their accounts",
+      simple: "Famous travelers show how connected the world was, and what they noticed about other cultures.",
+      detail: "Ibn Battuta traveled across the Islamic world (Africa to China). Marco Polo described Yuan China to Europeans. Zheng He led huge Ming voyages (1405–1433) across the Indian Ocean to display power and collect tribute, not to conquer or colonize. Margery Kempe wrote of Christian pilgrimage.",
+      trap: "Zheng He's voyages were about PRESTIGE and tribute, and they ended by government decision. Don't compare them to European colonization.",
+      terms: [
+        ["Ibn Battuta", "Moroccan traveler who journeyed across the Muslim world in the 1300s."],
+        ["Zheng He", "Ming admiral who led treasure-ship voyages across the Indian Ocean."],
+      ],
+    },
+    {
+      title: "Environmental consequences of exchange",
+      simple: "Trade routes spread crops and diseases, including the Black Death.",
+      detail: "The bubonic plague spread along Mongol-era trade routes in the 1340s, killing a third or more of Europe's population and many in Asia and North Africa, which led to labor shortages and social change. Champa rice from Vietnam increased Chinese food production and population. Bananas and citrus spread through the Indian Ocean.",
+      trap: "The Black Death spread BECAUSE of the connectivity the Mongols created. Tie it to Unit 2's theme of exchange networks.",
+      terms: [
+        ["Bubonic plague", "Pandemic (Black Death) spread along trade routes in the 1300s."],
+        ["Crop diffusion", "The spread of crops like Champa rice or bananas to new regions."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "The Ottoman Empire",
+      simple: "The Ottomans used gunpowder and a strong bureaucracy to rule a huge, diverse empire.",
+      detail: "The Ottomans captured Constantinople in 1453, renaming it Istanbul. They used the devshirme to recruit Christian boys as Janissaries and administrators, the millet system to let religious communities govern themselves, and tax farming. Suleiman the Magnificent expanded the empire into Europe and the Middle East.",
+      trap: "The millet system shows Ottoman TOLERANCE toward religious minorities; it's a common example of how empires managed diversity.",
+      terms: [
+        ["Millet system", "Ottoman system letting religious communities govern their own affairs."],
+        ["Fall of Constantinople", "1453 Ottoman conquest of the Byzantine capital."],
+      ],
+    },
+    {
+      title: "The Safavid and Mughal Empires",
+      simple: "The Safavids made Persia Shi'a, while the Mughals ruled a mostly Hindu India as Muslim emperors.",
+      detail: "The Safavids made Shi'a Islam the state religion, fueling conflict with the Sunni Ottomans (Battle of Chaldiran, 1514). The Mughals (Babur, Akbar) ruled India; Akbar practiced religious tolerance and abolished the jizya tax, while Aurangzeb later reinstated it and persecuted non-Muslims. The Taj Mahal displayed Mughal wealth.",
+      trap: "Contrast Akbar (tolerance, jizya abolished) and Aurangzeb (orthodoxy, jizya restored). Questions often ask how policy changed over time.",
+      terms: [
+        ["Akbar", "Mughal emperor known for religious tolerance."],
+        ["Shi'a Islam", "Branch of Islam made the Safavid state religion."],
+        ["Jizya", "Tax on non-Muslims in Muslim states."],
+      ],
+    },
+    {
+      title: "Qing China and Tokugawa Japan",
+      simple: "China's new Manchu rulers and Japan's Tokugawa shogunate both centralized control and limited foreign influence.",
+      detail: "The Manchu Qing dynasty (1644) conquered Ming China, adopted Confucian government, and required the queue hairstyle. Tokugawa Japan (1603) unified the country, required daimyo to spend time in Edo (alternate attendance), and restricted foreign trade to the Dutch and Chinese at Nagasaki.",
+      trap: "Tokugawa Japan wasn't completely closed. Limited trade continued through Nagasaki. \"Isolation\" is an oversimplification.",
+      terms: [
+        ["Qing dynasty", "Manchu dynasty that ruled China from 1644 to 1912."],
+        ["Alternate attendance", "Tokugawa policy requiring daimyo to live in Edo part of the time."],
+      ],
+    },
+    {
+      title: "Russian expansion and Songhai",
+      simple: "Russia expanded across Siberia, while Songhai became West Africa's largest empire.",
+      detail: "Russia's tsars (Ivan IV, Peter the Great) expanded east through the fur trade and west toward Europe; Peter westernized the nobility and built St. Petersburg. Serfdom intensified. Songhai took over Mali's trade routes, until Moroccan forces with guns defeated it in 1591.",
+      trap: "Peter the Great's westernization was SELECTIVE: technology and military reform, while serfdom and autocracy grew stronger.",
+      terms: [
+        ["Peter the Great", "Russian tsar who westernized Russia's military and elites."],
+        ["Songhai Empire", "West African empire controlling trans-Saharan trade, defeated in 1591."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "The Portuguese trading-post empire",
+      simple: "Portugal used naval power to control trade in the Indian Ocean rather than conquering large territories.",
+      detail: "Vasco da Gama reached India in 1498. Portugal set up fortified trading posts (Goa, Malacca, Hormuz) and used cannon-armed ships to force merchants to buy passes (cartaz). Existing Asian trade continued; Europeans mostly inserted themselves into it.",
+      trap: "Europeans did NOT dominate Asian land empires in this period. They joined existing Indian Ocean trade, often by force at sea.",
+      terms: [
+        ["Trading-post empire", "An empire based on coastal forts and control of trade, not large territories."],
+        ["Vasco da Gama", "Portuguese explorer who reached India by sailing around Africa (1498)."],
+      ],
+    },
+    {
+      title: "Silver and the first global economy",
+      simple: "Spanish American silver flowed to China, linking the whole world in trade.",
+      detail: "Silver from Potosí (Bolivia) and Mexico was mined with forced labor (mit'a). The Manila galleons carried it across the Pacific to buy Chinese silk and porcelain. China's Ming and Qing governments demanded taxes in silver, which pulled silver in. Inflation (the price revolution) hit Spain.",
+      trap: "China's demand for silver is WHY silver circulated globally. Many answers only mention European demand for Asian goods.",
+      terms: [
+        ["Potosí", "Huge silver mine in the Andes worked by forced labor."],
+        ["Manila galleons", "Spanish ships carrying American silver across the Pacific to Asia."],
+      ],
+    },
+    {
+      title: "Effects of the Atlantic slave trade on Africa",
+      simple: "The slave trade strengthened some African states and devastated others.",
+      detail: "Coastal states like Dahomey and Asante grew powerful by trading captives for guns and goods. The Kingdom of Kongo was weakened; its Christian king protested the trade. Africa lost millions of young people, which skewed gender ratios, while demand for enslaved labor in the Americas rose with sugar.",
+      trap: "Show AFRICAN agency and variation: some states profited while others were devastated. A single \"Africa was a victim\" story is too simple.",
+      terms: [
+        ["Kingdom of Dahomey", "West African state that grew powerful through the slave trade."],
+        ["Asante Empire", "West African empire that traded gold and captives with Europeans."],
+      ],
+    },
+    {
+      title: "New social hierarchies in the Americas",
+      simple: "Colonial societies ranked people by birthplace and race.",
+      detail: "The Spanish casta system put peninsulares (Spain-born) at the top, then creoles (American-born Spanish), mestizos, mulattoes, Native peoples and enslaved Africans. Racial categories shaped rights, taxes and jobs. The encomienda and hacienda systems exploited Native labor.",
+      trap: "Creoles were wealthy but excluded from top offices, which later mattered for Latin American independence (Unit 5).",
+      terms: [
+        ["Peninsulares", "Spanish-born colonists at the top of the colonial hierarchy."],
+        ["Mestizo", "A person of mixed European and Native American ancestry."],
+        ["Hacienda", "Large estate in Spanish America using Native or mixed labor."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Latin American independence",
+      simple: "Inspired by the Enlightenment and other revolutions, Latin American colonies won independence.",
+      detail: "Creole leaders like Simón Bolívar and José de San Martín led independence movements (1810s–1820s) after Napoleon weakened Spain. Brazil gained independence peacefully (1822). New states often kept the social hierarchy and stayed economically dependent on exports.",
+      trap: "Independence often changed who RULED more than how society worked. Creole elites kept power over Native peoples and mestizos.",
+      terms: [
+        ["Simón Bolívar", "Creole leader of independence movements in northern South America."],
+        ["Creole revolutions", "Independence movements led by American-born colonial elites."],
+      ],
+    },
+    {
+      title: "The spread of industrialization",
+      simple: "Industrialization spread from Britain to other countries, often with state help.",
+      detail: "Britain industrialized first thanks to coal, iron, colonies, capital and a stable government. The U.S., Germany and Belgium followed. Russia and Japan industrialized with heavy government involvement (Witte's railroads, the Meiji state). The second industrial revolution brought steel, chemicals, electricity and oil.",
+      trap: "Explain WHY Britain came first with specific causes: geography, coal, capital, colonies, and agricultural changes.",
+      terms: [
+        ["Second Industrial Revolution", "Late-1800s wave featuring steel, electricity and chemicals."],
+        ["Factory system", "Production concentrated in factories using machines and wage labor."],
+      ],
+    },
+    {
+      title: "Economic ideas and business",
+      simple: "New ideas and institutions supported industrial capitalism.",
+      detail: "Adam Smith's The Wealth of Nations (1776) argued for free markets (laissez-faire). Joint-stock companies and corporations raised capital; banks like HSBC financed global trade. Transnational businesses (the United Fruit Company) operated across borders. John Stuart Mill argued for limited government intervention.",
+      trap: "Distinguish capitalism's defenders (Smith) from its critics (Marx). Many questions pair them.",
+      terms: [
+        ["Laissez-faire", "Economic policy of minimal government interference."],
+        ["Transnational business", "A company operating in several countries."],
+      ],
+    },
+    {
+      title: "Reform in states resisting Western pressure",
+      simple: "Some states modernized to stay strong against industrial powers, with mixed success.",
+      detail: "Ottoman Tanzimat reforms modernized law, education and the military. China's Self-Strengthening Movement adopted Western technology but kept Confucian values; conservative resistance limited it. Japan's Meiji Restoration was the most successful, creating an industrial and military power.",
+      trap: "Compare outcomes: Japan transformed rapidly, while the Ottoman and Qing reforms were limited by internal opposition.",
+      terms: [
+        ["Tanzimat", "Ottoman reforms (1839–1876) modernizing government and law."],
+        ["Self-Strengthening Movement", "Chinese effort to adopt Western technology while keeping Confucian values."],
+      ],
+    },
+    {
+      title: "Society in the industrial age",
+      simple: "Industrialization created new social classes, cities and gender roles.",
+      detail: "A middle class of managers and professionals grew; an industrial working class faced long hours and dangerous conditions. Cities grew rapidly with pollution and crowding. Middle-class women were expected to stay home, while working-class women and children worked in factories. Labor unions and reform laws followed.",
+      trap: "Gender and class interact: industrial life affected middle-class and working-class women very differently.",
+      terms: [
+        ["Urbanization", "The growth of cities as people moved for factory work."],
+        ["Labor union", "An organization of workers seeking better wages and conditions."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "The Scramble for Africa",
+      simple: "European powers divided almost all of Africa among themselves in a few decades.",
+      detail: "Motivated by raw materials, markets, national rivalry and ideas of racial superiority, Europeans used new technology (steamships, machine guns, quinine) to conquer Africa after 1880. The Berlin Conference (1884–85) set rules for claiming territory. Belgium's King Leopold II ran the Congo Free State brutally for rubber. Ethiopia defeated Italy at Adwa (1896).",
+      trap: "Technology like quinine and the Maxim gun explains HOW Europeans conquered so quickly. Motives alone don't answer \"how.\"",
+      terms: [
+        ["Congo Free State", "Leopold II's personal colony, notorious for forced rubber labor."],
+        ["Battle of Adwa", "1896 Ethiopian victory over Italy, preserving Ethiopian independence."],
+      ],
+    },
+    {
+      title: "Settler colonies",
+      simple: "In some colonies, large numbers of Europeans settled permanently and displaced Indigenous peoples.",
+      detail: "Britain's settler colonies (Australia, New Zealand, Canada) and Algeria (France) and South Africa saw large European settlement, land seizures, and violence against Aboriginal Australians, Māori and others. Settlers often gained self-government while Indigenous peoples lost land and rights.",
+      trap: "Distinguish settler colonies (many Europeans, land taken) from colonies of extraction (few Europeans, resources taken).",
+      terms: [
+        ["Settler colony", "A colony where many settlers moved permanently and took land."],
+        ["Aboriginal Australians", "Indigenous peoples of Australia, displaced by British settlement."],
+      ],
+    },
+    {
+      title: "Export economies",
+      simple: "Colonies and Latin American states became dependent on exporting one or two raw materials.",
+      detail: "Examples: rubber (Congo, Amazon), cotton (Egypt, India), palm oil (West Africa), guano (Peru), beef (Argentina). Industrial nations bought raw materials and sold manufactured goods back. This left economies vulnerable to price swings and foreign investors.",
+      trap: "Export dependence explains later ECONOMIC problems after independence. Connect it forward to the 20th century.",
+      terms: [
+        ["Export economy", "An economy dependent on exporting a few raw materials."],
+        ["Cash crop", "A crop grown to sell, often for export."],
+      ],
+    },
+    {
+      title: "Effects of migration",
+      simple: "Millions migrated for work, forming new communities and facing discrimination.",
+      detail: "Europeans moved to the Americas; indentured Indians and Chinese went to the Caribbean, Africa and Southeast Asia; Irish fled the famine. Migrants formed ethnic enclaves (Chinatowns). Receiving states passed restrictions such as the U.S. Chinese Exclusion Act (1882) and the White Australia Policy. Male migration left women with new roles at home.",
+      trap: "Explain both push factors (famine, poverty) and pull factors (jobs, land) for migration questions.",
+      terms: [
+        ["Ethnic enclave", "A neighborhood where immigrants of one group cluster."],
+        ["Chinese Exclusion Act", "1882 U.S. law banning Chinese laborers from immigrating."],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "Revolutions in Russia, China and Mexico",
+      simple: "Old governments collapsed in the early 1900s, replaced through revolution.",
+      detail: "China's Qing dynasty fell in 1911 (Sun Yat-sen), leading to a republic and later civil war. The Mexican Revolution (1910–1920) fought over land and power, producing a new constitution. The Russian Revolution (1917) brought the Bolsheviks (Lenin) to power, creating the Soviet Union.",
+      trap: "The Bolshevik (October) Revolution overthrew the provisional government, not the tsar. The tsar fell earlier, in February 1917.",
+      terms: [
+        ["Bolsheviks", "Lenin's communist party that seized power in Russia in 1917."],
+        ["Mexican Revolution", "1910–1920 upheaval over land, power and inequality in Mexico."],
+      ],
+    },
+    {
+      title: "The Great Depression and responses",
+      simple: "A worldwide economic collapse led governments to take bigger roles in the economy.",
+      detail: "After 1929, trade collapsed and unemployment soared. Responses: the U.S. New Deal (Keynesian government spending), Stalin's Five-Year Plans and collectivization, and fascist governments (Italy, Germany) with state-directed economies and militarism. Economic hardship helped extremist parties gain power.",
+      trap: "Link the Depression to POLITICAL change: it helped fascism rise in Germany and Japan.",
+      terms: [
+        ["Keynesian economics", "Theory that government spending can end recessions."],
+        ["Collectivization", "Stalin's forced combining of farms into state-controlled collectives."],
+      ],
+    },
+    {
+      title: "Colonies and the world wars",
+      simple: "Colonial peoples fought and worked for their empires, which fueled demands for independence.",
+      detail: "Over a million Indian soldiers fought in WWI; Africans served as soldiers and porters. Colonies supplied raw materials and labor. Promises of self-determination went unfulfilled after WWI, increasing nationalist anger. WWII weakened European powers, making decolonization possible.",
+      trap: "The world wars CAUSED decolonization by weakening European empires and raising colonial expectations. That's the key link to Unit 8.",
+      terms: [
+        ["Self-determination", "The right of peoples to choose their own government."],
+        ["Mandate system", "League of Nations system placing former Ottoman and German territories under Allied control."],
+      ],
+    },
+    {
+      title: "Conduct of World War II",
+      simple: "WWII was a total war with new technologies that killed civilians on a massive scale.",
+      detail: "Causes: the Treaty of Versailles, the Depression, fascist expansion, and appeasement. Tactics included blitzkrieg, strategic bombing of cities, and island hopping. The atomic bombs on Hiroshima and Nagasaki (1945) ended the Pacific war. Japan's imperial expansion included atrocities like the Nanjing Massacre.",
+      trap: "Appeasement (letting Hitler take the Sudetenland at Munich, 1938) is a key CAUSE of WWII that questions test.",
+      terms: [
+        ["Appeasement", "Giving in to an aggressor's demands to avoid war."],
+        ["Blitzkrieg", "German \"lightning war\" using fast tanks and air power."],
+      ],
+    },
+  ],
+  7: [
+    {
+      title: "The Chinese Communist Revolution",
+      simple: "Mao's Communists won China's civil war in 1949 and transformed Chinese society.",
+      detail: "After fighting the Nationalists (Chiang Kai-shek) and Japan, Mao's peasant-based Communists won in 1949. The Great Leap Forward (1958–62) caused a massive famine. The Cultural Revolution (1966–76) attacked traditional culture and \"class enemies.\" After Mao, Deng Xiaoping introduced market reforms.",
+      trap: "Chinese communism relied on PEASANTS, unlike Marx's focus on industrial workers. That adaptation is testable.",
+      terms: [
+        ["Chinese Civil War", "War between Communists and Nationalists, won by the Communists in 1949."],
+        ["Cultural Revolution", "Mao's 1966–76 campaign to purge traditional and capitalist elements."],
+      ],
+    },
+    {
+      title: "Proxy wars and the arms race",
+      simple: "The superpowers competed through proxy wars and a massive nuclear arms buildup.",
+      detail: "Proxy wars: Korea (1950–53), Vietnam, Angola, Afghanistan (1979–89). The arms race and the doctrine of mutually assured destruction deterred direct war. The Cuban Missile Crisis (1962) nearly caused nuclear war. Alliances: NATO vs. the Warsaw Pact.",
+      trap: "Proxy wars were fought in the GLOBAL SOUTH, often during decolonization. Link Cold War and independence struggles.",
+      terms: [
+        ["Mutually assured destruction", "Deterrence because nuclear war would destroy both sides."],
+        ["Warsaw Pact", "Soviet-led military alliance of Eastern European states."],
+      ],
+    },
+    {
+      title: "Latin America in the Cold War",
+      simple: "The Cold War shaped Latin American politics through revolutions and U.S. interventions.",
+      detail: "Fidel Castro's Cuban Revolution (1959) created a communist state allied with the USSR. The U.S. backed coups and military regimes (Guatemala 1954, Chile 1973) to block leftist governments. Many countries saw authoritarian rule and \"disappearances\" of dissidents before democratization in the 1980s–90s.",
+      trap: "U.S. anti-communism often meant supporting AUTHORITARIAN governments. Balance Cold War goals with their effects on democracy.",
+      terms: [
+        ["Cuban Revolution", "1959 revolution bringing Fidel Castro to power."],
+        ["Military junta", "A government led by a committee of military officers."],
+      ],
+    },
+    {
+      title: "Challenges for newly independent states",
+      simple: "New nations faced ethnic conflict, economic dependence and migration after independence.",
+      detail: "Arbitrary colonial borders created ethnic tensions (Nigeria's Biafran War, Rwanda). Many states pursued economic development through state-led industrialization or socialism. Migration flowed from former colonies to Europe (South Asians to Britain, North Africans to France). Some leaders became authoritarian.",
+      trap: "Explain problems with specific colonial LEGACIES, like borders that ignored ethnic groups and export-dependent economies.",
+      terms: [
+        ["Biafran War", "1967–70 Nigerian civil war after the Igbo region tried to secede."],
+        ["Postcolonial migration", "Movement of people from former colonies to the former colonizing country."],
+      ],
+    },
+  ],
+  8: [
+    {
+      title: "Disease and medicine in the modern era",
+      simple: "Medicine saved millions, but new and old diseases still reshaped societies.",
+      detail: "Vaccines (polio, smallpox eradicated in 1980) and antibiotics lengthened life expectancy. The 1918 influenza pandemic killed tens of millions. HIV/AIDS devastated sub-Saharan Africa; malaria and tuberculosis persist. Diseases of longer lives (heart disease, Alzheimer's) became more common.",
+      trap: "Medical advances were UNEVEN. Wealthy countries benefited first, which is a common point for continuity-and-change essays.",
+      terms: [
+        ["Smallpox eradication", "Global vaccination campaign that eliminated smallpox by 1980."],
+        ["1918 influenza pandemic", "Global flu outbreak that killed tens of millions."],
+      ],
+    },
+    {
+      title: "Environmental change",
+      simple: "Population growth and industry changed the global environment faster than ever.",
+      detail: "Fossil fuels drove climate change; deforestation, desertification and pollution increased. The Green Revolution raised yields but required fertilizer, irrigation and pesticides. Environmental movements and agreements (Kyoto Protocol) responded.",
+      trap: "The Green Revolution had costs too: environmental damage and benefits that favored wealthier farmers.",
+      terms: [
+        ["Climate change", "Long-term warming driven by greenhouse gases from burning fossil fuels."],
+        ["Kyoto Protocol", "1997 international agreement to reduce greenhouse gas emissions."],
+      ],
+    },
+    {
+      title: "Free-market reforms",
+      simple: "From the 1980s, many governments cut state control of the economy.",
+      detail: "Neoliberal policies (Thatcher in Britain, Reagan in the U.S.) privatized industries and reduced regulation. Deng Xiaoping opened China to markets and foreign investment. Chile and other Latin American countries adopted free-market reforms. Critics pointed to growing inequality.",
+      trap: "China combined market reforms with continued COMMUNIST PARTY political control. Economic liberalization didn't mean democratization.",
+      terms: [
+        ["Neoliberalism", "Policies favoring free markets, privatization and deregulation."],
+        ["Special Economic Zones", "Areas in China opened to foreign investment under Deng Xiaoping."],
+      ],
+    },
+    {
+      title: "Global and regional organizations",
+      simple: "Countries created organizations to keep peace and manage trade, while some groups resisted globalization.",
+      detail: "The United Nations (1945) promotes peace and human rights. Regional groups include the European Union, ASEAN and the African Union. Trade agreements (NAFTA, WTO) lowered barriers. Protests against globalization (the 1999 Seattle WTO protests) and nationalism pushed back.",
+      trap: "Show BOTH integration (EU, WTO) and resistance to it. Continuity-and-change essays reward that tension.",
+      terms: [
+        ["United Nations", "International organization founded in 1945 to promote peace and cooperation."],
+        ["European Union", "Economic and political union of European states."],
       ],
     },
   ],
