@@ -1,0 +1,31 @@
+// Concept tags and wrong-answer diagnoses for content/english-language.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["english-language"] = {
+  "0.0": [0, { 0: "The library's history is background. The call to action (\"Come to Tuesday's meeting\") shows the purpose.", 1: "The writer asks the council for LONGER hours and says they're not asking for a new building.", 3: "Reading is mentioned as a memory. The purpose is to rally support." }],
+  "0.1": [0, { 0: "No election is mentioned. The exigence is the problem that prompted the writing.", 2: "The complaint is about hours, not books.", 3: "Reading scores aren't mentioned. Stick to what the passage says." }],
+  "0.2": [1, { 0: "The writer isn't expressing a dislike. They're making the request sound small and easy to grant.", 2: "Taxes never come up. The phrase preempts an objection about cost.", 3: "The phrase stays on topic by clarifying the request." }],
+  "0.3": [2, { 1: "\"Neighbors\" is warm and inclusive, not critical.", 2: "The writer doesn't claim expertise. The word builds common ground.", 3: "A single form of address isn't evidence or data." }],
+  "1.0": [0, { 0: "That's a FACT, not an arguable claim.", 1: "That announces the topic without taking a position.", 3: "That describes a disagreement without taking a side." }],
+  "1.1": [2, { 0: "Summary repeats the evidence. Commentary explains HOW it proves your point.", 2: "Commentary develops the current claim. It doesn't start a new topic.", 3: "More examples without explanation is \"quote and run.\"" }],
+  "1.2": [3, { 0: "Qualifying makes a claim MORE defensible, not weaker, because it's harder to refute.", 2: "The topic stays the same (homework). Only its scope narrows.", 3: "No statistics were added. The change is in the claim's scope." }],
+  "1.3": [1, { 0: "A personal preference doesn't show attendance changed.", 2: "That's context, not evidence that later starts improve attendance.", 3: "A general quote isn't specific evidence for this claim." }],
+  "2.0": [3, { 1: "The thesis is the writer's main claim. This sentence answers an objection.", 2: "There's no personal story. It cites other districts.", 3: "No term is being defined." }],
+  "2.1": [2, { 0: "\"However\" signals a CONTRAST, but the second sentence is a RESULT of the first.", 2: "\"For instance\" introduces an example, but this is an effect.", 3: "\"Similarly\" signals a comparison, not cause and effect." }],
+  "2.2": [1, { 0: "Deductive reasoning starts from a general principle. This starts from specific cases.", 2: "Circular reasoning assumes its own conclusion, which isn't happening here.", 3: "Ad hominem attacks a person. No one is attacked." }],
+  "2.3": [3, { 0: "Counterarguments serve a purpose: they build credibility and anticipate doubts.", 2: "Addressing a counterargument doesn't mean giving in to it. Writers usually rebut it.", 3: "Handled well, counterarguments clarify rather than confuse." }],
+  "3.0": [1, { 0: "The repetition is controlled and deliberate. It builds rhythm, not confusion.", 2: "No government is mentioned.", 3: "There are no numbers in the passage." }],
+  "3.1": [2, { 0: "The final line looks forward with determination. That's the opposite of indifferent.", 2: "Nothing is mocking or ironic.", 3: "The passage looks FORWARD to rebuilding, not back with longing." }],
+  "3.2": [0, { 1: "\"Monument\" has positive connotations. It doesn't criticize the stadium.", 2: "Choosing \"monument\" over \"building\" is deliberately NOT neutral.", 3: "Monuments suggest permanence and significance, not age." }],
+  "3.3": [1, { 0: "\"It failed\" is a conclusion, not new evidence.", 2: "There's no opposing view.", 3: "No term is defined. The effect comes from the sudden short length." }],
+  "4.0": [1, { 0: "That's a summary with no choices or purpose.", 1: "Listing appeals without explaining what the writer DOES is a weak thesis.", 3: "Rhetorical analysis explains HOW a writer persuades, not whether you agree." }],
+  "4.1": [2, { 0: "Naming a device isn't commentary. Explain its effect.", 1: "Quoting is evidence. Commentary explains what the quote does.", 3: "\"Powerful\" is vague. Explain HOW and WHY it affects the audience." }],
+  "4.2": [1, { 0: "The thesis is worth only 1 point. Evidence and commentary are worth up to 4.", 2: "Conclusions aren't separately scored.", 3: "Length isn't scored. Quality of commentary is." }],
+  "4.3": [2, { 0: "Organizing by appeals tends to produce list-like, shallow analysis.", 2: "Summarizing in order isn't analysis.", 3: "Agreeing or disagreeing belongs in the argument essay, not rhetorical analysis." }],
+  "5.0": [0, { 0: "That's the RHETORICAL ANALYSIS essay.", 2: "That's closer to the synthesis essay, which gives you sources.", 3: "It's argumentative, not narrative." }],
+  "5.1": [1, { 0: "\"Everyone knows\" is an unsupported generalization.", 1: "A hypothetical is weaker than a real, specific example.", 3: "That's a general claim, not evidence." }],
+  "5.2": [0, { 0: "Qualifying IS taking a position, just a nuanced one.", 2: "Summarizing restates the claim without responding to it.", 3: "Qualifying concerns the scope of your position, not the type of evidence." }],
+  "6.0": [0, { 0: "One source isn't enough for the higher Evidence & Commentary scores.", 1: "Two sources isn't enough. The rubric expects at least three.", 3: "You don't need to use every source." }],
+  "6.1": [1, { 0: "One paragraph per source turns into summary. Organize around YOUR claims.", 2: "Publication order has nothing to do with your argument.", 3: "Alphabetical order doesn't build an argument." }],
+  "6.2": [1, { 0: "Ignoring a counter-source misses a chance to show complexity.", 2: "You can respond to an opposing source without abandoning your position.", 3: "A quote with no commentary doesn't help your argument." }],
+};

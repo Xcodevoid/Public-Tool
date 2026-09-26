@@ -214,17 +214,6 @@ main { outline: none; min-height: 70vh; }
 .hero-art { position: relative; height: 360px; }
 .mock { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 16px; font-size: 0.86rem; }
 .mock-top { display: flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
-.mock-1 { --c: #059669; top: 0; left: 0; width: 300px; transform: rotate(-2deg); }
-.mock-1 .mock-top .ico { color: #059669; }
-.mock-q { font-weight: 600; margin-bottom: 10px; }
-.mock-choice { border: 1px solid var(--border); border-radius: 9px; padding: 7px 11px; margin-bottom: 6px; display: flex; gap: 6px; align-items: center; }
-.mock-choice.is-right { border-color: var(--good); background: var(--good-soft); color: var(--good); font-weight: 600; }
-.mock-2 { right: 0; top: 150px; width: 250px; transform: rotate(3deg); background: linear-gradient(135deg, var(--brand-soft), var(--surface)); }
-.mock-term { font-family: var(--display); font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; }
-.mock-def { color: var(--text-2); }
-.mock-3 { --c: #4f46e5; left: 40px; bottom: 0; display: flex; align-items: center; gap: 12px; padding: 12px 18px 12px 12px; }
-.mock-3 b { display: block; }
-.mock-3 span { color: var(--muted); font-size: 0.8rem; }
 .continue { display: flex; align-items: center; gap: 16px; margin-top: 8px; color: var(--text); border-left: 4px solid var(--c-ink); transition: box-shadow 0.15s, transform 0.15s; }
 .continue:hover { text-decoration: none; box-shadow: var(--shadow); transform: translateY(-1px); }
 .continue-title { font-weight: 700; font-family: var(--display); }
@@ -236,9 +225,6 @@ main { outline: none; min-height: 70vh; }
 .course-card p { margin: 0; font-size: 0.9rem; color: var(--text-2); flex: 1; }
 .course-card-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--border); margin-top: 4px; }
 .course-card .meta { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
-.how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; }
-.how-step h3 { margin: 12px 0 4px; }
-.how-step p { margin: 0; font-size: 0.9rem; color: var(--text-2); }
 .how-ico { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
 .filters { display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px; }
 .filter-search { display: flex; align-items: center; gap: 10px; padding: 0 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: var(--muted); max-width: 420px; }
@@ -467,6 +453,171 @@ main { outline: none; min-height: 70vh; }
 .rec:hover { background: var(--surface-2); text-decoration: none; }
 .rec > .ico { color: var(--muted); }
 
+/* ================= Adaptive learning components ================= */
+.btn-sm { padding: 6px 12px; font-size: 0.84rem; border-radius: 9px; }
+.hero-ctas { margin: 28px 0 22px; }
+.hero h1 { font-size: clamp(2rem, 4.6vw, 3.2rem); }
+.loop { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 0; margin: 0; font-size: 0.9rem; color: var(--text-2); font-weight: 600; }
+.loop li { display: inline-flex; align-items: center; gap: 8px; }
+.loop li span { width: 22px; height: 22px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; font-size: 0.75rem; font-weight: 800; }
+.loop li:not(:last-child)::after { content: "→"; color: var(--muted); margin-left: 10px; }
+.mock-q1 { top: 0; left: 0; width: 330px; transform: rotate(-1.5deg); }
+.mock-q1 .mock-top .ico { color: #d97706; }
+.mock-choice.is-wrong { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); font-weight: 600; }
+.mock-why { font-size: 0.8rem; color: var(--text-2); background: var(--surface-2); border-radius: 8px; padding: 8px 10px; margin-top: 6px; }
+.mock-weak { right: 0; top: 170px; width: 260px; transform: rotate(2.5deg); border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
+.mock-top.warn { color: var(--warn); }
+.mock-weak .mock-def { color: var(--good); font-weight: 600; font-size: 0.82rem; }
+.mock-review { left: 36px; bottom: 0; display: flex; align-items: center; gap: 12px; color: var(--brand); padding: 12px 18px; }
+.mock-review b { display: block; color: var(--text); }
+.mock-review span { color: var(--muted); font-size: 0.8rem; }
+.today { margin-top: 8px; border-left: 4px solid var(--brand); }
+.today-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.today-head .overline { color: var(--brand); display: inline-flex; align-items: center; gap: 6px; }
+.today-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; }
+.today-main { display: flex; align-items: center; gap: 14px; justify-content: space-between; background: var(--brand-soft); border-radius: 12px; padding: 14px 16px; color: var(--text); }
+.today-main p { margin: 2px 0 0; }
+.today-main:hover, .today-stat:hover { text-decoration: none; filter: brightness(0.98); }
+.today-stat { display: flex; flex-direction: column; gap: 2px; background: var(--surface-2); border-radius: 12px; padding: 12px 14px; color: var(--text-2); font-size: 0.82rem; }
+.today-stat .ico { color: var(--brand); }
+.today-stat b { font-family: var(--display); font-size: 1.5rem; color: var(--text); line-height: 1.1; }
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; }
+.why-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.why-card h3 { margin: 12px 0 4px; }
+.why-card p { margin: 0; font-size: 0.9rem; color: var(--text-2); }
+.cc-mastery { width: 100%; }
+.cc-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+.cc-row b { color: var(--c-ink); font-family: var(--display); }
+.due-pill { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; font-size: 0.72rem; font-weight: 700; color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 2px 8px; }
+.cc-cta { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.86rem; color: var(--c-ink); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--surface-3); border: 1px solid var(--border-strong); }
+.dot-strong { background: var(--good); border-color: var(--good); }
+.dot-learning { background: var(--warn); border-color: var(--warn); }
+.dot-weak { background: var(--bad); border-color: var(--bad); }
+.dots { display: flex; gap: 4px; justify-content: flex-end; margin-bottom: 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.8rem; color: var(--muted); margin-top: 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend.inline { margin: 0; }
+.st { display: inline-flex; align-items: center; font-size: 0.72rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+.st-new { background: var(--surface-2); color: var(--muted); }
+.st-weak { background: var(--bad-soft); color: var(--bad); }
+.st-learning { background: var(--warn-soft); color: var(--warn); }
+.st-strong { background: var(--good-soft); color: var(--good); }
+.weak-strip { margin-bottom: 24px; border-left: 4px solid var(--bad); }
+.weak-strip .overline { color: var(--bad); display: inline-flex; gap: 6px; align-items: center; }
+.weak-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 8px; }
+.weak-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface-2); border-radius: 10px; color: var(--text); }
+.weak-item:hover { text-decoration: none; background: var(--bad-soft); }
+.weak-item .grow { display: flex; flex-direction: column; }
+.concept-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px 12px; flex-wrap: wrap; }
+.concept-head h3 { min-width: 0; }
+.concept-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.practice-note { display: flex; align-items: center; gap: 6px; margin: 0; }
+.practice-note .ico { color: var(--brand); }
+.rem-banner { display: flex; align-items: center; gap: 8px; background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 8px 14px; font-size: 0.88rem; margin-bottom: 12px; }
+.rem-banner b { color: var(--text); }
+.q-card.is-rem { border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); }
+.q-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.q-meta:empty { display: none; }
+.q-source.gen { --c-ink: var(--brand); --c-soft: var(--brand-soft); }
+.choice.is-picked { border-color: var(--brand); background: var(--brand-soft); }
+.fb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 2px 0 10px; }
+.fb-grid > div { background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 0.94rem; }
+.fb-label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 2px; }
+.fb-label.bad { color: var(--bad); }
+.fb-label.good { color: var(--good); }
+.fb-why { margin-top: 10px; }
+.fb-why p { margin: 2px 0 0; }
+.mastery-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 1px dashed color-mix(in srgb, var(--text) 15%, transparent); font-size: 0.9rem; }
+.delta { display: inline-flex; align-items: center; gap: 3px; font-family: var(--display); font-weight: 800; font-size: 0.82rem; border-radius: 999px; padding: 1px 8px; }
+.delta.up { background: var(--good-soft); color: var(--good); }
+.delta.down { background: var(--bad-soft); color: var(--bad); }
+.weak-card { border-top: 4px solid var(--warn); animation: pop 0.25s ease; }
+.weak-top { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--warn); text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.06em; margin-bottom: 8px; }
+.weak-card h2 { font-size: 1.6rem; margin-bottom: 2px; }
+.refresher { background: var(--surface-2); border-radius: 12px; padding: 16px 18px; margin: 16px 0 4px; }
+.refresher .overline { color: var(--c-ink); }
+.refresher p { margin: 4px 0 0; font-size: 1.02rem; }
+.refresher details { margin-top: 12px; }
+.refresher summary { cursor: pointer; font-weight: 700; color: var(--c-ink); font-size: 0.9rem; }
+.recovered { text-align: center; padding: 36px 28px; animation: pop 0.25s ease; }
+.recovered h2 { font-size: 1.6rem; }
+.rec-ico { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 14px; display: grid; place-items: center; }
+.recovered.good .rec-ico { background: var(--good-soft); color: var(--good); }
+.recovered.bad .rec-ico { background: var(--warn-soft); color: var(--warn); }
+.card-title.left { justify-content: flex-start; text-align: left; }
+.concept-results { display: flex; flex-direction: column; gap: 4px; text-align: left; margin-bottom: 20px; }
+.cr-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text); }
+.cr-row:hover { background: var(--surface-2); text-decoration: none; }
+.cr-row .grow { display: flex; flex-direction: column; }
+.cr-pct { font-family: var(--display); font-weight: 800; min-width: 44px; text-align: right; }
+.next-step { display: flex; align-items: center; gap: 14px; text-align: left; background: var(--brand-soft); border-radius: 14px; padding: 16px 18px; color: var(--text); margin-bottom: 20px; }
+.next-step:hover { text-decoration: none; filter: brightness(0.98); }
+.next-step p { margin: 2px 0 0; }
+.next-step .overline { color: var(--brand); display: inline-flex; gap: 6px; align-items: center; }
+.session-head { display: flex; gap: 16px; align-items: center; margin-bottom: 20px; }
+.session-head h1 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); }
+.session-head p { margin: 4px 0 0; }
+.session-head .cat-icon.lg { --c-soft: var(--brand-soft); --c-ink: var(--brand); }
+.refresher-card { margin-bottom: 16px; padding: 14px 18px; }
+.refresher-card summary { cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.refresher-card p { margin: 10px 0 0; }
+.diag-intro { text-align: center; padding: 40px 28px; }
+.diag-intro .cat-icon.lg { margin: 0 auto 14px; --c-soft: var(--brand-soft); --c-ink: var(--brand); }
+.diag-intro .lead { margin: 0 auto 18px; }
+.diag-points { list-style: none; padding: 0; margin: 0 auto 24px; display: inline-flex; flex-direction: column; gap: 8px; text-align: left; }
+.diag-points li { display: flex; gap: 10px; align-items: center; }
+.diag-points .ico { color: var(--brand); }
+.diag-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; text-align: left; margin-bottom: 18px; }
+.diag-col { border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.diag-col.bad { background: var(--bad-soft); }
+.diag-col.good { background: var(--good-soft); }
+.diag-col h3 { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.diag-col.bad h3 { color: var(--bad); }
+.diag-col.good h3 { color: var(--good); }
+.diag-col h3 span { margin-left: auto; font-family: var(--display); }
+.diag-col a { display: flex; justify-content: space-between; gap: 8px; background: var(--surface); border-radius: 9px; padding: 8px 12px; color: var(--text); font-size: 0.9rem; }
+.diag-col a span { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+.diag-col a:hover { text-decoration: none; box-shadow: var(--shadow-sm); }
+.miss-list { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+.miss { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--bad); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+.miss-q { font-weight: 600; margin-bottom: 12px; }
+.miss .fb-grid > div { background: var(--surface-2); }
+.miss .fb-why p { color: var(--text-2); }
+.miss-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.concept-tag { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; flex-wrap: wrap; }
+.concept-tag .ico { color: var(--c-ink); }
+.review-course { margin-bottom: 28px; }
+.review-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.review-head h2 { margin: 0; font-size: 1.15rem; }
+.next-best { display: flex; align-items: center; gap: 18px; color: var(--text); border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--border)); background: linear-gradient(135deg, var(--brand-soft), var(--surface)); margin-bottom: 20px; }
+.next-best:hover { text-decoration: none; box-shadow: var(--shadow); }
+.next-best h2 { margin: 2px 0; }
+.next-best p { margin: 0; }
+.next-best .overline { color: var(--brand); }
+.nb-ico { width: 52px; height: 52px; border-radius: 14px; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; flex-shrink: 0; }
+.stat-ico.bad { background: var(--bad-soft); color: var(--bad); }
+.stat-ico.good { background: var(--good-soft); color: var(--good); }
+.stat b small { font-size: 1rem; color: var(--muted); }
+.dash-course-card { padding: 0; margin-bottom: 12px; overflow: hidden; }
+.dash-course-card summary { list-style: none; display: flex; align-items: center; gap: 14px; padding: 16px 18px; cursor: pointer; }
+.dash-course-card summary::-webkit-details-marker { display: none; }
+.dash-course-card summary .bar { margin-top: 6px; }
+.dash-course-card summary .pct { font-family: var(--display); font-weight: 800; font-size: 1.1rem; color: var(--c-ink); min-width: 50px; text-align: right; }
+.unit-mastery { border-top: 1px solid var(--border); padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 14px; }
+.um-title { display: flex; justify-content: space-between; gap: 10px; color: var(--text); font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; }
+.um-title b { font-family: var(--display); color: var(--c-ink); }
+.um-concepts { display: flex; flex-wrap: wrap; gap: 6px; }
+.cchip { font-size: 0.78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid transparent; color: var(--text-2); background: var(--surface-2); }
+.cchip:hover { text-decoration: none; border-color: var(--border-strong); }
+.cchip-strong { background: var(--good-soft); color: var(--good); }
+.cchip-learning { background: var(--warn-soft); color: var(--warn); }
+.cchip-weak { background: var(--bad-soft); color: var(--bad); }
+.rank { width: 26px; height: 26px; border-radius: 8px; background: var(--bad-soft); color: var(--bad); display: grid; place-items: center; font-weight: 800; font-size: 0.8rem; flex-shrink: 0; }
+.rec .bar { margin-top: 6px; }
+.due-list { margin: 6px 0 14px; padding-left: 18px; font-size: 0.92rem; }
+.due-list li { margin: 3px 0; }
+
 /* ================= Search palette ================= */
 .palette-overlay { position: fixed; inset: 0; background: rgba(8, 10, 20, 0.5); backdrop-filter: blur(4px); z-index: 50; display: flex; justify-content: center; align-items: flex-start; padding: 10vh 16px 16px; animation: fade 0.15s ease; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -500,7 +651,7 @@ main { outline: none; min-height: 70vh; }
   .hero-art { display: none; }
   .course-grid, .dash-grid { grid-template-columns: 1fr; }
   .course-aside { position: static; }
-  .how { grid-template-columns: 1fr 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 900px) {
@@ -520,7 +671,11 @@ main { outline: none; min-height: 70vh; }
   .page { padding: 20px 16px 56px; }
   .hero-inner { padding-top: 36px; padding-bottom: 36px; }
   .hero-stats { gap: 20px; }
-  .how { grid-template-columns: 1fr; padding: 20px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .today-grid { grid-template-columns: 1fr 1fr; }
+  .today-main { grid-column: 1 / -1; }
+  .diag-cols, .fb-grid { grid-template-columns: 1fr; }
+  .next-best { flex-wrap: wrap; }
   .unit-row { flex-wrap: wrap; }
   .unit-row > .ico { display: none; }
   .unit-state { width: 100%; text-align: left; }
@@ -4510,13 +4665,638 @@ window.AP_CONTENT["us-history"] = {
 };
 
 </script>
+<script>/* content/diagnostics/biology.js */
+// Concept tags and wrong-answer diagnoses for content/biology.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["biology"] = {
+  "0.0": [0, { 0: "Covalent bonds hold each water molecule together, but specific heat depends on the attractions BETWEEN molecules.", 2: "Water is polar, not nonpolar. Its polarity is exactly what lets hydrogen bonds form.", 3: "The O–H bonds in water are polar covalent, not ionic." }],
+  "0.1": [1, { 0: "That describes dehydration synthesis, the opposite process. \"Hydro-lysis\" means splitting WITH water.", 2: "This mixes in proteins and ATP. A polysaccharide is made of sugars, not amino acids.", 3: "Peptide bonds join amino acids. Hydrolysis BREAKS bonds rather than forming them." }],
+  "0.2": [2, { 0: "Interior R groups matter a lot: hydrophobic interactions inside the protein hold the tertiary fold together.", 2: "A mutation changes an amino acid. It can't turn a protein into a different class of molecule.", 3: "Swapping one amino acid for another IS a change in primary structure, which then affects the fold." }],
+  "0.3": [3, { 0: "Carbon is in all four macromolecules, including carbohydrates.", 1: "Carbohydrates are made of C, H and O, so oxygen is in both.", 3: "Hydrogen is in carbohydrates too. Look for the element in the phosphate group." }],
+  "1.0": [1, { 0: "Volume grows faster than surface area (s³ vs s²), so the ratio falls, not rises.", 1: "Both measurements change, and at different rates, so their ratio can't stay the same.", 3: "Surface area quadruples, but the question asks about the RATIO of surface area to volume." }],
+  "1.1": [3, { 0: "Swelling happens in a HYPOtonic solution. Hypertonic means more solute outside, so water leaves.", 2: "The concentrations differ, so water moves by osmosis.", 3: "Cells don't respond to osmosis by pumping in salt. Water simply moves out passively." }],
+  "1.2": [2, { 0: "Diffusion always moves substances DOWN their gradient. Moving against a gradient needs energy.", 1: "Facilitated diffusion uses a protein but still goes down the gradient, without ATP.", 3: "Osmosis is the movement of water, not ions." }],
+  "1.3": [0, { 1: "All cells having ribosomes shows a shared ancestry of all life, not that organelles were once separate organisms.", 2: "The nucleus containing DNA isn't evidence that mitochondria or chloroplasts were once bacteria.", 3: "Cell walls aren't related to endosymbiosis. Look for features that make an organelle resemble a bacterium." }],
+  "2.0": [0, { 1: "Extreme heat denatures the enzyme, so it makes things worse, not better.", 2: "More inhibitor means more blocked active sites, which makes inhibition stronger.", 3: "Fewer enzymes would slow the reaction further. The fix is to out-compete the inhibitor." }],
+  "2.1": [1, { 0: "This is the classic trap. CO₂'s oxygen ends up in sugar, while the released O₂ comes from splitting water.", 1: "Glucose is a PRODUCT of photosynthesis, not the source of the O₂.", 3: "ATP is made in the light reactions but doesn't release oxygen." }],
+  "2.2": [2, { 0: "A leaky membrane destroys the H⁺ gradient that powers ATP synthase, so ATP production can't increase.", 2: "ATP synthase depends on the proton gradient, so losing the gradient must change ATP output.", 3: "Glycolysis happens in the cytosol and doesn't depend on the mitochondrial membrane." }],
+  "2.3": [0, { 0: "The substrate isn't the problem. The enzyme itself loses its shape at high temperature.", 2: "Higher temperature makes molecules move FASTER, not slower.", 3: "Temperature doesn't \"activate\" inhibitors. The drop comes from the enzyme denaturing." }],
+  "3.0": [1, { 0: "Oxytocin during labor is POSITIVE feedback: contractions trigger more oxytocin, which amplifies the change.", 2: "Ethylene ripening spreads and amplifies, which is positive feedback.", 3: "A clotting cascade amplifies itself, which is positive feedback. Negative feedback reverses a change." }],
+  "3.1": [0, { 0: "Without a working receptor, the signal can't be received, so the pathway never starts.", 2: "Blocking a receptor doesn't redirect the hormone somewhere else.", 3: "A blocked receptor stops the signal completely. It can't amplify a signal it never received." }],
+  "3.2": [2, { 0: "G₁ is a growth phase. DNA is copied in S (synthesis).", 2: "G₂ comes after DNA is already copied. It prepares the cell for mitosis.", 3: "In metaphase, chromosomes (already replicated) line up. Copying happens earlier, in S." }],
+  "3.3": [2, { 0: "An always-active CDK pushes the cycle FORWARD, so the cell won't stop dividing.", 2: "Meiosis makes gametes. A CDK mutation affects regulation of the normal cell cycle.", 3: "An active CDK promotes progress through the cycle, including DNA replication." }],
+  "4.0": [1, { 0: "1/4 is the fraction that's AA (or aa). Heterozygous is Aa, which is 2 of the 4 boxes.", 2: "3/4 is the fraction showing the DOMINANT phenotype, not the heterozygous fraction.", 3: "Not every offspring is Aa. AA and aa also appear." }],
+  "4.1": [2, { 0: "1/4 is only P(aa). You need aa AND bb, so multiply.", 1: "1/8 comes from multiplying 1/2 × 1/4. Each gene gives 1/4, so it's 1/4 × 1/4.", 3: "9/16 is the fraction showing BOTH dominant traits." }],
+  "4.2": [2, { 0: "The mother is a carrier, so she can pass on the recessive allele.", 1: "1/4 is the chance for ANY child. Once we know it's a son, only mom's X matters.", 3: "The mother has one normal X, so it's not guaranteed." }],
+  "4.3": [2, { 0: "Crossing over is rare between CLOSE genes, so recombinants are fewer, not more.", 2: "9:3:3:1 applies to genes that assort independently, which linked genes don't.", 3: "Offspring still vary. It's just that parental combinations dominate." }],
+  "5.0": [1, { 0: "ATG uses T, but RNA has U instead of thymine.", 2: "UAC copies the template's letters instead of pairing with them (T→A, A→U, C→G).", 3: "Written 3′→5′, that sequence runs backward. mRNA is written 5′ to 3′." }],
+  "5.1": [3, { 0: "That happens when lactose is ABSENT. Lactose inactivates the repressor.", 2: "RNA polymerase isn't destroyed. It becomes free to transcribe the genes.", 3: "The lac operon's genes BREAK DOWN lactose rather than making it." }],
+  "5.2": [3, { 0: "Big fragments get tangled in the gel and move the LEAST distance.", 2: "DNA is negatively charged and moves toward the positive electrode.", 3: "Uncut plasmids aren't the \"fragments\" in question. Size decides the distance." }],
+  "5.3": [3, { 0: "That's what a SUBSTITUTION does. An insertion shifts every codon after it.", 2: "Both kinds of mutation can be repaired. Repair isn't what makes insertions worse.", 3: "Insertions can happen anywhere, including exons." }],
+  "6.0": [1, { 0: "0.16 is q² (the homozygous recessive frequency), not the heterozygous frequency.", 1: "0.24 is only p·q. The heterozygote frequency is 2pq.", 3: "0.60 is p itself, an allele frequency, not a genotype frequency." }],
+  "6.1": [0, { 0: "An individual's genes don't change during its life. Evolution is a change in a POPULATION over generations.", 2: "This is the \"need\" trap. Variation arises randomly first, then selection acts on it.", 3: "Mutations arise randomly. Selection only acts on variation that already exists." }],
+  "6.2": [3, { 0: "Analogous structures have similar functions but different ancestry. Same bone layout signals common ancestry.", 2: "Vestigial structures have lost their function, but both wings and arms are fully functional.", 3: "Convergence produces similar FUNCTIONS in unrelated species. These share structure from an ancestor." }],
+  "6.3": [2, { 0: "A bottleneck is a disaster that shrinks an EXISTING population. Starting a new population is the founder effect.", 2: "Gene flow ADDS alleles through migration, which would raise diversity.", 3: "Directional selection favors one extreme trait. This is random sampling of who arrived." }],
+  "7.0": [0, { 0: "1,000 kcal reaches PRIMARY consumers. Keep dividing by 10 for each level.", 1: "100 kcal reaches secondary consumers. Tertiary is one more level up.", 3: "That's one level too far: 10,000 → 1,000 → 100 → 10." }],
+  "7.1": [1, { 0: "At N = 0 there's no one to reproduce, so the growth rate is zero.", 2: "At K the population has leveled off, so the growth rate is zero.", 3: "N can't sustainably reach 2K in logistic growth." }],
+  "7.2": [2, { 0: "A sea star is a predator, not a producer.", 2: "Invasive species are non-native. Removing this NATIVE predator is what hurt diversity.", 3: "Mutualism benefits both species. Here the sea star controls mussels by eating them." }],
+  "7.3": [1, { 1: "50 is rN without the (K − N)/K factor. Multiply by 500/1000 = 0.5.", 2: "Check the arithmetic: 0.1 × 500 = 50, then × 0.5 = 25.", 3: "500 is N itself, not the growth rate." }],
+};
+
+</script>
+<script>/* content/diagnostics/calculus-ab.js */
+// Concept tags and wrong-answer diagnoses for content/calculus-ab.js (also used by Calculus BC Units 1–8).
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["calculus-ab"] = {
+  "0.0": [1, { 0: "Plugging in gives 0/0, which isn't an answer. It means you need to factor and simplify.", 1: "3 is where x is heading. The limit is the value the FUNCTION approaches: x + 3 → 6.", 3: "A hole at x = 3 doesn't stop the limit from existing. Factor, cancel, and substitute." }],
+  "0.1": [3, { 0: "A limit of 0 happens when the bottom's degree is higher. Here the degrees are equal.", 2: "4 is only the top's leading coefficient. With equal degrees, divide the coefficients: 4/2.", 3: "∞ happens when the top's degree is higher. Equal degrees give a finite ratio." }],
+  "0.2": [3, { 1: "Continuity alone doesn't tell you where the maximum is. f could rise above 5 and come back down.", 2: "That's the Mean Value Theorem, which needs DIFFERENTIABILITY. We were only told f is continuous.", 3: "f could wiggle up and down. Only the IVT conclusion is guaranteed." }],
+  "0.3": [1, { 0: "Plugging in gives 0/0, which is indeterminate, not 0.", 1: "lim sin(x)/x = 1 only when the angle matches the denominator. Rewrite as 5 · sin(5x)/(5x).", 3: "The 5 multiplies, not divides: sin(5x)/x = 5 · sin(5x)/(5x) → 5." }],
+  "0.4": [2, { 0: "Check the left side: 1 + 2 = 3, not 1. The two pieces must meet at the same height.", 1: "Set the left limit equal to the right value: 1 + 2 = k(1)², so k = 3.", 3: "Evaluate the left piece at x = 1: 1 + 2 = 3." }],
+  "1.0": [0, { 0: "Plugging in h = 0 gives 0/0. Recognize the expression as the derivative of x³ at x = 2.", 1: "8 is f(2) = 2³. The limit gives the SLOPE f′(2) = 3(2)² = 12.", 3: "This is the limit definition of a derivative, and x³ is differentiable everywhere." }],
+  "1.1": [2, { 0: "This multiplies the two derivatives. The product rule is f′g + fg′.", 2: "The product rule ADDS the two terms. The minus sign belongs to the quotient rule.", 3: "This only differentiates one factor. The product rule needs both terms." }],
+  "1.2": [3, { 0: "Check the slope: f′(4) = 1/(2√4) = 1/4, and (1/4)(0.2) = 0.05.", 2: "This uses slope 1/2 instead of 1/4. f′(x) = 1/(2√x), so f′(4) = 1/4.", 3: "This uses slope 1. Compute f′(4) = 1/4 first." }],
+  "1.3": [1, { 0: "x² is smooth at 0 (its slope there is 0), so it IS differentiable.", 2: "1/x isn't even continuous at 0. The question asks for continuous but not differentiable.", 3: "sin x is smooth everywhere, so it's differentiable at 0." }],
+  "2.0": [0, { 0: "The outside stays eᵘ, but the chain rule multiplies by the inside's derivative (2x).", 2: "That applies the power rule to an exponential. The derivative of eᵘ is eᵘ·u′.", 3: "The inside derivative is 2x, not 2." }],
+  "2.1": [1, { 1: "Don't forget the product rule on xy: its derivative is y + x·y′.", 2: "Check the signs: 4 + 5y′ = 0 means y′ is negative.", 3: "Recheck by plugging (1, 2) into 2x + y + xy′ + 2yy′ = 0." }],
+  "2.2": [2, { 0: "That's f′(2). The inverse's slope is the RECIPROCAL: 1/3.", 2: "Use 1/f′(a), where f(a) = 5, so a = 2. The answer is 1/f′(2) = 1/3, not 1/5.", 3: "5 is the input to g, not its slope." }],
+  "2.3": [0, { 0: "d/dx ln(u) = u′/u. You still multiply by (cos x)′ = −sin x.", 2: "The derivative of cos x is NEGATIVE sin x, so the result is −tan x.", 3: "Remember to divide by cos x: (1/cos x)(−sin x) = −tan x." }],
+  "3.0": [0, { 0: "At rest means v(t) = 0, not s(t) = 0. Differentiate first.", 2: "t = 2 is where ACCELERATION is 0. Rest means velocity is 0.", 3: "t = 0 and t = 3 make the position 0. Solve v(t) = 3t² − 12t + 9 = 0." }],
+  "3.1": [0, { 1: "Speeding up depends on whether v and a have the SAME sign. Both are negative here.", 2: "At rest requires v = 0, but v = −3.", 3: "A direction change requires v to change sign, and v doesn't pass through 0 here." }],
+  "3.2": [1, { 0: "This forgets the factor of 2 in 2πr, or forgets dr/dt = 2.", 2: "25π is the AREA at r = 5, not its rate of change.", 3: "Differentiate A = πr² first: dA/dt = 2πr·dr/dt, then substitute r = 5." }],
+  "3.3": [3, { 0: "One round of L'Hôpital gives sin x/(2x), which is still 0/0. Apply it again, or use the known limit.", 2: "After L'Hôpital twice you get cos x/2, not cos x.", 3: "The limit exists: apply L'Hôpital's rule twice to get 1/2." }],
+  "4.0": [1, { 0: "At x = −1, f′ doesn't change sign (the squared factor), so there's no extremum there.", 2: "A zero of f′ isn't automatically an extremum. Check for a sign change.", 3: "f′ goes from negative to positive at x = 2, so there IS a minimum." }],
+  "4.1": [3, { 0: "−2 is the MINIMUM (at the critical point x = 1). The question asks for the maximum.", 1: "0 is f(0), but the other endpoint is larger.", 2: "Check the endpoint: f(3) = 27 − 9 = 18." }],
+  "4.2": [0, { 0: "The average rate is (9 − 1)/(3 − 1) = 4. Solve f′(c) = 2c = 4.", 2: "Recheck: 2c = 4 gives c = 2.", 3: "√5 comes from averaging the function values. The MVT sets f′(c) equal to the average rate." }],
+  "4.3": [3, { 0: "f″ also changes sign at x = 4.", 1: "f″ also changes sign at x = 0.", 3: "x = 2 is where f″ is most negative. Inflection points are where f″ CHANGES sign." }],
+  "5.0": [3, { 0: "Don't forget the antiderivative of 1: it's x, which adds 2.", 2: "Recheck: [x³ + x] from 0 to 2 = 8 + 2 = 10.", 3: "The antiderivative of 3x² is x³, not 3x³/2 or similar." }],
+  "5.1": [2, { 0: "The upper limit is x², so multiply by its derivative 2x (the chain rule).", 2: "FTC gives back the integrand evaluated at the upper limit, not its antiderivative.", 3: "Differentiating gives the integrand, not the evaluated integral." }],
+  "5.2": [0, { 1: "For an INCREASING function, the right endpoint is the tallest point in each interval, so the rectangles overshoot.", 2: "Riemann sums are only exact for special functions, like constants.", 3: "Knowing f is increasing is enough to tell." }],
+  "5.3": [3, { 0: "∫u⁵ du = u⁶/6. Don't forget to divide by 6.", 2: "After substitution the x's are gone, so there's no extra x² factor.", 3: "The 2x becomes du. There's no extra factor of 2." }],
+  "5.4": [1, { 0: "The integral ADDS UP the rate over time. It isn't the rate at one moment.", 1: "Average rate would divide the integral by 10.", 3: "The integral is the amount ADDED. The total also depends on how much was there at the start." }],
+  "6.0": [2, { 0: "Check it: if y = x², then y′ = 2x, which isn't 2y.", 2: "If y = eˣ + 2, then y′ = eˣ, which isn't 2(eˣ + 2).", 3: "If y = 2x, then y′ = 2, which isn't 2y = 4x." }],
+  "6.1": [1, { 0: "Check it: y′ = 1, but x/y = x/(x + 3), which isn't 1.", 2: "Separating y dy = x dx gives y² = x² + C, not an exponential.", 3: "You need to integrate y dy on the left as well, which gives y²/2." }],
+  "6.2": [0, { 0: "Slopes that depend on x would change from column to column. Here they change only with y.", 2: "xy would be zero along x = 0 too. The zero slopes here are along y = 2.", 3: "x + y depends on x, so the segments would change left to right." }],
+  "6.3": [0, { 0: "Take a log: 2 = e^(5k), so k = ln 2/5, not 2/5.", 1: "Divide by 5 rather than multiplying: 5k = ln 2.", 3: "It's ln 2 (doubling), divided by 5 years." }],
+  "7.0": [0, { 1: "4.5 is (0 + 9)/2, the average of the endpoint VALUES. Use (1/(b − a))∫f dx.", 2: "9 is the integral ∫x² dx. Divide by the interval length 3.", 3: "Recheck: ∫(0 to 3) x² dx = 9, then 9/3 = 3." }],
+  "7.1": [1, { 0: "0 is the DISPLACEMENT. Distance integrates |v|, so backward travel still counts.", 1: "That counts only one of the two segments. The particle moves 2 units back, then 2 units forward.", 3: "Recheck: ∫|t − 2| dt from 0 to 4 = 2 + 2 = 4." }],
+  "7.2": [2, { 0: "1/2 is only the area under y = x. Subtract the area under x².", 1: "1/3 is only the area under y = x². Subtract it from 1/2.", 3: "Subtract the areas: 1/2 − 1/3 = 1/6." }],
+  "7.3": [1, { 0: "Recheck: π∫x dx from 0 to 4 = π·16/2 = 8π.", 2: "Square the radius √x to get x, not x²: π∫(√x)² dx = π∫x dx.", 3: "Volumes of revolution need π: V = π∫R² dx." }],
+};
+
+</script>
+<script>/* content/diagnostics/calculus-bc.js */
+// Concept tags and wrong-answer diagnoses for content/calculus-bc.js.
+// Units 1–8 reuse content/diagnostics/calculus-ab.js. Keys here:
+//   "p<unit>.<q>" -> BC-only questions patched into AB units (concept index is within the patch's concepts)
+//   "u<unit>.<q>" -> BC-only units (0 = Unit 9, 1 = Unit 10)
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["calculus-bc"] = {
+  "p5.0": [0, { 0: "Integration by parts has a second term: uv − ∫v du = x·eˣ − ∫eˣ dx.", 2: "You can't integrate a product by integrating each factor separately.", 3: "This drops the x·eˣ term from uv." }],
+  "p5.1": [0, { 0: "The area under 1/x² is positive. Evaluate lim(b→∞) [−1/x] from 1 to b = 0 + 1.", 2: "Recheck the antiderivative: ∫x⁻² dx = −x⁻¹.", 3: "p = 2 > 1, so this improper integral converges." }],
+  "p6.0": [0, { 0: "That's y(0), with no step taken. Add Δx·(slope) = 0.1 × 1.", 2: "The slope at (0, 1) is 0 + 1 = 1, so the step is 0.1, not 0.2.", 3: "The step size is 0.1 and the slope is 1, so the change is 0.1, not 0.01." }],
+  "p6.1": [0, { 0: "50 is the starting value. Logistic growth approaches the carrying capacity.", 1: "250 = L/2 is where growth is FASTEST, not the long-run limit.", 3: "Logistic growth levels off at L = 500. It doesn't grow forever." }],
+  "p7.0": [0, { 0: "Arc length uses (f′)², and f′ = 2x, so (f′)² = 4x², not x².", 2: "Arc length needs the square root: √(1 + (f′)²).", 3: "That's a VOLUME formula (the disc method), not arc length." }],
+  "u0.0": [0, { 0: "Compute both rates at t = 2: dy/dt = 3t² = 12 and dx/dt = 2t = 4, so dy/dx = 12/4 = 3.", 2: "6 is 3t, which misses a factor: dy/dx = 3t²/(2t) = 3t/2, which equals 3 at t = 2.", 3: "12 is dy/dt at t = 2. You still divide by dx/dt = 4." }],
+  "u0.1": [1, { 0: "Speed is the magnitude of the whole vector, not one component.", 1: "Speed is the magnitude of the whole vector, not one component.", 3: "Don't add the components. Speed = √(3² + 4²)." }],
+  "u0.2": [3, { 0: "You're missing the square: A = ½∫r² dθ, and r² = 4.", 2: "Don't forget the ½ in ½∫r² dθ.", 3: "Recheck: ½ · 4 · 2π = 4π." }],
+  "u0.3": [1, { 1: "The derivative of t² is 2t, not t.", 2: "The derivative of sin t is +cos t.", 3: "Differentiate once, not twice. 2 and −sin t come from the second derivative." }],
+  "u1.0": [0, { 0: "3 is the first term. The sum is a/(1 − r) = 3/(1/2).", 2: "Divide by (1 − r), don't multiply: 3/(1 − ½) = 6.", 3: "|r| = ½ < 1, so the geometric series converges." }],
+  "u1.1": [1, { 0: "The terms go to 0, and the nth-term test can only show DIVERGENCE.", 2: "The harmonic series is Σ1/n. This one is 1/n², a p-series with p = 2.", 3: "It converges, but to π²/6 ≈ 1.645, not 2." }],
+  "u1.2": [1, { 0: "Σ|(−1)ⁿ/n| = Σ1/n (harmonic) diverges, so the convergence is not absolute.", 2: "The alternating series test shows it CONVERGES.", 3: "The ratio of consecutive terms isn't constant, so it's not geometric." }],
+  "u1.3": [3, { 0: "It's the reciprocal: |x/3| < 1 means |x| < 3.", 1: "The ratio is x/3, not x. Solve |x/3| < 1.", 3: "The series is geometric in x/3, so it needs |x/3| < 1." }],
+  "u1.4": [3, { 0: "Taylor coefficients divide by n!: f⁽³⁾(0)/3!.", 1: "Divide by 3! = 6, not by 3.", 3: "Divide by 3! only once." }],
+};
+
+</script>
+<script>/* content/diagnostics/chemistry.js */
+// Concept tags and wrong-answer diagnoses for content/chemistry.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["chemistry"] = {
+  "0.0": [0, { 0: "0.5 divides the molar mass by the mass. Moles = mass ÷ molar mass = 36 ÷ 18.", 2: "18 g/mol is the molar mass, not the number of moles.", 3: "648 multiplies instead of dividing." }],
+  "0.1": [3, { 0: "Li has only one valence electron, far from the nucleus, so it's easy to remove.", 1: "Na is lower in the group and to the left, so its IE is even lower than Li's.", 2: "O has a high IE, but F is farther right, with a higher effective nuclear charge." }],
+  "0.2": [3, { 0: "Across a period the number of shells stays the SAME. Adding shells happens down a group.", 2: "Neutrons are neutral, so they don't repel electrons.", 3: "Shielding stays roughly constant across a period. The rising proton count dominates." }],
+  "0.3": [0, { 0: "That ignores the 25% of Cl-37. Weight each isotope by its abundance.", 2: "36.0 averages 35 and 37 equally, but Cl-35 is three times more common.", 3: "37.0 is just the heavier isotope." }],
+  "1.0": [2, { 0: "Trigonal planar has NO lone pairs on the central atom. N has one.", 1: "Tetrahedral is the ELECTRON geometry. The shape ignores the lone pair.", 3: "Bent needs two lone pairs, like water." }],
+  "1.1": [3, { 0: "Carbon is fairly electronegative, and the C=O bonds ARE polar.", 2: "Carbon in CO₂ has no lone pairs. Its two double bonds make it linear.", 3: "CO₂ is covalent (molecular), not ionic." }],
+  "1.2": [2, { 0: "sp means 2 electron groups (linear). CH₄ has 4.", 1: "sp² means 3 groups (trigonal planar). Count carbon's four bonds.", 3: "sp³d means 5 groups, which is too many for carbon." }],
+  "1.3": [0, { 0: "Substitutional alloys swap in similar-sized atoms. Small carbon atoms fit in the GAPS.", 2: "Steel is metallic, not ionic.", 3: "Network covalent solids (like diamond) aren't metal alloys." }],
+  "2.0": [0, { 0: "More electrons does strengthen dispersion forces, but H₂O's hydrogen bonds are much stronger.", 2: "Different intermolecular forces give different boiling points.", 3: "Size alone isn't enough here. Hydrogen bonding dominates." }],
+  "2.1": [2, { 0: "High T and low P is the MOST ideal: particles are fast and far apart.", 2: "High T keeps attractions minor, so it's not the worst case.", 3: "Low pressure keeps particles far apart, which is closer to ideal." }],
+  "2.2": [3, { 0: "0.125 multiplies by 0.25 L instead of dividing.", 1: "0.50 is the moles. Divide by the volume in LITERS (0.250 L).", 3: "125 uses milliliters instead of liters." }],
+  "2.3": [2, { 0: "At constant V and n, P ∝ T. Heating RAISES pressure.", 2: "PV = nRT: if T doubles with V and n constant, P must change.", 3: "The relationship is linear, not squared." }],
+  "3.0": [2, { 0: "The mole ratio of H₂ to H₂O is 2:2 = 1:1, so it doesn't halve.", 2: "O₂ is in excess, so H₂ alone determines the product: 4 mol.", 3: "8 mol doubles instead of using the 1:1 ratio." }],
+  "3.1": [1, { 0: "Na⁺ and NO₃⁻ are SPECTATORS. They stay dissolved.", 2: "That's the molecular equation. Net ionic removes the spectators.", 3: "The reactants are ions (Ag⁺, Cl⁻), not neutral atoms." }],
+  "3.2": [3, { 0: "Check the sum: 2(+1) + S + 4(−2) = 0 gives S = +6.", 1: "+4 is sulfur's oxidation number in SO₂, not H₂SO₄.", 3: "−2 is oxygen's oxidation number. Solve for S." }],
+  "3.3": [2, { 0: "1 mol is the N₂ that gets USED. The product ratio is 1 N₂ : 2 NH₃.", 2: "3 mol H₂ can't make 3 mol NH₃. The ratio is 3 H₂ : 2 NH₃.", 3: "4 mol assumes N₂ is limiting. H₂ runs out first." }],
+  "4.0": [0, { 0: "Zero order means the rate doesn't change with [A].", 1: "First order would DOUBLE the rate. Quadrupling means 2² = 4.", 3: "Third order would give 2³ = 8 times the rate." }],
+  "4.1": [1, { 0: "[A] vs t is linear for ZERO order.", 2: "1/[A] vs t is linear for SECOND order.", 3: "No standard order gives a linear [A]² plot." }],
+  "4.2": [2, { 0: "A catalyst doesn't change ΔH. Reactants and products stay the same.", 2: "A catalyst doesn't heat anything. It opens a lower-energy pathway.", 3: "A catalyst speeds both directions equally, so equilibrium doesn't shift." }],
+  "4.3": [1, { 0: "Each half-life halves what's left: (1/2)³ after three half-lives.", 1: "1/4 is two half-lives (20 min). 30 min is three.", 3: "1/16 is four half-lives." }],
+  "5.0": [1, { 0: "418 J forgets the mass of 100 g (or uses 10 g).", 2: "20.9 drops two factors of 10. Use q = mcΔT = 100 × 4.18 × 5.0.", 3: "4180 J uses ΔT = 10 instead of 5." }],
+  "5.1": [1, { 0: "Energy is released when bonds FORM. Breaking bonds always costs energy.", 2: "Bonds hold energy, so breaking them takes energy.", 3: "Breaking a bond is endothermic, not exothermic." }],
+  "5.2": [2, { 0: "Reversing FLIPS the sign, so the answer is positive.", 1: "Don't forget to double: coefficients ×2 means ΔH ×2.", 3: "Reversing flips the sign, and doubling multiplies (not halves)." }],
+  "5.3": [0, { 0: "The WATER gained heat, so the reaction RELEASED it.", 2: "A temperature change means heat was transferred.", 3: "The warming water tells us the direction of heat flow." }],
+  "6.0": [2, { 0: "A HUGE K means products dominate.", 2: "K = 1 would mean comparable amounts. 10⁸ is far larger.", 3: "The size of K tells you directly." }],
+  "6.1": [2, { 0: "Q < K means the product ratio is too LOW, so more products form.", 2: "Q ≠ K means the system isn't at equilibrium yet.", 3: "Reactions don't stop. They shift until Q = K." }],
+  "6.2": [2, { 0: "The left has 4 mol of gas and the right has 2. Squeezing favors FEWER moles, which is the right.", 2: "The two sides have different numbers of gas moles, so volume matters.", 3: "Only temperature changes K. Volume shifts the position." }],
+  "6.3": [3, { 0: "Pure solids are left out of K expressions.", 2: "The solid isn't included at all.", 3: "Equilibrium expressions MULTIPLY concentrations. They don't add them." }],
+  "7.0": [0, { 0: "0.010 = 10⁻², so pH = 2.", 2: "12 is the pOH. HCl is an acid, so pH < 7.", 3: "0.01 is [H⁺]. pH is −log of that." }],
+  "7.1": [3, { 0: "pH 7 happens at equivalence for a STRONG acid. For a weak acid at HALF-equivalence, pH = pKa.", 2: "pH 14 would mean very strong base, which is way past equivalence.", 3: "At half-equivalence, [HA] = [A⁻]. Half the acid remains." }],
+  "7.2": [1, { 0: "HCl is a STRONG acid. Buffers need a WEAK acid and its conjugate base.", 2: "There's no conjugate pair here.", 3: "HNO₃ is a strong acid, so it can't buffer." }],
+  "7.3": [2, { 0: "The pH scale is logarithmic. Each unit is ×10, not ×1.", 1: "Two units means 10 × 10 = 100, not 20.", 3: "Three factors of 10 would be 3 pH units." }],
+  "8.0": [1, { 1: "Both terms make ΔG negative, so temperature doesn't matter.", 2: "ΔS > 0 means −TΔS < 0 at any T, so it's not only at low T.", 3: "ΔG = (−) − T(+) is always negative, so it's always favored." }],
+  "8.1": [1, { 1: "A gas is produced from a solid, so disorder increases.", 2: "Making a gas changes entropy significantly.", 3: "Gas formation is a clear sign of ΔS > 0." }],
+  "8.2": [2, { 0: "The cathode is for REDUCTION. Remember \"AN OX, RED CAT.\"", 2: "The salt bridge carries ions to balance charge. No reaction happens there.", 3: "The wire carries electrons, but the reaction happens at the electrodes." }],
+  "8.3": [2, { 0: "Positive E° gives NEGATIVE ΔG° (ΔG° = −nFE°).", 2: "E° > 0 means ΔG° isn't zero.", 3: "ΔG° < 0 means K > 1, not K < 1." }],
+};
+
+</script>
+<script>/* content/diagnostics/english-language.js */
+// Concept tags and wrong-answer diagnoses for content/english-language.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["english-language"] = {
+  "0.0": [0, { 0: "The library's history is background. The call to action (\"Come to Tuesday's meeting\") shows the purpose.", 1: "The writer asks the council for LONGER hours and says they're not asking for a new building.", 3: "Reading is mentioned as a memory. The purpose is to rally support." }],
+  "0.1": [0, { 0: "No election is mentioned. The exigence is the problem that prompted the writing.", 2: "The complaint is about hours, not books.", 3: "Reading scores aren't mentioned. Stick to what the passage says." }],
+  "0.2": [1, { 0: "The writer isn't expressing a dislike. They're making the request sound small and easy to grant.", 2: "Taxes never come up. The phrase preempts an objection about cost.", 3: "The phrase stays on topic by clarifying the request." }],
+  "0.3": [2, { 1: "\"Neighbors\" is warm and inclusive, not critical.", 2: "The writer doesn't claim expertise. The word builds common ground.", 3: "A single form of address isn't evidence or data." }],
+  "1.0": [0, { 0: "That's a FACT, not an arguable claim.", 1: "That announces the topic without taking a position.", 3: "That describes a disagreement without taking a side." }],
+  "1.1": [2, { 0: "Summary repeats the evidence. Commentary explains HOW it proves your point.", 2: "Commentary develops the current claim. It doesn't start a new topic.", 3: "More examples without explanation is \"quote and run.\"" }],
+  "1.2": [3, { 0: "Qualifying makes a claim MORE defensible, not weaker, because it's harder to refute.", 2: "The topic stays the same (homework). Only its scope narrows.", 3: "No statistics were added. The change is in the claim's scope." }],
+  "1.3": [1, { 0: "A personal preference doesn't show attendance changed.", 2: "That's context, not evidence that later starts improve attendance.", 3: "A general quote isn't specific evidence for this claim." }],
+  "2.0": [3, { 1: "The thesis is the writer's main claim. This sentence answers an objection.", 2: "There's no personal story. It cites other districts.", 3: "No term is being defined." }],
+  "2.1": [2, { 0: "\"However\" signals a CONTRAST, but the second sentence is a RESULT of the first.", 2: "\"For instance\" introduces an example, but this is an effect.", 3: "\"Similarly\" signals a comparison, not cause and effect." }],
+  "2.2": [1, { 0: "Deductive reasoning starts from a general principle. This starts from specific cases.", 2: "Circular reasoning assumes its own conclusion, which isn't happening here.", 3: "Ad hominem attacks a person. No one is attacked." }],
+  "2.3": [3, { 0: "Counterarguments serve a purpose: they build credibility and anticipate doubts.", 2: "Addressing a counterargument doesn't mean giving in to it. Writers usually rebut it.", 3: "Handled well, counterarguments clarify rather than confuse." }],
+  "3.0": [1, { 0: "The repetition is controlled and deliberate. It builds rhythm, not confusion.", 2: "No government is mentioned.", 3: "There are no numbers in the passage." }],
+  "3.1": [2, { 0: "The final line looks forward with determination. That's the opposite of indifferent.", 2: "Nothing is mocking or ironic.", 3: "The passage looks FORWARD to rebuilding, not back with longing." }],
+  "3.2": [0, { 1: "\"Monument\" has positive connotations. It doesn't criticize the stadium.", 2: "Choosing \"monument\" over \"building\" is deliberately NOT neutral.", 3: "Monuments suggest permanence and significance, not age." }],
+  "3.3": [1, { 0: "\"It failed\" is a conclusion, not new evidence.", 2: "There's no opposing view.", 3: "No term is defined. The effect comes from the sudden short length." }],
+  "4.0": [1, { 0: "That's a summary with no choices or purpose.", 1: "Listing appeals without explaining what the writer DOES is a weak thesis.", 3: "Rhetorical analysis explains HOW a writer persuades, not whether you agree." }],
+  "4.1": [2, { 0: "Naming a device isn't commentary. Explain its effect.", 1: "Quoting is evidence. Commentary explains what the quote does.", 3: "\"Powerful\" is vague. Explain HOW and WHY it affects the audience." }],
+  "4.2": [1, { 0: "The thesis is worth only 1 point. Evidence and commentary are worth up to 4.", 2: "Conclusions aren't separately scored.", 3: "Length isn't scored. Quality of commentary is." }],
+  "4.3": [2, { 0: "Organizing by appeals tends to produce list-like, shallow analysis.", 2: "Summarizing in order isn't analysis.", 3: "Agreeing or disagreeing belongs in the argument essay, not rhetorical analysis." }],
+  "5.0": [0, { 0: "That's the RHETORICAL ANALYSIS essay.", 2: "That's closer to the synthesis essay, which gives you sources.", 3: "It's argumentative, not narrative." }],
+  "5.1": [1, { 0: "\"Everyone knows\" is an unsupported generalization.", 1: "A hypothetical is weaker than a real, specific example.", 3: "That's a general claim, not evidence." }],
+  "5.2": [0, { 0: "Qualifying IS taking a position, just a nuanced one.", 2: "Summarizing restates the claim without responding to it.", 3: "Qualifying concerns the scope of your position, not the type of evidence." }],
+  "6.0": [0, { 0: "One source isn't enough for the higher Evidence & Commentary scores.", 1: "Two sources isn't enough. The rubric expects at least three.", 3: "You don't need to use every source." }],
+  "6.1": [1, { 0: "One paragraph per source turns into summary. Organize around YOUR claims.", 2: "Publication order has nothing to do with your argument.", 3: "Alphabetical order doesn't build an argument." }],
+  "6.2": [1, { 0: "Ignoring a counter-source misses a chance to show complexity.", 2: "You can respond to an opposing source without abandoning your position.", 3: "A quote with no commentary doesn't help your argument." }],
+};
+
+</script>
+<script>/* content/diagnostics/microeconomics.js */
+// Concept tags and wrong-answer diagnoses for content/microeconomics.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["microeconomics"] = {
+  "0.0": [0, { 0: "\"Free\" doesn't mean costless. Opportunity cost includes the value of what you give up, here $45 in wages.", 2: "Opportunity cost is only the single NEXT-BEST alternative, not every option added together.", 3: "The concert is free, so there's no ticket price. The cost is the forgone wages." }],
+  "0.1": [2, { 0: "A can make more wheat, but 1 cloth costs A 2 wheat versus only 1 wheat for B.", 2: "Comparative advantage goes to whoever has the LOWER opportunity cost. They can't both have it in the same good.", 3: "Their opportunity costs differ, so someone has a comparative advantage." }],
+  "0.2": [1, { 0: "Efficient points lie ON the curve, not inside it.", 2: "Growth SHIFTS the curve outward. A point inside means resources are idle.", 3: "Unattainable points are OUTSIDE the curve." }],
+  "0.3": [3, { 0: "Burgers give LESS satisfaction per dollar (3 < 5), so shift toward pizza.", 2: "MU per dollar must be equal to maximize utility, and 5 ≠ 3.", 3: "The rule is about reallocating spending, not cutting both." }],
+  "1.0": [0, { 0: "For a NORMAL good, higher income increases demand (a shift right), not a decrease.", 2: "Income is a DEMAND shifter. Supply is unaffected.", 3: "A change in income shifts the whole curve. \"Along the curve\" is only for the good's own price change." }],
+  "1.1": [3, { 0: "A surplus comes from a price FLOOR above equilibrium. A low ceiling makes Qd > Qs.", 2: "A ceiling BELOW equilibrium is binding, so it has an effect.", 3: "A ceiling caps prices. It can't raise them." }],
+  "1.2": [2, { 0: "If demand were inelastic, raising the price would RAISE total revenue.", 1: "With unit elasticity, total revenue wouldn't change.", 3: "With perfectly inelastic demand, a price rise would raise revenue." }],
+  "1.3": [1, { 0: "Demand pushes the price up but supply pushes it down, so the net price change is indeterminate.", 1: "Supply pushes the price down but demand pushes it up, so it's ambiguous.", 3: "Both shifts INCREASE quantity." }],
+  "1.4": [3, { 1: "The more INELASTIC side bears more of the tax. Buyers with inelastic demand can't easily cut back.", 2: "The burden is split by relative elasticity, not evenly.", 3: "The government collects the tax. The question is which side pays it." }],
+  "2.0": [2, { 0: "Maximizing revenue isn't maximizing profit. Costs matter too.", 1: "The lowest ATC is productive efficiency, not necessarily maximum profit.", 3: "P = AVC is the SHUTDOWN point, not the profit-maximizing point." }],
+  "2.1": [1, { 0: "Below ATC the firm has a loss but can still cover its variable costs. It shuts down only below minimum AVC.", 2: "MR = MC is the rule for choosing output, not for shutting down.", 3: "Zero economic profit is normal. It still covers all opportunity costs." }],
+  "2.2": [3, { 0: "Positive profit attracts entry, which drives the price down to minimum ATC.", 2: "Losses make firms EXIT, which raises the price back up.", 3: "Perfectly competitive firms have no market power." }],
+  "2.3": [2, { 0: "ATC is U-shaped. MC crosses it at the bottom, not the top.", 2: "MC does cross ATC, at ATC's minimum point.", 3: "The shutdown price is where MC crosses AVC, not ATC." }],
+  "3.0": [3, { 0: "That's true for perfect competition. A monopolist must lower the price on ALL units to sell one more.", 1: "MR can't exceed price for a single-price seller.", 3: "MR is zero only at one specific quantity (where total revenue peaks)." }],
+  "3.1": [3, { 0: "Compare A's payoffs for each of B's choices: Low wins either way (15 > 10, 5 > 2).", 2: "Low is better for A whatever B does, which makes it a dominant strategy.", 3: "A dominant strategy is a single best choice, not alternating." }],
+  "3.2": [3, { 0: "Easy entry wipes out long-run profit.", 2: "Its demand slopes down, so the tangency with ATC is LEFT of the minimum. That's the excess capacity.", 3: "P > MC for firms with a downward-sloping demand curve." }],
+  "3.3": [2, { 0: "Perfect price discrimination INCREASES output to the efficient level and eliminates DWL.", 2: "It sells every unit that buyers value above MC.", 3: "P = ATC is the fair-return regulation rule." }],
+  "4.0": [2, { 1: "Elasticity measures responsiveness to price. This is about WHY firms want workers.", 2: "Monopsony is a single BUYER of labor.", 3: "Marginal utility is a consumer concept." }],
+  "4.1": [1, { 1: "$9 adds instead of multiplying. MRP = MP × P = 5 × $4.", 2: "Compare MRP (in dollars) to the wage. MP alone isn't enough.", 3: "Falling MP doesn't matter as long as MRP ≥ wage." }],
+  "4.2": [2, { 0: "A monopsonist's MRC is above the wage, so it hires FEWER workers.", 2: "It hires fewer, not more.", 3: "Monopsony power changes the outcome." }],
+  "4.3": [3, { 0: "Labor gives 10/20 = 0.5 units per dollar and capital gives 30/30 = 1. Shift toward capital.", 2: "The MP per dollar values aren't equal, so the current mix isn't cost-minimizing.", 3: "The rule is about the input mix, not stopping production." }],
+  "5.0": [2, { 0: "Firms ignore the pollution cost, so they OVERproduce.", 2: "The external cost is left out, so the market quantity isn't optimal.", 3: "Steel still has value. The problem is too much of it." }],
+  "5.1": [2, { 0: "Pizza is rival (if I eat it, you can't) and excludable.", 2: "Movie tickets are excludable: no ticket, no entry.", 3: "Gym memberships are excludable." }],
+  "5.2": [3, { 0: "Progressive taxes take a HIGHER percentage from high earners.", 2: "A proportional tax is the same percentage for everyone.", 3: "A Pigouvian tax corrects externalities. It isn't about income." }],
+  "5.3": [3, { 0: "Taxes reduce output, but a positive externality means we need MORE vaccines.", 2: "A price ceiling can cause shortages. It doesn't fix under-provision.", 3: "A quota limits quantity, the opposite of what's needed." }],
+};
+
+</script>
+<script>/* content/diagnostics/physics-1.js */
+// Concept tags and wrong-answer diagnoses for content/physics-1.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["physics-1"] = {
+  "0.0": [2, { 0: "5 m/s would be g × ½ s. Use v = v₀ + gt with t = 2 s.", 1: "10 m/s is the speed after 1 second, not 2.", 3: "40 m/s doubles the correct answer. Recheck v = 0 + 10 × 2." }],
+  "0.1": [1, { 0: "Acceleration is the SLOPE of a v–t graph. The area is displacement.", 2: "A velocity graph has no force information without the mass.", 3: "The speed at the end is read off the graph's final point, not found from the area." }],
+  "0.2": [3, { 0: "Gravity never switches off, so acceleration is always g downward. Only the vertical velocity hits zero.", 2: "Horizontal velocity stays constant throughout the flight (no horizontal force).", 3: "At the top, velocity is horizontal, but acceleration is still g downward." }],
+  "0.3": [3, { 0: "Both start with zero VERTICAL velocity, and horizontal motion doesn't affect fall time.", 1: "Throwing B sideways adds horizontal speed but doesn't change its vertical motion.", 3: "Horizontal speed changes WHERE B lands, not WHEN." }],
+  "1.0": [0, { 1: "This is the \"force of motion\" misconception. Moving at constant velocity needs NO net force.", 2: "A net force opposite the motion would slow the object down, but its velocity is constant.", 3: "Weight is just one force. The NET force is what's zero." }],
+  "1.1": [0, { 0: "The car accelerates more, but Newton's 3rd law makes the forces equal.", 1: "The truck's bigger mass doesn't mean it pushes harder. The forces are an equal-and-opposite pair.", 3: "Both vehicles clearly feel a force." }],
+  "1.2": [0, { 0: "2 m/s² subtracts twice, or divides 4 by 2. F_net = 10 − 4 = 6 N.", 2: "5 m/s² ignores friction: 10/2. Friction reduces the net force.", 3: "7 m/s² ADDS friction. Friction opposes the push." }],
+  "1.3": [3, { 0: "Gravity weakens with distance. It doesn't strengthen.", 1: "It's inverse-SQUARE: 1/2² = 1/4, not 1/2.", 3: "Moving farther apart DEcreases the force." }],
+  "1.4": [0, { 1: "\"Less than your weight\" happens when accelerating DOWNWARD.", 2: "Your weight only matches the reading at constant velocity. Upward acceleration needs extra normal force.", 3: "A reading of zero is free fall. You're accelerating up, not falling." }],
+  "2.0": [2, { 0: "5 m/s uses v = h. Use energy conservation: v = √(2gh).", 1: "7 m/s is √50, which forgets the factor of 2 in √(2gh).", 3: "50 is 2gh = v². Take the square root." }],
+  "2.1": [0, { 0: "The normal force is perpendicular to the motion, so W = Fd cos 90° = 0.", 1: "Friction does negative work here. The normal force is perpendicular, so it does zero.", 3: "The box doesn't change height, and the normal force isn't gravity." }],
+  "2.2": [1, { 0: "KE = ½mv². Because v is squared, doubling v multiplies KE by 4.", 1: "Square the factor: 2² = 4.", 3: "Changing speed always changes kinetic energy." }],
+  "2.3": [3, { 0: "Check the work: mgh = 50 × 10 × 2 = 1000 J, then divide by 4 s.", 1: "100 W forgets g (50 × 2 = 100). Use mgh.", 3: "1000 J is the WORK. Power divides it by the time, 4 s." }],
+  "3.0": [0, { 0: "The change in momentum is fixed (you go from moving to stopped). The airbag spreads it over more time.", 2: "An airbag can't change your mass.", 3: "Energy can't vanish instantly. The airbag works by making the stop take LONGER." }],
+  "3.1": [1, { 0: "Recheck: 2 × 3 = 6 kg·m/s, shared by 3 kg, gives 2 m/s.", 1: "1.5 m/s divides by the wrong total mass. It's 2 + 1 = 3 kg.", 3: "3 m/s ignores the added mass of the second cart." }],
+  "3.2": [1, { 0: "Check: the ball's momentum is 2 × 6 = 12, and 12/60 = 0.2 m/s.", 2: "2 m/s swaps the masses. Use 60v = 2 × 6.", 3: "The skater is much heavier than the ball, so she recoils much slower." }],
+  "3.3": [0, { 1: "4 N·s forgets the ½ in a triangle's area.", 2: "10 is the peak force, not the area under the graph.", 3: "25 divides instead of multiplying. Area = ½ × base × height." }],
+  "4.0": [1, { 0: "Your push is the same. The longer lever arm increases the TORQUE.", 2: "Friction at the bolt doesn't change with wrench length.", 3: "The benefit comes from torque (τ = rF), not rotational inertia." }],
+  "4.1": [3, { 0: "Balance torques: 30 × 2 = 40 × d, so d = 1.5 m.", 2: "Equal distances only balance equal masses.", 3: "2.7 m inverts the ratio. The heavier child must sit CLOSER to the pivot." }],
+  "4.2": [2, { 1: "The disk has mass closer to the center, which gives a SMALLER I.", 2: "Same mass isn't enough. How far the mass is from the axis matters.", 3: "Rotational inertia depends on mass distribution, not speed." }],
+  "4.3": [2, { 0: "α = τ/I. More torque gives MORE angular acceleration.", 1: "Torque directly causes angular acceleration, so α changes.", 3: "The relationship is linear, not squared." }],
+  "5.0": [1, { 0: "L = Iω is conserved. A smaller I means a LARGER ω.", 2: "Pulling in her arms changes I, so ω must change to keep L constant.", 3: "There's no external torque to stop her." }],
+  "5.1": [0, { 1: "The hoop puts MORE energy into spinning, leaving less for forward speed.", 2: "Shape matters: different I values split the energy differently.", 3: "Mass cancels out. The distribution (the shape) decides the race." }],
+  "5.2": [1, { 0: "KE_rot = ½Iω². ω is squared, so it's 4×, not 2×.", 2: "Faster spinning means more energy, not less.", 3: "Changing ω changes rotational KE." }],
+  "5.3": [2, { 0: "Farther away means SLOWER (angular momentum is conserved).", 2: "Speed depends on distance, not direction.", 3: "Orbital speed varies. It's faster closer in." }],
+  "6.0": [0, { 0: "T ∝ √m. More mass means a longer period, not a shorter one.", 1: "Mass does affect a spring's period: T = 2π√(m/k).", 3: "It's the square root: √4 = 2, not 4." }],
+  "6.1": [1, { 1: "T = 2π√(L/g). A smaller g gives a LARGER period.", 2: "A pendulum's period depends on g, which is lower on the Moon.", 3: "The pendulum still swings. Gravity is weaker, not absent." }],
+  "6.2": [2, { 0: "At maximum stretch the mass momentarily stops, so v = 0.", 1: "At maximum compression v = 0, and all the energy is potential.", 3: "Speed changes constantly in SHM." }],
+  "6.3": [1, { 0: "For small swings, the period doesn't depend on amplitude.", 1: "The period is independent of amplitude.", 3: "Amplitude doesn't enter T = 2π√(L/g)." }],
+  "7.0": [0, { 0: "Check: ρgh = 1000 × 10 × 10 = 100,000 Pa.", 1: "10,000 Pa drops a factor of 10. Multiply all three: ρ, g and h.", 3: "One too many factors of 10. ρgh = 10⁵ Pa." }],
+  "7.1": [1, { 0: "A net upward force would make the block rise, but it's at rest.", 2: "If buoyancy were less than the weight, the block would sink.", 3: "Any object in water feels a buoyant force." }],
+  "7.2": [2, { 0: "Narrower pipe → FASTER flow (A₁v₁ = A₂v₂).", 1: "The same volume per second must pass through a smaller area, so it speeds up.", 3: "Speed scales with 1/A, not 1/A². Half the area doubles the speed." }],
+  "7.3": [1, { 0: "Bernoulli: faster flow means LOWER pressure.", 2: "Different speeds mean different pressures.", 3: "There is still air pressure on top, just less than below." }],
+};
+
+</script>
+<script>/* content/diagnostics/psychology.js */
+// Concept tags and wrong-answer diagnoses for content/psychology.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["psychology"] = {
+  "0.0": [0, { 0: "Antagonists BLOCK receptors. A drug that mimics a neurotransmitter and activates its receptor is an agonist.", 2: "A reuptake inhibitor keeps the body's own neurotransmitter in the synapse longer. This drug binds the receptor itself.", 3: "The drug acts at neural receptors like a neurotransmitter. It isn't a hormone traveling through the blood." }],
+  "0.1": [2, { 0: "Wernicke's area handles COMPREHENSION. Sam understands speech but can't produce it, which points to Broca's.", 2: "The occipital lobe processes vision, not speech.", 3: "The cerebellum coordinates movement and balance, not language production." }],
+  "0.2": [2, { 0: "The parasympathetic system CALMS the body (rest and digest). Racing heart and slowed digestion is arousal.", 2: "The somatic system controls voluntary muscles. Heart rate and digestion are autonomic.", 3: "The cerebellum coordinates movement. It doesn't trigger fight or flight." }],
+  "0.3": [3, { 0: "Absolute threshold is the minimum stimulus detectable at all. This is about noticing a CHANGE in proportion to the original.", 2: "Sensory adaptation is declining sensitivity to a constant stimulus, not detecting differences.", 3: "Signal detection is about detecting stimuli amid noise and expectations, not a constant proportion." }],
+  "0.4": [3, { 0: "NREM-1 is light, drifting sleep. Vivid dreams with muscle paralysis mark REM.", 1: "NREM-2 has sleep spindles, not vivid dreaming with paralysis.", 2: "NREM-3 is deep, slow-wave sleep. It's the hardest to wake from but isn't the vivid-dream stage." }],
+  "1.0": [1, { 0: "Representativeness compares something to a prototype. Here, vivid news examples come to mind easily, which is availability.", 2: "Framing is about how information is worded, not how easily examples come to mind.", 3: "Mental set is sticking to a problem-solving approach that worked before." }],
+  "1.1": [2, { 0: "Proactive = OLD blocks NEW. Here the NEW number blocks the OLD one, so it's retroactive.", 2: "She DID encode the old number. The problem is that new learning now interferes with retrieving it.", 3: "The primacy effect is about remembering the first items in a list." }],
+  "1.2": [3, { 0: "Consistent scores mean the test IS reliable. Failing to predict performance is the validity problem.", 2: "A valid test would predict what it's supposed to predict, and this one doesn't.", 3: "The scores ARE consistent, so it's reliable." }],
+  "1.3": [0, { 0: "Change blindness is missing a change in a scene. Here, attention elsewhere hides a clearly visible object.", 2: "Perceptual constancy is seeing objects as stable despite changing input.", 3: "Sensory adaptation is reduced response to a constant stimulus, not missing an unexpected one." }],
+  "1.4": [2, { 0: "Recency is remembering the LAST items. The first items show the primacy effect.", 2: "The spacing effect is about spreading study sessions over time, not list position.", 3: "Next-in-line is forgetting what was said just before your turn to speak." }],
+  "2.0": [3, { 0: "Positive reinforcement ADDS something pleasant. Here the beeping (unpleasant) is REMOVED.", 2: "Punishment decreases a behavior, but buckling up INCREASES.", 3: "Negative punishment removes something pleasant to decrease a behavior. The behavior increases here." }],
+  "2.1": [3, { 0: "Fixed-ratio pays after a set number of responses. Slot machines are unpredictable.", 2: "Interval schedules depend on time passing. Slots depend on the number of plays.", 3: "Variable-interval is based on time, not the number of responses." }],
+  "2.2": [0, { 0: "The sensorimotor stage is about object permanence (infants), not conservation.", 1: "Preoperational children FAIL conservation tasks. They think the taller glass holds more.", 3: "Formal operational means abstract reasoning. Conservation is already mastered earlier, in the concrete stage." }],
+  "2.3": [2, { 0: "The UCS triggers a response naturally. The sound only works because it was paired with the drilling.", 1: "The UCR is the natural response (tensing at pain), not the sound.", 3: "The CR is the learned RESPONSE (tensing). The question asks about the stimulus." }],
+  "3.0": [0, { 0: "Self-serving bias is about explaining YOUR OWN successes and failures, not a classmate's.", 2: "The just-world phenomenon is believing people get what they deserve. Here Jess ignores the situation.", 3: "Group polarization is about group discussions strengthening views." }],
+  "3.1": [2, { 0: "Social facilitation is performing BETTER on easy tasks when watched. Here effort drops.", 2: "Deindividuation is losing self-restraint when anonymous, not slacking on shared work.", 3: "Groupthink is about seeking harmony in decisions, not individual effort." }],
+  "3.2": [0, { 1: "Foot-in-the-door is agreeing to a big request after a small one. Here she changes her attitude to match her action.", 2: "Nobody is pressuring her to conform. The discomfort comes from her own inconsistency.", 3: "Mere exposure is liking things more through familiarity, not justifying a choice." }],
+  "3.3": [3, { 0: "Openness is curiosity and imagination, not organization.", 2: "Agreeableness is kindness and cooperation.", 3: "Neuroticism is emotional instability, nearly the opposite of \"careful and dependable.\"" }],
+  "3.4": [2, { 1: "Social facilitation is about performance when watched, not helping behavior.", 2: "No authority is giving orders here.", 3: "Self-serving bias is about explaining your own outcomes." }],
+  "4.0": [0, { 0: "Alarm is the initial shock response. Weeks of stress that wear down the body is exhaustion.", 1: "In resistance the body is still coping. Getting sick and drained signals exhaustion.", 3: "Selye's model has no \"recovery\" stage: it's alarm, resistance, exhaustion." }],
+  "4.1": [2, { 0: "\"Negative\" symptoms are things TAKEN AWAY (flat affect). Hallucinations ADD an experience, so they're positive.", 2: "Dissociative disorders involve disrupted identity or memory, not hallucinations.", 3: "Hallucinations are a hallmark of schizophrenia, not a symptom unique to bipolar disorder." }],
+  "4.2": [3, { 0: "Aversive conditioning pairs a behavior with something unpleasant. This pairs relaxation with the feared object.", 2: "Psychoanalysis explores unconscious conflicts. It doesn't use gradual exposure.", 3: "Client-centered therapy focuses on empathy, not structured exposure." }],
+  "4.3": [3, { 0: "Blocking dopamine is how antipsychotics work, not SSRIs.", 2: "The S in SSRI stands for serotonin, not GABA.", 3: "SSRIs target serotonin, not acetylcholine." }],
+};
+
+</script>
+<script>/* content/diagnostics/us-history.js */
+// Concept tags and wrong-answer diagnoses for content/us-history.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["us-history"] = {
+  "0.0": [1, { 0: "Conflict played a role, but disease killed far more people, often before Europeans even arrived.", 2: "Native people didn't migrate to Europe in meaningful numbers.", 3: "European crops didn't cause the collapse. The biggest factor was disease, since Native peoples had no immunity." }],
+  "0.1": [2, { 0: "Missions existed, but the encomienda was about LABOR: colonists were granted Native workers.", 2: "The encomienda was a Spanish system inside Spain's own colonies, unrelated to France.", 3: "It was a system of coercion, the opposite of representative government." }],
+  "0.2": [0, { 0: "Nomadic buffalo hunting describes Great Plains peoples, not the Southwest.", 2: "The Southwest is dry and inland. Ocean fishing fits the Pacific Northwest.", 3: "Wheat was a European crop. Southwest Native peoples grew maize." }],
+  "1.0": [1, { 0: "Tobacco farming kept growing. What changed was the labor force.", 2: "Independence came about 100 years later.", 3: "The Great Awakening was a religious revival of the 1730s–40s, unrelated to Bacon's Rebellion." }],
+  "1.1": [2, { 1: "Colonists kept trading with Britain. Salutary neglect meant lax ENFORCEMENT of trade rules.", 2: "British colonies stayed mostly Protestant. Salutary neglect was about self-rule.", 3: "Salutary neglect didn't address slavery, which grew during this period." }],
+  "1.2": [3, { 0: "Large plantations were more typical of the English Chesapeake and Carolinas.", 2: "Puritan towns were English (New England).", 3: "The French fur trade was central to their colonies, not banned." }],
+  "2.0": [2, { 0: "The Revolution began in 1775, about ten years before Shays' Rebellion.", 2: "The Whiskey tax (and the Whiskey Rebellion) came later, under the Constitution.", 3: "The Louisiana Purchase was in 1803 and had nothing to do with Shays." }],
+  "2.1": [0, { 0: "The objection was about WHO taxed the colonies, not how much.", 2: "The Stamp Act hit nearly everyone who used printed paper, not just merchants.", 3: "The protest was about Parliament's authority, not a treaty with France." }],
+  "2.2": [3, { 0: "Hamilton wanted to FUND and assume the debt to build national credit, not abolish it.", 2: "Hamilton supported tariffs to raise revenue and protect industry.", 3: "Hamilton wanted a strong NATIONAL financial system, not state control." }],
+  "2.3": [2, { 1: "The slave trade was handled by a separate compromise (it could not be banned before 1808).", 2: "Presidential terms weren't part of the Great Compromise.", 3: "Western land claims were settled under the Articles (the Northwest Ordinance)." }],
+  "3.0": [0, { 1: "\"Separate but equal\" came from Plessy v. Ferguson in 1896.", 2: "The right to a lawyer came from Gideon v. Wainwright in the 1960s.", 3: "Federal supremacy over state banking came from McCulloch v. Maryland in 1819." }],
+  "3.1": [2, { 0: "The revival INSPIRED reform. It didn't cause decline.", 2: "Immigration increased in this era.", 3: "The national bank was an economic and political issue, not a religious-revival outcome." }],
+  "3.2": [1, { 0: "The cotton gin made cotton more profitable, which INCREASED demand for enslaved labor.", 2: "The South stayed mostly agricultural. Industrialization centered in the North.", 3: "The Atlantic slave trade was banned in 1808 by law, not because of the cotton gin." }],
+  "3.3": [3, { 0: "Native Americans weren't granted citizenship until 1924.", 2: "The act forced removal. Even Worcester v. Georgia's protections were ignored.", 3: "Removal opened more land, which fueled westward expansion." }],
+  "4.0": [0, { 0: "It did the opposite: it opened territory north of 36°30′ to slavery.", 2: "California's admission was part of the Compromise of 1850.", 3: "The Fugitive Slave Act stayed in force." }],
+  "4.1": [2, { 0: "It applied only to areas IN REBELLION. The border states were excluded.", 2: "The 13th Amendment (1865) abolished slavery everywhere. The Proclamation was a wartime order.", 3: "Voting rights came with the 15th Amendment." }],
+  "4.2": [3, { 0: "Abolishing slavery was the 13th. Remember 13–14–15: free, citizen, vote.", 2: "Women's suffrage was the 19th Amendment in 1920.", 3: "Reconstruction ended with the Compromise of 1877, not an amendment." }],
+  "4.3": [3, { 0: "Few freed people got land. \"40 acres\" mostly never happened.", 2: "The South stayed mostly agricultural.", 3: "The crop-lien system kept sharecroppers in debt rather than raising wages." }],
+  "5.0": [0, { 0: "Horizontal integration buys COMPETITORS (like Rockefeller's oil). Carnegie controlled every STAGE of production.", 2: "A labor union is a workers' organization, not a business structure.", 3: "Laissez-faire is a government policy, not a way of organizing a company." }],
+  "5.1": [0, { 0: "Populists wanted FREE SILVER to inflate the currency and ease farmers' debts, not a strict gold standard.", 2: "Ending all immigration wasn't a core Populist demand.", 3: "Populists wanted a GRADUATED income tax, not to eliminate it." }],
+  "5.2": [3, { 0: "It broke up tribal land, the opposite of protecting it.", 2: "Citizenship was offered conditionally, only after accepting land allotments.", 3: "The Dawes Act was about assimilation through allotment, not national parks." }],
+  "5.3": [3, { 0: "School desegregation came with Brown v. Board in 1954, which OVERTURNED Plessy.", 2: "Women's suffrage came with the 19th Amendment in 1920.", 3: "The Chinese Exclusion Act was a separate 1882 law, not a court ruling." }],
+  "6.0": [1, { 0: "The Sherman Act (1890) targeted monopolies and came before The Jungle.", 2: "The 19th Amendment (women's suffrage) wasn't about food safety.", 3: "The Wagner Act (1935) was New Deal labor law." }],
+  "6.1": [2, { 0: "The 1920s saw nativism and RESTRICTION, not open immigration.", 2: "Chinese exclusion continued until 1943.", 3: "The quotas were about restricting Europeans. They didn't specifically encourage Mexican immigration." }],
+  "6.2": [3, { 0: "Social Security created a PERMANENT system, which is reform rather than short-term relief.", 2: "It was a domestic welfare program, not military.", 3: "Trust-busting was a Progressive Era policy." }],
+  "6.3": [3, { 0: "Women didn't join combat units in WWII. Executive Order 9066 targeted Japanese Americans.", 2: "Military desegregation came in 1948 under Truman.", 3: "Rationing was a separate home-front policy." }],
+  "7.0": [0, { 0: "The Marshall Plan was economic aid, not weapons development.", 2: "The Korean War began in 1950, and the Marshall Plan targeted Europe.", 3: "The UN was created in 1945 by international agreement." }],
+  "7.1": [1, { 0: "Dred Scott (1857) was overturned by the 13th and 14th Amendments, not Brown.", 2: "Marbury established judicial review and was never overturned.", 3: "Korematsu upheld Japanese internment, and Brown didn't address it." }],
+  "7.2": [1, { 0: "Women won the vote with the 19th Amendment in 1920.", 2: "The voting age was lowered by the 26th Amendment in 1971.", 3: "The poll tax in federal elections was ended by the 24th Amendment in 1964, a separate measure." }],
+  "7.3": [3, { 1: "Car production boomed after the war, and cars made the suburbs possible.", 2: "Urban farming wasn't a postwar trend.", 3: "The Dust Bowl was a 1930s disaster." }],
+  "8.0": [0, { 0: "Reagan sought to CUT social spending, not expand welfare.", 2: "Reagan favored free markets, not nationalization.", 3: "Reagan cut the top tax rate sharply." }],
+  "8.1": [1, { 0: "The Patriot Act was about surveillance and security, not trade.", 2: "Women's suffrage was settled in 1920.", 3: "Railroad regulation was a Gilded Age and Progressive Era issue." }],
+  "8.2": [2, { 0: "Manufacturing jobs DECLINED as factories automated or moved overseas.", 2: "Agricultural employment kept shrinking.", 3: "Trade expanded, with NAFTA and globalization." }],
+};
+
+</script>
+<script>/* src/engine.js */
+// The learning engine: a rules-based model of what each student knows, concept by concept.
+//
+// Data model (all in localStorage, shaped so it can later sync to a backend):
+//   learner
+//    ├── q[questionKey]      latest result per question  { c: correct, n: attempts, p: picked choice }
+//    ├── cs[conceptKey]      mastery per concept         { m: 0–1, n, ok, streak, due, last }
+//    ├── hist[]              practice history            { k: questionKey, t: time, ok }
+//    ├── diag[courseId]      last diagnostic             { t, right, total }
+//    ├── known, frq, mine, days, recent                  flashcards, free responses, courses, streak days
+//
+// questionKey = "course|unit|q"   (authored question)  or  "course|unit|t<term>" (generated from a flashcard)
+// conceptKey  = "course|unit|concept"
+
+const Engine = (() => {
+  const DAY = 86400000;
+  const REVIEW_DAYS = [1, 3, 7, 14, 30];
+
+  /* ---------- Content annotation ---------- */
+
+  // Copy concept tags and wrong-answer notes from content/diagnostics/<id>.js onto question objects.
+  function annotate(id, content) {
+    const d = (window.AP_DIAG && window.AP_DIAG[id]) || {};
+    const tag = (q, entry, offset = 0) => {
+      q.concept = entry ? entry[0] + offset : 0;
+      q.why = entry ? entry[1] : {};
+    };
+    if (content.extends) {
+      Object.entries(content.patches || {}).forEach(([u, p]) =>
+        (p.questions || []).forEach((q, i) => tag(q, d[`p${u}.${i}`], BASE_CONCEPTS[content.extends]?.[u] || 0)));
+      content.units.forEach((u, ui) => u.questions.forEach((q, i) => tag(q, d[`u${ui}.${i}`])));
+    } else {
+      content.units.forEach((u, ui) => u.questions.forEach((q, i) => tag(q, d[`${ui}.${i}`])));
+      BASE_CONCEPTS[id] = content.units.map((u) => u.concepts.length);
+    }
+  }
+  const BASE_CONCEPTS = {};
+
+  // Map each flashcard term to the concept whose text mentions it (fallback: best word overlap).
+  const termMaps = {};
+  function termConcepts(courseId, unitIdx) {
+    const k = `${courseId}|${unitIdx}`;
+    if (termMaps[k]) return termMaps[k];
+    const unit = window.AP_CONTENT[courseId].units[unitIdx];
+    const texts = unit.concepts.map((c) => `${c.title} ${c.simple} ${c.detail} ${c.example || ""} ${c.hook || ""}`.toLowerCase());
+    const words = (s) => new Set(s.toLowerCase().match(/[a-z]{4,}/g) || []);
+    termMaps[k] = unit.terms.map(([term, def]) => {
+      const t = term.toLowerCase().replace(/\s*\(.*?\)\s*/g, " ").trim();
+      const parts = t.split(/\s*\/\s*/);
+      let best = texts.findIndex((x) => parts.some((p) => p.length > 2 && x.includes(p)));
+      if (best < 0) {
+        const w = words(`${term} ${def}`);
+        let score = -1;
+        texts.forEach((x, i) => {
+          const s = [...w].filter((y) => x.includes(y)).length;
+          if (s > score) { score = s; best = i; }
+        });
+      }
+      return Math.max(0, best);
+    });
+    return termMaps[k];
+  }
+
+  // A multiple-choice question generated from a flashcard term (term → definition or definition → term).
+  function termQuestion(courseId, unitIdx, termIdx) {
+    const units = window.AP_CONTENT[courseId].units;
+    const [term, def] = units[unitIdx].terms[termIdx];
+    let others = units[unitIdx].terms.filter((_, i) => i !== termIdx);
+    if (others.length < 3) others = others.concat(units.flatMap((u, i) => (i === unitIdx ? [] : u.terms)));
+    const distractors = shuffle(others).slice(0, 3);
+    const forward = Math.random() < 0.5;
+    const opts = shuffle([[term, def], ...distractors]);
+    const answer = opts.findIndex(([t]) => t === term);
+    const why = {};
+    opts.forEach(([t, d], i) => {
+      if (i === answer) return;
+      why[i] = forward ? `That's the definition of "${t}".` : `"${t}" means: ${d}`;
+    });
+    return {
+      gen: true,
+      concept: termConcepts(courseId, unitIdx)[termIdx],
+      q: forward ? `Which best describes "${term}"?` : `Which term matches this description?\n"${def}"`,
+      choices: opts.map(([t, d]) => (forward ? d : t)),
+      answer,
+      explain: `"${term}" means: ${def}`,
+      why,
+    };
+  }
+
+  /* ---------- Items ---------- */
+
+  const item = (courseId, unitIdx, qIdx) => {
+    const q = window.AP_CONTENT[courseId].units[unitIdx].questions[qIdx];
+    return { courseId, unitIdx, key: `${courseId}|${unitIdx}|${qIdx}`, q };
+  };
+  const termItem = (courseId, unitIdx, termIdx) =>
+    ({ courseId, unitIdx, key: `${courseId}|${unitIdx}|t${termIdx}`, q: termQuestion(courseId, unitIdx, termIdx) });
+
+  // Every question that practices one concept: authored ones first, then flashcard-generated ones.
+  function pool(courseId, unitIdx, conceptIdx) {
+    const unit = window.AP_CONTENT[courseId].units[unitIdx];
+    const authored = unit.questions.map((q, i) => (q.concept === conceptIdx ? i : -1)).filter((i) => i >= 0);
+    const terms = termConcepts(courseId, unitIdx).map((c, i) => (c === conceptIdx ? i : -1)).filter((i) => i >= 0);
+    return { authored, terms };
+  }
+
+  // n questions for one concept, mixing authored and generated so there's always enough to practice.
+  function conceptItems(courseId, unitIdx, conceptIdx, n, excludeKey) {
+    const { authored, terms } = pool(courseId, unitIdx, conceptIdx);
+    const out = shuffle(authored).map((i) => item(courseId, unitIdx, i)).filter((x) => x.key !== excludeKey);
+    const unitTerms = window.AP_CONTENT[courseId].units[unitIdx].terms.map((_, i) => i);
+    const termOrder = [...shuffle(terms), ...shuffle(unitTerms.filter((i) => !terms.includes(i)))];
+    for (const t of termOrder) {
+      if (out.length >= n) break;
+      const it = termItem(courseId, unitIdx, t);
+      if (terms.includes(t)) out.push(it);
+      else out.push({ ...it, q: { ...it.q, concept: conceptIdx } }); // unit-level filler still counts toward this concept
+    }
+    return shuffle(out.slice(0, n));
+  }
+
+  /* ---------- Learner state ---------- */
+
+  const conceptKey = (courseId, unitIdx, conceptIdx) => `${courseId}|${unitIdx}|${conceptIdx}`;
+  const state = (key) => store.data.cs[key] || { m: 0, n: 0, ok: 0, streak: 0, due: 0, last: 0 };
+
+  function status(s) {
+    if (!s.n) return { id: "new", label: "Not started" };
+    if (s.m >= 0.8) return { id: "strong", label: "Strong" };
+    if (s.m >= 0.5) return { id: "learning", label: "Getting there" };
+    return { id: "weak", label: "Needs practice" };
+  }
+
+  // Update question, concept and history after an answer. Returns the concept change for the UI.
+  function record(it, picked, ok) {
+    const now = Date.now();
+    const prev = store.data.q[it.key] || { n: 0 };
+    store.data.q[it.key] = { c: ok, n: prev.n + 1, p: picked };
+    store.data.hist.push({ k: it.key, t: now, ok });
+    if (store.data.hist.length > 4000) store.data.hist = store.data.hist.slice(-4000);
+
+    const ck = conceptKey(it.courseId, it.unitIdx, it.q.concept);
+    const s = { ...state(ck) };
+    const before = s.n ? s.m : 0;
+    if (!s.n) s.m = ok ? 0.6 : 0.15;
+    else s.m = ok ? s.m + (1 - s.m) * 0.35 : s.m * 0.5;
+    s.n++; s.ok += ok ? 1 : 0; s.last = now;
+    s.streak = ok ? s.streak + 1 : 0;
+    s.due = ok ? now + REVIEW_DAYS[Math.min(s.streak - 1, REVIEW_DAYS.length - 1)] * DAY : now;
+    store.data.cs[ck] = s;
+    markStudied();
+    store.save();
+    return { ck, before, after: s.m, state: s };
+  }
+
+  const reviewInDays = (s) => Math.max(0, Math.round((s.due - Date.now()) / DAY));
+
+  /* ---------- Course-level views ---------- */
+
+  function concepts(courseId) {
+    const content = window.AP_CONTENT[courseId];
+    return content.units.flatMap((u, ui) => u.concepts.map((c, ci) => {
+      const key = conceptKey(courseId, ui, ci);
+      return { courseId, unitIdx: ui, conceptIdx: ci, key, title: c.title, unitTitle: u.title, s: state(key) };
+    }));
+  }
+
+  function unitMastery(courseId, unitIdx) {
+    const u = window.AP_CONTENT[courseId].units[unitIdx];
+    const ss = u.concepts.map((_, ci) => state(conceptKey(courseId, unitIdx, ci)));
+    const tried = ss.filter((s) => s.n).length;
+    const pct = Math.round((ss.reduce((a, s) => a + s.m, 0) / ss.length) * 100);
+    return { pct, tried, total: ss.length, strong: ss.filter((s) => status(s).id === "strong").length };
+  }
+
+  function courseMastery(courseId) {
+    const cs = concepts(courseId);
+    return {
+      pct: Math.round((cs.reduce((a, c) => a + c.s.m, 0) / cs.length) * 100),
+      total: cs.length,
+      tried: cs.filter((c) => c.s.n).length,
+      strong: cs.filter((c) => status(c.s).id === "strong").length,
+      weak: cs.filter((c) => status(c.s).id === "weak").length,
+      due: cs.filter((c) => c.s.n && c.s.due <= Date.now()).length,
+    };
+  }
+
+  /* ---------- Session builders ---------- */
+
+  // ~12 authored questions spread across every unit, one concept at a time.
+  function diagnostic(courseId, n = 12) {
+    const units = window.AP_CONTENT[courseId].units;
+    const perUnit = units.map((u, ui) => shuffle(u.concepts.map((_, ci) => ci).filter((ci) => pool(courseId, ui, ci).authored.length)));
+    const out = [];
+    for (let round = 0; out.length < n && perUnit.some((l) => l.length); round++) {
+      perUnit.forEach((list, ui) => {
+        if (out.length >= n || !list.length) return;
+        const ci = list.shift();
+        const qi = shuffle(pool(courseId, ui, ci).authored)[0];
+        out.push(item(courseId, ui, qi));
+      });
+    }
+    return out;
+  }
+
+  // Due reviews first, then weak concepts, then new ones in course order, then the least-mastered rest.
+  function smartSession(courseIds, n = 10, focusKeys = []) {
+    const now = Date.now();
+    const all = courseIds.flatMap((id) => concepts(id));
+    const focus = focusKeys.map((k) => all.find((c) => c.key === k)).filter(Boolean);
+    const due = all.filter((c) => c.s.n && c.s.due <= now).sort((a, b) => a.s.m - b.s.m);
+    const weak = all.filter((c) => c.s.n && c.s.m < 0.5).sort((a, b) => a.s.m - b.s.m);
+    const fresh = all.filter((c) => !c.s.n);
+    const rest = all.filter((c) => c.s.n).sort((a, b) => a.s.m - b.s.m);
+    const seen = new Set();
+    const picked = [];
+    for (const c of [...focus, ...due, ...weak, ...fresh, ...rest]) {
+      if (picked.length >= n) break;
+      if (seen.has(c.key)) continue;
+      seen.add(c.key);
+      picked.push(c);
+    }
+    return picked.map((c) => {
+      const { authored } = pool(c.courseId, c.unitIdx, c.conceptIdx);
+      // Prefer an authored question the student hasn't gotten right yet.
+      const open = authored.filter((i) => !store.data.q[`${c.courseId}|${c.unitIdx}|${i}`]?.c);
+      const qi = shuffle(open.length ? open : authored)[0];
+      return qi != null ? item(c.courseId, c.unitIdx, qi) : conceptItems(c.courseId, c.unitIdx, c.conceptIdx, 1)[0];
+    }).filter(Boolean);
+  }
+
+  /* ---------- Analytics ---------- */
+
+  function weakest(courseIds, n = 5) {
+    return courseIds.flatMap((id) => concepts(id))
+      .filter((c) => c.s.n && status(c.s).id !== "strong")
+      .sort((a, b) => a.s.m - b.s.m || b.s.last - a.s.last)
+      .slice(0, n);
+  }
+
+  function due(courseIds) {
+    const now = Date.now();
+    return courseIds.flatMap((id) => concepts(id)).filter((c) => c.s.n && c.s.due <= now);
+  }
+
+  function weekStats() {
+    const since = Date.now() - 7 * DAY;
+    const week = store.data.hist.filter((h) => h.t >= since);
+    return {
+      answered: week.length,
+      correct: week.filter((h) => h.ok).length,
+      mistakes: week.filter((h) => !h.ok).length,
+    };
+  }
+
+  // One clear "do this next" suggestion.
+  function recommend(courseIds) {
+    const active = courseIds.filter((id) => concepts(id).some((c) => c.s.n));
+    const d = due(active);
+    if (d.length) return { kind: "review", title: `Review ${d.length} concept${d.length === 1 ? "" : "s"} due today`, reason: "Spaced review locks in what you've learned before you forget it.", courses: [...new Set(d.map((c) => c.courseId))] };
+    const w = weakest(active, 1)[0];
+    if (w) return { kind: "concept", title: `Fix your weakest concept: ${w.title}`, reason: `${courseById[w.courseId].name} · Unit ${w.unitIdx + 1}. You're at ${Math.round(w.s.m * 100)}% mastery.`, concept: w };
+    const needsDiag = courseIds.find((id) => !store.data.diag[id]);
+    if (needsDiag) return { kind: "diagnostic", title: `Take the ${courseById[needsDiag].name} diagnostic`, reason: "5 minutes to find out exactly which concepts you don't know yet.", courseId: needsDiag };
+    const next = active[0] || courseIds[0];
+    return next ? { kind: "smart", title: "Continue smart practice", reason: "Keep building mastery on concepts you haven't locked in yet.", courseId: next } : null;
+  }
+
+  // Rebuild concept states from older question-only progress (saved before the engine existed).
+  function migrate() {
+    if (store.data.v >= 2) return;
+    Object.entries(store.data.q).forEach(([key, r]) => {
+      const [courseId, u, q] = key.split("|");
+      const qq = window.AP_CONTENT[courseId]?.units?.[+u]?.questions?.[+q];
+      if (!qq) return;
+      const ck = conceptKey(courseId, +u, qq.concept);
+      const s = { ...state(ck) };
+      s.m = s.n ? (r.c ? s.m + (1 - s.m) * 0.35 : s.m * 0.5) : (r.c ? 0.6 : 0.15);
+      s.n++; s.ok += r.c ? 1 : 0; s.streak = r.c ? s.streak + 1 : 0;
+      s.due = Date.now() + (r.c ? DAY : 0); s.last = Date.now();
+      store.data.cs[ck] = s;
+    });
+    store.data.v = 2;
+    store.save();
+  }
+
+  return {
+    annotate, pool, conceptItems, item, record, state, status, conceptKey, reviewInDays,
+    concepts, unitMastery, courseMastery, diagnostic, smartSession, weakest, due, weekStats, recommend, migrate,
+  };
+})();
+
+</script>
 <script>/* src/app.js */
-// AP Prep Hub: a static, hash-routed single-page app.
-// Course metadata lives in data/catalog.js, and full study guides in content/<id>.js.
+// AP Prep Hub: an adaptive AP learning system in one static page.
+// Course metadata: data/catalog.js. Study guides: content/<id>.js. Concept tags and
+// wrong-answer diagnoses: content/diagnostics/<id>.js. Learning engine: src/engine.js.
 // build.py inlines everything into one self-contained index.html.
 
 const app = document.getElementById("app");
 const courseById = Object.fromEntries(COURSES.map((c) => [c.id, c]));
+const GUIDE_IDS = COURSES.filter((c) => c.guide).map((c) => c.id);
 const LETTERS = ["A", "B", "C", "D", "E"];
 
 /* ================= Icons ================= */
@@ -4546,6 +5326,12 @@ const ICON_PATHS = {
   play: '<polygon points="6 3 20 12 6 21 6 3"/>',
   x: '<path d="M18 6 6 18M6 6l12 12"/>',
   sparkle: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>',
+  zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+  upload: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',
+  trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  stethoscope: '<path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/>',
   landmark: '<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l9 5H3z"/>',
   sigma: '<path d="M18 7V4H6l6 8-6 8h12v-3"/>',
   flask: '<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/>',
@@ -4571,14 +5357,16 @@ const CAT_META = {
 const catVars = (cat) => `--c:${(CAT_META[cat] || CAT_META["AP Capstone"]).color}`;
 const catIcon = (cat, size = 20) => icon((CAT_META[cat] || CAT_META["AP Capstone"]).icon, size);
 
-/* ================= Storage (per-browser only) ================= */
+
+/* ================= Storage (per-browser only; see src/engine.js for the data model) ================= */
 
 const STORE_KEY = "apprep.v1";
+const EMPTY = () => ({ v: 2, q: {}, cs: {}, hist: [], diag: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
 const store = (() => {
-  let data = { q: {}, known: {}, mine: [], frq: {}, days: [], recent: null };
+  let data = EMPTY();
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (raw) data = { ...data, ...JSON.parse(raw) };
+    if (raw) { const saved = JSON.parse(raw); data = { ...data, ...saved, v: saved.v || 1 }; }
   } catch (_) { /* private mode or blocked storage: keep in memory */ }
   const save = () => {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (_) {}
@@ -4587,19 +5375,11 @@ const store = (() => {
   return { data, save };
 })();
 
-const qKey = (courseId, unitIdx, qIdx) => `${courseId}|${unitIdx}|${qIdx}`;
 const today = () => new Date().toISOString().slice(0, 10);
 
 function markStudied() {
   const d = today();
   if (!store.data.days.includes(d)) { store.data.days.push(d); store.data.days = store.data.days.slice(-400); }
-}
-
-function recordAnswer(key, correct) {
-  const prev = store.data.q[key] || { n: 0 };
-  store.data.q[key] = { c: correct, n: prev.n + 1 };
-  markStudied();
-  store.save();
 }
 
 function streak() {
@@ -4611,33 +5391,12 @@ function streak() {
   return n;
 }
 
-function unitMastery(courseId, unitIdx, unit) {
-  const total = unit.questions.length;
-  let right = 0, tried = 0;
-  unit.questions.forEach((_, i) => {
-    const r = store.data.q[qKey(courseId, unitIdx, i)];
-    if (r) { tried++; if (r.c) right++; }
-  });
-  return { total, right, tried, pct: total ? Math.round((right / total) * 100) : 0 };
-}
-
-function courseStats(courseId) {
-  const content = window.AP_CONTENT && window.AP_CONTENT[courseId];
-  if (!content || content.extends) return null; // not loaded or not merged yet
-  let total = 0, right = 0, tried = 0, cards = 0, known = 0;
-  content.units.forEach((u, i) => {
-    const m = unitMastery(courseId, i, u);
-    total += m.total; right += m.right; tried += m.tried;
-    cards += u.terms.length;
-    known += u.terms.filter(([t]) => store.data.known[`${courseId}|${i}|${t}`]).length;
-  });
-  return { total, right, tried, cards, known, pct: total ? Math.round((right / total) * 100) : 0 };
-}
-
+// Missed authored questions (generated flashcard questions only feed concept mastery).
 function mistakes() {
   return Object.entries(store.data.q)
-    .filter(([, r]) => !r.c)
-    .map(([k]) => { const [courseId, u, q] = k.split("|"); return { courseId, unitIdx: +u, qIdx: +q }; });
+    .filter(([k, r]) => !r.c && /\|\d+$/.test(k))
+    .map(([k, r]) => { const [courseId, u, q] = k.split("|"); return { key: k, courseId, unitIdx: +u, qIdx: +q, picked: r.p }; })
+    .filter((m) => window.AP_CONTENT?.[m.courseId]?.units?.[m.unitIdx]?.questions?.[m.qIdx]);
 }
 
 function updateMistakeCount() {
@@ -4653,6 +5412,7 @@ function updateMistakeCount() {
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const fmt = (s) => esc(s).replace(/\n/g, "<br>");
 const bar = (pct, cls = "") => `<div class="bar ${cls}" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>`;
+const pctOf = (m) => Math.round(m * 100);
 
 function ring(pct, size = 56, stroke = 5, label = `${pct}%`) {
   const r = (size - stroke) / 2;
@@ -4665,6 +5425,9 @@ function ring(pct, size = 56, stroke = 5, label = `${pct}%`) {
     </svg><span>${label}</span></div>`;
 }
 
+// Concept status chip: Not started / Needs practice / Getting there / Strong.
+const chip = (s) => { const st = Engine.status(s); return `<span class="st st-${st.id}">${st.label}</span>`; };
+
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -4673,7 +5436,7 @@ function shuffle(arr) {
 
 function badgesFor(c) {
   const b = [];
-  if (c.guide) b.push(`<span class="badge badge-guide">${icon("sparkle", 12)} Full study guide</span>`);
+  if (c.guide) b.push(`<span class="badge badge-guide">${icon("zap", 12)} Adaptive</span>`);
   if (c.status === "new") b.push('<span class="badge badge-new">New course</span>');
   if (c.status === "changed") b.push('<span class="badge badge-changed">Changes for 2027</span>');
   return b.join("");
@@ -4698,8 +5461,10 @@ function toast(msg) {
   t.innerHTML = msg;
   document.body.appendChild(t);
   requestAnimationFrame(() => t.classList.add("is-in"));
-  setTimeout(() => { t.classList.remove("is-in"); setTimeout(() => t.remove(), 300); }, 2200);
+  setTimeout(() => { t.classList.remove("is-in"); setTimeout(() => t.remove(), 300); }, 2400);
 }
+
+const crumbs = (...parts) => `<nav class="crumbs">${parts.map((p, i) => (i < parts.length - 1 ? `<a href="${p[1]}">${esc(p[0])}</a> ${icon("arrowR", 12)}` : `<span>${esc(p[0])}</span>`)).join(" ")}</nav>`;
 
 /* ================= Content loading ================= */
 
@@ -4716,7 +5481,11 @@ function loadContent(id) {
           s.onerror = () => reject(new Error(`Could not load study guide for ${id}`));
           document.head.appendChild(s);
         });
-    loaded[id] = raw.then((c) => (c && c.extends ? mergeGuide(id, c) : c));
+    loaded[id] = raw.then(async (c) => {
+      if (c && c.extends) await loadContent(c.extends); // base must be tagged first (concept offsets)
+      if (c) Engine.annotate(id, c);
+      return c && c.extends ? mergeGuide(id, c) : c;
+    });
   }
   return loaded[id];
 }
@@ -4747,122 +5516,130 @@ async function mergeGuide(id, raw) {
   return merged;
 }
 
-const loadAllGuides = () => Promise.all(COURSES.filter((c) => c.guide).map((c) => loadContent(c.id).catch(() => null)));
+const loadAllGuides = () => Promise.all(GUIDE_IDS.map((id) => loadContent(id).catch(() => null)));
+const guideReady = (id) => { const c = window.AP_CONTENT && window.AP_CONTENT[id]; return c && !c.extends && c.units[0].questions[0].concept !== undefined; };
 
 /* ================= Router ================= */
 
-let cleanup = null; // teardown for the current view (timers, key handlers)
+let cleanup = null;      // teardown for the current view (timers, key handlers)
+let pendingFocus = [];   // concept keys handed from a diagnostic report to smart practice
 
 async function route() {
   if (cleanup) { cleanup(); cleanup = null; }
   closePalette();
   const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-  const section = parts[0] === "course" || !parts[0] ? "home" : parts[0];
+  const section = parts[0] === "course" || !parts[0] ? "home" : parts[0] === "practice" ? "dashboard" : parts[0];
   document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("is-active", a.dataset.nav === section));
   try {
+    await loadAllGuides();
+    Engine.migrate();
     if (parts[0] === "course" && courseById[parts[1]]) {
       const course = courseById[parts[1]];
       if (parts[2] === "unit") await renderUnit(course, +parts[3] - 1, parts[4] || "learn");
       else if (parts[2] === "quiz") await renderQuizSetup(course);
+      else if (parts[2] === "diagnostic") renderDiagnostic(course);
+      else if (parts[2] === "smart") renderSmart([course.id], `Smart practice · ${course.name}`, course);
       else await renderCourse(course);
+    } else if (parts[0] === "practice" && parts[1] === "concept" && courseById[parts[2]]) {
+      renderConceptPractice(parts[2], +parts[3], +parts[4]);
+    } else if (parts[0] === "practice" && parts[1] === "review") {
+      const active = GUIDE_IDS.filter((id) => Engine.due([id]).length);
+      renderSmart(active.length ? active : GUIDE_IDS, "Today's review");
     } else if (parts[0] === "review") {
-      await renderReview();
+      renderReview();
     } else if (parts[0] === "dashboard") {
-      await renderDashboard();
+      renderDashboard();
     } else {
       renderHome();
     }
   } catch (err) {
+    console.error(err);
     app.innerHTML = `<div class="page"><div class="card empty"><h2>Something went wrong</h2><p>${esc(err.message)}</p><a class="btn" href="#/">Back to courses</a></div></div>`;
   }
   window.scrollTo(0, 0);
 }
+
 
 /* ================= Home ================= */
 
 const homeState = { query: "", cat: "All" };
 
 function renderHome() {
-  document.title = "AP Prep Hub | Study guides and practice for every AP exam";
+  document.title = "AP Prep Hub | Find what you don't know. Fix it. Keep it.";
   const days = Math.ceil((new Date(EXAM_WINDOW.start + "T08:00:00") - new Date()) / 86400000);
-  const guides = COURSES.filter((c) => c.guide);
-  const totals = guides.reduce((acc, c) => {
-    const content = window.AP_CONTENT && window.AP_CONTENT[c.id];
-    if (content && !content.extends) {
-      acc.q += content.own ? content.own.questions : content.units.reduce((n, u) => n + u.questions.length, 0);
-      acc.u += content.own ? content.own.units : content.units.length;
-    }
-    return acc;
-  }, { q: 0, u: 0 });
+  const active = GUIDE_IDS.filter((id) => Engine.concepts(id).some((c) => c.s.n));
   const mine = store.data.mine.map((id) => courseById[id]).filter(Boolean);
-  const recent = store.data.recent && courseById[store.data.recent.c];
-  const recentUnit = recent && window.AP_CONTENT?.[recent.id]?.units?.[store.data.recent.u];
+  const rec = active.length ? Engine.recommend(active) : null;
+  const dueCount = Engine.due(active).length;
+  const totalQ = GUIDE_IDS.reduce((n, id) => { const c = window.AP_CONTENT[id]; return n + (c.own ? c.own.questions : c.units.reduce((a, u) => a + u.questions.length, 0)); }, 0);
 
   app.innerHTML = `
     <section class="hero">
       <div class="page hero-inner">
         <div class="hero-copy">
           ${days > 0 ? `<div class="eyebrow">${icon("clock", 14)} <b>${days} days</b> until AP Exams · May 3–14, 2027</div>` : ""}
-          <h1>Study smarter for <span class="grad">every AP exam.</span></h1>
-          <p class="lead">Unit-by-unit study guides written in plain English, with flashcards, practice
-          questions that explain every answer, and free-response practice with scoring guides.
-          Built from the official 2026-27 course and exam descriptions.</p>
-          <button class="hero-search" data-open-search>
-            ${icon("search", 20)}<span>Search courses, units or key terms…</span><kbd>/</kbd>
-          </button>
-          <div class="hero-stats">
-            <div><b>${COURSES.length}</b><span>AP courses</span></div>
-            <div><b>${guides.length}</b><span>full study guides</span></div>
-            <div><b>${totals.u || "60+"}</b><span>units</span></div>
-            <div><b>${totals.q || "250+"}</b><span>practice questions</span></div>
+          <h1>Stop rereading.<br><span class="grad">Find what you actually don't know.</span></h1>
+          <p class="lead">A personal AP coach that diagnoses your weak concepts, explains <em>why</em> you're
+          getting them wrong, gives you targeted practice, and brings each concept back right before you'd forget it.</p>
+          <div class="btn-row hero-ctas">
+            <a class="btn btn-primary btn-lg" href="#start">${icon("stethoscope", 18)} Take a 5-minute diagnostic</a>
+            <button class="btn btn-lg" data-open-search>${icon("search", 18)} Search a topic</button>
           </div>
+          <ol class="loop">
+            <li><span>1</span>Diagnose</li>
+            <li><span>2</span>Pinpoint weak concepts</li>
+            <li><span>3</span>Targeted practice</li>
+            <li><span>4</span>Review before you forget</li>
+          </ol>
         </div>
         <div class="hero-art" aria-hidden="true">
-          <div class="mock mock-1">
-            <div class="mock-top">${catIcon("Sciences", 16)} AP Biology · Unit 3</div>
-            <div class="mock-q">The O₂ released during photosynthesis comes from:</div>
-            <div class="mock-choice">CO₂</div>
-            <div class="mock-choice is-right">${icon("check", 14)} H₂O</div>
-            <div class="mock-choice">Glucose</div>
+          <div class="mock mock-q1">
+            <div class="mock-top">${catIcon("History & Social Sciences", 14)} AP Microeconomics · Unit 2</div>
+            <div class="mock-q">Incomes rise and pizza is a normal good. In the pizza market:</div>
+            <div class="mock-choice is-wrong">${icon("x", 14)} Quantity demanded rises along the curve</div>
+            <div class="mock-why"><b>Why that's tempting:</b> a change in income shifts the whole curve. "Along the curve" is only for the good's own price.</div>
           </div>
-          <div class="mock mock-2">
-            <div class="mock-top">${icon("cards", 14)} Flashcard</div>
-            <div class="mock-term">Chain rule</div>
-            <div class="mock-def">d/dx f(g(x)) = f′(g(x))·g′(x)</div>
+          <div class="mock mock-weak">
+            <div class="mock-top warn">${icon("target", 14)} Weak concept detected</div>
+            <div class="mock-term">Shifts vs. movements</div>
+            <div class="mock-def">3 targeted questions → mastery 34% → 81%</div>
           </div>
-          <div class="mock mock-3">${ring(72, 52, 5)}<div><b>Unit mastery</b><span>Keep going!</span></div></div>
+          <div class="mock mock-review">${icon("calendar", 18)}<div><b>Review scheduled</b><span>in 3 days, so it sticks</span></div></div>
         </div>
       </div>
     </section>
 
     <div class="page">
-      ${recent && recentUnit ? `
-        <a class="card continue" style="${catVars(recent.cat)}" href="#/course/${recent.id}/unit/${store.data.recent.u + 1}/${store.data.recent.tab || "learn"}">
-          <div class="cat-icon">${catIcon(recent.cat, 22)}</div>
-          <div class="grow"><div class="overline">Continue where you left off</div>
-          <div class="continue-title">${esc(recent.name)} · Unit ${store.data.recent.u + 1}: ${esc(recentUnit.title)}</div></div>
-          <span class="btn btn-primary">Resume ${icon("arrowR", 16)}</span>
-        </a>` : ""}
+      ${active.length ? `
+        <div class="today card">
+          <div class="today-head"><div class="overline">${icon("zap", 12)} Your plan for today</div>
+            <span class="muted small">${icon("flame", 14)} ${streak()}-day streak</span></div>
+          <div class="today-grid">
+            ${rec ? `<a class="today-main" href="${recHref(rec)}">
+              <div><b>${esc(rec.title)}</b><p class="muted small">${esc(rec.reason)}</p></div>
+              <span class="btn btn-primary">Start ${icon("arrowR", 16)}</span></a>` : ""}
+            <a class="today-stat" href="#/practice/review">${icon("calendar", 18)}<b>${dueCount}</b><span>concepts due for review</span></a>
+            <a class="today-stat" href="#/review">${icon("rotate", 18)}<b>${mistakes().length}</b><span>mistakes to learn from</span></a>
+            <a class="today-stat" href="#/dashboard">${icon("trend", 18)}<b>${Engine.weekStats().answered}</b><span>questions this week</span></a>
+          </div>
+        </div>` : ""}
 
-      ${mine.length ? `
-        <div class="section-head"><h2>My courses</h2><a href="#/dashboard">View progress ${icon("arrowR", 14)}</a></div>
-        <div class="grid">${mine.map(courseCard).join("")}</div>` : ""}
+      <div class="section-head" id="start"><h2>${active.length ? "Your courses" : "Start with a 5-minute diagnostic"}</h2>
+        <span class="muted">${GUIDE_IDS.length} adaptive courses · ${totalQ} practice questions + questions generated from every flashcard</span></div>
+      <div class="grid">${(active.length ? [...new Set([...active, ...store.data.mine.filter((id) => GUIDE_IDS.includes(id)), ...GUIDE_IDS])] : GUIDE_IDS).map((id) => courseCard(courseById[id])).join("")}</div>
 
-      <div class="section-head"><h2>Complete study guides</h2><span class="muted">Every unit, every tab, ready to study</span></div>
-      <div class="grid">${guides.map(courseCard).join("")}</div>
-
-      <div class="how">
-        <div class="how-step"><div class="how-ico">${icon("bulb", 20)}</div><h3>Learn</h3><p>Each concept starts in plain English. Open "Go deeper" for the exam-level detail, examples and memory hooks.</p></div>
-        <div class="how-step"><div class="how-ico">${icon("cards", 20)}</div><h3>Memorize</h3><p>Flip flashcards for key terms, mark what you know, and drill only the ones you don't.</p></div>
-        <div class="how-step"><div class="how-ico">${icon("check", 20)}</div><h3>Practice</h3><p>Answer exam-style questions with instant explanations, plus free-response prompts with scoring guides.</p></div>
-        <div class="how-step"><div class="how-ico">${icon("target", 20)}</div><h3>Review</h3><p>Missed questions go to your review list. The dashboard shows your weakest units to study next.</p></div>
+      <div class="why-grid">
+        <div class="why-card"><div class="how-ico">${icon("stethoscope", 20)}</div><h3>Diagnose, don't reread</h3><p>12 questions across every unit reveal which concepts you actually don't know, in about 5 minutes.</p></div>
+        <div class="why-card"><div class="how-ico">${icon("target", 20)}</div><h3>Learn from every mistake</h3><p>Each wrong answer explains the misconception behind it, then drills that exact concept until it's fixed.</p></div>
+        <div class="why-card"><div class="how-ico">${icon("chart", 20)}</div><h3>Mastery you can trust</h3><p>Progress is tracked per concept (Strong, Getting there, Needs practice), not by how many pages you clicked.</p></div>
+        <div class="why-card"><div class="how-ico">${icon("calendar", 20)}</div><h3>Remember it on exam day</h3><p>Spaced review brings each concept back after 1, 3, 7, 14 and 30 days, right before you'd forget it.</p></div>
       </div>
 
-      <div class="section-head" id="browse"><h2>Browse all ${COURSES.length} AP courses</h2></div>
+      <div class="section-head" id="browse"><h2>All ${COURSES.length} AP courses</h2><span class="muted">Exam formats, 2027 changes and official links for every course</span></div>
       <div class="filters">
         <div class="filter-search">${icon("search", 18)}<input id="search" type="search" placeholder="Filter courses…" value="${esc(homeState.query)}" aria-label="Filter courses" /></div>
         <div class="chips" id="chips">
-          ${["All", "Study guides", ...CATEGORIES].map((c) => `<button class="chip ${homeState.cat === c ? "is-active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("")}
+          ${["All", "Adaptive", ...CATEGORIES].map((c) => `<button class="chip ${homeState.cat === c ? "is-active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("")}
         </div>
       </div>
       <div id="course-results"></div>
@@ -4874,7 +5651,7 @@ function renderHome() {
     const q = homeState.query.trim().toLowerCase();
     const match = (c) =>
       (!q || c.name.toLowerCase().includes(q) || c.blurb.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q)) &&
-      (homeState.cat === "All" || (homeState.cat === "Study guides" ? c.guide : c.cat === homeState.cat));
+      (homeState.cat === "All" || (homeState.cat === "Adaptive" ? c.guide : c.cat === homeState.cat));
     const html = CATEGORIES.map((cat) => {
       const list = COURSES.filter((c) => c.cat === cat && match(c));
       return list.length ? `<h3 class="cat-title" style="${catVars(cat)}"><span class="cat-dot">${catIcon(cat, 16)}</span>${esc(cat)} <span class="muted">${list.length}</span></h3><div class="grid">${list.map(courseCard).join("")}</div>` : "";
@@ -4891,24 +5668,43 @@ function renderHome() {
     document.querySelectorAll("#chips .chip").forEach((b) => b.classList.toggle("is-active", b === btn));
     draw();
   });
+  document.querySelector('a[href="#start"]').addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("start").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+function recHref(rec) {
+  if (rec.kind === "review") return "#/practice/review";
+  if (rec.kind === "concept") return `#/practice/concept/${rec.concept.courseId}/${rec.concept.unitIdx}/${rec.concept.conceptIdx}`;
+  if (rec.kind === "diagnostic") return `#/course/${rec.courseId}/diagnostic`;
+  return `#/course/${rec.courseId}/smart`;
 }
 
 function courseCard(c) {
-  const s = c.guide ? courseStats(c.id) : null;
-  const content = c.guide && window.AP_CONTENT && window.AP_CONTENT[c.id];
-  const meta = content && !content.extends ? `${content.units.length} units · ${s.total} questions` : (c.units ? `${c.units.length} units` : "Exam overview");
+  const ready = c.guide && guideReady(c.id);
+  const m = ready ? Engine.courseMastery(c.id) : null;
+  const diag = store.data.diag[c.id];
+  let foot;
+  if (m && m.tried) {
+    foot = `<div class="cc-mastery">
+      <div class="cc-row"><span>${m.strong}/${m.total} concepts strong</span><b>${m.pct}%</b></div>${bar(m.pct)}
+      ${m.due ? `<span class="due-pill">${icon("calendar", 12)} ${m.due} due</span>` : ""}</div>`;
+  } else if (ready) {
+    foot = `<span class="cc-cta">${icon("stethoscope", 14)} ${diag ? "Continue practice" : "Take the diagnostic"}</span><span class="meta">${m.total} concepts</span>`;
+  } else {
+    foot = `<div class="badges">${badgesFor(c)}</div><span class="meta">${c.units ? `${c.units.length} units` : "Exam overview"}</span>`;
+  }
+  const href = ready && !(m && m.tried) && !diag ? `#/course/${c.id}/diagnostic` : `#/course/${c.id}`;
   return `
-    <a class="card course-card" href="#/course/${c.id}" style="${catVars(c.cat)}">
+    <a class="card course-card" href="${href}" style="${catVars(c.cat)}">
       <div class="course-card-top">
         <div class="cat-icon">${catIcon(c.cat)}</div>
-        ${s && s.tried ? ring(s.pct, 40, 4) : ""}
+        ${m && m.tried ? ring(m.pct, 40, 4) : ready ? `<span class="badge badge-guide">${icon("zap", 12)} Adaptive</span>` : ""}
       </div>
       <h3>${esc(c.name)}</h3>
       <p>${esc(c.blurb)}</p>
-      <div class="course-card-foot">
-        <div class="badges">${badgesFor(c)}</div>
-        <span class="meta">${meta}</span>
-      </div>
+      <div class="course-card-foot">${foot}</div>
     </a>`;
 }
 
@@ -4918,19 +5714,13 @@ async function renderCourse(course) {
   document.title = `${course.name} | AP Prep Hub`;
   const content = course.guide ? await loadContent(course.id) : null;
   const isMine = store.data.mine.includes(course.id);
-  const s = content ? courseStats(course.id) : null;
-
-  // Suggest the first unit that isn't fully mastered.
-  let nextUnit = 0;
-  if (content) {
-    const i = content.units.findIndex((u, k) => unitMastery(course.id, k, u).pct < 100);
-    nextUnit = i < 0 ? 0 : i;
-  }
+  const m = content ? Engine.courseMastery(course.id) : null;
+  const diag = store.data.diag[course.id];
 
   const weighted = course.exam.filter((x) => x.weight != null);
   const examHtml = `
     ${weighted.length ? `<div class="stack">${weighted.map((x, i) => `<span style="width:${x.weight}%;opacity:${1 - i * 0.22}" title="${esc(x.name)}: ${x.weight}%"></span>`).join("")}</div>` : ""}
-    <div class="exam-rows">${course.exam.map((x, i) => `
+    <div class="exam-rows">${course.exam.map((x) => `
       <div class="exam-row">
         <span class="swatch" style="opacity:${x.weight != null ? 1 - weighted.indexOf(x) * 0.22 : 0.25}"></span>
         <div class="grow"><div class="name">${esc(x.name)}</div><div class="detail">${esc(x.detail)}</div></div>
@@ -4940,55 +5730,63 @@ async function renderCourse(course) {
   let unitsHtml;
   if (content) {
     unitsHtml = `<div class="unit-list">${content.units.map((u, i) => {
-      const m = unitMastery(course.id, i, u);
-      const state = m.tried === 0 ? "Not started" : m.pct === 100 ? "Mastered" : `${m.right}/${m.total} correct`;
+      const um = Engine.unitMastery(course.id, i);
+      const dots = u.concepts.map((c, ci) => {
+        const s = Engine.state(Engine.conceptKey(course.id, i, ci));
+        return `<span class="dot dot-${Engine.status(s).id}" title="${esc(c.title)}: ${Engine.status(s).label}"></span>`;
+      }).join("");
       return `
-        <a class="card unit-row ${m.pct === 100 ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
-          <div class="unit-num">${m.pct === 100 ? icon("check", 20) : i + 1}</div>
+        <a class="card unit-row ${um.strong === um.total ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
+          <div class="unit-num">${um.strong === um.total ? icon("check", 20) : i + 1}</div>
           <div class="grow">
             <h3>${esc(u.title)}</h3>
-            <div class="sub">${esc(weightText(u))} · ${u.concepts.length} concepts · ${u.terms.length} terms · ${u.questions.length} questions</div>
+            <div class="sub">${esc(weightText(u))} · ${u.concepts.length} concepts · ${u.questions.length} questions</div>
           </div>
-          <div class="unit-state"><span>${state}</span>${bar(m.pct)}</div>
+          <div class="unit-state"><div class="dots">${dots}</div><span>${um.tried ? `${um.pct}% mastery` : "Not started"}</span></div>
           ${icon("arrowR", 18)}
         </a>`;
-    }).join("")}</div>`;
+    }).join("")}</div>
+    <div class="legend"><span><i class="dot dot-strong"></i>Strong</span><span><i class="dot dot-learning"></i>Getting there</span><span><i class="dot dot-weak"></i>Needs practice</span><span><i class="dot dot-new"></i>Not started</span></div>`;
   } else {
     const related = course.related && courseById[course.related];
     unitsHtml = `
       <div class="card empty">
         <div class="empty-ico">${icon("book", 26)}</div>
-        <h3>Full study guide coming soon</h3>
-        <p class="muted">We're writing summaries and practice questions for this course. Until then, use the official
+        <h3>Adaptive study guide coming soon</h3>
+        <p class="muted">We're writing concepts, practice questions and misconception notes for this course. Until then, use the official
         course and exam description linked on this page.</p>
-        ${related ? `<p>Tip: <a href="#/course/${related.id}">${esc(related.name)}</a> has a full study guide.</p>` : ""}
+        ${related ? `<p>Tip: <a href="#/course/${related.id}">${esc(related.name)}</a> is fully adaptive.</p>` : ""}
       </div>
       ${course.units ? `<div class="card"><h3 class="card-title">Course units</h3><ol class="plain-units">${course.units.map((u) => `<li>${esc(u)}</li>`).join("")}</ol></div>` : ""}`;
   }
 
+  const weak = content ? Engine.weakest([course.id], 3) : [];
   app.innerHTML = `
     <section class="course-hero" style="${catVars(course.cat)}">
       <div class="page">
-        <nav class="crumbs"><a href="#/">Courses</a> ${icon("arrowR", 12)} <span>${esc(course.cat)}</span></nav>
+        ${crumbs(["Courses", "#/"], [course.cat])}
         <div class="course-hero-grid">
           <div>
             <div class="course-title-row"><div class="cat-icon lg">${catIcon(course.cat, 28)}</div><h1>${esc(course.name)}</h1></div>
             <p class="lead">${esc(course.blurb)}</p>
             <div class="badges">${badgesFor(course)}</div>
             <div class="btn-row hero-actions">
-              ${content ? `
-                <a class="btn btn-primary btn-lg" href="#/course/${course.id}/unit/${nextUnit + 1}">${icon("play", 16)} ${s.tried ? "Continue" : "Start"} Unit ${nextUnit + 1}</a>
-                <a class="btn btn-lg" href="#/course/${course.id}/quiz">${icon("shuffle", 16)} Mixed quiz</a>` : ""}
+              ${content ? (diag || m.tried
+                ? `<a class="btn btn-primary btn-lg" href="#/course/${course.id}/smart">${icon("zap", 16)} Smart practice</a>
+                   <a class="btn btn-lg" href="#/course/${course.id}/diagnostic">${icon("stethoscope", 16)} Retake diagnostic</a>`
+                : `<a class="btn btn-primary btn-lg" href="#/course/${course.id}/diagnostic">${icon("stethoscope", 16)} Take the 5-minute diagnostic</a>
+                   <a class="btn btn-lg" href="#/course/${course.id}/unit/1">${icon("book", 16)} Start at Unit 1</a>`) : ""}
               <button class="btn btn-lg ${isMine ? "is-starred" : ""}" id="star">${icon("star", 16)} ${isMine ? "In my courses" : "Add to my courses"}</button>
             </div>
           </div>
-          ${s ? `
+          ${m ? `
           <div class="card hero-progress">
-            ${ring(s.pct, 88, 8)}
+            ${ring(m.pct, 88, 8)}
             <div>
-              <div class="overline">Your mastery</div>
-              <div class="hp-line"><b>${s.right}</b>/${s.total} questions correct</div>
-              <div class="hp-line"><b>${s.known}</b>/${s.cards} flashcards known</div>
+              <div class="overline">Course mastery</div>
+              <div class="hp-line"><b>${m.strong}</b>/${m.total} concepts strong</div>
+              <div class="hp-line"><b>${m.weak}</b> need practice · <b>${m.due}</b> due for review</div>
+              ${diag ? `<div class="hp-line muted small">Diagnostic: ${diag.right}/${diag.total} on ${new Date(diag.t).toLocaleDateString()}</div>` : ""}
             </div>
           </div>` : ""}
         </div>
@@ -4997,9 +5795,17 @@ async function renderCourse(course) {
 
     <div class="page course-body">
       ${course.changes ? `<div class="callout callout-warn">${icon("alert", 18)}<div><strong>What's new for 2026-27</strong>${esc(course.changes)}</div></div>` : ""}
+      ${weak.length ? `
+        <div class="card weak-strip" style="${catVars(course.cat)}">
+          <div class="overline">${icon("target", 12)} Your weakest concepts</div>
+          <div class="weak-list">${weak.map((w) => `
+            <a class="weak-item" href="#/practice/concept/${w.courseId}/${w.unitIdx}/${w.conceptIdx}">
+              <div class="grow"><b>${esc(w.title)}</b><span class="muted small">Unit ${w.unitIdx + 1} · ${pctOf(w.s.m)}% mastery</span></div>
+              <span class="btn btn-sm">Practice</span></a>`).join("")}</div>
+        </div>` : ""}
       <div class="course-grid">
         <div class="course-main">
-          <div class="section-head"><h2>Units</h2>${content ? `<span class="muted">${content.units.length} units</span>` : ""}</div>
+          <div class="section-head"><h2>Units</h2>${content ? `<a href="#/course/${course.id}/quiz">${icon("shuffle", 14)} Mixed quiz</a>` : ""}</div>
           ${content && content.intro ? `<p class="muted intro">${esc(content.intro)}</p>` : ""}
           ${unitsHtml}
         </div>
@@ -5035,12 +5841,13 @@ async function renderCourse(course) {
   });
 }
 
+
 /* ================= Unit page ================= */
 
 const TABS = [
   ["learn", "Learn", "book"],
-  ["cards", "Flashcards", "cards"],
   ["practice", "Practice", "check"],
+  ["cards", "Flashcards", "cards"],
   ["frq", "Free response", "pen"],
   ["watch", "Watch out", "alert"],
 ];
@@ -5054,15 +5861,16 @@ async function renderUnit(course, idx, tab) {
   store.data.recent = { c: course.id, u: idx, tab, t: Date.now() };
   store.save();
   const base = `#/course/${course.id}/unit/${idx + 1}`;
-  const m = unitMastery(course.id, idx, unit);
-  const s = courseStats(course.id);
+  const um = Engine.unitMastery(course.id, idx);
+  const cm = Engine.courseMastery(course.id);
 
   const sideList = content.units.map((u, i) => {
-    const um = unitMastery(course.id, i, u);
-    return `<a class="side-unit ${i === idx ? "is-active" : ""} ${um.pct === 100 ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
-      <span class="side-num">${um.pct === 100 ? icon("check", 14) : i + 1}</span>
+    const m = Engine.unitMastery(course.id, i);
+    const done = m.strong === m.total;
+    return `<a class="side-unit ${i === idx ? "is-active" : ""} ${done ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
+      <span class="side-num">${done ? icon("check", 14) : i + 1}</span>
       <span class="side-title">${esc(u.title)}</span>
-      ${um.tried ? `<span class="side-pct">${um.pct}%</span>` : ""}
+      ${m.tried ? `<span class="side-pct">${m.pct}%</span>` : ""}
     </a>`;
   }).join("");
 
@@ -5071,24 +5879,25 @@ async function renderUnit(course, idx, tab) {
       <aside class="unit-side">
         <a class="side-course" href="#/course/${course.id}">
           <div class="cat-icon">${catIcon(course.cat)}</div>
-          <div><div class="side-course-name">${esc(course.name)}</div><div class="muted small">${s.pct}% mastered</div></div>
+          <div><div class="side-course-name">${esc(course.name)}</div><div class="muted small">${cm.pct}% mastery · ${cm.strong}/${cm.total} strong</div></div>
         </a>
-        ${bar(s.pct)}
+        ${bar(cm.pct)}
         <details class="side-details" open>
           <summary>${icon("list", 16)} All units</summary>
           <nav class="side-units">${sideList}</nav>
         </details>
+        <a class="btn btn-primary btn-block" href="#/course/${course.id}/smart">${icon("zap", 16)} Smart practice</a>
         <a class="btn btn-block" href="#/course/${course.id}/quiz">${icon("shuffle", 16)} Mixed quiz</a>
       </aside>
 
       <section class="unit-main">
-        <nav class="crumbs"><a href="#/">Courses</a> ${icon("arrowR", 12)} <a href="#/course/${course.id}">${esc(course.name)}</a> ${icon("arrowR", 12)} <span>Unit ${idx + 1}</span></nav>
+        ${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], [`Unit ${idx + 1}`])}
         <div class="unit-head">
           <div>
             <div class="overline">Unit ${idx + 1} · ${esc(weightText(unit, true))}</div>
             <h1>${esc(unit.title)}</h1>
           </div>
-          <div class="unit-head-stat">${ring(m.pct, 56, 5)}<div class="small muted">${m.tried ? `${m.right}/${m.total} correct` : "Not started"}</div></div>
+          <div class="unit-head-stat">${ring(um.pct, 56, 5)}<div class="small muted">${um.tried ? `${um.strong}/${um.total} concepts strong` : "Not started"}</div></div>
         </div>
         <nav class="tabs" role="tablist">
           ${TABS.map(([k, label, ic]) => `<a class="tab ${k === tab ? "is-active" : ""}" href="${base}/${k}" role="tab" aria-selected="${k === tab}">${icon(ic, 16)}<span>${label}</span></a>`).join("")}
@@ -5098,7 +5907,7 @@ async function renderUnit(course, idx, tab) {
           ${idx > 0 ? `<a class="nav-card" href="#/course/${course.id}/unit/${idx}"><span class="muted small">${icon("arrowL", 14)} Previous</span><b>Unit ${idx}: ${esc(content.units[idx - 1].title)}</b></a>` : "<span></span>"}
           ${idx < content.units.length - 1
             ? `<a class="nav-card next" href="#/course/${course.id}/unit/${idx + 2}"><span class="muted small">Next ${icon("arrowR", 14)}</span><b>Unit ${idx + 2}: ${esc(content.units[idx + 1].title)}</b></a>`
-            : `<a class="nav-card next" href="#/course/${course.id}/quiz"><span class="muted small">Finished the course? ${icon("arrowR", 14)}</span><b>Take a mixed quiz</b></a>`}
+            : `<a class="nav-card next" href="#/course/${course.id}/smart"><span class="muted small">Finished the course? ${icon("arrowR", 14)}</span><b>Smart practice across all units</b></a>`}
         </div>
       </section>
     </div>
@@ -5106,31 +5915,37 @@ async function renderUnit(course, idx, tab) {
   if (window.innerWidth < 900) app.querySelector(".side-details").open = false;
   const body = document.getElementById("tab-body");
 
-  if (tab === "learn") renderLearn(body, unit);
+  if (tab === "learn") renderLearn(body, course, idx, unit);
   else if (tab === "cards") renderFlashcards(body, course, idx, unit);
   else if (tab === "practice") {
-    runQuiz(body, unit.questions.map((q, i) => ({ courseId: course.id, unitIdx: idx, qIdx: i, q })), {
-      title: `Unit ${idx + 1} practice`,
+    body.innerHTML = `<p class="muted small practice-note">${icon("zap", 14)} Get one wrong and we'll pinpoint the concept, explain the misconception, and give you targeted follow-up questions.</p><div id="session"></div>`;
+    runSession(body.querySelector("#session"), unit.questions.map((_, i) => Engine.item(course.id, idx, i)), {
+      title: `Unit ${idx + 1} practice`, mode: "practice",
       onRestart: () => renderUnit(course, idx, "practice"),
     });
   } else if (tab === "frq") renderFrq(body, course, idx, unit);
   else renderWatchOut(body, content, unit);
 }
 
-function renderLearn(body, unit) {
+function renderLearn(body, course, idx, unit) {
   const draw = () => {
     body.innerHTML = `
       <div class="tldr"><div class="tldr-ico">${icon("sparkle", 18)}</div><div><span class="label">The big idea</span>${fmt(unit.tldr)}</div></div>
       <div class="learn-bar">
-        <span class="muted small">${unit.concepts.length} key concepts</span>
+        <span class="muted small">${unit.concepts.length} key concepts · each one tracked separately</span>
         <div class="seg" role="group" aria-label="Explanation level">
           <button data-view="simple" class="${conceptView === "simple" ? "is-active" : ""}">Plain English</button>
           <button data-view="both" class="${conceptView === "both" ? "is-active" : ""}">+ Exam detail</button>
         </div>
       </div>
-      ${unit.concepts.map((c, i) => `
-        <article class="card concept">
-          <h3><span class="n">${i + 1}</span>${esc(c.title)}</h3>
+      ${unit.concepts.map((c, i) => {
+        const s = Engine.state(Engine.conceptKey(course.id, idx, i));
+        return `
+        <article class="card concept" id="concept-${i}">
+          <div class="concept-head">
+            <h3><span class="n">${i + 1}</span>${esc(c.title)}</h3>
+            ${chip(s)}
+          </div>
           <p class="simple">${fmt(c.simple)}</p>
           <details ${conceptView === "both" ? "open" : ""}>
             <summary>Go deeper: what the exam expects</summary>
@@ -5138,7 +5953,12 @@ function renderLearn(body, unit) {
           </details>
           ${c.example ? `<div class="note note-example"><b>${icon("pen", 14)} Example</b><div>${fmt(c.example)}</div></div>` : ""}
           ${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}
-        </article>`).join("")}
+          <div class="concept-foot">
+            <span class="muted small">${s.n ? `${pctOf(s.m)}% mastery · ${s.n} answer${s.n === 1 ? "" : "s"}${s.n && s.due > Date.now() ? ` · review in ${Engine.reviewInDays(s)} day${Engine.reviewInDays(s) === 1 ? "" : "s"}` : ""}` : "Check your understanding"}</span>
+            <a class="btn btn-sm" href="#/practice/concept/${course.id}/${idx}/${i}">${icon("target", 14)} Practice this concept</a>
+          </div>
+        </article>`;
+      }).join("")}
     `;
     body.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => { conceptView = b.dataset.view; draw(); }));
   };
@@ -5282,138 +6102,435 @@ function renderWatchOut(body, content, unit) {
   `;
 }
 
-/* ================= Quiz engine (unit practice, mixed quiz, mistake review) ================= */
 
-// items: [{ courseId, unitIdx, qIdx, q }]. opts: { title, pace (secs/question), showSource, onRestart }
-function runQuiz(body, items, opts = {}) {
+/* ================= Session runner: the learning loop ================= */
+//
+//   Question → Answer → Why (your answer vs. the right one, and the misconception behind it)
+//     └─ wrong? → "Weak concept detected" → 30-second refresher → 3 targeted questions
+//                 → "Concept recovered" (re-test scheduled) or "Still shaky" (back tomorrow)
+//
+// items: [{ courseId, unitIdx, key, q }] from Engine.item / Engine.conceptItems.
+// opts: { title, mode: practice|smart|diagnostic|review|concept|quiz, pace, showSource, onRestart, onDone }
+
+function runSession(body, items, opts = {}) {
+  const mode = opts.mode || "practice";
+  const adaptive = opts.adaptive ?? ["practice", "smart", "review", "quiz"].includes(mode);
+  const feedback = mode !== "diagnostic";
   // Shuffle answer order on every attempt so students learn content, not letter positions.
-  items = items.map((it) => ({ ...it, perm: shuffle(it.q.choices.map((_, k) => k)) }));
+  const prep = (it, extra = {}) => ({ ...it, ...extra, perm: shuffle(it.q.choices.map((_, k) => k)) });
+  const queue = items.map((it) => prep(it));
   let i = 0;
-  let picked = null;
+  let picked = null;          // display index chosen for the current question
+  let change = null;          // concept mastery change from Engine.record
+  let stage = "question";     // question | weak | recovered
+  let rem = null;             // active remediation { ck, courseId, unitIdx, conceptIdx, title, total, right, done }
   const results = [];
-  let timeLeft = opts.pace ? opts.pace * items.length : null;
+  const remediated = new Set();
+  let timeLeft = opts.pace ? opts.pace * queue.length : null;
   let timer = null;
 
   if (timeLeft) {
     timer = setInterval(() => {
       timeLeft--;
-      const el = body.querySelector("#timer");
-      if (el) {
-        el.querySelector("span").textContent = fmtTime(timeLeft);
-        el.classList.toggle("is-low", timeLeft <= 30);
-      }
+      const el = body.querySelector("#timer span");
+      if (el) { el.textContent = fmtTime(timeLeft); el.parentElement.classList.toggle("is-low", timeLeft <= 30); }
       if (timeLeft <= 0) { clearInterval(timer); finish(true); }
     }, 1000);
   }
 
-  const draw = () => {
-    const { q, courseId, unitIdx, perm } = items[i];
+  const conceptOf = (it) => {
+    const u = window.AP_CONTENT[it.courseId].units[it.unitIdx];
+    return { ...u.concepts[it.q.concept], idx: it.q.concept, unit: u };
+  };
+
+  const header = () => {
+    const done = i + (picked !== null ? 1 : 0);
+    const right = results.filter((r) => r.ok).length;
+    return `
+      <div class="quiz-top">
+        <span class="small"><b>${Math.min(i + 1, queue.length)}</b> <span class="muted">of ${queue.length}</span></span>
+        ${bar(Math.round((done / queue.length) * 100))}
+        ${feedback ? `<span class="small score-live">${icon("check", 14)} ${right}</span>` : ""}
+        ${timeLeft != null ? `<span class="timer" id="timer">${icon("clock", 14)}<span>${fmtTime(timeLeft)}</span></span>` : ""}
+      </div>
+      ${rem && !rem.done ? `<div class="rem-banner">${icon("target", 14)} Targeted practice: <b>${esc(rem.title)}</b> · ${Math.min(rem.answered + (picked !== null && queue[i].rem ? 0 : 1), rem.total)} of ${rem.total}</div>` : ""}`;
+  };
+
+  const masteryLine = (it) => {
+    if (!change) return "";
+    const c = conceptOf(it);
+    const up = change.after >= change.before;
+    return `<div class="mastery-line">
+      <span class="muted small">Concept</span> <b>${esc(c.title)}</b>
+      <span class="delta ${up ? "up" : "down"}">${pctOf(change.before)}% ${icon("arrowR", 12)} ${pctOf(change.after)}%</span>
+    </div>`;
+  };
+
+  const drawQuestion = () => {
+    const it = queue[i];
+    const { q, courseId, unitIdx, perm } = it;
     const answerPos = perm.indexOf(q.answer);
     const answered = picked !== null;
     const correct = answered && picked === answerPos;
     const course = courseById[courseId];
     const unitTitle = window.AP_CONTENT[courseId].units[unitIdx].title;
-    const right = results.filter((r) => r.ok).length;
+    const whyPicked = answered && !correct ? q.why && q.why[perm[picked]] : null;
+    const showWeakBtn = answered && !correct && adaptive && !rem && !remediated.has(`${courseId}|${unitIdx}|${q.concept}`);
+
     body.innerHTML = `
       <div class="quiz">
-        <div class="quiz-top">
-          <span class="small"><b>Question ${i + 1}</b> <span class="muted">of ${items.length}</span></span>
-          ${bar(Math.round(((i + (answered ? 1 : 0)) / items.length) * 100))}
-          <span class="small score-live">${icon("check", 14)} ${right}</span>
-          ${timeLeft != null ? `<span class="timer" id="timer">${icon("clock", 14)}<span>${fmtTime(timeLeft)}</span></span>` : ""}
-        </div>
-        <div class="card q-card">
-          ${opts.showSource ? `<div class="q-source" style="${catVars(course.cat)}">${catIcon(course.cat, 14)} ${esc(course.name)} · Unit ${unitIdx + 1}: ${esc(unitTitle)}</div>` : ""}
+        ${header()}
+        <div class="card q-card ${it.rem ? "is-rem" : ""}">
+          <div class="q-meta">
+            ${opts.showSource || it.rem ? `<span class="q-source" style="${catVars(course.cat)}">${catIcon(course.cat, 14)} ${esc(course.name)} · Unit ${unitIdx + 1}${opts.showSource ? `: ${esc(unitTitle)}` : ""}</span>` : ""}
+            ${q.gen ? `<span class="q-source gen">${icon("cards", 14)} From your flashcards</span>` : ""}
+          </div>
           <div class="q-text">${fmt(q.q)}</div>
           <div class="choices">
             ${perm.map((orig, ci) => {
               let cls = "";
-              if (answered && ci === answerPos) cls = "is-correct";
-              else if (answered && ci === picked) cls = "is-wrong";
+              if (answered && feedback && ci === answerPos) cls = "is-correct";
+              else if (answered && ci === picked) cls = feedback ? "is-wrong" : "is-picked";
               else if (answered) cls = "is-dim";
               return `<button class="choice ${cls}" data-ci="${ci}" ${answered ? "disabled" : ""}><span class="letter">${LETTERS[ci]}</span><span class="choice-text">${fmt(q.choices[orig])}</span></button>`;
             }).join("")}
           </div>
-          ${answered ? `
-            <div class="feedback ${correct ? "good" : "bad"}">
-              <div class="fb-ico">${icon(correct ? "check" : "alert", 20)}</div>
-              <div><strong>${correct ? "Correct!" : `Not quite. The answer is ${LETTERS[answerPos]}.`}</strong>
-              <p>${fmt(q.explain)}</p></div>
-            </div>
+          ${answered && feedback ? (correct ? `
+            <div class="feedback good">
+              <div class="fb-ico">${icon("check", 20)}</div>
+              <div class="grow"><strong>Correct!</strong><p>${fmt(q.explain)}</p>${masteryLine(it)}</div>
+            </div>` : `
+            <div class="feedback bad">
+              <div class="fb-ico">${icon("alert", 20)}</div>
+              <div class="grow">
+                <div class="fb-grid">
+                  <div><span class="fb-label bad">Your answer</span><div>${LETTERS[picked]}. ${fmt(q.choices[perm[picked]])}</div></div>
+                  <div><span class="fb-label good">Correct</span><div>${LETTERS[answerPos]}. ${fmt(q.choices[q.answer])}</div></div>
+                </div>
+                ${whyPicked ? `<div class="fb-why"><span class="fb-label">Why ${LETTERS[picked]} is tempting</span><p>${fmt(whyPicked)}</p></div>` : ""}
+                <div class="fb-why"><span class="fb-label">Explanation</span><p>${fmt(q.explain)}</p></div>
+                ${masteryLine(it)}
+              </div>
+            </div>`) : ""}
+          ${answered && feedback ? `
             <div class="quiz-actions">
-              <button class="btn btn-primary" id="next">${i === items.length - 1 ? "See results" : "Next question"} ${icon("arrowR", 16)}</button>
+              ${showWeakBtn ? `<button class="btn btn-ghost" id="next">Skip</button><button class="btn btn-primary" id="weak">${icon("target", 16)} Fix this concept</button>`
+                : `<button class="btn btn-primary" id="next">${i === queue.length - 1 ? "See results" : "Next question"} ${icon("arrowR", 16)}</button>`}
             </div>` : ""}
         </div>
-        <p class="kbd-hint"><kbd>1</kbd>–<kbd>${q.choices.length}</kbd> answer · <kbd>Enter</kbd> next</p>
+        <p class="kbd-hint"><kbd>1</kbd>–<kbd>${q.choices.length}</kbd> answer · <kbd>Enter</kbd> ${showWeakBtn ? "fix this concept" : "next"}</p>
       </div>`;
     body.querySelectorAll(".choice").forEach((b) => b.addEventListener("click", () => choose(+b.dataset.ci)));
     body.querySelector("#next")?.addEventListener("click", next);
+    body.querySelector("#weak")?.addEventListener("click", () => { stage = "weak"; draw(); });
+    (body.querySelector("#weak") || body.querySelector("#next"))?.focus({ preventScroll: true });
+  };
+
+  // "Weak concept detected": a 30-second refresher, then 3 targeted questions.
+  const drawWeak = () => {
+    const it = queue[i];
+    const c = conceptOf(it);
+    const s = Engine.state(Engine.conceptKey(it.courseId, it.unitIdx, c.idx));
+    body.innerHTML = `
+      <div class="quiz">
+        <div class="card weak-card" style="${catVars(courseById[it.courseId].cat)}">
+          <div class="weak-top">${icon("target", 18)} Weak concept detected</div>
+          <h2>${esc(c.title)}</h2>
+          <p class="muted small">${esc(courseById[it.courseId].name)} · Unit ${it.unitIdx + 1}: ${esc(c.unit.title)} · ${pctOf(s.m)}% mastery</p>
+          <div class="refresher">
+            <div class="overline">The 30-second version</div>
+            <p>${fmt(c.simple)}</p>
+            ${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}
+            ${c.example ? `<div class="note note-example"><b>${icon("pen", 14)} Example</b><div>${fmt(c.example)}</div></div>` : ""}
+            <details><summary>Go deeper</summary><p>${fmt(c.detail)}</p></details>
+          </div>
+          <div class="quiz-actions">
+            <button class="btn btn-ghost" id="skip">Skip for now</button>
+            <button class="btn btn-primary" id="drill">${icon("play", 16)} Practice 3 targeted questions</button>
+          </div>
+        </div>
+      </div>`;
+    body.querySelector("#skip").addEventListener("click", () => { stage = "question"; next(); });
+    body.querySelector("#drill").addEventListener("click", startRemediation);
+    body.querySelector("#drill").focus({ preventScroll: true });
+  };
+
+  const startRemediation = () => {
+    const it = queue[i];
+    const ck = `${it.courseId}|${it.unitIdx}|${it.q.concept}`;
+    const extra = Engine.conceptItems(it.courseId, it.unitIdx, it.q.concept, 3, it.key).map((x) => prep(x, { rem: true }));
+    remediated.add(ck);
+    rem = { ck, courseId: it.courseId, unitIdx: it.unitIdx, conceptIdx: it.q.concept, title: conceptOf(it).title, total: extra.length, answered: 0, right: 0, done: false };
+    queue.splice(i + 1, 0, ...extra);
+    if (timeLeft != null) timeLeft += (opts.pace || 60) * extra.length;
+    stage = "question";
+    next();
+  };
+
+  const drawRecovered = () => {
+    const s = Engine.state(rem.ck);
+    const ok = rem.right >= Math.ceil(rem.total * 0.6);
+    const days = Engine.reviewInDays(s);
+    body.innerHTML = `
+      <div class="quiz">
+        <div class="card recovered ${ok ? "good" : "bad"}">
+          <div class="rec-ico">${icon(ok ? "check" : "rotate", 28)}</div>
+          <h2>${ok ? "Concept recovered" : "Still shaky, and that's OK"}</h2>
+          <p><b>${esc(rem.title)}</b>: ${rem.right}/${rem.total} targeted questions right · now ${pctOf(s.m)}% mastery ${chip(s)}</p>
+          <p class="muted">${ok
+            ? `We'll re-test it ${days <= 1 ? "tomorrow" : `in ${days} days`} so it sticks.`
+            : "We'll bring it back in your next session. Reread the concept once before then."}</p>
+          <div class="btn-row center">
+            ${ok ? "" : `<a class="btn" href="#/course/${rem.courseId}/unit/${rem.unitIdx + 1}/learn">${icon("book", 16)} Reread the concept</a>`}
+            <button class="btn btn-primary" id="cont">${i >= queue.length - 1 ? "See results" : "Continue"} ${icon("arrowR", 16)}</button>
+          </div>
+        </div>
+      </div>`;
+    body.querySelector("#cont").addEventListener("click", () => { rem = null; stage = "question"; advance(); });
+    body.querySelector("#cont").focus({ preventScroll: true });
+  };
+
+  const draw = () => {
+    if (stage === "weak") drawWeak(); else if (stage === "recovered") drawRecovered(); else drawQuestion();
+    // Keep the new card in view when the previous one (e.g. a long explanation) left us scrolled down.
+    const top = body.getBoundingClientRect().top;
+    if (top < 72) window.scrollTo({ top: window.scrollY + top - 88, behavior: "smooth" });
   };
 
   const choose = (ci) => {
-    if (picked !== null) return;
+    if (picked !== null || stage !== "question") return;
     picked = ci;
-    const it = items[i];
+    const it = queue[i];
     const ok = it.perm[ci] === it.q.answer;
-    results.push({ ...it, ok });
-    recordAnswer(qKey(it.courseId, it.unitIdx, it.qIdx), ok);
+    change = Engine.record(it, it.perm[ci], ok);
+    results.push({ ...it, ok, pickedOrig: it.perm[ci] });
+    if (it.rem && rem) { rem.answered++; if (ok) rem.right++; }
+    if (!feedback) { setTimeout(next, 180); drawQuestion(); return; }
     draw();
-    body.querySelector("#next")?.focus({ preventScroll: true });
   };
 
+  // Move past the current question: show the remediation result card when a drill just ended.
   const next = () => {
-    if (i === items.length - 1) { finish(false); return; }
-    i++; picked = null; draw();
+    if (rem && !rem.done && queue[i].rem && (i + 1 >= queue.length || !queue[i + 1].rem)) {
+      rem.done = true; stage = "recovered"; picked = null; draw(); return;
+    }
+    advance();
+  };
+  const advance = () => {
+    if (i >= queue.length - 1) { finish(false); return; }
+    i++; picked = null; change = null; draw();
   };
 
   const finish = (timedOut) => {
     if (timer) clearInterval(timer);
     document.removeEventListener("keydown", onKey);
+    if (mode === "diagnostic") return renderDiagnosticReport(body, results, opts);
     const right = results.filter((r) => r.ok).length;
-    const pct = Math.round((right / items.length) * 100);
-    const byUnit = {};
-    results.forEach((r) => {
-      const k = `${r.courseId}|${r.unitIdx}`;
-      byUnit[k] = byUnit[k] || { ...r, right: 0, total: 0 };
-      byUnit[k].total++; if (r.ok) byUnit[k].right++;
-    });
-    const msg = pct >= 85 ? "Excellent. You're exam-ready on this material." : pct >= 60 ? "Solid progress. Review the weaker units below and try again." : "Keep going. Re-read the Learn tab for the weaker units, then retry.";
+    const n = results.length || 1;
+    const pct = Math.round((right / n) * 100);
+    const touched = [...new Map(results.map((r) => [`${r.courseId}|${r.unitIdx}|${r.q.concept}`, r])).values()];
+    const courses = [...new Set(results.map((r) => r.courseId))];
+    const rec = Engine.recommend(courses);
+    const msg = pct >= 85 ? "Excellent. These concepts are in great shape." : pct >= 60 ? "Solid progress. The concepts below that need work are already scheduled." : "Good diagnostic info. Every miss told us exactly what to practice next.";
     body.innerHTML = `
       <div class="quiz">
         <div class="card results">
           ${timedOut ? `<div class="callout callout-warn">${icon("clock", 18)}<div><strong>Time's up!</strong>Unanswered questions weren't counted.</div></div>` : ""}
           <div class="overline">${esc(opts.title || "Practice")} complete</div>
-          <div class="results-score">${ring(pct, 120, 10)}<div><div class="score-big">${right}<span>/${items.length}</span></div><p>${msg}</p></div></div>
-          <div class="breakdown">
-            ${Object.values(byUnit).map((u) => {
-              const content = window.AP_CONTENT[u.courseId];
-              const p = Math.round((u.right / u.total) * 100);
-              return `<a class="row" href="#/course/${u.courseId}/unit/${u.unitIdx + 1}"><span>${opts.showSource ? esc(courseById[u.courseId].name) + " · " : ""}Unit ${u.unitIdx + 1}: ${esc(content.units[u.unitIdx].title)}</span><b>${u.right}/${u.total}</b>${bar(p, p >= 80 ? "good" : p >= 50 ? "" : "bad")}</a>`;
+          <div class="results-score">${ring(pct, 120, 10)}<div><div class="score-big">${right}<span>/${results.length}</span></div><p>${msg}</p></div></div>
+          <h3 class="card-title left">${icon("target", 16)} Concepts you practiced</h3>
+          <div class="concept-results">
+            ${touched.map((r) => {
+              const key = `${r.courseId}|${r.unitIdx}|${r.q.concept}`;
+              const s = Engine.state(key);
+              const c = window.AP_CONTENT[r.courseId].units[r.unitIdx].concepts[r.q.concept];
+              return `<a class="cr-row" href="#/practice/concept/${r.courseId}/${r.unitIdx}/${r.q.concept}">
+                <div class="grow"><b>${esc(c.title)}</b><span class="muted small">${courses.length > 1 ? esc(courseById[r.courseId].name) + " · " : ""}Unit ${r.unitIdx + 1}</span></div>
+                ${chip(s)}<span class="cr-pct">${pctOf(s.m)}%</span></a>`;
             }).join("")}
           </div>
+          ${rec ? `<a class="next-step" href="${recHref(rec)}"><div class="grow"><div class="overline">${icon("zap", 12)} Recommended next</div><b>${esc(rec.title)}</b><p class="muted small">${esc(rec.reason)}</p></div>${icon("arrowR", 18)}</a>` : ""}
           <div class="btn-row center">
-            ${opts.onRestart ? `<button class="btn btn-primary" id="again">${icon("rotate", 16)} Try again</button>` : ""}
+            ${opts.onRestart ? `<button class="btn" id="again">${icon("rotate", 16)} Go again</button>` : ""}
             ${results.some((r) => !r.ok) ? `<a class="btn" href="#/review">Review my mistakes</a>` : ""}
             <a class="btn btn-ghost" href="#/dashboard">View progress</a>
           </div>
         </div>
       </div>`;
     body.querySelector("#again")?.addEventListener("click", opts.onRestart);
+    opts.onDone?.(results);
   };
 
   const onKey = (e) => {
     if (e.target.matches("input, textarea") || paletteOpen()) return;
     if (e.key === "Enter" && e.target.matches("button, a")) return; // native click already fires
+    if (stage !== "question") return;
     const n = parseInt(e.key, 10);
-    if (n >= 1 && n <= items[i].q.choices.length) choose(n - 1);
-    else if (e.key === "Enter" && picked !== null) next();
+    if (n >= 1 && n <= queue[i].q.choices.length) choose(n - 1);
+    else if (e.key === "Enter" && picked !== null) (body.querySelector("#weak") || body.querySelector("#next"))?.click();
   };
   document.addEventListener("keydown", onKey);
   cleanup = () => { if (timer) clearInterval(timer); document.removeEventListener("keydown", onKey); };
+  if (!queue.length) {
+    body.innerHTML = `<div class="card empty"><p class="muted">No questions to practice here yet.</p></div>`;
+    return;
+  }
   draw();
 }
 
 const fmtTime = (s) => `${Math.floor(Math.max(0, s) / 60)}:${String(Math.max(0, s) % 60).padStart(2, "0")}`;
+
+/* ================= Diagnostic ================= */
+
+function renderDiagnostic(course) {
+  if (!course.guide) { location.hash = `#/course/${course.id}`; return; }
+  document.title = `Diagnostic | ${course.name}`;
+  const items = Engine.diagnostic(course.id);
+  const units = window.AP_CONTENT[course.id].units.length;
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(course.cat)}">
+      ${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"])}
+      <div class="card diag-intro">
+        <div class="cat-icon lg">${icon("stethoscope", 28)}</div>
+        <h1>${esc(course.name)} diagnostic</h1>
+        <p class="lead">${items.length} questions across all ${units} units, about 5 minutes. No hints and no explanations until the end:
+        we just want an honest picture of what you know.</p>
+        <ul class="diag-points">
+          <li>${icon("target", 16)} Pinpoints your weak <b>concepts</b>, not just weak units</li>
+          <li>${icon("zap", 16)} Sets up smart practice to fix them first</li>
+          <li>${icon("rotate", 16)} Explains every question you miss in the report</li>
+        </ul>
+        <button class="btn btn-primary btn-lg" id="go">${icon("play", 16)} Start diagnostic</button>
+      </div>
+    </div>`;
+  app.querySelector("#go").addEventListener("click", () => {
+    app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"])}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), items, { title: "Diagnostic", mode: "diagnostic", courseId: course.id, showSource: true });
+  });
+}
+
+function renderDiagnosticReport(body, results, opts) {
+  const courseId = opts.courseId;
+  const course = courseById[courseId];
+  const right = results.filter((r) => r.ok).length;
+  store.data.diag[courseId] = { t: Date.now(), right, total: results.length };
+  store.save();
+  const byConcept = new Map();
+  results.forEach((r) => {
+    const key = Engine.conceptKey(r.courseId, r.unitIdx, r.q.concept);
+    const e = byConcept.get(key) || { key, r, ok: 0, n: 0 };
+    e.n++; if (r.ok) e.ok++;
+    byConcept.set(key, e);
+  });
+  const tested = [...byConcept.values()];
+  const strong = tested.filter((e) => e.ok === e.n);
+  const weak = tested.filter((e) => e.ok < e.n);
+  const allConcepts = Engine.concepts(courseId);
+  const untested = allConcepts.filter((c) => !byConcept.has(c.key)).length;
+  const title = (e) => window.AP_CONTENT[e.r.courseId].units[e.r.unitIdx].concepts[e.r.q.concept].title;
+  const misses = results.filter((r) => !r.ok);
+
+  body.innerHTML = `
+    <div class="quiz">
+      <div class="card results diag-report">
+        <div class="overline">Diagnostic report</div>
+        <div class="results-score">${ring(Math.round((right / results.length) * 100), 120, 10)}
+          <div><div class="score-big">${right}<span>/${results.length}</span></div>
+          <p>We tested ${tested.length} of ${allConcepts.length} concepts. Smart practice will cover the other ${untested}.</p></div></div>
+
+        <div class="diag-cols">
+          <div class="diag-col bad"><h3>${icon("target", 16)} Needs practice <span>${weak.length}</span></h3>
+            ${weak.length ? weak.map((e) => `<a href="#/practice/concept/${e.r.courseId}/${e.r.unitIdx}/${e.r.q.concept}"><b>${esc(title(e))}</b><span>Unit ${e.r.unitIdx + 1}</span></a>`).join("") : `<p class="muted small">Nothing! Great start.</p>`}
+          </div>
+          <div class="diag-col good"><h3>${icon("check", 16)} Looking strong <span>${strong.length}</span></h3>
+            ${strong.length ? strong.map((e) => `<a href="#/course/${e.r.courseId}/unit/${e.r.unitIdx + 1}"><b>${esc(title(e))}</b><span>Unit ${e.r.unitIdx + 1}</span></a>`).join("") : `<p class="muted small">We'll build these up together.</p>`}
+          </div>
+        </div>
+
+        ${weak.length ? `<button class="btn btn-primary btn-lg btn-block" id="fix">${icon("zap", 16)} Fix my ${weak.length} weak concept${weak.length === 1 ? "" : "s"} now</button>` : `<a class="btn btn-primary btn-lg btn-block" href="#/course/${courseId}/smart">${icon("zap", 16)} Continue with smart practice</a>`}
+
+        ${misses.length ? `
+          <h3 class="card-title left" style="margin-top:28px">${icon("rotate", 16)} What you missed, and why</h3>
+          <div class="miss-list">${misses.map((r) => missCard(r, r.pickedOrig)).join("")}</div>` : ""}
+      </div>
+    </div>`;
+  body.querySelector("#fix")?.addEventListener("click", () => {
+    pendingFocus = weak.map((e) => e.key);
+    location.hash = `#/course/${courseId}/smart`;
+  });
+}
+
+// A compact "mistake as a lesson" card: your answer, the correct one, why yours was tempting, the concept.
+function missCard(r, pickedOrig, actions = "") {
+  const q = r.q;
+  const c = window.AP_CONTENT[r.courseId].units[r.unitIdx].concepts[q.concept];
+  const s = Engine.state(Engine.conceptKey(r.courseId, r.unitIdx, q.concept));
+  return `
+    <div class="miss" style="${catVars(courseById[r.courseId].cat)}">
+      <div class="miss-q">${fmt(q.q)}</div>
+      <div class="fb-grid">
+        ${pickedOrig != null ? `<div><span class="fb-label bad">Your answer</span><div>${fmt(q.choices[pickedOrig])}</div></div>` : ""}
+        <div><span class="fb-label good">Correct</span><div>${fmt(q.choices[q.answer])}</div></div>
+      </div>
+      ${pickedOrig != null && q.why && q.why[pickedOrig] ? `<div class="fb-why"><span class="fb-label">Why you might have picked it</span><p>${fmt(q.why[pickedOrig])}</p></div>` : ""}
+      <div class="fb-why"><span class="fb-label">Explanation</span><p>${fmt(q.explain)}</p></div>
+      <div class="miss-foot">
+        <span class="concept-tag">${icon("target", 14)} ${esc(c.title)} ${chip(s)}</span>
+        <div class="btn-row">${actions || `<a class="btn btn-sm" href="#/practice/concept/${r.courseId}/${r.unitIdx}/${q.concept}">${icon("play", 14)} Practice 5 similar</a>`}</div>
+      </div>
+    </div>`;
+}
+
+/* ================= Smart practice & concept practice ================= */
+
+function renderSmart(courseIds, title, course) {
+  document.title = `${title} | AP Prep Hub`;
+  const focus = pendingFocus; pendingFocus = [];
+  const items = Engine.smartSession(courseIds, 10, focus);
+  const cat = course ? course.cat : "Math & Computer Science";
+  const back = course ? [course.name, `#/course/${course.id}`] : ["Progress", "#/dashboard"];
+  const due = Engine.due(courseIds).length;
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(cat)}">
+      ${crumbs(["Courses", "#/"], back, [course ? "Smart practice" : title])}
+      <div class="session-head">
+        <div class="cat-icon lg">${icon("zap", 26)}</div>
+        <div><h1>${esc(course ? "Smart practice" : title)}</h1>
+        <p class="muted">${focus.length ? `Starting with the ${focus.length} weak concept${focus.length === 1 ? "" : "s"} from your diagnostic.` : due ? `${due} concept${due === 1 ? "" : "s"} due for review come first, then your weakest, then new ones.` : "Picked for you: your weakest concepts first, then new ones."}
+        Miss one and we'll fix it on the spot.</p></div>
+      </div>
+      <div id="quiz-body"></div>
+    </div>`;
+  runSession(document.getElementById("quiz-body"), items, {
+    title: course ? "Smart practice" : title, mode: "smart", showSource: true,
+    onRestart: () => renderSmart(courseIds, title, course),
+  });
+}
+
+function renderConceptPractice(courseId, unitIdx, conceptIdx) {
+  const course = courseById[courseId];
+  const unit = window.AP_CONTENT[courseId]?.units?.[unitIdx];
+  const c = unit?.concepts?.[conceptIdx];
+  if (!c) { location.hash = `#/course/${courseId}`; return; }
+  document.title = `Practice: ${c.title} | AP Prep Hub`;
+  const s = Engine.state(Engine.conceptKey(courseId, unitIdx, conceptIdx));
+  const items = Engine.conceptItems(courseId, unitIdx, conceptIdx, 5);
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(course.cat)}">
+      ${crumbs(["Courses", "#/"], [course.name, `#/course/${courseId}`], [`Unit ${unitIdx + 1}`, `#/course/${courseId}/unit/${unitIdx + 1}`], ["Concept practice"])}
+      <div class="session-head">
+        <div class="cat-icon lg">${icon("target", 26)}</div>
+        <div class="grow"><div class="overline">Concept practice · Unit ${unitIdx + 1}</div><h1>${esc(c.title)}</h1>
+        <p class="muted">${items.length} questions on just this concept. ${chip(s)} ${s.n ? `${pctOf(s.m)}% mastery now.` : ""}</p></div>
+      </div>
+      <details class="card refresher-card"><summary>${icon("book", 16)} Quick refresher before you start</summary><p>${fmt(c.simple)}</p>${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}</details>
+      <div id="quiz-body"></div>
+    </div>`;
+  runSession(document.getElementById("quiz-body"), items, {
+    title: `${c.title} practice`, mode: "concept", adaptive: false,
+    onRestart: () => renderConceptPractice(courseId, unitIdx, conceptIdx),
+  });
+}
 
 /* ================= Mixed quiz setup ================= */
 
@@ -5422,18 +6539,18 @@ async function renderQuizSetup(course) {
   if (!content) { location.hash = `#/course/${course.id}`; return; }
   document.title = `Mixed quiz | ${course.name}`;
   const pace = mcqPace(course);
-  const allQs = content.units.flatMap((u, ui) => u.questions.map((q, qi) => ({ courseId: course.id, unitIdx: ui, qIdx: qi, q })));
+  const allQs = content.units.flatMap((u, ui) => u.questions.map((_, qi) => Engine.item(course.id, ui, qi)));
   const sel = { units: new Set(content.units.map((_, i) => i)), count: 10, timed: false };
-  const crumbs = `<nav class="crumbs"><a href="#/">Courses</a> ${icon("arrowR", 12)} <a href="#/course/${course.id}">${esc(course.name)}</a> ${icon("arrowR", 12)} <span>Mixed quiz</span></nav>`;
+  const crumb = crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Mixed quiz"]);
 
   const draw = () => {
     const pool = allQs.filter((x) => sel.units.has(x.unitIdx));
     const n = sel.count === "All" ? pool.length : Math.min(sel.count, pool.length);
     app.innerHTML = `
       <div class="page narrow" style="${catVars(course.cat)}">
-        ${crumbs}
-        <div class="page-head"><div class="cat-icon lg">${icon("shuffle", 26)}</div><div><h1>Mixed practice quiz</h1>
-        <p class="muted">Questions are shuffled across the units you pick, the way the real exam mixes topics.</p></div></div>
+        ${crumb}
+        <div class="session-head"><div class="cat-icon lg">${icon("shuffle", 26)}</div><div><h1>Mixed practice quiz</h1>
+        <p class="muted">Questions are shuffled across the units you pick, the way the real exam mixes topics. Turn on the timer to practice at exam pace.</p></div></div>
         <div class="card setup">
           <div class="setup-sec">
             <div class="setup-label">Units</div>
@@ -5466,9 +6583,9 @@ async function renderQuizSetup(course) {
     app.querySelector("#timed").addEventListener("change", (e) => { sel.timed = e.target.checked; });
     app.querySelector("#go").addEventListener("click", () => {
       const picked = shuffle(pool).slice(0, n);
-      app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumbs}<div id="quiz-body"></div></div>`;
-      runQuiz(document.getElementById("quiz-body"), picked, {
-        title: "Mixed quiz", pace: sel.timed ? pace : null, showSource: true,
+      app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumb}<div id="quiz-body"></div></div>`;
+      runSession(document.getElementById("quiz-body"), picked, {
+        title: "Mixed quiz", mode: "quiz", pace: sel.timed ? pace : null, adaptive: !sel.timed, showSource: true,
         onRestart: () => renderQuizSetup(course),
       });
     });
@@ -5476,145 +6593,190 @@ async function renderQuizSetup(course) {
   draw();
 }
 
-/* ================= Mistake review ================= */
 
-async function reviewItems() {
-  const list = mistakes();
-  await Promise.all([...new Set(list.map((m) => m.courseId))].filter((id) => courseById[id]).map(loadContent));
-  return list
-    .filter((m) => window.AP_CONTENT[m.courseId]?.units[m.unitIdx]?.questions[m.qIdx])
-    .map((m) => ({ ...m, q: window.AP_CONTENT[m.courseId].units[m.unitIdx].questions[m.qIdx] }));
-}
+/* ================= Mistakes: every wrong answer becomes a lesson ================= */
 
-async function renderReview() {
+function renderReview() {
   document.title = "My mistakes | AP Prep Hub";
-  const items = await reviewItems();
+  const lastTime = {};
+  store.data.hist.forEach((h) => { lastTime[h.k] = h.t; });
+  const list = mistakes()
+    .map((m) => ({ ...m, ...Engine.item(m.courseId, m.unitIdx, m.qIdx), t: lastTime[m.key] || 0 }))
+    .sort((a, b) => b.t - a.t);
 
-  if (!items.length) {
+  if (!list.length) {
     app.innerHTML = `
       <div class="page narrow">
-        <div class="page-head"><div class="cat-icon lg">${icon("rotate", 26)}</div><div><h1>My mistakes</h1><p class="muted">Questions you miss land here until you get them right.</p></div></div>
+        <div class="page-head"><div class="cat-icon lg">${icon("rotate", 26)}</div><div><h1>My mistakes</h1><p class="muted">Every wrong answer becomes a mini-lesson here.</p></div></div>
         <div class="card empty">
           <div class="empty-ico good">${icon("check", 28)}</div>
-          <h3>Nothing to review right now</h3>
-          <p class="muted">Any question you answer incorrectly shows up here, so you can retry it until it sticks.
-          Answer it correctly and it leaves this list.</p>
-          <a class="btn btn-primary" href="#/">Browse courses</a>
+          <h3>No open mistakes</h3>
+          <p class="muted">When you miss a question, it shows up here with your answer, the correct one, the misconception
+          behind your choice, and targeted practice to fix it. Get it right and it leaves this list.</p>
+          <a class="btn btn-primary" href="#/">Start practicing</a>
         </div>
       </div>`;
     return;
   }
 
   const byCourse = {};
-  items.forEach((it) => { (byCourse[it.courseId] = byCourse[it.courseId] || []).push(it); });
+  list.forEach((it) => { (byCourse[it.courseId] = byCourse[it.courseId] || []).push(it); });
+  const week = Engine.weekStats();
   app.innerHTML = `
     <div class="page narrow">
       <div class="page-head">
         <div class="cat-icon lg">${icon("rotate", 26)}</div>
-        <div class="grow"><h1>My mistakes</h1><p class="muted">${items.length} question${items.length === 1 ? "" : "s"} to retry. Answer one correctly and it leaves this list.</p></div>
+        <div class="grow"><h1>My mistakes</h1><p class="muted">${list.length} open · ${week.mistakes} this week. Understand why, then prove it: answer correctly and it leaves this list.</p></div>
         <button class="btn btn-primary btn-lg" id="retry-all">${icon("play", 16)} Retry all</button>
       </div>
       ${Object.entries(byCourse).map(([cid, its]) => {
         const c = courseById[cid];
         return `
-        <div class="card review-course" style="${catVars(c.cat)}">
+        <section class="review-course" style="${catVars(c.cat)}">
           <div class="review-head">
             <div class="cat-icon">${catIcon(c.cat)}</div>
-            <h3 class="grow">${esc(c.name)}</h3>
+            <h2 class="grow">${esc(c.name)}</h2>
             <button class="btn" data-retry="${cid}">Retry ${its.length}</button>
           </div>
-          <ul class="review-list">
-            ${its.map((it) => `<li><span class="pill">Unit ${it.unitIdx + 1}</span> ${esc(it.q.q.split("\n")[0])}</li>`).join("")}
-          </ul>
-        </div>`;
+          <div class="miss-list">${its.map((it) => missCard(it, it.picked)).join("")}</div>
+        </section>`;
       }).join("")}
     </div>
   `;
   const start = (subset) => {
-    app.innerHTML = `<div class="page narrow"><nav class="crumbs"><a href="#/review">My mistakes</a> ${icon("arrowR", 12)} <span>Retry</span></nav><div id="quiz-body"></div></div>`;
-    runQuiz(document.getElementById("quiz-body"), shuffle(subset), { title: "Mistake review", showSource: true, onRestart: renderReview });
+    app.innerHTML = `<div class="page narrow">${crumbs(["My mistakes", "#/review"], ["Retry"])}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), shuffle(subset.map((m) => Engine.item(m.courseId, m.unitIdx, m.qIdx))), { title: "Mistake review", mode: "review", showSource: true, onRestart: renderReview });
   };
-  app.querySelector("#retry-all").addEventListener("click", () => start(items));
+  app.querySelector("#retry-all").addEventListener("click", () => start(list));
   app.querySelectorAll("[data-retry]").forEach((b) => b.addEventListener("click", () => start(byCourse[b.dataset.retry])));
 }
 
-/* ================= Dashboard ================= */
+/* ================= Dashboard: progress that means something ================= */
 
-async function renderDashboard() {
+function renderDashboard() {
   document.title = "My progress | AP Prep Hub";
-  await loadAllGuides();
-  const guides = COURSES.filter((c) => c.guide);
-  const answered = Object.keys(store.data.q).length;
-  const correct = Object.values(store.data.q).filter((r) => r.c).length;
-  const known = Object.keys(store.data.known).length;
-  const days = streak();
-  const wrong = mistakes().length;
-
-  const active = guides.filter((c) => { const s = courseStats(c.id); return (s && (s.tried || s.known)) || store.data.mine.includes(c.id); });
-
-  // Weakest units: tried units with the lowest accuracy, then untouched units in My courses.
-  const recs = [];
-  guides.forEach((c) => {
-    const content = window.AP_CONTENT[c.id];
-    if (!content || content.extends) return;
-    content.units.forEach((u, i) => {
-      const m = unitMastery(c.id, i, u);
-      if (m.tried && m.pct < 100) recs.push({ c, i, u, m, score: m.right / Math.max(1, m.tried) });
-    });
-  });
-  recs.sort((a, b) => a.score - b.score);
-  store.data.mine.forEach((id) => {
-    const c = courseById[id]; const content = c && c.guide && window.AP_CONTENT[id];
-    if (!content) return;
-    const i = content.units.findIndex((u, k) => unitMastery(id, k, u).tried === 0);
-    if (i >= 0) recs.push({ c, i, u: content.units[i], m: null, score: 2 });
-  });
+  const active = GUIDE_IDS.filter((id) => Engine.concepts(id).some((c) => c.s.n) || store.data.mine.includes(id));
+  const week = Engine.weekStats();
+  const all = active.flatMap((id) => Engine.concepts(id));
+  const strong = all.filter((c) => Engine.status(c.s).id === "strong").length;
+  const tried = all.filter((c) => c.s.n).length;
+  const weakest = Engine.weakest(active, 5);
+  const due = Engine.due(active);
+  const rec = active.length ? Engine.recommend(active) : null;
+  const open = mistakes().length;
 
   app.innerHTML = `
     <div class="page">
-      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Everything here is saved only in this browser.</p></div></div>
+      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Mastery is tracked per concept. Saved only in this browser.</p></div>
+        <div class="btn-row"><button class="btn btn-ghost" id="export">${icon("download", 16)} Back up</button><label class="btn btn-ghost">${icon("upload", 16)} Restore<input type="file" id="import" accept="application/json" hidden></label></div></div>
+
+      ${rec ? `
+        <a class="card next-best" href="${recHref(rec)}">
+          <div class="nb-ico">${icon("zap", 22)}</div>
+          <div class="grow"><div class="overline">Your next best step</div><h2>${esc(rec.title)}</h2><p class="muted">${esc(rec.reason)}</p></div>
+          <span class="btn btn-primary btn-lg">Start ${icon("arrowR", 16)}</span>
+        </a>` : ""}
+
       <div class="stat-grid">
-        <div class="card stat"><div class="stat-ico flame">${icon("flame", 20)}</div><b>${days}</b><span>day study streak</span></div>
-        <div class="card stat"><div class="stat-ico">${icon("check", 20)}</div><b>${answered}</b><span>questions answered</span></div>
-        <div class="card stat"><div class="stat-ico">${icon("target", 20)}</div><b>${answered ? Math.round((correct / answered) * 100) : 0}%</b><span>latest-attempt accuracy</span></div>
-        <div class="card stat"><div class="stat-ico">${icon("cards", 20)}</div><b>${known}</b><span>flashcards known</span></div>
+        <div class="card stat"><div class="stat-ico flame">${icon("flame", 20)}</div><b>${streak()}</b><span>day study streak</span></div>
+        <div class="card stat"><div class="stat-ico">${icon("check", 20)}</div><b>${week.answered}</b><span>questions this week${week.answered ? ` · ${Math.round((week.correct / week.answered) * 100)}% right` : ""}</span></div>
+        <div class="card stat"><div class="stat-ico bad">${icon("rotate", 20)}</div><b>${week.mistakes}</b><span>mistakes this week · ${open} still open</span></div>
+        <div class="card stat"><div class="stat-ico good">${icon("target", 20)}</div><b>${strong}<small>/${tried || 0}</small></b><span>concepts strong (of those started)</span></div>
       </div>
 
+      ${active.length ? `
       <div class="dash-grid">
         <div>
-          <div class="section-head"><h2>Course progress</h2></div>
-          ${active.length ? `<div class="card dash-courses">${active.map((c) => {
-            const s = courseStats(c.id);
-            return `<a class="dash-course" href="#/course/${c.id}" style="${catVars(c.cat)}">
-              <div class="cat-icon">${catIcon(c.cat)}</div>
-              <div class="grow"><b>${esc(c.name)}</b><div class="muted small">${s.right}/${s.total} questions · ${s.known}/${s.cards} flashcards</div>${bar(s.pct)}</div>
-              <span class="pct">${s.pct}%</span></a>`;
-          }).join("")}</div>` : `
-            <div class="card empty"><div class="empty-ico">${icon("book", 26)}</div><h3>No progress yet</h3>
-            <p class="muted">Open a study guide and try some practice questions. Your progress will show up here.</p>
-            <a class="btn btn-primary" href="#/">Pick a course</a></div>`}
+          <div class="section-head"><h2>Mastery by concept</h2><div class="legend inline"><span><i class="dot dot-strong"></i>Strong</span><span><i class="dot dot-learning"></i>Getting there</span><span><i class="dot dot-weak"></i>Needs practice</span><span><i class="dot dot-new"></i>Not started</span></div></div>
+          ${active.map((id) => {
+            const c = courseById[id];
+            const m = Engine.courseMastery(id);
+            const units = window.AP_CONTENT[id].units;
+            return `
+            <details class="card dash-course-card" style="${catVars(c.cat)}" ${active.length <= 2 ? "open" : ""}>
+              <summary>
+                <div class="cat-icon">${catIcon(c.cat)}</div>
+                <div class="grow"><b>${esc(c.name)}</b><div class="muted small">${m.strong}/${m.total} strong · ${m.weak} need practice · ${m.due} due</div>${bar(m.pct)}</div>
+                <span class="pct">${m.pct}%</span>
+              </summary>
+              <div class="unit-mastery">
+                ${units.map((u, ui) => {
+                  const um = Engine.unitMastery(id, ui);
+                  return `<div class="um-row">
+                    <a class="um-title" href="#/course/${id}/unit/${ui + 1}"><span>Unit ${ui + 1}: ${esc(u.title)}</span><b>${um.tried ? `${um.pct}%` : "–"}</b></a>
+                    <div class="um-concepts">${u.concepts.map((cc, ci) => {
+                      const s = Engine.state(Engine.conceptKey(id, ui, ci));
+                      return `<a class="cchip cchip-${Engine.status(s).id}" href="#/practice/concept/${id}/${ui}/${ci}" title="${Engine.status(s).label}${s.n ? ` · ${pctOf(s.m)}%` : ""}">${esc(cc.title)}</a>`;
+                    }).join("")}</div>
+                  </div>`;
+                }).join("")}
+                <div class="btn-row"><a class="btn btn-sm btn-primary" href="#/course/${id}/smart">${icon("zap", 14)} Smart practice</a><a class="btn btn-sm" href="#/course/${id}/diagnostic">${icon("stethoscope", 14)} Diagnostic</a></div>
+              </div>
+            </details>`;
+          }).join("")}
         </div>
         <div>
-          <div class="section-head"><h2>Study next</h2></div>
+          <div class="section-head"><h2>Weakest concepts</h2></div>
           <div class="card">
-            ${recs.length ? `<div class="rec-list">${recs.slice(0, 5).map((r) => `
-              <a class="rec" href="#/course/${r.c.id}/unit/${r.i + 1}/${r.m ? "learn" : "learn"}" style="${catVars(r.c.cat)}">
-                <div class="cat-icon sm">${catIcon(r.c.cat, 16)}</div>
-                <div class="grow"><b>Unit ${r.i + 1}: ${esc(r.u.title)}</b><div class="muted small">${esc(r.c.name)} · ${r.m ? `${r.m.right}/${r.m.tried} right so far` : "Not started"}</div></div>
-                ${icon("arrowR", 16)}
-              </a>`).join("")}</div>` : `<p class="muted">Answer some practice questions and we'll point out your weakest units here.</p>`}
-            ${wrong ? `<a class="btn btn-block" href="#/review">${icon("rotate", 16)} Retry ${wrong} missed question${wrong === 1 ? "" : "s"}</a>` : ""}
+            ${weakest.length ? `<div class="rec-list">${weakest.map((w, k) => `
+              <a class="rec" href="#/practice/concept/${w.courseId}/${w.unitIdx}/${w.conceptIdx}" style="${catVars(courseById[w.courseId].cat)}">
+                <div class="rank">${k + 1}</div>
+                <div class="grow"><b>${esc(w.title)}</b><div class="muted small">${esc(courseById[w.courseId].name)} · Unit ${w.unitIdx + 1} · ${w.s.ok}/${w.s.n} right</div>${bar(pctOf(w.s.m), "bad")}</div>
+                <span class="btn btn-sm">Practice</span>
+              </a>`).join("")}</div>` : `<p class="muted small">No weak concepts yet. Take a diagnostic to find them.</p>`}
+          </div>
+
+          <div class="section-head"><h2>Review schedule</h2></div>
+          <div class="card">
+            ${due.length ? `<p><b>${due.length}</b> concept${due.length === 1 ? " is" : "s are"} due today.</p>
+              <ul class="due-list">${due.slice(0, 6).map((d) => `<li>${esc(d.title)} <span class="muted small">· ${esc(courseById[d.courseId].name)}</span></li>`).join("")}</ul>
+              <a class="btn btn-primary btn-block" href="#/practice/review">${icon("calendar", 16)} Start today's review</a>`
+              : `<p class="muted small">Nothing due today. Concepts come back after 1, 3, 7, 14 and 30 days of correct answers, right before you'd forget them.</p>`}
+            ${open ? `<a class="btn btn-block" href="#/review" style="margin-top:10px">${icon("rotate", 16)} Learn from ${open} mistake${open === 1 ? "" : "s"}</a>` : ""}
           </div>
           <button class="btn btn-ghost btn-block danger" id="reset">Reset all progress</button>
         </div>
-      </div>
+      </div>` : `
+        <div class="card empty">
+          <div class="empty-ico">${icon("stethoscope", 26)}</div>
+          <h3>Let's find out what you know</h3>
+          <p class="muted">Take a 5-minute diagnostic in any course. Your concept-by-concept mastery, weakest concepts and review schedule will show up here.</p>
+          <a class="btn btn-primary" href="#/">Pick a course</a>
+        </div>`}
     </div>`;
-  app.querySelector("#reset").addEventListener("click", () => {
+
+  app.querySelector("#reset")?.addEventListener("click", () => {
     if (!confirm("Erase all progress, flashcards, saved answers and My courses in this browser? This can't be undone.")) return;
-    Object.assign(store.data, { q: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
+    Object.keys(store.data).forEach((k) => delete store.data[k]);
+    Object.assign(store.data, EMPTY());
     store.save();
     toast("Progress reset");
     renderDashboard();
+  });
+  app.querySelector("#export").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(store.data)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `ap-prep-progress-${today()}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast(`${icon("download", 14)} Progress downloaded`);
+  });
+  app.querySelector("#import").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (!data || typeof data.q !== "object" || typeof data.cs !== "object") throw new Error("not a progress file");
+      if (!confirm("Replace your current progress with this backup?")) return;
+      Object.keys(store.data).forEach((k) => delete store.data[k]);
+      Object.assign(store.data, EMPTY(), data);
+      store.save();
+      toast(`${icon("check", 14)} Progress restored`);
+      renderDashboard();
+    } catch (err) {
+      toast(`That file isn't a valid progress backup.`);
+    }
   });
 }
 
@@ -5730,17 +6892,14 @@ document.addEventListener("keydown", (e) => {
   });
 })();
 
+
 /* ================= Boot ================= */
 
 document.querySelectorAll("[data-icon]").forEach((el) => { el.innerHTML = icon(el.dataset.icon, +el.dataset.size || 18); });
-// Preload guides so home-page cards and search can use them.
-loadAllGuides().then(() => {
-  const onHome = !location.hash || location.hash === "#/" || location.hash === "#";
-  if (onHome && !homeState.query && document.activeElement?.id !== "search") renderHome();
-});
-window.addEventListener("hashchange", route);
-updateMistakeCount();
+window.addEventListener("hashchange", () => { if (location.hash !== "#start") route(); });
+loadAllGuides().then(() => { Engine.migrate(); updateMistakeCount(); });
 route();
+
 
 </script>
 </body>

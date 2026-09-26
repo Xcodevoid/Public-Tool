@@ -1,0 +1,30 @@
+// Concept tags and wrong-answer diagnoses for content/microeconomics.js.
+// Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["microeconomics"] = {
+  "0.0": [0, { 0: "\"Free\" doesn't mean costless. Opportunity cost includes the value of what you give up, here $45 in wages.", 2: "Opportunity cost is only the single NEXT-BEST alternative, not every option added together.", 3: "The concert is free, so there's no ticket price. The cost is the forgone wages." }],
+  "0.1": [2, { 0: "A can make more wheat, but 1 cloth costs A 2 wheat versus only 1 wheat for B.", 2: "Comparative advantage goes to whoever has the LOWER opportunity cost. They can't both have it in the same good.", 3: "Their opportunity costs differ, so someone has a comparative advantage." }],
+  "0.2": [1, { 0: "Efficient points lie ON the curve, not inside it.", 2: "Growth SHIFTS the curve outward. A point inside means resources are idle.", 3: "Unattainable points are OUTSIDE the curve." }],
+  "0.3": [3, { 0: "Burgers give LESS satisfaction per dollar (3 < 5), so shift toward pizza.", 2: "MU per dollar must be equal to maximize utility, and 5 ≠ 3.", 3: "The rule is about reallocating spending, not cutting both." }],
+  "1.0": [0, { 0: "For a NORMAL good, higher income increases demand (a shift right), not a decrease.", 2: "Income is a DEMAND shifter. Supply is unaffected.", 3: "A change in income shifts the whole curve. \"Along the curve\" is only for the good's own price change." }],
+  "1.1": [3, { 0: "A surplus comes from a price FLOOR above equilibrium. A low ceiling makes Qd > Qs.", 2: "A ceiling BELOW equilibrium is binding, so it has an effect.", 3: "A ceiling caps prices. It can't raise them." }],
+  "1.2": [2, { 0: "If demand were inelastic, raising the price would RAISE total revenue.", 1: "With unit elasticity, total revenue wouldn't change.", 3: "With perfectly inelastic demand, a price rise would raise revenue." }],
+  "1.3": [1, { 0: "Demand pushes the price up but supply pushes it down, so the net price change is indeterminate.", 1: "Supply pushes the price down but demand pushes it up, so it's ambiguous.", 3: "Both shifts INCREASE quantity." }],
+  "1.4": [3, { 1: "The more INELASTIC side bears more of the tax. Buyers with inelastic demand can't easily cut back.", 2: "The burden is split by relative elasticity, not evenly.", 3: "The government collects the tax. The question is which side pays it." }],
+  "2.0": [2, { 0: "Maximizing revenue isn't maximizing profit. Costs matter too.", 1: "The lowest ATC is productive efficiency, not necessarily maximum profit.", 3: "P = AVC is the SHUTDOWN point, not the profit-maximizing point." }],
+  "2.1": [1, { 0: "Below ATC the firm has a loss but can still cover its variable costs. It shuts down only below minimum AVC.", 2: "MR = MC is the rule for choosing output, not for shutting down.", 3: "Zero economic profit is normal. It still covers all opportunity costs." }],
+  "2.2": [3, { 0: "Positive profit attracts entry, which drives the price down to minimum ATC.", 2: "Losses make firms EXIT, which raises the price back up.", 3: "Perfectly competitive firms have no market power." }],
+  "2.3": [2, { 0: "ATC is U-shaped. MC crosses it at the bottom, not the top.", 2: "MC does cross ATC, at ATC's minimum point.", 3: "The shutdown price is where MC crosses AVC, not ATC." }],
+  "3.0": [3, { 0: "That's true for perfect competition. A monopolist must lower the price on ALL units to sell one more.", 1: "MR can't exceed price for a single-price seller.", 3: "MR is zero only at one specific quantity (where total revenue peaks)." }],
+  "3.1": [3, { 0: "Compare A's payoffs for each of B's choices: Low wins either way (15 > 10, 5 > 2).", 2: "Low is better for A whatever B does, which makes it a dominant strategy.", 3: "A dominant strategy is a single best choice, not alternating." }],
+  "3.2": [3, { 0: "Easy entry wipes out long-run profit.", 2: "Its demand slopes down, so the tangency with ATC is LEFT of the minimum. That's the excess capacity.", 3: "P > MC for firms with a downward-sloping demand curve." }],
+  "3.3": [2, { 0: "Perfect price discrimination INCREASES output to the efficient level and eliminates DWL.", 2: "It sells every unit that buyers value above MC.", 3: "P = ATC is the fair-return regulation rule." }],
+  "4.0": [2, { 1: "Elasticity measures responsiveness to price. This is about WHY firms want workers.", 2: "Monopsony is a single BUYER of labor.", 3: "Marginal utility is a consumer concept." }],
+  "4.1": [1, { 1: "$9 adds instead of multiplying. MRP = MP × P = 5 × $4.", 2: "Compare MRP (in dollars) to the wage. MP alone isn't enough.", 3: "Falling MP doesn't matter as long as MRP ≥ wage." }],
+  "4.2": [2, { 0: "A monopsonist's MRC is above the wage, so it hires FEWER workers.", 2: "It hires fewer, not more.", 3: "Monopsony power changes the outcome." }],
+  "4.3": [3, { 0: "Labor gives 10/20 = 0.5 units per dollar and capital gives 30/30 = 1. Shift toward capital.", 2: "The MP per dollar values aren't equal, so the current mix isn't cost-minimizing.", 3: "The rule is about the input mix, not stopping production." }],
+  "5.0": [2, { 0: "Firms ignore the pollution cost, so they OVERproduce.", 2: "The external cost is left out, so the market quantity isn't optimal.", 3: "Steel still has value. The problem is too much of it." }],
+  "5.1": [2, { 0: "Pizza is rival (if I eat it, you can't) and excludable.", 2: "Movie tickets are excludable: no ticket, no entry.", 3: "Gym memberships are excludable." }],
+  "5.2": [3, { 0: "Progressive taxes take a HIGHER percentage from high earners.", 2: "A proportional tax is the same percentage for everyone.", 3: "A Pigouvian tax corrects externalities. It isn't about income." }],
+  "5.3": [3, { 0: "Taxes reduce output, but a positive externality means we need MORE vaccines.", 2: "A price ceiling can cause shortages. It doesn't fix under-provision.", 3: "A quota limits quantity, the opposite of what's needed." }],
+};

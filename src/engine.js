@@ -1,0 +1,290 @@
+// The learning engine: a rules-based model of what each student knows, concept by concept.
+//
+// Data model (all in localStorage, shaped so it can later sync to a backend):
+//   learner
+//    ├── q[questionKey]      latest result per question  { c: correct, n: attempts, p: picked choice }
+//    ├── cs[conceptKey]      mastery per concept         { m: 0–1, n, ok, streak, due, last }
+//    ├── hist[]              practice history            { k: questionKey, t: time, ok }
+//    ├── diag[courseId]      last diagnostic             { t, right, total }
+//    ├── known, frq, mine, days, recent                  flashcards, free responses, courses, streak days
+//
+// questionKey = "course|unit|q"   (authored question)  or  "course|unit|t<term>" (generated from a flashcard)
+// conceptKey  = "course|unit|concept"
+
+const Engine = (() => {
+  const DAY = 86400000;
+  const REVIEW_DAYS = [1, 3, 7, 14, 30];
+
+  /* ---------- Content annotation ---------- */
+
+  // Copy concept tags and wrong-answer notes from content/diagnostics/<id>.js onto question objects.
+  function annotate(id, content) {
+    const d = (window.AP_DIAG && window.AP_DIAG[id]) || {};
+    const tag = (q, entry, offset = 0) => {
+      q.concept = entry ? entry[0] + offset : 0;
+      q.why = entry ? entry[1] : {};
+    };
+    if (content.extends) {
+      Object.entries(content.patches || {}).forEach(([u, p]) =>
+        (p.questions || []).forEach((q, i) => tag(q, d[`p${u}.${i}`], BASE_CONCEPTS[content.extends]?.[u] || 0)));
+      content.units.forEach((u, ui) => u.questions.forEach((q, i) => tag(q, d[`u${ui}.${i}`])));
+    } else {
+      content.units.forEach((u, ui) => u.questions.forEach((q, i) => tag(q, d[`${ui}.${i}`])));
+      BASE_CONCEPTS[id] = content.units.map((u) => u.concepts.length);
+    }
+  }
+  const BASE_CONCEPTS = {};
+
+  // Map each flashcard term to the concept whose text mentions it (fallback: best word overlap).
+  const termMaps = {};
+  function termConcepts(courseId, unitIdx) {
+    const k = `${courseId}|${unitIdx}`;
+    if (termMaps[k]) return termMaps[k];
+    const unit = window.AP_CONTENT[courseId].units[unitIdx];
+    const texts = unit.concepts.map((c) => `${c.title} ${c.simple} ${c.detail} ${c.example || ""} ${c.hook || ""}`.toLowerCase());
+    const words = (s) => new Set(s.toLowerCase().match(/[a-z]{4,}/g) || []);
+    termMaps[k] = unit.terms.map(([term, def]) => {
+      const t = term.toLowerCase().replace(/\s*\(.*?\)\s*/g, " ").trim();
+      const parts = t.split(/\s*\/\s*/);
+      let best = texts.findIndex((x) => parts.some((p) => p.length > 2 && x.includes(p)));
+      if (best < 0) {
+        const w = words(`${term} ${def}`);
+        let score = -1;
+        texts.forEach((x, i) => {
+          const s = [...w].filter((y) => x.includes(y)).length;
+          if (s > score) { score = s; best = i; }
+        });
+      }
+      return Math.max(0, best);
+    });
+    return termMaps[k];
+  }
+
+  // A multiple-choice question generated from a flashcard term (term → definition or definition → term).
+  function termQuestion(courseId, unitIdx, termIdx) {
+    const units = window.AP_CONTENT[courseId].units;
+    const [term, def] = units[unitIdx].terms[termIdx];
+    let others = units[unitIdx].terms.filter((_, i) => i !== termIdx);
+    if (others.length < 3) others = others.concat(units.flatMap((u, i) => (i === unitIdx ? [] : u.terms)));
+    const distractors = shuffle(others).slice(0, 3);
+    const forward = Math.random() < 0.5;
+    const opts = shuffle([[term, def], ...distractors]);
+    const answer = opts.findIndex(([t]) => t === term);
+    const why = {};
+    opts.forEach(([t, d], i) => {
+      if (i === answer) return;
+      why[i] = forward ? `That's the definition of "${t}".` : `"${t}" means: ${d}`;
+    });
+    return {
+      gen: true,
+      concept: termConcepts(courseId, unitIdx)[termIdx],
+      q: forward ? `Which best describes "${term}"?` : `Which term matches this description?\n"${def}"`,
+      choices: opts.map(([t, d]) => (forward ? d : t)),
+      answer,
+      explain: `"${term}" means: ${def}`,
+      why,
+    };
+  }
+
+  /* ---------- Items ---------- */
+
+  const item = (courseId, unitIdx, qIdx) => {
+    const q = window.AP_CONTENT[courseId].units[unitIdx].questions[qIdx];
+    return { courseId, unitIdx, key: `${courseId}|${unitIdx}|${qIdx}`, q };
+  };
+  const termItem = (courseId, unitIdx, termIdx) =>
+    ({ courseId, unitIdx, key: `${courseId}|${unitIdx}|t${termIdx}`, q: termQuestion(courseId, unitIdx, termIdx) });
+
+  // Every question that practices one concept: authored ones first, then flashcard-generated ones.
+  function pool(courseId, unitIdx, conceptIdx) {
+    const unit = window.AP_CONTENT[courseId].units[unitIdx];
+    const authored = unit.questions.map((q, i) => (q.concept === conceptIdx ? i : -1)).filter((i) => i >= 0);
+    const terms = termConcepts(courseId, unitIdx).map((c, i) => (c === conceptIdx ? i : -1)).filter((i) => i >= 0);
+    return { authored, terms };
+  }
+
+  // n questions for one concept, mixing authored and generated so there's always enough to practice.
+  function conceptItems(courseId, unitIdx, conceptIdx, n, excludeKey) {
+    const { authored, terms } = pool(courseId, unitIdx, conceptIdx);
+    const out = shuffle(authored).map((i) => item(courseId, unitIdx, i)).filter((x) => x.key !== excludeKey);
+    const unitTerms = window.AP_CONTENT[courseId].units[unitIdx].terms.map((_, i) => i);
+    const termOrder = [...shuffle(terms), ...shuffle(unitTerms.filter((i) => !terms.includes(i)))];
+    for (const t of termOrder) {
+      if (out.length >= n) break;
+      const it = termItem(courseId, unitIdx, t);
+      if (terms.includes(t)) out.push(it);
+      else out.push({ ...it, q: { ...it.q, concept: conceptIdx } }); // unit-level filler still counts toward this concept
+    }
+    return shuffle(out.slice(0, n));
+  }
+
+  /* ---------- Learner state ---------- */
+
+  const conceptKey = (courseId, unitIdx, conceptIdx) => `${courseId}|${unitIdx}|${conceptIdx}`;
+  const state = (key) => store.data.cs[key] || { m: 0, n: 0, ok: 0, streak: 0, due: 0, last: 0 };
+
+  function status(s) {
+    if (!s.n) return { id: "new", label: "Not started" };
+    if (s.m >= 0.8) return { id: "strong", label: "Strong" };
+    if (s.m >= 0.5) return { id: "learning", label: "Getting there" };
+    return { id: "weak", label: "Needs practice" };
+  }
+
+  // Update question, concept and history after an answer. Returns the concept change for the UI.
+  function record(it, picked, ok) {
+    const now = Date.now();
+    const prev = store.data.q[it.key] || { n: 0 };
+    store.data.q[it.key] = { c: ok, n: prev.n + 1, p: picked };
+    store.data.hist.push({ k: it.key, t: now, ok });
+    if (store.data.hist.length > 4000) store.data.hist = store.data.hist.slice(-4000);
+
+    const ck = conceptKey(it.courseId, it.unitIdx, it.q.concept);
+    const s = { ...state(ck) };
+    const before = s.n ? s.m : 0;
+    if (!s.n) s.m = ok ? 0.6 : 0.15;
+    else s.m = ok ? s.m + (1 - s.m) * 0.35 : s.m * 0.5;
+    s.n++; s.ok += ok ? 1 : 0; s.last = now;
+    s.streak = ok ? s.streak + 1 : 0;
+    s.due = ok ? now + REVIEW_DAYS[Math.min(s.streak - 1, REVIEW_DAYS.length - 1)] * DAY : now;
+    store.data.cs[ck] = s;
+    markStudied();
+    store.save();
+    return { ck, before, after: s.m, state: s };
+  }
+
+  const reviewInDays = (s) => Math.max(0, Math.round((s.due - Date.now()) / DAY));
+
+  /* ---------- Course-level views ---------- */
+
+  function concepts(courseId) {
+    const content = window.AP_CONTENT[courseId];
+    return content.units.flatMap((u, ui) => u.concepts.map((c, ci) => {
+      const key = conceptKey(courseId, ui, ci);
+      return { courseId, unitIdx: ui, conceptIdx: ci, key, title: c.title, unitTitle: u.title, s: state(key) };
+    }));
+  }
+
+  function unitMastery(courseId, unitIdx) {
+    const u = window.AP_CONTENT[courseId].units[unitIdx];
+    const ss = u.concepts.map((_, ci) => state(conceptKey(courseId, unitIdx, ci)));
+    const tried = ss.filter((s) => s.n).length;
+    const pct = Math.round((ss.reduce((a, s) => a + s.m, 0) / ss.length) * 100);
+    return { pct, tried, total: ss.length, strong: ss.filter((s) => status(s).id === "strong").length };
+  }
+
+  function courseMastery(courseId) {
+    const cs = concepts(courseId);
+    return {
+      pct: Math.round((cs.reduce((a, c) => a + c.s.m, 0) / cs.length) * 100),
+      total: cs.length,
+      tried: cs.filter((c) => c.s.n).length,
+      strong: cs.filter((c) => status(c.s).id === "strong").length,
+      weak: cs.filter((c) => status(c.s).id === "weak").length,
+      due: cs.filter((c) => c.s.n && c.s.due <= Date.now()).length,
+    };
+  }
+
+  /* ---------- Session builders ---------- */
+
+  // ~12 authored questions spread across every unit, one concept at a time.
+  function diagnostic(courseId, n = 12) {
+    const units = window.AP_CONTENT[courseId].units;
+    const perUnit = units.map((u, ui) => shuffle(u.concepts.map((_, ci) => ci).filter((ci) => pool(courseId, ui, ci).authored.length)));
+    const out = [];
+    for (let round = 0; out.length < n && perUnit.some((l) => l.length); round++) {
+      perUnit.forEach((list, ui) => {
+        if (out.length >= n || !list.length) return;
+        const ci = list.shift();
+        const qi = shuffle(pool(courseId, ui, ci).authored)[0];
+        out.push(item(courseId, ui, qi));
+      });
+    }
+    return out;
+  }
+
+  // Due reviews first, then weak concepts, then new ones in course order, then the least-mastered rest.
+  function smartSession(courseIds, n = 10, focusKeys = []) {
+    const now = Date.now();
+    const all = courseIds.flatMap((id) => concepts(id));
+    const focus = focusKeys.map((k) => all.find((c) => c.key === k)).filter(Boolean);
+    const due = all.filter((c) => c.s.n && c.s.due <= now).sort((a, b) => a.s.m - b.s.m);
+    const weak = all.filter((c) => c.s.n && c.s.m < 0.5).sort((a, b) => a.s.m - b.s.m);
+    const fresh = all.filter((c) => !c.s.n);
+    const rest = all.filter((c) => c.s.n).sort((a, b) => a.s.m - b.s.m);
+    const seen = new Set();
+    const picked = [];
+    for (const c of [...focus, ...due, ...weak, ...fresh, ...rest]) {
+      if (picked.length >= n) break;
+      if (seen.has(c.key)) continue;
+      seen.add(c.key);
+      picked.push(c);
+    }
+    return picked.map((c) => {
+      const { authored } = pool(c.courseId, c.unitIdx, c.conceptIdx);
+      // Prefer an authored question the student hasn't gotten right yet.
+      const open = authored.filter((i) => !store.data.q[`${c.courseId}|${c.unitIdx}|${i}`]?.c);
+      const qi = shuffle(open.length ? open : authored)[0];
+      return qi != null ? item(c.courseId, c.unitIdx, qi) : conceptItems(c.courseId, c.unitIdx, c.conceptIdx, 1)[0];
+    }).filter(Boolean);
+  }
+
+  /* ---------- Analytics ---------- */
+
+  function weakest(courseIds, n = 5) {
+    return courseIds.flatMap((id) => concepts(id))
+      .filter((c) => c.s.n && status(c.s).id !== "strong")
+      .sort((a, b) => a.s.m - b.s.m || b.s.last - a.s.last)
+      .slice(0, n);
+  }
+
+  function due(courseIds) {
+    const now = Date.now();
+    return courseIds.flatMap((id) => concepts(id)).filter((c) => c.s.n && c.s.due <= now);
+  }
+
+  function weekStats() {
+    const since = Date.now() - 7 * DAY;
+    const week = store.data.hist.filter((h) => h.t >= since);
+    return {
+      answered: week.length,
+      correct: week.filter((h) => h.ok).length,
+      mistakes: week.filter((h) => !h.ok).length,
+    };
+  }
+
+  // One clear "do this next" suggestion.
+  function recommend(courseIds) {
+    const active = courseIds.filter((id) => concepts(id).some((c) => c.s.n));
+    const d = due(active);
+    if (d.length) return { kind: "review", title: `Review ${d.length} concept${d.length === 1 ? "" : "s"} due today`, reason: "Spaced review locks in what you've learned before you forget it.", courses: [...new Set(d.map((c) => c.courseId))] };
+    const w = weakest(active, 1)[0];
+    if (w) return { kind: "concept", title: `Fix your weakest concept: ${w.title}`, reason: `${courseById[w.courseId].name} · Unit ${w.unitIdx + 1}. You're at ${Math.round(w.s.m * 100)}% mastery.`, concept: w };
+    const needsDiag = courseIds.find((id) => !store.data.diag[id]);
+    if (needsDiag) return { kind: "diagnostic", title: `Take the ${courseById[needsDiag].name} diagnostic`, reason: "5 minutes to find out exactly which concepts you don't know yet.", courseId: needsDiag };
+    const next = active[0] || courseIds[0];
+    return next ? { kind: "smart", title: "Continue smart practice", reason: "Keep building mastery on concepts you haven't locked in yet.", courseId: next } : null;
+  }
+
+  // Rebuild concept states from older question-only progress (saved before the engine existed).
+  function migrate() {
+    if (store.data.v >= 2) return;
+    Object.entries(store.data.q).forEach(([key, r]) => {
+      const [courseId, u, q] = key.split("|");
+      const qq = window.AP_CONTENT[courseId]?.units?.[+u]?.questions?.[+q];
+      if (!qq) return;
+      const ck = conceptKey(courseId, +u, qq.concept);
+      const s = { ...state(ck) };
+      s.m = s.n ? (r.c ? s.m + (1 - s.m) * 0.35 : s.m * 0.5) : (r.c ? 0.6 : 0.15);
+      s.n++; s.ok += r.c ? 1 : 0; s.streak = r.c ? s.streak + 1 : 0;
+      s.due = Date.now() + (r.c ? DAY : 0); s.last = Date.now();
+      store.data.cs[ck] = s;
+    });
+    store.data.v = 2;
+    store.save();
+  }
+
+  return {
+    annotate, pool, conceptItems, item, record, state, status, conceptKey, reviewInDays,
+    concepts, unitMastery, courseMastery, diagnostic, smartSession, weakest, due, weekStats, recommend, migrate,
+  };
+})();

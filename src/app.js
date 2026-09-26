@@ -1,9 +1,11 @@
-// AP Prep Hub: a static, hash-routed single-page app.
-// Course metadata lives in data/catalog.js, and full study guides in content/<id>.js.
+// AP Prep Hub: an adaptive AP learning system in one static page.
+// Course metadata: data/catalog.js. Study guides: content/<id>.js. Concept tags and
+// wrong-answer diagnoses: content/diagnostics/<id>.js. Learning engine: src/engine.js.
 // build.py inlines everything into one self-contained index.html.
 
 const app = document.getElementById("app");
 const courseById = Object.fromEntries(COURSES.map((c) => [c.id, c]));
+const GUIDE_IDS = COURSES.filter((c) => c.guide).map((c) => c.id);
 const LETTERS = ["A", "B", "C", "D", "E"];
 
 /* ================= Icons ================= */
@@ -33,6 +35,12 @@ const ICON_PATHS = {
   play: '<polygon points="6 3 20 12 6 21 6 3"/>',
   x: '<path d="M18 6 6 18M6 6l12 12"/>',
   sparkle: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>',
+  zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+  upload: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',
+  trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  stethoscope: '<path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/>',
   landmark: '<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l9 5H3z"/>',
   sigma: '<path d="M18 7V4H6l6 8-6 8h12v-3"/>',
   flask: '<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/>',
@@ -58,14 +66,16 @@ const CAT_META = {
 const catVars = (cat) => `--c:${(CAT_META[cat] || CAT_META["AP Capstone"]).color}`;
 const catIcon = (cat, size = 20) => icon((CAT_META[cat] || CAT_META["AP Capstone"]).icon, size);
 
-/* ================= Storage (per-browser only) ================= */
+
+/* ================= Storage (per-browser only; see src/engine.js for the data model) ================= */
 
 const STORE_KEY = "apprep.v1";
+const EMPTY = () => ({ v: 2, q: {}, cs: {}, hist: [], diag: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
 const store = (() => {
-  let data = { q: {}, known: {}, mine: [], frq: {}, days: [], recent: null };
+  let data = EMPTY();
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (raw) data = { ...data, ...JSON.parse(raw) };
+    if (raw) { const saved = JSON.parse(raw); data = { ...data, ...saved, v: saved.v || 1 }; }
   } catch (_) { /* private mode or blocked storage: keep in memory */ }
   const save = () => {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (_) {}
@@ -74,19 +84,11 @@ const store = (() => {
   return { data, save };
 })();
 
-const qKey = (courseId, unitIdx, qIdx) => `${courseId}|${unitIdx}|${qIdx}`;
 const today = () => new Date().toISOString().slice(0, 10);
 
 function markStudied() {
   const d = today();
   if (!store.data.days.includes(d)) { store.data.days.push(d); store.data.days = store.data.days.slice(-400); }
-}
-
-function recordAnswer(key, correct) {
-  const prev = store.data.q[key] || { n: 0 };
-  store.data.q[key] = { c: correct, n: prev.n + 1 };
-  markStudied();
-  store.save();
 }
 
 function streak() {
@@ -98,33 +100,12 @@ function streak() {
   return n;
 }
 
-function unitMastery(courseId, unitIdx, unit) {
-  const total = unit.questions.length;
-  let right = 0, tried = 0;
-  unit.questions.forEach((_, i) => {
-    const r = store.data.q[qKey(courseId, unitIdx, i)];
-    if (r) { tried++; if (r.c) right++; }
-  });
-  return { total, right, tried, pct: total ? Math.round((right / total) * 100) : 0 };
-}
-
-function courseStats(courseId) {
-  const content = window.AP_CONTENT && window.AP_CONTENT[courseId];
-  if (!content || content.extends) return null; // not loaded or not merged yet
-  let total = 0, right = 0, tried = 0, cards = 0, known = 0;
-  content.units.forEach((u, i) => {
-    const m = unitMastery(courseId, i, u);
-    total += m.total; right += m.right; tried += m.tried;
-    cards += u.terms.length;
-    known += u.terms.filter(([t]) => store.data.known[`${courseId}|${i}|${t}`]).length;
-  });
-  return { total, right, tried, cards, known, pct: total ? Math.round((right / total) * 100) : 0 };
-}
-
+// Missed authored questions (generated flashcard questions only feed concept mastery).
 function mistakes() {
   return Object.entries(store.data.q)
-    .filter(([, r]) => !r.c)
-    .map(([k]) => { const [courseId, u, q] = k.split("|"); return { courseId, unitIdx: +u, qIdx: +q }; });
+    .filter(([k, r]) => !r.c && /\|\d+$/.test(k))
+    .map(([k, r]) => { const [courseId, u, q] = k.split("|"); return { key: k, courseId, unitIdx: +u, qIdx: +q, picked: r.p }; })
+    .filter((m) => window.AP_CONTENT?.[m.courseId]?.units?.[m.unitIdx]?.questions?.[m.qIdx]);
 }
 
 function updateMistakeCount() {
@@ -140,6 +121,7 @@ function updateMistakeCount() {
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const fmt = (s) => esc(s).replace(/\n/g, "<br>");
 const bar = (pct, cls = "") => `<div class="bar ${cls}" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>`;
+const pctOf = (m) => Math.round(m * 100);
 
 function ring(pct, size = 56, stroke = 5, label = `${pct}%`) {
   const r = (size - stroke) / 2;
@@ -152,6 +134,9 @@ function ring(pct, size = 56, stroke = 5, label = `${pct}%`) {
     </svg><span>${label}</span></div>`;
 }
 
+// Concept status chip: Not started / Needs practice / Getting there / Strong.
+const chip = (s) => { const st = Engine.status(s); return `<span class="st st-${st.id}">${st.label}</span>`; };
+
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -160,7 +145,7 @@ function shuffle(arr) {
 
 function badgesFor(c) {
   const b = [];
-  if (c.guide) b.push(`<span class="badge badge-guide">${icon("sparkle", 12)} Full study guide</span>`);
+  if (c.guide) b.push(`<span class="badge badge-guide">${icon("zap", 12)} Adaptive</span>`);
   if (c.status === "new") b.push('<span class="badge badge-new">New course</span>');
   if (c.status === "changed") b.push('<span class="badge badge-changed">Changes for 2027</span>');
   return b.join("");
@@ -185,8 +170,10 @@ function toast(msg) {
   t.innerHTML = msg;
   document.body.appendChild(t);
   requestAnimationFrame(() => t.classList.add("is-in"));
-  setTimeout(() => { t.classList.remove("is-in"); setTimeout(() => t.remove(), 300); }, 2200);
+  setTimeout(() => { t.classList.remove("is-in"); setTimeout(() => t.remove(), 300); }, 2400);
 }
+
+const crumbs = (...parts) => `<nav class="crumbs">${parts.map((p, i) => (i < parts.length - 1 ? `<a href="${p[1]}">${esc(p[0])}</a> ${icon("arrowR", 12)}` : `<span>${esc(p[0])}</span>`)).join(" ")}</nav>`;
 
 /* ================= Content loading ================= */
 
@@ -203,7 +190,11 @@ function loadContent(id) {
           s.onerror = () => reject(new Error(`Could not load study guide for ${id}`));
           document.head.appendChild(s);
         });
-    loaded[id] = raw.then((c) => (c && c.extends ? mergeGuide(id, c) : c));
+    loaded[id] = raw.then(async (c) => {
+      if (c && c.extends) await loadContent(c.extends); // base must be tagged first (concept offsets)
+      if (c) Engine.annotate(id, c);
+      return c && c.extends ? mergeGuide(id, c) : c;
+    });
   }
   return loaded[id];
 }
@@ -234,122 +225,130 @@ async function mergeGuide(id, raw) {
   return merged;
 }
 
-const loadAllGuides = () => Promise.all(COURSES.filter((c) => c.guide).map((c) => loadContent(c.id).catch(() => null)));
+const loadAllGuides = () => Promise.all(GUIDE_IDS.map((id) => loadContent(id).catch(() => null)));
+const guideReady = (id) => { const c = window.AP_CONTENT && window.AP_CONTENT[id]; return c && !c.extends && c.units[0].questions[0].concept !== undefined; };
 
 /* ================= Router ================= */
 
-let cleanup = null; // teardown for the current view (timers, key handlers)
+let cleanup = null;      // teardown for the current view (timers, key handlers)
+let pendingFocus = [];   // concept keys handed from a diagnostic report to smart practice
 
 async function route() {
   if (cleanup) { cleanup(); cleanup = null; }
   closePalette();
   const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-  const section = parts[0] === "course" || !parts[0] ? "home" : parts[0];
+  const section = parts[0] === "course" || !parts[0] ? "home" : parts[0] === "practice" ? "dashboard" : parts[0];
   document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("is-active", a.dataset.nav === section));
   try {
+    await loadAllGuides();
+    Engine.migrate();
     if (parts[0] === "course" && courseById[parts[1]]) {
       const course = courseById[parts[1]];
       if (parts[2] === "unit") await renderUnit(course, +parts[3] - 1, parts[4] || "learn");
       else if (parts[2] === "quiz") await renderQuizSetup(course);
+      else if (parts[2] === "diagnostic") renderDiagnostic(course);
+      else if (parts[2] === "smart") renderSmart([course.id], `Smart practice · ${course.name}`, course);
       else await renderCourse(course);
+    } else if (parts[0] === "practice" && parts[1] === "concept" && courseById[parts[2]]) {
+      renderConceptPractice(parts[2], +parts[3], +parts[4]);
+    } else if (parts[0] === "practice" && parts[1] === "review") {
+      const active = GUIDE_IDS.filter((id) => Engine.due([id]).length);
+      renderSmart(active.length ? active : GUIDE_IDS, "Today's review");
     } else if (parts[0] === "review") {
-      await renderReview();
+      renderReview();
     } else if (parts[0] === "dashboard") {
-      await renderDashboard();
+      renderDashboard();
     } else {
       renderHome();
     }
   } catch (err) {
+    console.error(err);
     app.innerHTML = `<div class="page"><div class="card empty"><h2>Something went wrong</h2><p>${esc(err.message)}</p><a class="btn" href="#/">Back to courses</a></div></div>`;
   }
   window.scrollTo(0, 0);
 }
+
 
 /* ================= Home ================= */
 
 const homeState = { query: "", cat: "All" };
 
 function renderHome() {
-  document.title = "AP Prep Hub | Study guides and practice for every AP exam";
+  document.title = "AP Prep Hub | Find what you don't know. Fix it. Keep it.";
   const days = Math.ceil((new Date(EXAM_WINDOW.start + "T08:00:00") - new Date()) / 86400000);
-  const guides = COURSES.filter((c) => c.guide);
-  const totals = guides.reduce((acc, c) => {
-    const content = window.AP_CONTENT && window.AP_CONTENT[c.id];
-    if (content && !content.extends) {
-      acc.q += content.own ? content.own.questions : content.units.reduce((n, u) => n + u.questions.length, 0);
-      acc.u += content.own ? content.own.units : content.units.length;
-    }
-    return acc;
-  }, { q: 0, u: 0 });
+  const active = GUIDE_IDS.filter((id) => Engine.concepts(id).some((c) => c.s.n));
   const mine = store.data.mine.map((id) => courseById[id]).filter(Boolean);
-  const recent = store.data.recent && courseById[store.data.recent.c];
-  const recentUnit = recent && window.AP_CONTENT?.[recent.id]?.units?.[store.data.recent.u];
+  const rec = active.length ? Engine.recommend(active) : null;
+  const dueCount = Engine.due(active).length;
+  const totalQ = GUIDE_IDS.reduce((n, id) => { const c = window.AP_CONTENT[id]; return n + (c.own ? c.own.questions : c.units.reduce((a, u) => a + u.questions.length, 0)); }, 0);
 
   app.innerHTML = `
     <section class="hero">
       <div class="page hero-inner">
         <div class="hero-copy">
           ${days > 0 ? `<div class="eyebrow">${icon("clock", 14)} <b>${days} days</b> until AP Exams · May 3–14, 2027</div>` : ""}
-          <h1>Study smarter for <span class="grad">every AP exam.</span></h1>
-          <p class="lead">Unit-by-unit study guides written in plain English, with flashcards, practice
-          questions that explain every answer, and free-response practice with scoring guides.
-          Built from the official 2026-27 course and exam descriptions.</p>
-          <button class="hero-search" data-open-search>
-            ${icon("search", 20)}<span>Search courses, units or key terms…</span><kbd>/</kbd>
-          </button>
-          <div class="hero-stats">
-            <div><b>${COURSES.length}</b><span>AP courses</span></div>
-            <div><b>${guides.length}</b><span>full study guides</span></div>
-            <div><b>${totals.u || "60+"}</b><span>units</span></div>
-            <div><b>${totals.q || "250+"}</b><span>practice questions</span></div>
+          <h1>Stop rereading.<br><span class="grad">Find what you actually don't know.</span></h1>
+          <p class="lead">A personal AP coach that diagnoses your weak concepts, explains <em>why</em> you're
+          getting them wrong, gives you targeted practice, and brings each concept back right before you'd forget it.</p>
+          <div class="btn-row hero-ctas">
+            <a class="btn btn-primary btn-lg" href="#start">${icon("stethoscope", 18)} Take a 5-minute diagnostic</a>
+            <button class="btn btn-lg" data-open-search>${icon("search", 18)} Search a topic</button>
           </div>
+          <ol class="loop">
+            <li><span>1</span>Diagnose</li>
+            <li><span>2</span>Pinpoint weak concepts</li>
+            <li><span>3</span>Targeted practice</li>
+            <li><span>4</span>Review before you forget</li>
+          </ol>
         </div>
         <div class="hero-art" aria-hidden="true">
-          <div class="mock mock-1">
-            <div class="mock-top">${catIcon("Sciences", 16)} AP Biology · Unit 3</div>
-            <div class="mock-q">The O₂ released during photosynthesis comes from:</div>
-            <div class="mock-choice">CO₂</div>
-            <div class="mock-choice is-right">${icon("check", 14)} H₂O</div>
-            <div class="mock-choice">Glucose</div>
+          <div class="mock mock-q1">
+            <div class="mock-top">${catIcon("History & Social Sciences", 14)} AP Microeconomics · Unit 2</div>
+            <div class="mock-q">Incomes rise and pizza is a normal good. In the pizza market:</div>
+            <div class="mock-choice is-wrong">${icon("x", 14)} Quantity demanded rises along the curve</div>
+            <div class="mock-why"><b>Why that's tempting:</b> a change in income shifts the whole curve. "Along the curve" is only for the good's own price.</div>
           </div>
-          <div class="mock mock-2">
-            <div class="mock-top">${icon("cards", 14)} Flashcard</div>
-            <div class="mock-term">Chain rule</div>
-            <div class="mock-def">d/dx f(g(x)) = f′(g(x))·g′(x)</div>
+          <div class="mock mock-weak">
+            <div class="mock-top warn">${icon("target", 14)} Weak concept detected</div>
+            <div class="mock-term">Shifts vs. movements</div>
+            <div class="mock-def">3 targeted questions → mastery 34% → 81%</div>
           </div>
-          <div class="mock mock-3">${ring(72, 52, 5)}<div><b>Unit mastery</b><span>Keep going!</span></div></div>
+          <div class="mock mock-review">${icon("calendar", 18)}<div><b>Review scheduled</b><span>in 3 days, so it sticks</span></div></div>
         </div>
       </div>
     </section>
 
     <div class="page">
-      ${recent && recentUnit ? `
-        <a class="card continue" style="${catVars(recent.cat)}" href="#/course/${recent.id}/unit/${store.data.recent.u + 1}/${store.data.recent.tab || "learn"}">
-          <div class="cat-icon">${catIcon(recent.cat, 22)}</div>
-          <div class="grow"><div class="overline">Continue where you left off</div>
-          <div class="continue-title">${esc(recent.name)} · Unit ${store.data.recent.u + 1}: ${esc(recentUnit.title)}</div></div>
-          <span class="btn btn-primary">Resume ${icon("arrowR", 16)}</span>
-        </a>` : ""}
+      ${active.length ? `
+        <div class="today card">
+          <div class="today-head"><div class="overline">${icon("zap", 12)} Your plan for today</div>
+            <span class="muted small">${icon("flame", 14)} ${streak()}-day streak</span></div>
+          <div class="today-grid">
+            ${rec ? `<a class="today-main" href="${recHref(rec)}">
+              <div><b>${esc(rec.title)}</b><p class="muted small">${esc(rec.reason)}</p></div>
+              <span class="btn btn-primary">Start ${icon("arrowR", 16)}</span></a>` : ""}
+            <a class="today-stat" href="#/practice/review">${icon("calendar", 18)}<b>${dueCount}</b><span>concepts due for review</span></a>
+            <a class="today-stat" href="#/review">${icon("rotate", 18)}<b>${mistakes().length}</b><span>mistakes to learn from</span></a>
+            <a class="today-stat" href="#/dashboard">${icon("trend", 18)}<b>${Engine.weekStats().answered}</b><span>questions this week</span></a>
+          </div>
+        </div>` : ""}
 
-      ${mine.length ? `
-        <div class="section-head"><h2>My courses</h2><a href="#/dashboard">View progress ${icon("arrowR", 14)}</a></div>
-        <div class="grid">${mine.map(courseCard).join("")}</div>` : ""}
+      <div class="section-head" id="start"><h2>${active.length ? "Your courses" : "Start with a 5-minute diagnostic"}</h2>
+        <span class="muted">${GUIDE_IDS.length} adaptive courses · ${totalQ} practice questions + questions generated from every flashcard</span></div>
+      <div class="grid">${(active.length ? [...new Set([...active, ...store.data.mine.filter((id) => GUIDE_IDS.includes(id)), ...GUIDE_IDS])] : GUIDE_IDS).map((id) => courseCard(courseById[id])).join("")}</div>
 
-      <div class="section-head"><h2>Complete study guides</h2><span class="muted">Every unit, every tab, ready to study</span></div>
-      <div class="grid">${guides.map(courseCard).join("")}</div>
-
-      <div class="how">
-        <div class="how-step"><div class="how-ico">${icon("bulb", 20)}</div><h3>Learn</h3><p>Each concept starts in plain English. Open "Go deeper" for the exam-level detail, examples and memory hooks.</p></div>
-        <div class="how-step"><div class="how-ico">${icon("cards", 20)}</div><h3>Memorize</h3><p>Flip flashcards for key terms, mark what you know, and drill only the ones you don't.</p></div>
-        <div class="how-step"><div class="how-ico">${icon("check", 20)}</div><h3>Practice</h3><p>Answer exam-style questions with instant explanations, plus free-response prompts with scoring guides.</p></div>
-        <div class="how-step"><div class="how-ico">${icon("target", 20)}</div><h3>Review</h3><p>Missed questions go to your review list. The dashboard shows your weakest units to study next.</p></div>
+      <div class="why-grid">
+        <div class="why-card"><div class="how-ico">${icon("stethoscope", 20)}</div><h3>Diagnose, don't reread</h3><p>12 questions across every unit reveal which concepts you actually don't know, in about 5 minutes.</p></div>
+        <div class="why-card"><div class="how-ico">${icon("target", 20)}</div><h3>Learn from every mistake</h3><p>Each wrong answer explains the misconception behind it, then drills that exact concept until it's fixed.</p></div>
+        <div class="why-card"><div class="how-ico">${icon("chart", 20)}</div><h3>Mastery you can trust</h3><p>Progress is tracked per concept (Strong, Getting there, Needs practice), not by how many pages you clicked.</p></div>
+        <div class="why-card"><div class="how-ico">${icon("calendar", 20)}</div><h3>Remember it on exam day</h3><p>Spaced review brings each concept back after 1, 3, 7, 14 and 30 days, right before you'd forget it.</p></div>
       </div>
 
-      <div class="section-head" id="browse"><h2>Browse all ${COURSES.length} AP courses</h2></div>
+      <div class="section-head" id="browse"><h2>All ${COURSES.length} AP courses</h2><span class="muted">Exam formats, 2027 changes and official links for every course</span></div>
       <div class="filters">
         <div class="filter-search">${icon("search", 18)}<input id="search" type="search" placeholder="Filter courses…" value="${esc(homeState.query)}" aria-label="Filter courses" /></div>
         <div class="chips" id="chips">
-          ${["All", "Study guides", ...CATEGORIES].map((c) => `<button class="chip ${homeState.cat === c ? "is-active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("")}
+          ${["All", "Adaptive", ...CATEGORIES].map((c) => `<button class="chip ${homeState.cat === c ? "is-active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("")}
         </div>
       </div>
       <div id="course-results"></div>
@@ -361,7 +360,7 @@ function renderHome() {
     const q = homeState.query.trim().toLowerCase();
     const match = (c) =>
       (!q || c.name.toLowerCase().includes(q) || c.blurb.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q)) &&
-      (homeState.cat === "All" || (homeState.cat === "Study guides" ? c.guide : c.cat === homeState.cat));
+      (homeState.cat === "All" || (homeState.cat === "Adaptive" ? c.guide : c.cat === homeState.cat));
     const html = CATEGORIES.map((cat) => {
       const list = COURSES.filter((c) => c.cat === cat && match(c));
       return list.length ? `<h3 class="cat-title" style="${catVars(cat)}"><span class="cat-dot">${catIcon(cat, 16)}</span>${esc(cat)} <span class="muted">${list.length}</span></h3><div class="grid">${list.map(courseCard).join("")}</div>` : "";
@@ -378,24 +377,43 @@ function renderHome() {
     document.querySelectorAll("#chips .chip").forEach((b) => b.classList.toggle("is-active", b === btn));
     draw();
   });
+  document.querySelector('a[href="#start"]').addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("start").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+function recHref(rec) {
+  if (rec.kind === "review") return "#/practice/review";
+  if (rec.kind === "concept") return `#/practice/concept/${rec.concept.courseId}/${rec.concept.unitIdx}/${rec.concept.conceptIdx}`;
+  if (rec.kind === "diagnostic") return `#/course/${rec.courseId}/diagnostic`;
+  return `#/course/${rec.courseId}/smart`;
 }
 
 function courseCard(c) {
-  const s = c.guide ? courseStats(c.id) : null;
-  const content = c.guide && window.AP_CONTENT && window.AP_CONTENT[c.id];
-  const meta = content && !content.extends ? `${content.units.length} units · ${s.total} questions` : (c.units ? `${c.units.length} units` : "Exam overview");
+  const ready = c.guide && guideReady(c.id);
+  const m = ready ? Engine.courseMastery(c.id) : null;
+  const diag = store.data.diag[c.id];
+  let foot;
+  if (m && m.tried) {
+    foot = `<div class="cc-mastery">
+      <div class="cc-row"><span>${m.strong}/${m.total} concepts strong</span><b>${m.pct}%</b></div>${bar(m.pct)}
+      ${m.due ? `<span class="due-pill">${icon("calendar", 12)} ${m.due} due</span>` : ""}</div>`;
+  } else if (ready) {
+    foot = `<span class="cc-cta">${icon("stethoscope", 14)} ${diag ? "Continue practice" : "Take the diagnostic"}</span><span class="meta">${m.total} concepts</span>`;
+  } else {
+    foot = `<div class="badges">${badgesFor(c)}</div><span class="meta">${c.units ? `${c.units.length} units` : "Exam overview"}</span>`;
+  }
+  const href = ready && !(m && m.tried) && !diag ? `#/course/${c.id}/diagnostic` : `#/course/${c.id}`;
   return `
-    <a class="card course-card" href="#/course/${c.id}" style="${catVars(c.cat)}">
+    <a class="card course-card" href="${href}" style="${catVars(c.cat)}">
       <div class="course-card-top">
         <div class="cat-icon">${catIcon(c.cat)}</div>
-        ${s && s.tried ? ring(s.pct, 40, 4) : ""}
+        ${m && m.tried ? ring(m.pct, 40, 4) : ready ? `<span class="badge badge-guide">${icon("zap", 12)} Adaptive</span>` : ""}
       </div>
       <h3>${esc(c.name)}</h3>
       <p>${esc(c.blurb)}</p>
-      <div class="course-card-foot">
-        <div class="badges">${badgesFor(c)}</div>
-        <span class="meta">${meta}</span>
-      </div>
+      <div class="course-card-foot">${foot}</div>
     </a>`;
 }
 
@@ -405,19 +423,13 @@ async function renderCourse(course) {
   document.title = `${course.name} | AP Prep Hub`;
   const content = course.guide ? await loadContent(course.id) : null;
   const isMine = store.data.mine.includes(course.id);
-  const s = content ? courseStats(course.id) : null;
-
-  // Suggest the first unit that isn't fully mastered.
-  let nextUnit = 0;
-  if (content) {
-    const i = content.units.findIndex((u, k) => unitMastery(course.id, k, u).pct < 100);
-    nextUnit = i < 0 ? 0 : i;
-  }
+  const m = content ? Engine.courseMastery(course.id) : null;
+  const diag = store.data.diag[course.id];
 
   const weighted = course.exam.filter((x) => x.weight != null);
   const examHtml = `
     ${weighted.length ? `<div class="stack">${weighted.map((x, i) => `<span style="width:${x.weight}%;opacity:${1 - i * 0.22}" title="${esc(x.name)}: ${x.weight}%"></span>`).join("")}</div>` : ""}
-    <div class="exam-rows">${course.exam.map((x, i) => `
+    <div class="exam-rows">${course.exam.map((x) => `
       <div class="exam-row">
         <span class="swatch" style="opacity:${x.weight != null ? 1 - weighted.indexOf(x) * 0.22 : 0.25}"></span>
         <div class="grow"><div class="name">${esc(x.name)}</div><div class="detail">${esc(x.detail)}</div></div>
@@ -427,55 +439,63 @@ async function renderCourse(course) {
   let unitsHtml;
   if (content) {
     unitsHtml = `<div class="unit-list">${content.units.map((u, i) => {
-      const m = unitMastery(course.id, i, u);
-      const state = m.tried === 0 ? "Not started" : m.pct === 100 ? "Mastered" : `${m.right}/${m.total} correct`;
+      const um = Engine.unitMastery(course.id, i);
+      const dots = u.concepts.map((c, ci) => {
+        const s = Engine.state(Engine.conceptKey(course.id, i, ci));
+        return `<span class="dot dot-${Engine.status(s).id}" title="${esc(c.title)}: ${Engine.status(s).label}"></span>`;
+      }).join("");
       return `
-        <a class="card unit-row ${m.pct === 100 ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
-          <div class="unit-num">${m.pct === 100 ? icon("check", 20) : i + 1}</div>
+        <a class="card unit-row ${um.strong === um.total ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
+          <div class="unit-num">${um.strong === um.total ? icon("check", 20) : i + 1}</div>
           <div class="grow">
             <h3>${esc(u.title)}</h3>
-            <div class="sub">${esc(weightText(u))} · ${u.concepts.length} concepts · ${u.terms.length} terms · ${u.questions.length} questions</div>
+            <div class="sub">${esc(weightText(u))} · ${u.concepts.length} concepts · ${u.questions.length} questions</div>
           </div>
-          <div class="unit-state"><span>${state}</span>${bar(m.pct)}</div>
+          <div class="unit-state"><div class="dots">${dots}</div><span>${um.tried ? `${um.pct}% mastery` : "Not started"}</span></div>
           ${icon("arrowR", 18)}
         </a>`;
-    }).join("")}</div>`;
+    }).join("")}</div>
+    <div class="legend"><span><i class="dot dot-strong"></i>Strong</span><span><i class="dot dot-learning"></i>Getting there</span><span><i class="dot dot-weak"></i>Needs practice</span><span><i class="dot dot-new"></i>Not started</span></div>`;
   } else {
     const related = course.related && courseById[course.related];
     unitsHtml = `
       <div class="card empty">
         <div class="empty-ico">${icon("book", 26)}</div>
-        <h3>Full study guide coming soon</h3>
-        <p class="muted">We're writing summaries and practice questions for this course. Until then, use the official
+        <h3>Adaptive study guide coming soon</h3>
+        <p class="muted">We're writing concepts, practice questions and misconception notes for this course. Until then, use the official
         course and exam description linked on this page.</p>
-        ${related ? `<p>Tip: <a href="#/course/${related.id}">${esc(related.name)}</a> has a full study guide.</p>` : ""}
+        ${related ? `<p>Tip: <a href="#/course/${related.id}">${esc(related.name)}</a> is fully adaptive.</p>` : ""}
       </div>
       ${course.units ? `<div class="card"><h3 class="card-title">Course units</h3><ol class="plain-units">${course.units.map((u) => `<li>${esc(u)}</li>`).join("")}</ol></div>` : ""}`;
   }
 
+  const weak = content ? Engine.weakest([course.id], 3) : [];
   app.innerHTML = `
     <section class="course-hero" style="${catVars(course.cat)}">
       <div class="page">
-        <nav class="crumbs"><a href="#/">Courses</a> ${icon("arrowR", 12)} <span>${esc(course.cat)}</span></nav>
+        ${crumbs(["Courses", "#/"], [course.cat])}
         <div class="course-hero-grid">
           <div>
             <div class="course-title-row"><div class="cat-icon lg">${catIcon(course.cat, 28)}</div><h1>${esc(course.name)}</h1></div>
             <p class="lead">${esc(course.blurb)}</p>
             <div class="badges">${badgesFor(course)}</div>
             <div class="btn-row hero-actions">
-              ${content ? `
-                <a class="btn btn-primary btn-lg" href="#/course/${course.id}/unit/${nextUnit + 1}">${icon("play", 16)} ${s.tried ? "Continue" : "Start"} Unit ${nextUnit + 1}</a>
-                <a class="btn btn-lg" href="#/course/${course.id}/quiz">${icon("shuffle", 16)} Mixed quiz</a>` : ""}
+              ${content ? (diag || m.tried
+                ? `<a class="btn btn-primary btn-lg" href="#/course/${course.id}/smart">${icon("zap", 16)} Smart practice</a>
+                   <a class="btn btn-lg" href="#/course/${course.id}/diagnostic">${icon("stethoscope", 16)} Retake diagnostic</a>`
+                : `<a class="btn btn-primary btn-lg" href="#/course/${course.id}/diagnostic">${icon("stethoscope", 16)} Take the 5-minute diagnostic</a>
+                   <a class="btn btn-lg" href="#/course/${course.id}/unit/1">${icon("book", 16)} Start at Unit 1</a>`) : ""}
               <button class="btn btn-lg ${isMine ? "is-starred" : ""}" id="star">${icon("star", 16)} ${isMine ? "In my courses" : "Add to my courses"}</button>
             </div>
           </div>
-          ${s ? `
+          ${m ? `
           <div class="card hero-progress">
-            ${ring(s.pct, 88, 8)}
+            ${ring(m.pct, 88, 8)}
             <div>
-              <div class="overline">Your mastery</div>
-              <div class="hp-line"><b>${s.right}</b>/${s.total} questions correct</div>
-              <div class="hp-line"><b>${s.known}</b>/${s.cards} flashcards known</div>
+              <div class="overline">Course mastery</div>
+              <div class="hp-line"><b>${m.strong}</b>/${m.total} concepts strong</div>
+              <div class="hp-line"><b>${m.weak}</b> need practice · <b>${m.due}</b> due for review</div>
+              ${diag ? `<div class="hp-line muted small">Diagnostic: ${diag.right}/${diag.total} on ${new Date(diag.t).toLocaleDateString()}</div>` : ""}
             </div>
           </div>` : ""}
         </div>
@@ -484,9 +504,17 @@ async function renderCourse(course) {
 
     <div class="page course-body">
       ${course.changes ? `<div class="callout callout-warn">${icon("alert", 18)}<div><strong>What's new for 2026-27</strong>${esc(course.changes)}</div></div>` : ""}
+      ${weak.length ? `
+        <div class="card weak-strip" style="${catVars(course.cat)}">
+          <div class="overline">${icon("target", 12)} Your weakest concepts</div>
+          <div class="weak-list">${weak.map((w) => `
+            <a class="weak-item" href="#/practice/concept/${w.courseId}/${w.unitIdx}/${w.conceptIdx}">
+              <div class="grow"><b>${esc(w.title)}</b><span class="muted small">Unit ${w.unitIdx + 1} · ${pctOf(w.s.m)}% mastery</span></div>
+              <span class="btn btn-sm">Practice</span></a>`).join("")}</div>
+        </div>` : ""}
       <div class="course-grid">
         <div class="course-main">
-          <div class="section-head"><h2>Units</h2>${content ? `<span class="muted">${content.units.length} units</span>` : ""}</div>
+          <div class="section-head"><h2>Units</h2>${content ? `<a href="#/course/${course.id}/quiz">${icon("shuffle", 14)} Mixed quiz</a>` : ""}</div>
           ${content && content.intro ? `<p class="muted intro">${esc(content.intro)}</p>` : ""}
           ${unitsHtml}
         </div>
@@ -522,12 +550,13 @@ async function renderCourse(course) {
   });
 }
 
+
 /* ================= Unit page ================= */
 
 const TABS = [
   ["learn", "Learn", "book"],
-  ["cards", "Flashcards", "cards"],
   ["practice", "Practice", "check"],
+  ["cards", "Flashcards", "cards"],
   ["frq", "Free response", "pen"],
   ["watch", "Watch out", "alert"],
 ];
@@ -541,15 +570,16 @@ async function renderUnit(course, idx, tab) {
   store.data.recent = { c: course.id, u: idx, tab, t: Date.now() };
   store.save();
   const base = `#/course/${course.id}/unit/${idx + 1}`;
-  const m = unitMastery(course.id, idx, unit);
-  const s = courseStats(course.id);
+  const um = Engine.unitMastery(course.id, idx);
+  const cm = Engine.courseMastery(course.id);
 
   const sideList = content.units.map((u, i) => {
-    const um = unitMastery(course.id, i, u);
-    return `<a class="side-unit ${i === idx ? "is-active" : ""} ${um.pct === 100 ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
-      <span class="side-num">${um.pct === 100 ? icon("check", 14) : i + 1}</span>
+    const m = Engine.unitMastery(course.id, i);
+    const done = m.strong === m.total;
+    return `<a class="side-unit ${i === idx ? "is-active" : ""} ${done ? "is-done" : ""}" href="#/course/${course.id}/unit/${i + 1}">
+      <span class="side-num">${done ? icon("check", 14) : i + 1}</span>
       <span class="side-title">${esc(u.title)}</span>
-      ${um.tried ? `<span class="side-pct">${um.pct}%</span>` : ""}
+      ${m.tried ? `<span class="side-pct">${m.pct}%</span>` : ""}
     </a>`;
   }).join("");
 
@@ -558,24 +588,25 @@ async function renderUnit(course, idx, tab) {
       <aside class="unit-side">
         <a class="side-course" href="#/course/${course.id}">
           <div class="cat-icon">${catIcon(course.cat)}</div>
-          <div><div class="side-course-name">${esc(course.name)}</div><div class="muted small">${s.pct}% mastered</div></div>
+          <div><div class="side-course-name">${esc(course.name)}</div><div class="muted small">${cm.pct}% mastery · ${cm.strong}/${cm.total} strong</div></div>
         </a>
-        ${bar(s.pct)}
+        ${bar(cm.pct)}
         <details class="side-details" open>
           <summary>${icon("list", 16)} All units</summary>
           <nav class="side-units">${sideList}</nav>
         </details>
+        <a class="btn btn-primary btn-block" href="#/course/${course.id}/smart">${icon("zap", 16)} Smart practice</a>
         <a class="btn btn-block" href="#/course/${course.id}/quiz">${icon("shuffle", 16)} Mixed quiz</a>
       </aside>
 
       <section class="unit-main">
-        <nav class="crumbs"><a href="#/">Courses</a> ${icon("arrowR", 12)} <a href="#/course/${course.id}">${esc(course.name)}</a> ${icon("arrowR", 12)} <span>Unit ${idx + 1}</span></nav>
+        ${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], [`Unit ${idx + 1}`])}
         <div class="unit-head">
           <div>
             <div class="overline">Unit ${idx + 1} · ${esc(weightText(unit, true))}</div>
             <h1>${esc(unit.title)}</h1>
           </div>
-          <div class="unit-head-stat">${ring(m.pct, 56, 5)}<div class="small muted">${m.tried ? `${m.right}/${m.total} correct` : "Not started"}</div></div>
+          <div class="unit-head-stat">${ring(um.pct, 56, 5)}<div class="small muted">${um.tried ? `${um.strong}/${um.total} concepts strong` : "Not started"}</div></div>
         </div>
         <nav class="tabs" role="tablist">
           ${TABS.map(([k, label, ic]) => `<a class="tab ${k === tab ? "is-active" : ""}" href="${base}/${k}" role="tab" aria-selected="${k === tab}">${icon(ic, 16)}<span>${label}</span></a>`).join("")}
@@ -585,7 +616,7 @@ async function renderUnit(course, idx, tab) {
           ${idx > 0 ? `<a class="nav-card" href="#/course/${course.id}/unit/${idx}"><span class="muted small">${icon("arrowL", 14)} Previous</span><b>Unit ${idx}: ${esc(content.units[idx - 1].title)}</b></a>` : "<span></span>"}
           ${idx < content.units.length - 1
             ? `<a class="nav-card next" href="#/course/${course.id}/unit/${idx + 2}"><span class="muted small">Next ${icon("arrowR", 14)}</span><b>Unit ${idx + 2}: ${esc(content.units[idx + 1].title)}</b></a>`
-            : `<a class="nav-card next" href="#/course/${course.id}/quiz"><span class="muted small">Finished the course? ${icon("arrowR", 14)}</span><b>Take a mixed quiz</b></a>`}
+            : `<a class="nav-card next" href="#/course/${course.id}/smart"><span class="muted small">Finished the course? ${icon("arrowR", 14)}</span><b>Smart practice across all units</b></a>`}
         </div>
       </section>
     </div>
@@ -593,31 +624,37 @@ async function renderUnit(course, idx, tab) {
   if (window.innerWidth < 900) app.querySelector(".side-details").open = false;
   const body = document.getElementById("tab-body");
 
-  if (tab === "learn") renderLearn(body, unit);
+  if (tab === "learn") renderLearn(body, course, idx, unit);
   else if (tab === "cards") renderFlashcards(body, course, idx, unit);
   else if (tab === "practice") {
-    runQuiz(body, unit.questions.map((q, i) => ({ courseId: course.id, unitIdx: idx, qIdx: i, q })), {
-      title: `Unit ${idx + 1} practice`,
+    body.innerHTML = `<p class="muted small practice-note">${icon("zap", 14)} Get one wrong and we'll pinpoint the concept, explain the misconception, and give you targeted follow-up questions.</p><div id="session"></div>`;
+    runSession(body.querySelector("#session"), unit.questions.map((_, i) => Engine.item(course.id, idx, i)), {
+      title: `Unit ${idx + 1} practice`, mode: "practice",
       onRestart: () => renderUnit(course, idx, "practice"),
     });
   } else if (tab === "frq") renderFrq(body, course, idx, unit);
   else renderWatchOut(body, content, unit);
 }
 
-function renderLearn(body, unit) {
+function renderLearn(body, course, idx, unit) {
   const draw = () => {
     body.innerHTML = `
       <div class="tldr"><div class="tldr-ico">${icon("sparkle", 18)}</div><div><span class="label">The big idea</span>${fmt(unit.tldr)}</div></div>
       <div class="learn-bar">
-        <span class="muted small">${unit.concepts.length} key concepts</span>
+        <span class="muted small">${unit.concepts.length} key concepts · each one tracked separately</span>
         <div class="seg" role="group" aria-label="Explanation level">
           <button data-view="simple" class="${conceptView === "simple" ? "is-active" : ""}">Plain English</button>
           <button data-view="both" class="${conceptView === "both" ? "is-active" : ""}">+ Exam detail</button>
         </div>
       </div>
-      ${unit.concepts.map((c, i) => `
-        <article class="card concept">
-          <h3><span class="n">${i + 1}</span>${esc(c.title)}</h3>
+      ${unit.concepts.map((c, i) => {
+        const s = Engine.state(Engine.conceptKey(course.id, idx, i));
+        return `
+        <article class="card concept" id="concept-${i}">
+          <div class="concept-head">
+            <h3><span class="n">${i + 1}</span>${esc(c.title)}</h3>
+            ${chip(s)}
+          </div>
           <p class="simple">${fmt(c.simple)}</p>
           <details ${conceptView === "both" ? "open" : ""}>
             <summary>Go deeper: what the exam expects</summary>
@@ -625,7 +662,12 @@ function renderLearn(body, unit) {
           </details>
           ${c.example ? `<div class="note note-example"><b>${icon("pen", 14)} Example</b><div>${fmt(c.example)}</div></div>` : ""}
           ${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}
-        </article>`).join("")}
+          <div class="concept-foot">
+            <span class="muted small">${s.n ? `${pctOf(s.m)}% mastery · ${s.n} answer${s.n === 1 ? "" : "s"}${s.n && s.due > Date.now() ? ` · review in ${Engine.reviewInDays(s)} day${Engine.reviewInDays(s) === 1 ? "" : "s"}` : ""}` : "Check your understanding"}</span>
+            <a class="btn btn-sm" href="#/practice/concept/${course.id}/${idx}/${i}">${icon("target", 14)} Practice this concept</a>
+          </div>
+        </article>`;
+      }).join("")}
     `;
     body.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => { conceptView = b.dataset.view; draw(); }));
   };
@@ -769,138 +811,435 @@ function renderWatchOut(body, content, unit) {
   `;
 }
 
-/* ================= Quiz engine (unit practice, mixed quiz, mistake review) ================= */
 
-// items: [{ courseId, unitIdx, qIdx, q }]. opts: { title, pace (secs/question), showSource, onRestart }
-function runQuiz(body, items, opts = {}) {
+/* ================= Session runner: the learning loop ================= */
+//
+//   Question → Answer → Why (your answer vs. the right one, and the misconception behind it)
+//     └─ wrong? → "Weak concept detected" → 30-second refresher → 3 targeted questions
+//                 → "Concept recovered" (re-test scheduled) or "Still shaky" (back tomorrow)
+//
+// items: [{ courseId, unitIdx, key, q }] from Engine.item / Engine.conceptItems.
+// opts: { title, mode: practice|smart|diagnostic|review|concept|quiz, pace, showSource, onRestart, onDone }
+
+function runSession(body, items, opts = {}) {
+  const mode = opts.mode || "practice";
+  const adaptive = opts.adaptive ?? ["practice", "smart", "review", "quiz"].includes(mode);
+  const feedback = mode !== "diagnostic";
   // Shuffle answer order on every attempt so students learn content, not letter positions.
-  items = items.map((it) => ({ ...it, perm: shuffle(it.q.choices.map((_, k) => k)) }));
+  const prep = (it, extra = {}) => ({ ...it, ...extra, perm: shuffle(it.q.choices.map((_, k) => k)) });
+  const queue = items.map((it) => prep(it));
   let i = 0;
-  let picked = null;
+  let picked = null;          // display index chosen for the current question
+  let change = null;          // concept mastery change from Engine.record
+  let stage = "question";     // question | weak | recovered
+  let rem = null;             // active remediation { ck, courseId, unitIdx, conceptIdx, title, total, right, done }
   const results = [];
-  let timeLeft = opts.pace ? opts.pace * items.length : null;
+  const remediated = new Set();
+  let timeLeft = opts.pace ? opts.pace * queue.length : null;
   let timer = null;
 
   if (timeLeft) {
     timer = setInterval(() => {
       timeLeft--;
-      const el = body.querySelector("#timer");
-      if (el) {
-        el.querySelector("span").textContent = fmtTime(timeLeft);
-        el.classList.toggle("is-low", timeLeft <= 30);
-      }
+      const el = body.querySelector("#timer span");
+      if (el) { el.textContent = fmtTime(timeLeft); el.parentElement.classList.toggle("is-low", timeLeft <= 30); }
       if (timeLeft <= 0) { clearInterval(timer); finish(true); }
     }, 1000);
   }
 
-  const draw = () => {
-    const { q, courseId, unitIdx, perm } = items[i];
+  const conceptOf = (it) => {
+    const u = window.AP_CONTENT[it.courseId].units[it.unitIdx];
+    return { ...u.concepts[it.q.concept], idx: it.q.concept, unit: u };
+  };
+
+  const header = () => {
+    const done = i + (picked !== null ? 1 : 0);
+    const right = results.filter((r) => r.ok).length;
+    return `
+      <div class="quiz-top">
+        <span class="small"><b>${Math.min(i + 1, queue.length)}</b> <span class="muted">of ${queue.length}</span></span>
+        ${bar(Math.round((done / queue.length) * 100))}
+        ${feedback ? `<span class="small score-live">${icon("check", 14)} ${right}</span>` : ""}
+        ${timeLeft != null ? `<span class="timer" id="timer">${icon("clock", 14)}<span>${fmtTime(timeLeft)}</span></span>` : ""}
+      </div>
+      ${rem && !rem.done ? `<div class="rem-banner">${icon("target", 14)} Targeted practice: <b>${esc(rem.title)}</b> · ${Math.min(rem.answered + (picked !== null && queue[i].rem ? 0 : 1), rem.total)} of ${rem.total}</div>` : ""}`;
+  };
+
+  const masteryLine = (it) => {
+    if (!change) return "";
+    const c = conceptOf(it);
+    const up = change.after >= change.before;
+    return `<div class="mastery-line">
+      <span class="muted small">Concept</span> <b>${esc(c.title)}</b>
+      <span class="delta ${up ? "up" : "down"}">${pctOf(change.before)}% ${icon("arrowR", 12)} ${pctOf(change.after)}%</span>
+    </div>`;
+  };
+
+  const drawQuestion = () => {
+    const it = queue[i];
+    const { q, courseId, unitIdx, perm } = it;
     const answerPos = perm.indexOf(q.answer);
     const answered = picked !== null;
     const correct = answered && picked === answerPos;
     const course = courseById[courseId];
     const unitTitle = window.AP_CONTENT[courseId].units[unitIdx].title;
-    const right = results.filter((r) => r.ok).length;
+    const whyPicked = answered && !correct ? q.why && q.why[perm[picked]] : null;
+    const showWeakBtn = answered && !correct && adaptive && !rem && !remediated.has(`${courseId}|${unitIdx}|${q.concept}`);
+
     body.innerHTML = `
       <div class="quiz">
-        <div class="quiz-top">
-          <span class="small"><b>Question ${i + 1}</b> <span class="muted">of ${items.length}</span></span>
-          ${bar(Math.round(((i + (answered ? 1 : 0)) / items.length) * 100))}
-          <span class="small score-live">${icon("check", 14)} ${right}</span>
-          ${timeLeft != null ? `<span class="timer" id="timer">${icon("clock", 14)}<span>${fmtTime(timeLeft)}</span></span>` : ""}
-        </div>
-        <div class="card q-card">
-          ${opts.showSource ? `<div class="q-source" style="${catVars(course.cat)}">${catIcon(course.cat, 14)} ${esc(course.name)} · Unit ${unitIdx + 1}: ${esc(unitTitle)}</div>` : ""}
+        ${header()}
+        <div class="card q-card ${it.rem ? "is-rem" : ""}">
+          <div class="q-meta">
+            ${opts.showSource || it.rem ? `<span class="q-source" style="${catVars(course.cat)}">${catIcon(course.cat, 14)} ${esc(course.name)} · Unit ${unitIdx + 1}${opts.showSource ? `: ${esc(unitTitle)}` : ""}</span>` : ""}
+            ${q.gen ? `<span class="q-source gen">${icon("cards", 14)} From your flashcards</span>` : ""}
+          </div>
           <div class="q-text">${fmt(q.q)}</div>
           <div class="choices">
             ${perm.map((orig, ci) => {
               let cls = "";
-              if (answered && ci === answerPos) cls = "is-correct";
-              else if (answered && ci === picked) cls = "is-wrong";
+              if (answered && feedback && ci === answerPos) cls = "is-correct";
+              else if (answered && ci === picked) cls = feedback ? "is-wrong" : "is-picked";
               else if (answered) cls = "is-dim";
               return `<button class="choice ${cls}" data-ci="${ci}" ${answered ? "disabled" : ""}><span class="letter">${LETTERS[ci]}</span><span class="choice-text">${fmt(q.choices[orig])}</span></button>`;
             }).join("")}
           </div>
-          ${answered ? `
-            <div class="feedback ${correct ? "good" : "bad"}">
-              <div class="fb-ico">${icon(correct ? "check" : "alert", 20)}</div>
-              <div><strong>${correct ? "Correct!" : `Not quite. The answer is ${LETTERS[answerPos]}.`}</strong>
-              <p>${fmt(q.explain)}</p></div>
-            </div>
+          ${answered && feedback ? (correct ? `
+            <div class="feedback good">
+              <div class="fb-ico">${icon("check", 20)}</div>
+              <div class="grow"><strong>Correct!</strong><p>${fmt(q.explain)}</p>${masteryLine(it)}</div>
+            </div>` : `
+            <div class="feedback bad">
+              <div class="fb-ico">${icon("alert", 20)}</div>
+              <div class="grow">
+                <div class="fb-grid">
+                  <div><span class="fb-label bad">Your answer</span><div>${LETTERS[picked]}. ${fmt(q.choices[perm[picked]])}</div></div>
+                  <div><span class="fb-label good">Correct</span><div>${LETTERS[answerPos]}. ${fmt(q.choices[q.answer])}</div></div>
+                </div>
+                ${whyPicked ? `<div class="fb-why"><span class="fb-label">Why ${LETTERS[picked]} is tempting</span><p>${fmt(whyPicked)}</p></div>` : ""}
+                <div class="fb-why"><span class="fb-label">Explanation</span><p>${fmt(q.explain)}</p></div>
+                ${masteryLine(it)}
+              </div>
+            </div>`) : ""}
+          ${answered && feedback ? `
             <div class="quiz-actions">
-              <button class="btn btn-primary" id="next">${i === items.length - 1 ? "See results" : "Next question"} ${icon("arrowR", 16)}</button>
+              ${showWeakBtn ? `<button class="btn btn-ghost" id="next">Skip</button><button class="btn btn-primary" id="weak">${icon("target", 16)} Fix this concept</button>`
+                : `<button class="btn btn-primary" id="next">${i === queue.length - 1 ? "See results" : "Next question"} ${icon("arrowR", 16)}</button>`}
             </div>` : ""}
         </div>
-        <p class="kbd-hint"><kbd>1</kbd>–<kbd>${q.choices.length}</kbd> answer · <kbd>Enter</kbd> next</p>
+        <p class="kbd-hint"><kbd>1</kbd>–<kbd>${q.choices.length}</kbd> answer · <kbd>Enter</kbd> ${showWeakBtn ? "fix this concept" : "next"}</p>
       </div>`;
     body.querySelectorAll(".choice").forEach((b) => b.addEventListener("click", () => choose(+b.dataset.ci)));
     body.querySelector("#next")?.addEventListener("click", next);
+    body.querySelector("#weak")?.addEventListener("click", () => { stage = "weak"; draw(); });
+    (body.querySelector("#weak") || body.querySelector("#next"))?.focus({ preventScroll: true });
+  };
+
+  // "Weak concept detected": a 30-second refresher, then 3 targeted questions.
+  const drawWeak = () => {
+    const it = queue[i];
+    const c = conceptOf(it);
+    const s = Engine.state(Engine.conceptKey(it.courseId, it.unitIdx, c.idx));
+    body.innerHTML = `
+      <div class="quiz">
+        <div class="card weak-card" style="${catVars(courseById[it.courseId].cat)}">
+          <div class="weak-top">${icon("target", 18)} Weak concept detected</div>
+          <h2>${esc(c.title)}</h2>
+          <p class="muted small">${esc(courseById[it.courseId].name)} · Unit ${it.unitIdx + 1}: ${esc(c.unit.title)} · ${pctOf(s.m)}% mastery</p>
+          <div class="refresher">
+            <div class="overline">The 30-second version</div>
+            <p>${fmt(c.simple)}</p>
+            ${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}
+            ${c.example ? `<div class="note note-example"><b>${icon("pen", 14)} Example</b><div>${fmt(c.example)}</div></div>` : ""}
+            <details><summary>Go deeper</summary><p>${fmt(c.detail)}</p></details>
+          </div>
+          <div class="quiz-actions">
+            <button class="btn btn-ghost" id="skip">Skip for now</button>
+            <button class="btn btn-primary" id="drill">${icon("play", 16)} Practice 3 targeted questions</button>
+          </div>
+        </div>
+      </div>`;
+    body.querySelector("#skip").addEventListener("click", () => { stage = "question"; next(); });
+    body.querySelector("#drill").addEventListener("click", startRemediation);
+    body.querySelector("#drill").focus({ preventScroll: true });
+  };
+
+  const startRemediation = () => {
+    const it = queue[i];
+    const ck = `${it.courseId}|${it.unitIdx}|${it.q.concept}`;
+    const extra = Engine.conceptItems(it.courseId, it.unitIdx, it.q.concept, 3, it.key).map((x) => prep(x, { rem: true }));
+    remediated.add(ck);
+    rem = { ck, courseId: it.courseId, unitIdx: it.unitIdx, conceptIdx: it.q.concept, title: conceptOf(it).title, total: extra.length, answered: 0, right: 0, done: false };
+    queue.splice(i + 1, 0, ...extra);
+    if (timeLeft != null) timeLeft += (opts.pace || 60) * extra.length;
+    stage = "question";
+    next();
+  };
+
+  const drawRecovered = () => {
+    const s = Engine.state(rem.ck);
+    const ok = rem.right >= Math.ceil(rem.total * 0.6);
+    const days = Engine.reviewInDays(s);
+    body.innerHTML = `
+      <div class="quiz">
+        <div class="card recovered ${ok ? "good" : "bad"}">
+          <div class="rec-ico">${icon(ok ? "check" : "rotate", 28)}</div>
+          <h2>${ok ? "Concept recovered" : "Still shaky, and that's OK"}</h2>
+          <p><b>${esc(rem.title)}</b>: ${rem.right}/${rem.total} targeted questions right · now ${pctOf(s.m)}% mastery ${chip(s)}</p>
+          <p class="muted">${ok
+            ? `We'll re-test it ${days <= 1 ? "tomorrow" : `in ${days} days`} so it sticks.`
+            : "We'll bring it back in your next session. Reread the concept once before then."}</p>
+          <div class="btn-row center">
+            ${ok ? "" : `<a class="btn" href="#/course/${rem.courseId}/unit/${rem.unitIdx + 1}/learn">${icon("book", 16)} Reread the concept</a>`}
+            <button class="btn btn-primary" id="cont">${i >= queue.length - 1 ? "See results" : "Continue"} ${icon("arrowR", 16)}</button>
+          </div>
+        </div>
+      </div>`;
+    body.querySelector("#cont").addEventListener("click", () => { rem = null; stage = "question"; advance(); });
+    body.querySelector("#cont").focus({ preventScroll: true });
+  };
+
+  const draw = () => {
+    if (stage === "weak") drawWeak(); else if (stage === "recovered") drawRecovered(); else drawQuestion();
+    // Keep the new card in view when the previous one (e.g. a long explanation) left us scrolled down.
+    const top = body.getBoundingClientRect().top;
+    if (top < 72) window.scrollTo({ top: window.scrollY + top - 88, behavior: "smooth" });
   };
 
   const choose = (ci) => {
-    if (picked !== null) return;
+    if (picked !== null || stage !== "question") return;
     picked = ci;
-    const it = items[i];
+    const it = queue[i];
     const ok = it.perm[ci] === it.q.answer;
-    results.push({ ...it, ok });
-    recordAnswer(qKey(it.courseId, it.unitIdx, it.qIdx), ok);
+    change = Engine.record(it, it.perm[ci], ok);
+    results.push({ ...it, ok, pickedOrig: it.perm[ci] });
+    if (it.rem && rem) { rem.answered++; if (ok) rem.right++; }
+    if (!feedback) { setTimeout(next, 180); drawQuestion(); return; }
     draw();
-    body.querySelector("#next")?.focus({ preventScroll: true });
   };
 
+  // Move past the current question: show the remediation result card when a drill just ended.
   const next = () => {
-    if (i === items.length - 1) { finish(false); return; }
-    i++; picked = null; draw();
+    if (rem && !rem.done && queue[i].rem && (i + 1 >= queue.length || !queue[i + 1].rem)) {
+      rem.done = true; stage = "recovered"; picked = null; draw(); return;
+    }
+    advance();
+  };
+  const advance = () => {
+    if (i >= queue.length - 1) { finish(false); return; }
+    i++; picked = null; change = null; draw();
   };
 
   const finish = (timedOut) => {
     if (timer) clearInterval(timer);
     document.removeEventListener("keydown", onKey);
+    if (mode === "diagnostic") return renderDiagnosticReport(body, results, opts);
     const right = results.filter((r) => r.ok).length;
-    const pct = Math.round((right / items.length) * 100);
-    const byUnit = {};
-    results.forEach((r) => {
-      const k = `${r.courseId}|${r.unitIdx}`;
-      byUnit[k] = byUnit[k] || { ...r, right: 0, total: 0 };
-      byUnit[k].total++; if (r.ok) byUnit[k].right++;
-    });
-    const msg = pct >= 85 ? "Excellent. You're exam-ready on this material." : pct >= 60 ? "Solid progress. Review the weaker units below and try again." : "Keep going. Re-read the Learn tab for the weaker units, then retry.";
+    const n = results.length || 1;
+    const pct = Math.round((right / n) * 100);
+    const touched = [...new Map(results.map((r) => [`${r.courseId}|${r.unitIdx}|${r.q.concept}`, r])).values()];
+    const courses = [...new Set(results.map((r) => r.courseId))];
+    const rec = Engine.recommend(courses);
+    const msg = pct >= 85 ? "Excellent. These concepts are in great shape." : pct >= 60 ? "Solid progress. The concepts below that need work are already scheduled." : "Good diagnostic info. Every miss told us exactly what to practice next.";
     body.innerHTML = `
       <div class="quiz">
         <div class="card results">
           ${timedOut ? `<div class="callout callout-warn">${icon("clock", 18)}<div><strong>Time's up!</strong>Unanswered questions weren't counted.</div></div>` : ""}
           <div class="overline">${esc(opts.title || "Practice")} complete</div>
-          <div class="results-score">${ring(pct, 120, 10)}<div><div class="score-big">${right}<span>/${items.length}</span></div><p>${msg}</p></div></div>
-          <div class="breakdown">
-            ${Object.values(byUnit).map((u) => {
-              const content = window.AP_CONTENT[u.courseId];
-              const p = Math.round((u.right / u.total) * 100);
-              return `<a class="row" href="#/course/${u.courseId}/unit/${u.unitIdx + 1}"><span>${opts.showSource ? esc(courseById[u.courseId].name) + " · " : ""}Unit ${u.unitIdx + 1}: ${esc(content.units[u.unitIdx].title)}</span><b>${u.right}/${u.total}</b>${bar(p, p >= 80 ? "good" : p >= 50 ? "" : "bad")}</a>`;
+          <div class="results-score">${ring(pct, 120, 10)}<div><div class="score-big">${right}<span>/${results.length}</span></div><p>${msg}</p></div></div>
+          <h3 class="card-title left">${icon("target", 16)} Concepts you practiced</h3>
+          <div class="concept-results">
+            ${touched.map((r) => {
+              const key = `${r.courseId}|${r.unitIdx}|${r.q.concept}`;
+              const s = Engine.state(key);
+              const c = window.AP_CONTENT[r.courseId].units[r.unitIdx].concepts[r.q.concept];
+              return `<a class="cr-row" href="#/practice/concept/${r.courseId}/${r.unitIdx}/${r.q.concept}">
+                <div class="grow"><b>${esc(c.title)}</b><span class="muted small">${courses.length > 1 ? esc(courseById[r.courseId].name) + " · " : ""}Unit ${r.unitIdx + 1}</span></div>
+                ${chip(s)}<span class="cr-pct">${pctOf(s.m)}%</span></a>`;
             }).join("")}
           </div>
+          ${rec ? `<a class="next-step" href="${recHref(rec)}"><div class="grow"><div class="overline">${icon("zap", 12)} Recommended next</div><b>${esc(rec.title)}</b><p class="muted small">${esc(rec.reason)}</p></div>${icon("arrowR", 18)}</a>` : ""}
           <div class="btn-row center">
-            ${opts.onRestart ? `<button class="btn btn-primary" id="again">${icon("rotate", 16)} Try again</button>` : ""}
+            ${opts.onRestart ? `<button class="btn" id="again">${icon("rotate", 16)} Go again</button>` : ""}
             ${results.some((r) => !r.ok) ? `<a class="btn" href="#/review">Review my mistakes</a>` : ""}
             <a class="btn btn-ghost" href="#/dashboard">View progress</a>
           </div>
         </div>
       </div>`;
     body.querySelector("#again")?.addEventListener("click", opts.onRestart);
+    opts.onDone?.(results);
   };
 
   const onKey = (e) => {
     if (e.target.matches("input, textarea") || paletteOpen()) return;
     if (e.key === "Enter" && e.target.matches("button, a")) return; // native click already fires
+    if (stage !== "question") return;
     const n = parseInt(e.key, 10);
-    if (n >= 1 && n <= items[i].q.choices.length) choose(n - 1);
-    else if (e.key === "Enter" && picked !== null) next();
+    if (n >= 1 && n <= queue[i].q.choices.length) choose(n - 1);
+    else if (e.key === "Enter" && picked !== null) (body.querySelector("#weak") || body.querySelector("#next"))?.click();
   };
   document.addEventListener("keydown", onKey);
   cleanup = () => { if (timer) clearInterval(timer); document.removeEventListener("keydown", onKey); };
+  if (!queue.length) {
+    body.innerHTML = `<div class="card empty"><p class="muted">No questions to practice here yet.</p></div>`;
+    return;
+  }
   draw();
 }
 
 const fmtTime = (s) => `${Math.floor(Math.max(0, s) / 60)}:${String(Math.max(0, s) % 60).padStart(2, "0")}`;
+
+/* ================= Diagnostic ================= */
+
+function renderDiagnostic(course) {
+  if (!course.guide) { location.hash = `#/course/${course.id}`; return; }
+  document.title = `Diagnostic | ${course.name}`;
+  const items = Engine.diagnostic(course.id);
+  const units = window.AP_CONTENT[course.id].units.length;
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(course.cat)}">
+      ${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"])}
+      <div class="card diag-intro">
+        <div class="cat-icon lg">${icon("stethoscope", 28)}</div>
+        <h1>${esc(course.name)} diagnostic</h1>
+        <p class="lead">${items.length} questions across all ${units} units, about 5 minutes. No hints and no explanations until the end:
+        we just want an honest picture of what you know.</p>
+        <ul class="diag-points">
+          <li>${icon("target", 16)} Pinpoints your weak <b>concepts</b>, not just weak units</li>
+          <li>${icon("zap", 16)} Sets up smart practice to fix them first</li>
+          <li>${icon("rotate", 16)} Explains every question you miss in the report</li>
+        </ul>
+        <button class="btn btn-primary btn-lg" id="go">${icon("play", 16)} Start diagnostic</button>
+      </div>
+    </div>`;
+  app.querySelector("#go").addEventListener("click", () => {
+    app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"])}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), items, { title: "Diagnostic", mode: "diagnostic", courseId: course.id, showSource: true });
+  });
+}
+
+function renderDiagnosticReport(body, results, opts) {
+  const courseId = opts.courseId;
+  const course = courseById[courseId];
+  const right = results.filter((r) => r.ok).length;
+  store.data.diag[courseId] = { t: Date.now(), right, total: results.length };
+  store.save();
+  const byConcept = new Map();
+  results.forEach((r) => {
+    const key = Engine.conceptKey(r.courseId, r.unitIdx, r.q.concept);
+    const e = byConcept.get(key) || { key, r, ok: 0, n: 0 };
+    e.n++; if (r.ok) e.ok++;
+    byConcept.set(key, e);
+  });
+  const tested = [...byConcept.values()];
+  const strong = tested.filter((e) => e.ok === e.n);
+  const weak = tested.filter((e) => e.ok < e.n);
+  const allConcepts = Engine.concepts(courseId);
+  const untested = allConcepts.filter((c) => !byConcept.has(c.key)).length;
+  const title = (e) => window.AP_CONTENT[e.r.courseId].units[e.r.unitIdx].concepts[e.r.q.concept].title;
+  const misses = results.filter((r) => !r.ok);
+
+  body.innerHTML = `
+    <div class="quiz">
+      <div class="card results diag-report">
+        <div class="overline">Diagnostic report</div>
+        <div class="results-score">${ring(Math.round((right / results.length) * 100), 120, 10)}
+          <div><div class="score-big">${right}<span>/${results.length}</span></div>
+          <p>We tested ${tested.length} of ${allConcepts.length} concepts. Smart practice will cover the other ${untested}.</p></div></div>
+
+        <div class="diag-cols">
+          <div class="diag-col bad"><h3>${icon("target", 16)} Needs practice <span>${weak.length}</span></h3>
+            ${weak.length ? weak.map((e) => `<a href="#/practice/concept/${e.r.courseId}/${e.r.unitIdx}/${e.r.q.concept}"><b>${esc(title(e))}</b><span>Unit ${e.r.unitIdx + 1}</span></a>`).join("") : `<p class="muted small">Nothing! Great start.</p>`}
+          </div>
+          <div class="diag-col good"><h3>${icon("check", 16)} Looking strong <span>${strong.length}</span></h3>
+            ${strong.length ? strong.map((e) => `<a href="#/course/${e.r.courseId}/unit/${e.r.unitIdx + 1}"><b>${esc(title(e))}</b><span>Unit ${e.r.unitIdx + 1}</span></a>`).join("") : `<p class="muted small">We'll build these up together.</p>`}
+          </div>
+        </div>
+
+        ${weak.length ? `<button class="btn btn-primary btn-lg btn-block" id="fix">${icon("zap", 16)} Fix my ${weak.length} weak concept${weak.length === 1 ? "" : "s"} now</button>` : `<a class="btn btn-primary btn-lg btn-block" href="#/course/${courseId}/smart">${icon("zap", 16)} Continue with smart practice</a>`}
+
+        ${misses.length ? `
+          <h3 class="card-title left" style="margin-top:28px">${icon("rotate", 16)} What you missed, and why</h3>
+          <div class="miss-list">${misses.map((r) => missCard(r, r.pickedOrig)).join("")}</div>` : ""}
+      </div>
+    </div>`;
+  body.querySelector("#fix")?.addEventListener("click", () => {
+    pendingFocus = weak.map((e) => e.key);
+    location.hash = `#/course/${courseId}/smart`;
+  });
+}
+
+// A compact "mistake as a lesson" card: your answer, the correct one, why yours was tempting, the concept.
+function missCard(r, pickedOrig, actions = "") {
+  const q = r.q;
+  const c = window.AP_CONTENT[r.courseId].units[r.unitIdx].concepts[q.concept];
+  const s = Engine.state(Engine.conceptKey(r.courseId, r.unitIdx, q.concept));
+  return `
+    <div class="miss" style="${catVars(courseById[r.courseId].cat)}">
+      <div class="miss-q">${fmt(q.q)}</div>
+      <div class="fb-grid">
+        ${pickedOrig != null ? `<div><span class="fb-label bad">Your answer</span><div>${fmt(q.choices[pickedOrig])}</div></div>` : ""}
+        <div><span class="fb-label good">Correct</span><div>${fmt(q.choices[q.answer])}</div></div>
+      </div>
+      ${pickedOrig != null && q.why && q.why[pickedOrig] ? `<div class="fb-why"><span class="fb-label">Why you might have picked it</span><p>${fmt(q.why[pickedOrig])}</p></div>` : ""}
+      <div class="fb-why"><span class="fb-label">Explanation</span><p>${fmt(q.explain)}</p></div>
+      <div class="miss-foot">
+        <span class="concept-tag">${icon("target", 14)} ${esc(c.title)} ${chip(s)}</span>
+        <div class="btn-row">${actions || `<a class="btn btn-sm" href="#/practice/concept/${r.courseId}/${r.unitIdx}/${q.concept}">${icon("play", 14)} Practice 5 similar</a>`}</div>
+      </div>
+    </div>`;
+}
+
+/* ================= Smart practice & concept practice ================= */
+
+function renderSmart(courseIds, title, course) {
+  document.title = `${title} | AP Prep Hub`;
+  const focus = pendingFocus; pendingFocus = [];
+  const items = Engine.smartSession(courseIds, 10, focus);
+  const cat = course ? course.cat : "Math & Computer Science";
+  const back = course ? [course.name, `#/course/${course.id}`] : ["Progress", "#/dashboard"];
+  const due = Engine.due(courseIds).length;
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(cat)}">
+      ${crumbs(["Courses", "#/"], back, [course ? "Smart practice" : title])}
+      <div class="session-head">
+        <div class="cat-icon lg">${icon("zap", 26)}</div>
+        <div><h1>${esc(course ? "Smart practice" : title)}</h1>
+        <p class="muted">${focus.length ? `Starting with the ${focus.length} weak concept${focus.length === 1 ? "" : "s"} from your diagnostic.` : due ? `${due} concept${due === 1 ? "" : "s"} due for review come first, then your weakest, then new ones.` : "Picked for you: your weakest concepts first, then new ones."}
+        Miss one and we'll fix it on the spot.</p></div>
+      </div>
+      <div id="quiz-body"></div>
+    </div>`;
+  runSession(document.getElementById("quiz-body"), items, {
+    title: course ? "Smart practice" : title, mode: "smart", showSource: true,
+    onRestart: () => renderSmart(courseIds, title, course),
+  });
+}
+
+function renderConceptPractice(courseId, unitIdx, conceptIdx) {
+  const course = courseById[courseId];
+  const unit = window.AP_CONTENT[courseId]?.units?.[unitIdx];
+  const c = unit?.concepts?.[conceptIdx];
+  if (!c) { location.hash = `#/course/${courseId}`; return; }
+  document.title = `Practice: ${c.title} | AP Prep Hub`;
+  const s = Engine.state(Engine.conceptKey(courseId, unitIdx, conceptIdx));
+  const items = Engine.conceptItems(courseId, unitIdx, conceptIdx, 5);
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(course.cat)}">
+      ${crumbs(["Courses", "#/"], [course.name, `#/course/${courseId}`], [`Unit ${unitIdx + 1}`, `#/course/${courseId}/unit/${unitIdx + 1}`], ["Concept practice"])}
+      <div class="session-head">
+        <div class="cat-icon lg">${icon("target", 26)}</div>
+        <div class="grow"><div class="overline">Concept practice · Unit ${unitIdx + 1}</div><h1>${esc(c.title)}</h1>
+        <p class="muted">${items.length} questions on just this concept. ${chip(s)} ${s.n ? `${pctOf(s.m)}% mastery now.` : ""}</p></div>
+      </div>
+      <details class="card refresher-card"><summary>${icon("book", 16)} Quick refresher before you start</summary><p>${fmt(c.simple)}</p>${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}</details>
+      <div id="quiz-body"></div>
+    </div>`;
+  runSession(document.getElementById("quiz-body"), items, {
+    title: `${c.title} practice`, mode: "concept", adaptive: false,
+    onRestart: () => renderConceptPractice(courseId, unitIdx, conceptIdx),
+  });
+}
 
 /* ================= Mixed quiz setup ================= */
 
@@ -909,18 +1248,18 @@ async function renderQuizSetup(course) {
   if (!content) { location.hash = `#/course/${course.id}`; return; }
   document.title = `Mixed quiz | ${course.name}`;
   const pace = mcqPace(course);
-  const allQs = content.units.flatMap((u, ui) => u.questions.map((q, qi) => ({ courseId: course.id, unitIdx: ui, qIdx: qi, q })));
+  const allQs = content.units.flatMap((u, ui) => u.questions.map((_, qi) => Engine.item(course.id, ui, qi)));
   const sel = { units: new Set(content.units.map((_, i) => i)), count: 10, timed: false };
-  const crumbs = `<nav class="crumbs"><a href="#/">Courses</a> ${icon("arrowR", 12)} <a href="#/course/${course.id}">${esc(course.name)}</a> ${icon("arrowR", 12)} <span>Mixed quiz</span></nav>`;
+  const crumb = crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Mixed quiz"]);
 
   const draw = () => {
     const pool = allQs.filter((x) => sel.units.has(x.unitIdx));
     const n = sel.count === "All" ? pool.length : Math.min(sel.count, pool.length);
     app.innerHTML = `
       <div class="page narrow" style="${catVars(course.cat)}">
-        ${crumbs}
-        <div class="page-head"><div class="cat-icon lg">${icon("shuffle", 26)}</div><div><h1>Mixed practice quiz</h1>
-        <p class="muted">Questions are shuffled across the units you pick, the way the real exam mixes topics.</p></div></div>
+        ${crumb}
+        <div class="session-head"><div class="cat-icon lg">${icon("shuffle", 26)}</div><div><h1>Mixed practice quiz</h1>
+        <p class="muted">Questions are shuffled across the units you pick, the way the real exam mixes topics. Turn on the timer to practice at exam pace.</p></div></div>
         <div class="card setup">
           <div class="setup-sec">
             <div class="setup-label">Units</div>
@@ -953,9 +1292,9 @@ async function renderQuizSetup(course) {
     app.querySelector("#timed").addEventListener("change", (e) => { sel.timed = e.target.checked; });
     app.querySelector("#go").addEventListener("click", () => {
       const picked = shuffle(pool).slice(0, n);
-      app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumbs}<div id="quiz-body"></div></div>`;
-      runQuiz(document.getElementById("quiz-body"), picked, {
-        title: "Mixed quiz", pace: sel.timed ? pace : null, showSource: true,
+      app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumb}<div id="quiz-body"></div></div>`;
+      runSession(document.getElementById("quiz-body"), picked, {
+        title: "Mixed quiz", mode: "quiz", pace: sel.timed ? pace : null, adaptive: !sel.timed, showSource: true,
         onRestart: () => renderQuizSetup(course),
       });
     });
@@ -963,145 +1302,190 @@ async function renderQuizSetup(course) {
   draw();
 }
 
-/* ================= Mistake review ================= */
 
-async function reviewItems() {
-  const list = mistakes();
-  await Promise.all([...new Set(list.map((m) => m.courseId))].filter((id) => courseById[id]).map(loadContent));
-  return list
-    .filter((m) => window.AP_CONTENT[m.courseId]?.units[m.unitIdx]?.questions[m.qIdx])
-    .map((m) => ({ ...m, q: window.AP_CONTENT[m.courseId].units[m.unitIdx].questions[m.qIdx] }));
-}
+/* ================= Mistakes: every wrong answer becomes a lesson ================= */
 
-async function renderReview() {
+function renderReview() {
   document.title = "My mistakes | AP Prep Hub";
-  const items = await reviewItems();
+  const lastTime = {};
+  store.data.hist.forEach((h) => { lastTime[h.k] = h.t; });
+  const list = mistakes()
+    .map((m) => ({ ...m, ...Engine.item(m.courseId, m.unitIdx, m.qIdx), t: lastTime[m.key] || 0 }))
+    .sort((a, b) => b.t - a.t);
 
-  if (!items.length) {
+  if (!list.length) {
     app.innerHTML = `
       <div class="page narrow">
-        <div class="page-head"><div class="cat-icon lg">${icon("rotate", 26)}</div><div><h1>My mistakes</h1><p class="muted">Questions you miss land here until you get them right.</p></div></div>
+        <div class="page-head"><div class="cat-icon lg">${icon("rotate", 26)}</div><div><h1>My mistakes</h1><p class="muted">Every wrong answer becomes a mini-lesson here.</p></div></div>
         <div class="card empty">
           <div class="empty-ico good">${icon("check", 28)}</div>
-          <h3>Nothing to review right now</h3>
-          <p class="muted">Any question you answer incorrectly shows up here, so you can retry it until it sticks.
-          Answer it correctly and it leaves this list.</p>
-          <a class="btn btn-primary" href="#/">Browse courses</a>
+          <h3>No open mistakes</h3>
+          <p class="muted">When you miss a question, it shows up here with your answer, the correct one, the misconception
+          behind your choice, and targeted practice to fix it. Get it right and it leaves this list.</p>
+          <a class="btn btn-primary" href="#/">Start practicing</a>
         </div>
       </div>`;
     return;
   }
 
   const byCourse = {};
-  items.forEach((it) => { (byCourse[it.courseId] = byCourse[it.courseId] || []).push(it); });
+  list.forEach((it) => { (byCourse[it.courseId] = byCourse[it.courseId] || []).push(it); });
+  const week = Engine.weekStats();
   app.innerHTML = `
     <div class="page narrow">
       <div class="page-head">
         <div class="cat-icon lg">${icon("rotate", 26)}</div>
-        <div class="grow"><h1>My mistakes</h1><p class="muted">${items.length} question${items.length === 1 ? "" : "s"} to retry. Answer one correctly and it leaves this list.</p></div>
+        <div class="grow"><h1>My mistakes</h1><p class="muted">${list.length} open · ${week.mistakes} this week. Understand why, then prove it: answer correctly and it leaves this list.</p></div>
         <button class="btn btn-primary btn-lg" id="retry-all">${icon("play", 16)} Retry all</button>
       </div>
       ${Object.entries(byCourse).map(([cid, its]) => {
         const c = courseById[cid];
         return `
-        <div class="card review-course" style="${catVars(c.cat)}">
+        <section class="review-course" style="${catVars(c.cat)}">
           <div class="review-head">
             <div class="cat-icon">${catIcon(c.cat)}</div>
-            <h3 class="grow">${esc(c.name)}</h3>
+            <h2 class="grow">${esc(c.name)}</h2>
             <button class="btn" data-retry="${cid}">Retry ${its.length}</button>
           </div>
-          <ul class="review-list">
-            ${its.map((it) => `<li><span class="pill">Unit ${it.unitIdx + 1}</span> ${esc(it.q.q.split("\n")[0])}</li>`).join("")}
-          </ul>
-        </div>`;
+          <div class="miss-list">${its.map((it) => missCard(it, it.picked)).join("")}</div>
+        </section>`;
       }).join("")}
     </div>
   `;
   const start = (subset) => {
-    app.innerHTML = `<div class="page narrow"><nav class="crumbs"><a href="#/review">My mistakes</a> ${icon("arrowR", 12)} <span>Retry</span></nav><div id="quiz-body"></div></div>`;
-    runQuiz(document.getElementById("quiz-body"), shuffle(subset), { title: "Mistake review", showSource: true, onRestart: renderReview });
+    app.innerHTML = `<div class="page narrow">${crumbs(["My mistakes", "#/review"], ["Retry"])}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), shuffle(subset.map((m) => Engine.item(m.courseId, m.unitIdx, m.qIdx))), { title: "Mistake review", mode: "review", showSource: true, onRestart: renderReview });
   };
-  app.querySelector("#retry-all").addEventListener("click", () => start(items));
+  app.querySelector("#retry-all").addEventListener("click", () => start(list));
   app.querySelectorAll("[data-retry]").forEach((b) => b.addEventListener("click", () => start(byCourse[b.dataset.retry])));
 }
 
-/* ================= Dashboard ================= */
+/* ================= Dashboard: progress that means something ================= */
 
-async function renderDashboard() {
+function renderDashboard() {
   document.title = "My progress | AP Prep Hub";
-  await loadAllGuides();
-  const guides = COURSES.filter((c) => c.guide);
-  const answered = Object.keys(store.data.q).length;
-  const correct = Object.values(store.data.q).filter((r) => r.c).length;
-  const known = Object.keys(store.data.known).length;
-  const days = streak();
-  const wrong = mistakes().length;
-
-  const active = guides.filter((c) => { const s = courseStats(c.id); return (s && (s.tried || s.known)) || store.data.mine.includes(c.id); });
-
-  // Weakest units: tried units with the lowest accuracy, then untouched units in My courses.
-  const recs = [];
-  guides.forEach((c) => {
-    const content = window.AP_CONTENT[c.id];
-    if (!content || content.extends) return;
-    content.units.forEach((u, i) => {
-      const m = unitMastery(c.id, i, u);
-      if (m.tried && m.pct < 100) recs.push({ c, i, u, m, score: m.right / Math.max(1, m.tried) });
-    });
-  });
-  recs.sort((a, b) => a.score - b.score);
-  store.data.mine.forEach((id) => {
-    const c = courseById[id]; const content = c && c.guide && window.AP_CONTENT[id];
-    if (!content) return;
-    const i = content.units.findIndex((u, k) => unitMastery(id, k, u).tried === 0);
-    if (i >= 0) recs.push({ c, i, u: content.units[i], m: null, score: 2 });
-  });
+  const active = GUIDE_IDS.filter((id) => Engine.concepts(id).some((c) => c.s.n) || store.data.mine.includes(id));
+  const week = Engine.weekStats();
+  const all = active.flatMap((id) => Engine.concepts(id));
+  const strong = all.filter((c) => Engine.status(c.s).id === "strong").length;
+  const tried = all.filter((c) => c.s.n).length;
+  const weakest = Engine.weakest(active, 5);
+  const due = Engine.due(active);
+  const rec = active.length ? Engine.recommend(active) : null;
+  const open = mistakes().length;
 
   app.innerHTML = `
     <div class="page">
-      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Everything here is saved only in this browser.</p></div></div>
+      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Mastery is tracked per concept. Saved only in this browser.</p></div>
+        <div class="btn-row"><button class="btn btn-ghost" id="export">${icon("download", 16)} Back up</button><label class="btn btn-ghost">${icon("upload", 16)} Restore<input type="file" id="import" accept="application/json" hidden></label></div></div>
+
+      ${rec ? `
+        <a class="card next-best" href="${recHref(rec)}">
+          <div class="nb-ico">${icon("zap", 22)}</div>
+          <div class="grow"><div class="overline">Your next best step</div><h2>${esc(rec.title)}</h2><p class="muted">${esc(rec.reason)}</p></div>
+          <span class="btn btn-primary btn-lg">Start ${icon("arrowR", 16)}</span>
+        </a>` : ""}
+
       <div class="stat-grid">
-        <div class="card stat"><div class="stat-ico flame">${icon("flame", 20)}</div><b>${days}</b><span>day study streak</span></div>
-        <div class="card stat"><div class="stat-ico">${icon("check", 20)}</div><b>${answered}</b><span>questions answered</span></div>
-        <div class="card stat"><div class="stat-ico">${icon("target", 20)}</div><b>${answered ? Math.round((correct / answered) * 100) : 0}%</b><span>latest-attempt accuracy</span></div>
-        <div class="card stat"><div class="stat-ico">${icon("cards", 20)}</div><b>${known}</b><span>flashcards known</span></div>
+        <div class="card stat"><div class="stat-ico flame">${icon("flame", 20)}</div><b>${streak()}</b><span>day study streak</span></div>
+        <div class="card stat"><div class="stat-ico">${icon("check", 20)}</div><b>${week.answered}</b><span>questions this week${week.answered ? ` · ${Math.round((week.correct / week.answered) * 100)}% right` : ""}</span></div>
+        <div class="card stat"><div class="stat-ico bad">${icon("rotate", 20)}</div><b>${week.mistakes}</b><span>mistakes this week · ${open} still open</span></div>
+        <div class="card stat"><div class="stat-ico good">${icon("target", 20)}</div><b>${strong}<small>/${tried || 0}</small></b><span>concepts strong (of those started)</span></div>
       </div>
 
+      ${active.length ? `
       <div class="dash-grid">
         <div>
-          <div class="section-head"><h2>Course progress</h2></div>
-          ${active.length ? `<div class="card dash-courses">${active.map((c) => {
-            const s = courseStats(c.id);
-            return `<a class="dash-course" href="#/course/${c.id}" style="${catVars(c.cat)}">
-              <div class="cat-icon">${catIcon(c.cat)}</div>
-              <div class="grow"><b>${esc(c.name)}</b><div class="muted small">${s.right}/${s.total} questions · ${s.known}/${s.cards} flashcards</div>${bar(s.pct)}</div>
-              <span class="pct">${s.pct}%</span></a>`;
-          }).join("")}</div>` : `
-            <div class="card empty"><div class="empty-ico">${icon("book", 26)}</div><h3>No progress yet</h3>
-            <p class="muted">Open a study guide and try some practice questions. Your progress will show up here.</p>
-            <a class="btn btn-primary" href="#/">Pick a course</a></div>`}
+          <div class="section-head"><h2>Mastery by concept</h2><div class="legend inline"><span><i class="dot dot-strong"></i>Strong</span><span><i class="dot dot-learning"></i>Getting there</span><span><i class="dot dot-weak"></i>Needs practice</span><span><i class="dot dot-new"></i>Not started</span></div></div>
+          ${active.map((id) => {
+            const c = courseById[id];
+            const m = Engine.courseMastery(id);
+            const units = window.AP_CONTENT[id].units;
+            return `
+            <details class="card dash-course-card" style="${catVars(c.cat)}" ${active.length <= 2 ? "open" : ""}>
+              <summary>
+                <div class="cat-icon">${catIcon(c.cat)}</div>
+                <div class="grow"><b>${esc(c.name)}</b><div class="muted small">${m.strong}/${m.total} strong · ${m.weak} need practice · ${m.due} due</div>${bar(m.pct)}</div>
+                <span class="pct">${m.pct}%</span>
+              </summary>
+              <div class="unit-mastery">
+                ${units.map((u, ui) => {
+                  const um = Engine.unitMastery(id, ui);
+                  return `<div class="um-row">
+                    <a class="um-title" href="#/course/${id}/unit/${ui + 1}"><span>Unit ${ui + 1}: ${esc(u.title)}</span><b>${um.tried ? `${um.pct}%` : "–"}</b></a>
+                    <div class="um-concepts">${u.concepts.map((cc, ci) => {
+                      const s = Engine.state(Engine.conceptKey(id, ui, ci));
+                      return `<a class="cchip cchip-${Engine.status(s).id}" href="#/practice/concept/${id}/${ui}/${ci}" title="${Engine.status(s).label}${s.n ? ` · ${pctOf(s.m)}%` : ""}">${esc(cc.title)}</a>`;
+                    }).join("")}</div>
+                  </div>`;
+                }).join("")}
+                <div class="btn-row"><a class="btn btn-sm btn-primary" href="#/course/${id}/smart">${icon("zap", 14)} Smart practice</a><a class="btn btn-sm" href="#/course/${id}/diagnostic">${icon("stethoscope", 14)} Diagnostic</a></div>
+              </div>
+            </details>`;
+          }).join("")}
         </div>
         <div>
-          <div class="section-head"><h2>Study next</h2></div>
+          <div class="section-head"><h2>Weakest concepts</h2></div>
           <div class="card">
-            ${recs.length ? `<div class="rec-list">${recs.slice(0, 5).map((r) => `
-              <a class="rec" href="#/course/${r.c.id}/unit/${r.i + 1}/${r.m ? "learn" : "learn"}" style="${catVars(r.c.cat)}">
-                <div class="cat-icon sm">${catIcon(r.c.cat, 16)}</div>
-                <div class="grow"><b>Unit ${r.i + 1}: ${esc(r.u.title)}</b><div class="muted small">${esc(r.c.name)} · ${r.m ? `${r.m.right}/${r.m.tried} right so far` : "Not started"}</div></div>
-                ${icon("arrowR", 16)}
-              </a>`).join("")}</div>` : `<p class="muted">Answer some practice questions and we'll point out your weakest units here.</p>`}
-            ${wrong ? `<a class="btn btn-block" href="#/review">${icon("rotate", 16)} Retry ${wrong} missed question${wrong === 1 ? "" : "s"}</a>` : ""}
+            ${weakest.length ? `<div class="rec-list">${weakest.map((w, k) => `
+              <a class="rec" href="#/practice/concept/${w.courseId}/${w.unitIdx}/${w.conceptIdx}" style="${catVars(courseById[w.courseId].cat)}">
+                <div class="rank">${k + 1}</div>
+                <div class="grow"><b>${esc(w.title)}</b><div class="muted small">${esc(courseById[w.courseId].name)} · Unit ${w.unitIdx + 1} · ${w.s.ok}/${w.s.n} right</div>${bar(pctOf(w.s.m), "bad")}</div>
+                <span class="btn btn-sm">Practice</span>
+              </a>`).join("")}</div>` : `<p class="muted small">No weak concepts yet. Take a diagnostic to find them.</p>`}
+          </div>
+
+          <div class="section-head"><h2>Review schedule</h2></div>
+          <div class="card">
+            ${due.length ? `<p><b>${due.length}</b> concept${due.length === 1 ? " is" : "s are"} due today.</p>
+              <ul class="due-list">${due.slice(0, 6).map((d) => `<li>${esc(d.title)} <span class="muted small">· ${esc(courseById[d.courseId].name)}</span></li>`).join("")}</ul>
+              <a class="btn btn-primary btn-block" href="#/practice/review">${icon("calendar", 16)} Start today's review</a>`
+              : `<p class="muted small">Nothing due today. Concepts come back after 1, 3, 7, 14 and 30 days of correct answers, right before you'd forget them.</p>`}
+            ${open ? `<a class="btn btn-block" href="#/review" style="margin-top:10px">${icon("rotate", 16)} Learn from ${open} mistake${open === 1 ? "" : "s"}</a>` : ""}
           </div>
           <button class="btn btn-ghost btn-block danger" id="reset">Reset all progress</button>
         </div>
-      </div>
+      </div>` : `
+        <div class="card empty">
+          <div class="empty-ico">${icon("stethoscope", 26)}</div>
+          <h3>Let's find out what you know</h3>
+          <p class="muted">Take a 5-minute diagnostic in any course. Your concept-by-concept mastery, weakest concepts and review schedule will show up here.</p>
+          <a class="btn btn-primary" href="#/">Pick a course</a>
+        </div>`}
     </div>`;
-  app.querySelector("#reset").addEventListener("click", () => {
+
+  app.querySelector("#reset")?.addEventListener("click", () => {
     if (!confirm("Erase all progress, flashcards, saved answers and My courses in this browser? This can't be undone.")) return;
-    Object.assign(store.data, { q: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
+    Object.keys(store.data).forEach((k) => delete store.data[k]);
+    Object.assign(store.data, EMPTY());
     store.save();
     toast("Progress reset");
     renderDashboard();
+  });
+  app.querySelector("#export").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(store.data)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `ap-prep-progress-${today()}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast(`${icon("download", 14)} Progress downloaded`);
+  });
+  app.querySelector("#import").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (!data || typeof data.q !== "object" || typeof data.cs !== "object") throw new Error("not a progress file");
+      if (!confirm("Replace your current progress with this backup?")) return;
+      Object.keys(store.data).forEach((k) => delete store.data[k]);
+      Object.assign(store.data, EMPTY(), data);
+      store.save();
+      toast(`${icon("check", 14)} Progress restored`);
+      renderDashboard();
+    } catch (err) {
+      toast(`That file isn't a valid progress backup.`);
+    }
   });
 }
 
@@ -1217,14 +1601,11 @@ document.addEventListener("keydown", (e) => {
   });
 })();
 
+
 /* ================= Boot ================= */
 
 document.querySelectorAll("[data-icon]").forEach((el) => { el.innerHTML = icon(el.dataset.icon, +el.dataset.size || 18); });
-// Preload guides so home-page cards and search can use them.
-loadAllGuides().then(() => {
-  const onHome = !location.hash || location.hash === "#/" || location.hash === "#";
-  if (onHome && !homeState.query && document.activeElement?.id !== "search") renderHome();
-});
-window.addEventListener("hashchange", route);
-updateMistakeCount();
+window.addEventListener("hashchange", () => { if (location.hash !== "#start") route(); });
+loadAllGuides().then(() => { Engine.migrate(); updateMistakeCount(); });
 route();
+

@@ -1,41 +1,52 @@
 # AP Prep Hub 📘
 
-A free study site for **every AP exam**, built by our school's **Vibe Coding Club**.
-Each course is broken into its official units, and each unit comes with a plain-English
-summary, flashcards, practice questions that explain every answer, and free-response
-practice with a scoring guide.
+**Stop rereading. Find what you actually don't know.**
+
+A free, adaptive AP learning system built by our school's **Vibe Coding Club**. Instead of an AP
+textbook on a website, it works like a personal coach: it diagnoses which concepts you're weak at,
+explains *why* you're getting them wrong, drills exactly those concepts, and brings each one back
+right before you'd forget it.
 
 **[Live demo →](https://xcodevoid.github.io/Crack-AP/)**
 
+## The learning loop
+
+```
+5-minute diagnostic → weak concepts pinpointed → question → answer → why you picked it
+      ↑                                                            │
+      │                                           wrong? → "Weak concept detected"
+      │                                                  → 30-second refresher
+      │                                                  → 3 targeted questions
+      │                                                  → "Recovered" or "Still shaky"
+      └──────── spaced review after 1, 3, 7, 14, 30 days ◄────────┘
+```
+
 ## Features
 
-- 🗂️ **All 42 AP courses (2026-27)**: exam format and weighting, what's changing for May 2027,
-  and links to each official Course and Exam Description (CED). Courses are color-coded by subject.
-- 🔎 **Instant search**: press `/` or `Ctrl K` to jump to any course, unit or key term.
-- 💡 **Plain English first**: every concept opens with a simple explanation. Students can
-  open "Go deeper" for exam-level detail, plus worked examples and memory hooks.
-- 🃏 **Flashcards**: flip through key terms (Space to flip, arrow keys to move), mark the
-  ones you know, shuffle, or drill only the cards you still don't know.
-- ✅ **Practice questions**: instant feedback with an explanation for every question. Answer
-  choices are shuffled on each attempt, so students learn the content instead of letter positions.
-- ✍️ **Free-response practice**: write an answer, then self-score it against a point-by-point
-  scoring guide. Answers are saved automatically.
-- ⏱️ **Mixed quizzes**: shuffle questions across chosen units, with an optional timer set to
-  the real exam's multiple-choice pace.
-- 📈 **Progress dashboard**: study streak, accuracy, flashcards known, per-course mastery, and a
-  "Study next" list of your weakest units.
-- 🔁 **My mistakes**: every missed question goes into a review list until you answer it correctly.
-- ▶️ **Continue where you left off** from the home page, plus a "My courses" shelf.
-- 🌙 Light/dark theme, mobile-friendly, keyboard shortcuts, accessible focus states.
-- 🔒 **Local-first**: no accounts, no backend, no tracking. Progress is saved in `localStorage`.
-- 📄 **One file**: the whole site builds into a single self-contained `index.html` that works
-  on any web host, or opened straight from your computer.
+- 🩺 **5-minute diagnostic**: 12 questions across every unit, and a report of your strong and weak *concepts*
+  (not just units), with an explanation for everything you missed.
+- 🎯 **Concept-level mastery**: every question is tagged to a concept. Each concept has a mastery score
+  and a status: Not started, Needs practice, Getting there, or Strong.
+- 🧠 **Mistakes that teach**: every wrong answer shows your answer, the correct one, *why your choice was
+  tempting* (768 hand-written misconception notes), the concept, and "Practice 5 similar."
+- ⚡ **Smart practice**: due reviews first, then your weakest concepts, then new ones. Miss a question and
+  it detects the weak concept, gives a refresher, and drills it on the spot.
+- 🗓️ **Spaced review**: concepts you get right come back after 1 → 3 → 7 → 14 → 30 days. Misses come
+  back in the next session.
+- 🃏 **Unlimited targeted questions**: besides 256 written questions, every flashcard term becomes a
+  generated question tied to its concept, so each concept always has enough to practice.
+- 📈 **Dashboard that means something**: weakest concepts, mistakes this week, concepts due today,
+  mastery for every concept in every unit, and one recommended next step.
+- 📖 **Study guides**: plain-English concepts with exam-level detail, flashcards, free-response
+  practice with scoring guides, common mistakes, and exam strategy for 9 courses.
+- 🗂️ **All 42 AP courses (2026-27)**: exam formats, 2027 changes, and official CED links.
+- 🔎 Search (`/` or `Ctrl K`), timed mixed quizzes, dark mode, mobile layout, keyboard shortcuts.
+- 🔒 **Local-first**: no accounts and no tracking. Progress lives in `localStorage`, with backup/restore
+  as a JSON file.
+- 📄 **One file**: the whole site builds into a single self-contained `index.html`.
 
-Full study guides are ready for **9 courses**: AP Calculus AB, AP Calculus BC, AP Physics 1,
-AP Chemistry, AP Biology, AP Microeconomics, AP Psychology, AP U.S. History and AP English
-Language (62 units, 256 practice questions, 62 free-response prompts). Every other course has
-its exam overview, its unit list where known, and official links. Its study guide is waiting
-for a contributor (see below).
+Adaptive courses: AP Calculus AB, Calculus BC, Physics 1, Chemistry, Biology, Microeconomics,
+Psychology, U.S. History, English Language.
 
 ## Running it locally
 
@@ -54,15 +65,35 @@ The deploy workflow also runs it automatically before publishing.
 ## Project structure
 
 ```
-index.html            GENERATED: the whole site in one file (don't edit by hand)
-build.py              inlines the files below into index.html
-src/index.html        page template (header, footer, @inline markers)
-src/style.css         design system: tokens, light/dark theme, components, responsive rules
-src/app.js            router + views: home, course, unit tabs, quiz, review, dashboard, search
-data/catalog.js       all 42 courses: exam format, weights, units, 2026-27 changes, CED links
-content/<id>.js       full study guide for one course
-research/             notes from researching the official College Board CEDs
+index.html                   GENERATED: the whole site in one file (don't edit by hand)
+build.py                     inlines everything below into index.html
+src/index.html               page template (header, footer, @inline markers)
+src/style.css                design system: tokens, light/dark theme, components
+src/engine.js                the learning engine: concept mastery, spaced review, diagnostic,
+                             smart-practice selection, flashcard-generated questions, analytics
+src/app.js                   views: home, course, unit tabs, session runner (the learning loop),
+                             diagnostic report, mistakes, dashboard, search
+data/catalog.js              all 42 courses: exam format, weights, units, 2026-27 changes, CED links
+content/<id>.js              study guide for one course (concepts, terms, questions, FRQs)
+content/diagnostics/<id>.js  concept tag + wrong-answer notes for every question in that guide
+research/                    notes from researching the official College Board CEDs
 ```
+
+### The data model
+
+Progress is stored per browser, shaped so it can later sync to a backend with accounts:
+
+```
+learner
+ ├── cs[course|unit|concept]   mastery 0–1, attempts, streak, next review date
+ ├── q[course|unit|question]   latest result + the choice picked
+ ├── hist[]                    every answer with a timestamp
+ ├── diag[course]              last diagnostic score
+ └── known, frq, mine, days    flashcards, free responses, my courses, study streak
+```
+
+Mastery update (rules-based): a first answer sets mastery to 60% if right or 15% if wrong. After that,
+a right answer closes 35% of the gap to 100%, and a wrong answer halves mastery.
 
 ## Adding a study guide (great club project!)
 
@@ -94,13 +125,15 @@ window.AP_CONTENT["chemistry"] = {
 };
 ```
 
-3. Set `guide: true` on that course in `data/catalog.js`.
+3. Create `content/diagnostics/<id>.js`, tagging every question with its concept index and adding a
+   "why a student might pick this" note for each wrong choice (see `content/diagnostics/biology.js`).
+4. Set `guide: true` on that course in `data/catalog.js`.
    - A guide can build on another one: `content/calculus-bc.js` uses `extends: "calculus-ab"`
      to reuse AB's units, with BC exam `weights`, BC-only `patches` per unit, and extra `units`.
    - Units that aren't weighted by topic (like English Language's skills) can use
      `weightLabel` instead of `weight`.
-4. Run `python3 build.py` and open `index.html` to check your guide.
-5. Check facts against the official CED. Write **original** questions. Don't copy College
+5. Run `python3 build.py` and open `index.html` to check your guide.
+6. Check facts against the official CED. Write **original** questions. Don't copy College
    Board's released exam questions.
 
 ## Disclaimer
