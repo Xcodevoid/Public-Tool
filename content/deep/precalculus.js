@@ -72,7 +72,7 @@ window.AP_DEEP["precalculus"] = {
       detail: "f(x) = abˣ with b > 0, b ≠ 1: growth if b > 1, decay if 0 < b < 1. Horizontal asymptote y = 0 (shifted by vertical translations). Product property: bᵐbⁿ = bᵐ⁺ⁿ. A horizontal shift is equivalent to a vertical dilation: b^(x+k) = bᵏ·bˣ.",
       trap: "Exponential functions change by equal FACTORS (ratios), not equal differences. Check ratios in tables.",
       terms: [
-        ["Growth factor", "The base b in abˣ; the ratio between consecutive outputs."],
+        ["Exponential decay", "f(x) = abˣ with 0 < b < 1; outputs shrink by a constant factor."],
         ["Horizontal asymptote of an exponential", "A horizontal line the function approaches, y = 0 for abˣ."],
       ],
     },
@@ -124,7 +124,7 @@ window.AP_DEEP["precalculus"] = {
       detail: "For f(x) = a sin(b(x − c)) + d: amplitude a = (max − min)/2, midline d = (max + min)/2, period = 2π/b, and c shifts the graph horizontally. Cosine starts at a max, which is convenient when the data begins at a peak.",
       trap: "b is NOT the period. Period = 2π/b, so a 12-hour period means b = π/6.",
       terms: [
-        ["Midline", "The horizontal line halfway between the max and min, y = d."],
+        ["Amplitude from data", "(max − min)/2"],
         ["Frequency", "Number of cycles per unit, the reciprocal of the period."],
       ],
     },
