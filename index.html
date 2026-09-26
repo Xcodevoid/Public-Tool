@@ -7644,6 +7644,1033 @@ window.AP_TRAPS["world-history"] = {
 };
 
 </script>
+<script>/* content/deep/biology.js */
+// More key concepts for content/biology.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["biology"] = {
+  0: [
+    {
+      title: "Elements of life",
+      simple: "Living things are built mostly from carbon, hydrogen, oxygen, nitrogen, phosphorus and sulfur.",
+      detail: "Organisms take in these elements to build macromolecules. Carbon forms the backbone of organic molecules; nitrogen is in proteins and nucleic acids; phosphorus is in nucleic acids and phospholipids; sulfur is in some amino acids (cysteine, methionine). Carbohydrates and lipids contain C, H, O (phospholipids add P).",
+      hook: "CHNOPS: the six key elements of life.",
+      trap: "Know which elements identify which molecule: phosphorus → nucleic acids and phospholipids, sulfur → proteins. A classic radioactive-labeling question (Hershey-Chase) depends on it.",
+      terms: [
+        ["CHNOPS", "Carbon, hydrogen, nitrogen, oxygen, phosphorus, sulfur: the main elements of life."],
+        ["Organic molecule", "A carbon-based compound, usually with C–H bonds."],
+      ],
+    },
+    {
+      title: "Carbohydrates",
+      simple: "Carbohydrates store energy and build structures, and their linkage decides which.",
+      detail: "Monosaccharides (glucose) join by glycosidic linkages into disaccharides (sucrose) and polysaccharides. Starch (plants) and glycogen (animals) store energy with α-linkages. Cellulose (plant cell walls) and chitin (fungi, arthropods) are structural, with β-linkages that most animals can't digest.",
+      trap: "Starch and cellulose are BOTH glucose polymers. The difference is the linkage (α vs. β), which changes shape and function.",
+      terms: [
+        ["Glycosidic linkage", "Covalent bond joining two monosaccharides."],
+        ["Glycogen", "Highly branched glucose storage polysaccharide in animals."],
+        ["Cellulose", "Structural glucose polymer with β-linkages in plant cell walls."],
+      ],
+    },
+    {
+      title: "Lipids",
+      simple: "Lipids are hydrophobic molecules that store energy, build membranes, and act as signals.",
+      detail: "Triglycerides: glycerol + three fatty acids (ester linkages). Saturated fatty acids have no C=C double bonds and pack tightly (solid); unsaturated fats have kinks from double bonds (liquid). Phospholipids have a hydrophilic phosphate head and hydrophobic tails, forming bilayers. Steroids (cholesterol, hormones) have four fused rings.",
+      trap: "Lipids aren't true polymers: they're not built from repeating monomers the way carbohydrates, proteins and nucleic acids are.",
+      terms: [
+        ["Saturated fatty acid", "Fatty acid with no double bonds; straight chains pack tightly."],
+        ["Phospholipid", "Lipid with a hydrophilic head and two hydrophobic tails; forms membranes."],
+        ["Amphipathic", "Having both hydrophilic and hydrophobic regions."],
+      ],
+    },
+    {
+      title: "Amino acids and properties of R groups",
+      simple: "An amino acid's R group decides whether it's polar, nonpolar or charged, which shapes how a protein folds.",
+      detail: "Each amino acid has an amino group, a carboxyl group, and a variable R group. Nonpolar R groups cluster in the protein's interior, away from water; polar and charged ones face the watery outside. Peptide bonds join amino acids by dehydration synthesis. A protein has a directionality: N-terminus to C-terminus.",
+      trap: "Changing ONE amino acid can change folding and function if its R group has very different properties (sickle-cell hemoglobin: a charged amino acid replaced by a nonpolar one).",
+      terms: [
+        ["Peptide bond", "Covalent bond linking amino acids in a polypeptide."],
+        ["Nonpolar R group", "A hydrophobic side chain; these cluster in a protein's interior, away from water."],
+        ["N-terminus", "The amino end where a polypeptide chain begins."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Ribosomes and the endomembrane system",
+      simple: "Ribosomes make proteins, and the ER and Golgi process and ship them.",
+      detail: "All cells have ribosomes (rRNA + protein), evidence of common ancestry. Proteins made on rough ER ribosomes are folded and modified, then sent in vesicles to the Golgi for further modification and sorting, and then to the membrane, secretion, or lysosomes. Smooth ER makes lipids and detoxifies. Lysosomes digest with hydrolytic enzymes; vacuoles store water and materials.",
+      trap: "Trace the secretory pathway in order: rough ER → vesicle → Golgi → vesicle → plasma membrane (exocytosis). Order questions are common.",
+      terms: [
+        ["Rough ER", "ER studded with ribosomes; makes secreted and membrane proteins."],
+        ["Golgi complex", "Modifies, sorts and packages proteins for their destinations."],
+        ["Lysosome", "Membrane sac of hydrolytic enzymes that break down materials."],
+      ],
+    },
+    {
+      title: "Mitochondria and chloroplasts",
+      simple: "These energy organelles have folded membranes that increase surface area for making ATP.",
+      detail: "Mitochondria: the inner membrane folds into cristae, where the electron transport chain and ATP synthase sit; the matrix hosts the Krebs cycle. Chloroplasts: thylakoid membranes (stacked into grana) host the light reactions; the stroma hosts the Calvin cycle. Both have their own circular DNA, ribosomes, and double membranes, which supports endosymbiotic theory.",
+      trap: "Folding (cristae, thylakoids) increases SURFACE AREA for membrane-bound reactions. Link structure to function in every answer.",
+      terms: [
+        ["Cristae", "Folds of the inner mitochondrial membrane that increase surface area."],
+        ["Thylakoid", "Membrane sac in chloroplasts where the light reactions occur."],
+        ["Stroma", "Fluid inside the chloroplast where the Calvin cycle occurs."],
+      ],
+    },
+    {
+      title: "Membrane structure and permeability",
+      simple: "The membrane lets small nonpolar molecules through easily, but blocks ions and large polar molecules.",
+      detail: "The fluid mosaic model: a phospholipid bilayer with embedded proteins, cholesterol (regulates fluidity) and glycoproteins (cell recognition). Small nonpolar molecules (O₂, CO₂) diffuse freely. Water passes slowly through the bilayer and quickly through aquaporins. Ions and large polar molecules need channels or carriers. Plant cell walls (cellulose) and fungal walls (chitin) add structure.",
+      trap: "Selective permeability comes from the HYDROPHOBIC interior of the bilayer. Charged ions can't cross it without proteins, however small they are.",
+      terms: [
+        ["Aquaporin", "Channel protein that speeds water across membranes."],
+        ["Selective permeability", "A membrane lets some substances cross more easily than others."],
+        ["Glycoprotein", "Membrane protein with carbohydrate chains used in cell recognition."],
+      ],
+    },
+    {
+      title: "Bulk transport and cotransport",
+      simple: "Cells move large materials in vesicles and use one gradient to power moving another substance.",
+      detail: "Endocytosis (phagocytosis, pinocytosis, receptor-mediated) brings materials in; exocytosis releases them. The sodium-potassium pump uses ATP to move 3 Na⁺ out and 2 K⁺ in, creating a membrane potential. Cotransport uses the energy of one gradient (like H⁺ or Na⁺) to move another molecule (like sucrose or glucose) against its gradient.",
+      trap: "Cotransport is still active transport: it uses energy stored in a gradient that was built by ATP-powered pumps.",
+      terms: [
+        ["Endocytosis", "Taking in materials by engulfing them in membrane vesicles."],
+        ["Sodium-potassium pump", "ATP-powered pump moving 3 Na⁺ out and 2 K⁺ in."],
+        ["Cotransport", "Using one substance's gradient to move another against its gradient."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Environmental effects on enzymes",
+      simple: "Temperature, pH and inhibitors change how fast enzymes work.",
+      detail: "Rates rise with temperature until the optimum, then drop sharply as the enzyme denatures. Each enzyme has an optimal pH. Competitive inhibitors bind the active site (overcome by adding more substrate). Noncompetitive (allosteric) inhibitors bind elsewhere and change the enzyme's shape. Rates level off when all active sites are saturated.",
+      trap: "Adding more substrate overcomes COMPETITIVE inhibition, but not noncompetitive inhibition. Graph questions test exactly this.",
+      terms: [
+        ["Competitive inhibitor", "Binds the active site and competes with the substrate."],
+        ["Allosteric site", "A site other than the active site where a regulator binds."],
+        ["Optimal temperature", "The temperature at which an enzyme works fastest."],
+      ],
+    },
+    {
+      title: "Cellular energy and coupled reactions",
+      simple: "Cells use ATP to power reactions that wouldn't happen on their own.",
+      detail: "Exergonic reactions release free energy; endergonic reactions require it. Cells couple ATP hydrolysis (exergonic) to endergonic reactions. Metabolic pathways are sequences of enzyme-catalyzed steps, often regulated by feedback inhibition. Energy flows through organisms but must be constantly replenished, following the laws of thermodynamics.",
+      trap: "Enzymes lower activation energy, but they DON'T change ΔG or make an endergonic reaction exergonic. Coupling to ATP does that.",
+      terms: [
+        ["Exergonic reaction", "Reaction that releases free energy (negative ΔG)."],
+        ["Energy coupling", "Using an exergonic process to drive an endergonic one."],
+        ["Feedback inhibition", "A pathway's end product inhibits an earlier enzyme."],
+      ],
+    },
+    {
+      title: "The light reactions",
+      simple: "Light energy splits water, releases oxygen, and makes ATP and NADPH for the Calvin cycle.",
+      detail: "In the thylakoid membrane, photosystems II and I absorb light and excite electrons. Water is split (photolysis) to replace electrons, releasing O₂. Electrons pass along an electron transport chain, pumping H⁺ into the thylakoid space; ATP synthase uses the gradient to make ATP (chemiosmosis). NADP⁺ is reduced to NADPH.",
+      trap: "The O₂ released in photosynthesis comes from WATER, not from CO₂.",
+      terms: [
+        ["Photosystem", "Cluster of pigments and proteins that absorbs light energy."],
+        ["Photolysis", "Splitting of water in the light reactions, releasing O₂."],
+        ["NADPH", "Electron carrier made in the light reactions, used in the Calvin cycle."],
+      ],
+    },
+    {
+      title: "Stages of cellular respiration",
+      simple: "Glucose is broken down in stages, and most ATP comes from the electron transport chain at the end.",
+      detail: "Glycolysis (cytosol): glucose → 2 pyruvate, net 2 ATP, 2 NADH. Pyruvate oxidation and the Krebs cycle (mitochondrial matrix) release CO₂ and load NADH and FADH₂. The electron transport chain (inner membrane) passes electrons to O₂, pumping H⁺; ATP synthase makes most ATP by oxidative phosphorylation. Without O₂, the chain stops.",
+      trap: "CO₂ is released during pyruvate oxidation and the Krebs cycle, not at the electron transport chain. O₂ is used at the END of the chain.",
+      terms: [
+        ["Glycolysis", "Breakdown of glucose to pyruvate in the cytosol; net 2 ATP."],
+        ["Krebs cycle", "Cycle in the mitochondrial matrix producing NADH, FADH₂ and CO₂."],
+        ["Oxidative phosphorylation", "ATP production powered by the electron transport chain and chemiosmosis."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Types of cell communication",
+      simple: "Cells signal by direct contact, to nearby cells, or to distant cells through hormones.",
+      detail: "Direct contact: gap junctions (animals), plasmodesmata (plants), and cell-surface recognition (immune cells). Local signaling: paracrine signals and synaptic signaling (neurotransmitters). Long-distance: endocrine hormones in the blood. Quorum sensing lets bacteria coordinate behavior based on population density.",
+      trap: "Match the signal to its distance: synaptic and paracrine = local, endocrine = long distance. Don't call a neurotransmitter a hormone.",
+      terms: [
+        ["Paracrine signaling", "A cell releases signals that affect nearby cells."],
+        ["Endocrine signaling", "Hormones travel through the bloodstream to distant target cells."],
+        ["Quorum sensing", "Bacteria detect population density and coordinate gene expression."],
+      ],
+    },
+    {
+      title: "Receptors and responses",
+      simple: "Where a receptor sits depends on the signal: at the surface for polar signals, inside for nonpolar ones.",
+      detail: "Polar or large ligands (peptide hormones) bind membrane receptors: G protein–coupled receptors, receptor tyrosine kinases, and ligand-gated ion channels. Nonpolar ligands (steroid hormones) cross the membrane and bind intracellular receptors that act as transcription factors. The same signal can cause different responses in different cells, depending on their receptors and relay proteins.",
+      trap: "Steroid hormones (like testosterone) bind INSIDE the cell because they're lipid-soluble. Their effect is usually changed gene expression.",
+      terms: [
+        ["G protein–coupled receptor", "Membrane receptor that activates a G protein when a ligand binds."],
+        ["Ligand-gated ion channel", "Receptor that opens a channel when a ligand binds."],
+        ["Intracellular receptor", "Receptor inside the cell that binds lipid-soluble signals."],
+      ],
+    },
+    {
+      title: "Mitosis",
+      simple: "Mitosis divides duplicated chromosomes evenly into two identical nuclei.",
+      detail: "Interphase (G1, S, G2) takes most of the cycle; DNA replicates in S. Mitosis: prophase (chromosomes condense, spindle forms), metaphase (chromosomes line up at the middle), anaphase (sister chromatids separate), telophase (nuclei reform). Cytokinesis divides the cytoplasm: a cleavage furrow in animals, a cell plate in plants. Result: two genetically identical diploid cells.",
+      hook: "PMAT: Prophase, Metaphase, Anaphase, Telophase.",
+      trap: "After S phase, a cell has twice the DNA but the SAME number of chromosomes. Each chromosome now has two sister chromatids.",
+      terms: [
+        ["Sister chromatids", "Identical copies of a chromosome joined at the centromere."],
+        ["Anaphase", "Mitosis stage when sister chromatids separate to opposite poles."],
+        ["Cytokinesis", "Division of the cytoplasm after mitosis."],
+      ],
+    },
+    {
+      title: "Cell cycle checkpoints",
+      simple: "Checkpoints stop the cycle if something is wrong, such as damaged DNA or unattached chromosomes.",
+      detail: "The G1 checkpoint decides whether to divide or enter G0 (non-dividing). The G2 checkpoint checks DNA replication. The M checkpoint (spindle checkpoint) ensures all chromosomes are attached before anaphase. Growth factors and cyclin–CDK complexes drive progress; tumor suppressors (p53) halt the cycle for repair or trigger apoptosis.",
+      trap: "Proto-oncogenes are like an accelerator (mutation = stuck on); tumor suppressors are like brakes (mutation = brakes fail). Both can lead to cancer.",
+      terms: [
+        ["G0 phase", "Non-dividing state that cells enter from G1."],
+        ["p53", "Tumor-suppressor protein that halts the cycle when DNA is damaged."],
+        ["Proto-oncogene", "Normal gene promoting division; a mutated form (oncogene) can cause cancer."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Stages of meiosis",
+      simple: "Meiosis has two divisions: the first separates homologous pairs and the second separates sister chromatids.",
+      detail: "Meiosis I: homologous chromosomes pair (synapsis) and cross over in prophase I, line up as pairs in metaphase I, and separate in anaphase I, halving the chromosome number (diploid → haploid). Meiosis II resembles mitosis, separating sister chromatids. Result: four genetically different haploid gametes.",
+      trap: "The chromosome number is halved in meiosis I, not meiosis II. Meiosis II only separates sister chromatids.",
+      terms: [
+        ["Homologous chromosomes", "Pair of chromosomes, one from each parent, with the same genes."],
+        ["Synapsis", "Pairing of homologous chromosomes in prophase I."],
+        ["Haploid", "Having one set of chromosomes (n)."],
+      ],
+    },
+    {
+      title: "Errors in meiosis",
+      simple: "When chromosomes fail to separate properly, gametes get the wrong number of chromosomes.",
+      detail: "Nondisjunction in meiosis I or II produces gametes with an extra or missing chromosome (aneuploidy). Examples: trisomy 21 (Down syndrome), Turner syndrome (XO), Klinefelter syndrome (XXY). Karyotypes reveal chromosome number and large changes. Some changes (polyploidy) are common in plants and can create new species.",
+      trap: "Nondisjunction in meiosis I affects ALL four gametes; in meiosis II it affects only two.",
+      terms: [
+        ["Nondisjunction", "Failure of chromosomes to separate properly during meiosis."],
+        ["Aneuploidy", "Having an abnormal number of chromosomes."],
+        ["Karyotype", "Image of a cell's chromosomes arranged in pairs."],
+      ],
+    },
+    {
+      title: "Linked genes and mapping",
+      simple: "Genes close together on a chromosome tend to be inherited together unless crossing over separates them.",
+      detail: "Linked genes don't assort independently, so offspring ratios differ from Mendel's predictions. Recombination frequency = recombinant offspring ÷ total offspring. A 1% frequency = 1 map unit (centimorgan). The farther apart two genes are, the more often they recombine (up to 50%, which looks unlinked).",
+      trap: "If most offspring look like the PARENTS and few are recombinant, the genes are linked. A 9:3:3:1 ratio means they aren't.",
+      terms: [
+        ["Linked genes", "Genes near each other on the same chromosome, inherited together."],
+        ["Recombination frequency", "Percentage of recombinant offspring; used to map genes."],
+        ["Map unit", "1% recombination frequency between two genes."],
+      ],
+    },
+    {
+      title: "Environmental effects on phenotype",
+      simple: "The same genotype can produce different phenotypes in different environments.",
+      detail: "Phenotypic plasticity: hydrangea flower color depends on soil pH; Himalayan rabbit and Siamese cat fur is darker in cold body regions (temperature-sensitive enzyme); some reptiles' sex is set by incubation temperature. Human traits like height reflect genes and nutrition. Polygenic traits show continuous variation.",
+      trap: "Environment changes the PHENOTYPE, not the genotype. The rabbit's genes stay the same when its fur changes color.",
+      terms: [
+        ["Phenotypic plasticity", "One genotype producing different phenotypes in different environments."],
+        ["Polygenic inheritance", "A trait controlled by many genes, with continuous variation."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "DNA and RNA structure",
+      simple: "DNA stores information in a double helix, while RNA is single-stranded and has several jobs.",
+      detail: "DNA: deoxyribose sugar, bases A, T, G, C, double-stranded and antiparallel, with purines (A, G) pairing with pyrimidines (T, C). RNA: ribose sugar, uracil instead of thymine, usually single-stranded. Types: mRNA (message), tRNA (carries amino acids), rRNA (part of ribosomes). Prokaryotes have circular chromosomes and plasmids; eukaryotes have linear chromosomes.",
+      trap: "G–C pairs have three hydrogen bonds and A–T have two, so DNA richer in G–C needs more heat to separate.",
+      terms: [
+        ["Purine", "Double-ring base: adenine or guanine."],
+        ["Plasmid", "Small circular DNA in bacteria, separate from the chromosome."],
+        ["tRNA", "RNA that carries a specific amino acid and matches codons with its anticodon."],
+      ],
+    },
+    {
+      title: "Gene expression in prokaryotes vs. eukaryotes",
+      simple: "Bacteria transcribe and translate at the same time; eukaryotes process RNA in the nucleus first.",
+      detail: "Prokaryotes have no nucleus, so translation begins while transcription continues. Eukaryotic pre-mRNA gets a 5′ cap, a poly-A tail, and splicing (introns removed, exons joined). Alternative splicing lets one gene produce multiple proteins. Operons (lac, trp) regulate groups of prokaryotic genes together.",
+      trap: "The lac operon is INDUCIBLE (turned on when lactose is present); the trp operon is REPRESSIBLE (turned off when tryptophan is plentiful).",
+      terms: [
+        ["Alternative splicing", "Joining different combinations of exons to make different proteins from one gene."],
+        ["5′ cap", "Modified guanine added to the start of eukaryotic mRNA."],
+        ["Inducible operon", "Operon normally off, turned on by an inducer (e.g., lac)."],
+      ],
+    },
+    {
+      title: "Cell specialization and epigenetics",
+      simple: "All your cells have the same DNA, but they express different genes.",
+      detail: "Differentiation depends on which genes are expressed. Transcription factors, enhancers and silencers control expression. Epigenetic changes (DNA methylation silences genes; histone acetylation opens chromatin and activates them) can be inherited by daughter cells without changing the DNA sequence. Small RNAs (miRNA) can block translation.",
+      trap: "Muscle and nerve cells have the SAME genes. They differ in gene EXPRESSION, not in which genes they carry.",
+      terms: [
+        ["DNA methylation", "Adding methyl groups to DNA, usually silencing genes."],
+        ["Histone acetylation", "Loosens chromatin, making genes easier to transcribe."],
+        ["Enhancer", "DNA region that increases transcription when activators bind."],
+      ],
+    },
+    {
+      title: "Biotechnology",
+      simple: "Scientists can copy, cut, sort and move DNA to study and change genes.",
+      detail: "PCR amplifies DNA (denature, anneal primers, extend). Gel electrophoresis separates DNA fragments by size (smaller fragments travel farther toward the positive end, since DNA is negative). Restriction enzymes cut at specific sequences; DNA ligase joins fragments. Bacterial transformation inserts plasmids into bacteria. DNA sequencing reads the base order.",
+      trap: "In gel electrophoresis, SMALLER fragments travel farther. DNA moves toward the positive electrode because of its negatively charged phosphates.",
+      terms: [
+        ["PCR", "Polymerase chain reaction: makes many copies of a DNA segment."],
+        ["Gel electrophoresis", "Separates DNA fragments by size using an electric field."],
+        ["Transformation", "A cell takes up foreign DNA, such as a plasmid."],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "Natural vs. artificial selection and variation",
+      simple: "Selection needs variation, and humans can drive selection just like the environment.",
+      detail: "Artificial selection (dog breeds, crops) shows how selection changes populations. Variation comes from mutation, and in sexually reproducing organisms from crossing over, independent assortment, and random fertilization. Types of selection: directional (one extreme favored), stabilizing (average favored), disruptive (both extremes favored).",
+      trap: "Individuals don't evolve. POPULATIONS evolve as allele frequencies change over generations.",
+      terms: [
+        ["Artificial selection", "Humans breeding organisms for desired traits."],
+        ["Stabilizing selection", "Selection favoring the average phenotype."],
+        ["Disruptive selection", "Selection favoring both extremes over the middle."],
+      ],
+    },
+    {
+      title: "Speciation",
+      simple: "New species form when populations stop interbreeding and diverge.",
+      detail: "Allopatric speciation: a geographic barrier splits a population. Sympatric speciation: happens in the same area (polyploidy in plants, habitat or behavioral isolation). Prezygotic barriers (habitat, temporal, behavioral, mechanical, gametic isolation) prevent mating or fertilization; postzygotic barriers (hybrid inviability, sterility such as mules) act after. Rates: gradualism vs. punctuated equilibrium.",
+      trap: "A mule shows a POSTZYGOTIC barrier: the hybrid forms but is sterile. Don't classify it as prezygotic.",
+      terms: [
+        ["Allopatric speciation", "Speciation caused by geographic separation."],
+        ["Prezygotic barrier", "Prevents mating or fertilization between species."],
+        ["Punctuated equilibrium", "Long periods of stability interrupted by rapid change."],
+      ],
+    },
+    {
+      title: "Extinction and adaptive radiation",
+      simple: "Extinctions open up opportunities, and surviving groups can rapidly diversify to fill them.",
+      detail: "Extinction rates rise with environmental change, and mass extinctions have happened several times (e.g., the end of the dinosaurs). Human activity is increasing extinction rates now. Afterward, adaptive radiation lets survivors diversify into open niches (mammals after the dinosaurs; Darwin's finches on islands).",
+      trap: "Genetic diversity helps populations survive change. Small, low-diversity populations are more vulnerable to extinction.",
+      terms: [
+        ["Adaptive radiation", "Rapid diversification of a lineage into many species filling different niches."],
+        ["Mass extinction", "Loss of a large share of species in a geologically short time."],
+      ],
+    },
+    {
+      title: "Origins of life",
+      simple: "Evidence suggests life arose from simple chemicals through a series of steps.",
+      detail: "Earth formed about 4.6 billion years ago; the earliest fossils are about 3.5 billion years old. Miller-Urey experiments showed organic molecules can form under simulated early-Earth conditions. The RNA world hypothesis proposes RNA came first because it can both store information and catalyze reactions (ribozymes). Protocells may have formed from lipid vesicles.",
+      trap: "The RNA world hypothesis rests on RNA doing BOTH jobs, information and catalysis. That's the detail exams ask for.",
+      terms: [
+        ["Miller-Urey experiment", "Showed organic molecules can form from simple inorganic ones."],
+        ["RNA world hypothesis", "Early life may have used RNA for both heredity and catalysis."],
+        ["Ribozyme", "An RNA molecule that acts as an enzyme."],
+      ],
+    },
+  ],
+  7: [
+    {
+      title: "Responses to the environment",
+      simple: "Organisms respond to changes with behavior and physiology that help them survive and reproduce.",
+      detail: "Behaviors include taxis (movement toward/away from a stimulus), kinesis, migration, and communication (visual, audible, chemical, tactile). Plants show phototropism and photoperiodism. Cooperative behavior can increase fitness (kin selection). Endotherms generate heat metabolically; ectotherms rely on the environment.",
+      trap: "Explain behaviors in terms of FITNESS: how the behavior increases survival or reproductive success.",
+      terms: [
+        ["Photoperiodism", "Response to day length, such as flowering in plants."],
+        ["Kin selection", "Helping relatives increases shared genes in the next generation."],
+        ["Endotherm", "Animal that generates its own body heat through metabolism."],
+      ],
+    },
+    {
+      title: "Energy use and body size",
+      simple: "Smaller animals burn energy faster per gram of body mass than larger ones.",
+      detail: "Metabolic rate per unit body mass decreases as size increases, partly because smaller organisms have more surface area relative to volume and lose heat faster. Organisms need energy to grow, reproduce and maintain organization; an energy deficit leads to weight loss and eventually death, and a surplus is stored or used for growth.",
+      trap: "A mouse uses more energy PER GRAM than an elephant, even though the elephant uses more energy in total.",
+      terms: [
+        ["Metabolic rate", "The total energy an animal uses per unit time."],
+        ["Surface area-to-volume ratio", "Smaller organisms have more surface per unit volume, losing heat faster."],
+      ],
+    },
+    {
+      title: "Biogeochemical cycles",
+      simple: "Matter cycles through ecosystems, while energy flows through and is lost as heat.",
+      detail: "Carbon cycle: photosynthesis removes CO₂; respiration, decomposition and burning fossil fuels release it. Nitrogen cycle: nitrogen fixation by bacteria (N₂ → NH₃), nitrification, assimilation, denitrification. Water cycle: evaporation, transpiration, precipitation. Phosphorus cycle has no major atmospheric component (weathering of rock).",
+      trap: "Matter CYCLES; energy FLOWS one way. Never say energy is recycled in an ecosystem.",
+      terms: [
+        ["Nitrogen fixation", "Conversion of atmospheric N₂ into usable ammonia by bacteria."],
+        ["Decomposer", "Organism that breaks down dead matter, returning nutrients to the ecosystem."],
+        ["Transpiration", "Evaporation of water from plant leaves."],
+      ],
+    },
+    {
+      title: "Community structure and succession",
+      simple: "Communities change over time after disturbances, following predictable stages.",
+      detail: "Community structure depends on species richness and relative abundance (species diversity). Ecological niches and competitive exclusion shape who coexists. Primary succession begins on bare rock (pioneer species like lichens); secondary succession follows a disturbance that leaves soil (after a fire). Trophic cascades occur when top predators change lower levels.",
+      trap: "Primary succession starts WITHOUT soil; secondary succession starts WITH soil already present. Look for that detail in the scenario.",
+      terms: [
+        ["Species diversity", "Combines species richness and relative abundance."],
+        ["Primary succession", "Community development on newly exposed land without soil."],
+        ["Competitive exclusion", "Two species can't share the exact same niche indefinitely."],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/calculus-ab.js */
+// More key concepts for content/calculus-ab.js, appended to each unit after the original concepts.
+// Calculus BC inherits these too (they appear after BC's own additions in each shared unit).
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["calculus-ab"] = {
+  0: [
+    {
+      title: "Estimating limits from graphs and tables",
+      simple: "Read a limit by looking at where the y-values head as x gets close, not at the point itself.",
+      detail: "From a graph, follow the curve from each side toward x = a; the limit exists only if both one-sided limits agree. A hole, a jump, or a different point value doesn't change what the curve approaches. From a table, check values on both sides getting closer to a and see if they settle toward one number.",
+      example: "If f(1.9) = 3.98, f(1.99) = 3.998, f(2.01) = 4.002, then lim(x→2) f(x) appears to be 4.",
+      trap: "A filled dot at a different height is f(a), not the limit. The limit only cares about nearby values.",
+      terms: [
+        ["Two-sided limit", "Exists only when the left-hand and right-hand limits are equal."],
+        ["Jump discontinuity", "The one-sided limits exist but are different."],
+      ],
+    },
+    {
+      title: "The Squeeze Theorem and special trig limits",
+      simple: "If a function is trapped between two others that approach the same value, it approaches that value too.",
+      detail: "If g(x) ≤ f(x) ≤ h(x) near a and lim g = lim h = L, then lim f = L. It proves lim(x→0) sin x / x = 1 and lim(x→0) (1 − cos x)/x = 0. For example, x² sin(1/x) → 0 because −x² ≤ x² sin(1/x) ≤ x².",
+      trap: "You must state BOTH bounding functions and show they have the same limit. Naming the theorem without the inequality earns no credit.",
+      terms: [
+        ["Squeeze Theorem", "If g ≤ f ≤ h and g, h have the same limit L at a, then f also approaches L."],
+        ["lim(x→0) sin x / x", "Equals 1 (x in radians)."],
+      ],
+    },
+    {
+      title: "Types of discontinuities",
+      simple: "A graph can break in three ways: a hole, a jump, or a blow-up to infinity.",
+      detail: "Removable: the limit exists but f(a) is missing or different; redefine f(a) to fix it. Jump: one-sided limits exist but differ (common in piecewise functions). Infinite: the function grows without bound near a vertical asymptote. To make a piecewise function continuous, set the pieces equal at the break point and solve for the constant.",
+      trap: "A rational function can have a hole instead of an asymptote if a factor cancels. Always factor before deciding.",
+      terms: [
+        ["Infinite discontinuity", "A break where the function grows without bound (vertical asymptote)."],
+        ["Piecewise function", "A function defined by different formulas on different intervals."],
+      ],
+    },
+    {
+      title: "Limits at infinity and end behavior",
+      simple: "As x gets huge, the highest-power terms take over and decide where the function goes.",
+      detail: "For rational functions: if the top degree < bottom degree, the limit is 0; if equal, it's the ratio of leading coefficients; if the top is bigger, the limit is ±∞. Exponentials beat polynomials, which beat logarithms. Horizontal asymptotes come from limits at ±∞.",
+      example: "lim(x→∞) (3x² + 1)/(5x² − x) = 3/5.",
+      trap: "Check BOTH directions: some functions (with √(x²) or eˣ) have different limits at +∞ and −∞.",
+      terms: [
+        ["End behavior", "What a function does as x → ∞ or x → −∞."],
+        ["Dominant term", "The term that grows fastest and controls a limit at infinity."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Estimating derivatives from tables and graphs",
+      simple: "Estimate a derivative at a point with the slope between two nearby data points.",
+      detail: "From a table, use the difference quotient [f(b) − f(a)]/(b − a) with values on either side of the point (a symmetric difference is best). From a graph, estimate the slope of the tangent line. Include units: (units of f) per (unit of x).",
+      example: "T(4) = 60 °C and T(6) = 52 °C gives T′(5) ≈ (52 − 60)/(6 − 4) = −4 °C per minute.",
+      trap: "Use the values that BRACKET the point. Using points far away or on one side only loses accuracy and sometimes the point.",
+      terms: [
+        ["Difference quotient", "[f(x + h) − f(x)]/h, the slope of a secant line."],
+        ["Symmetric difference quotient", "[f(a + h) − f(a − h)]/(2h), an estimate of f′(a)."],
+      ],
+    },
+    {
+      title: "Derivatives of trig, exponential and log functions",
+      simple: "Each basic function has a derivative you should know by heart.",
+      detail: "d/dx sin x = cos x; d/dx cos x = −sin x; d/dx tan x = sec² x; d/dx sec x = sec x tan x; d/dx csc x = −csc x cot x; d/dx cot x = −csc² x. d/dx eˣ = eˣ; d/dx aˣ = aˣ ln a; d/dx ln x = 1/x; d/dx logₐ x = 1/(x ln a).",
+      hook: "Derivatives of the \"co\" functions (cos, csc, cot) all have a negative sign.",
+      trap: "Trig derivatives assume RADIANS. And d/dx 2ˣ is 2ˣ ln 2, not x·2ˣ⁻¹ (that's the power rule, which needs a variable base).",
+      terms: [
+        ["d/dx tan x", "sec² x"],
+        ["d/dx ln x", "1/x, for x > 0"],
+        ["d/dx aˣ", "aˣ ln a"],
+      ],
+    },
+    {
+      title: "The quotient rule",
+      simple: "To differentiate a fraction of two functions, use low d-high minus high d-low, over low squared.",
+      detail: "(f/g)′ = (g f′ − f g′)/g². Order matters in the numerator because of the subtraction. Sometimes it's easier to rewrite (e.g., 5/x³ = 5x⁻³) and use the power rule instead.",
+      hook: "\"Low d-high minus high d-low, over the square of what's below.\"",
+      trap: "The derivative of a quotient is NOT the quotient of the derivatives. f′/g′ is wrong.",
+      terms: [
+        ["Quotient rule", "(f/g)′ = (g f′ − f g′)/g²"],
+        ["Power rule", "d/dx xⁿ = n xⁿ⁻¹"],
+      ],
+    },
+    {
+      title: "The derivative as a function",
+      simple: "The derivative is itself a function whose graph shows the slope of f at every point.",
+      detail: "Where f increases, f′ > 0; where f decreases, f′ < 0; where f has a horizontal tangent, f′ = 0. Corners, cusps, vertical tangents and discontinuities make f′ undefined. You can sketch f′ from f by tracking slopes, and read facts about f from a graph of f′.",
+      trap: "On a graph of f′, the y-VALUES are slopes of f. A maximum of f′ is where f is steepest, not where f has a maximum.",
+      terms: [
+        ["Derivative function", "f′(x), giving the slope of f at each x."],
+        ["Cusp", "A sharp point where the tangent line becomes vertical; f is not differentiable there."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Derivatives of inverse trig functions",
+      simple: "Inverse trig functions have algebraic derivatives you should memorize.",
+      detail: "d/dx arcsin x = 1/√(1 − x²); d/dx arccos x = −1/√(1 − x²); d/dx arctan x = 1/(1 + x²). With the chain rule: d/dx arctan(u) = u′/(1 + u²). These can be derived by implicit differentiation of sin y = x.",
+      trap: "Remember the chain rule inside: d/dx arcsin(3x) = 3/√(1 − 9x²), not 1/√(1 − 9x²).",
+      terms: [
+        ["d/dx arctan x", "1/(1 + x²)"],
+        ["d/dx arcsin x", "1/√(1 − x²)"],
+      ],
+    },
+    {
+      title: "The chain rule with tables and graphs",
+      simple: "You can apply the chain rule even when the functions are given only as data.",
+      detail: "If h(x) = f(g(x)), then h′(a) = f′(g(a))·g′(a). Find g(a) first, then look up f′ at THAT value. Similar problems combine product, quotient and chain rules using values from a table.",
+      example: "g(2) = 5, g′(2) = 3, f′(5) = −1: h′(2) = f′(5)·g′(2) = −3.",
+      trap: "Evaluate the outer derivative at g(a), not at a. f′(2) instead of f′(5) is the most common error.",
+      terms: [
+        ["Outer function", "In f(g(x)), the function f applied last."],
+        ["Inner function", "In f(g(x)), the function g applied first."],
+      ],
+    },
+    {
+      title: "Choosing a differentiation strategy",
+      simple: "Look at a function's structure to decide which rules to apply and in what order.",
+      detail: "Identify the last operation: a product → product rule; a quotient → quotient rule (or rewrite); a composition → chain rule. Simplify first when possible (rewrite roots as powers, split fractions, use log properties). Implicit differentiation handles equations not solved for y.",
+      trap: "Rewriting first saves errors: d/dx ln(x³√x) is easiest as d/dx [3.5 ln x] = 3.5/x.",
+      terms: [
+        ["Rewriting before differentiating", "Simplifying roots, logs or fractions to make differentiation easier."],
+        ["Logarithmic differentiation", "Taking ln of both sides before differentiating, useful for complicated products or powers."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Interpreting the derivative in context",
+      simple: "A derivative's value tells how fast a quantity changes, with units of output per input.",
+      detail: "Write interpretations as: \"At t = 3 hours, the amount of water in the tank is decreasing at a rate of 4 gallons per hour.\" Include the time, what changes, the direction (increasing or decreasing), the rate, and units. The second derivative describes how the rate is changing.",
+      trap: "Say the QUANTITY is increasing at the rate, not that the rate is increasing. Mixing these up loses the point.",
+      terms: [
+        ["Rate of change", "How fast one quantity changes relative to another."],
+        ["Units of a derivative", "Units of the output divided by units of the input."],
+      ],
+    },
+    {
+      title: "Speeding up and slowing down",
+      simple: "A particle speeds up when velocity and acceleration have the same sign.",
+      detail: "Speed = |v(t)|. If v and a have the same sign, speed increases; opposite signs, speed decreases. A particle changes direction where v changes sign (not just where v = 0). Justify with the signs of both v and a.",
+      trap: "Negative acceleration doesn't always mean slowing down. If velocity is also negative, the particle is speeding up.",
+      terms: [
+        ["Speeding up", "Happens when velocity and acceleration have the same sign."],
+        ["Change of direction", "Occurs where velocity changes sign."],
+      ],
+    },
+    {
+      title: "Rates of change in applied contexts",
+      simple: "Derivatives describe rates in any setting: population, cost, temperature or volume.",
+      detail: "Marginal cost C′(x) approximates the cost of the next item. A population's P′(t) is its growth rate. Density, flow rate and reaction rate are all derivatives. Combine with related rates when several quantities change together over time.",
+      trap: "Match the independent variable: dV/dt (per time) and dV/dr (per unit radius) mean different things.",
+      terms: [
+        ["Marginal cost", "C′(x), approximately the cost of producing one more unit."],
+        ["Instantaneous rate", "The derivative at a single moment."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "The Extreme Value Theorem and the Candidates Test",
+      simple: "A continuous function on a closed interval always has a highest and lowest value, found at critical points or endpoints.",
+      detail: "EVT: if f is continuous on [a, b], it has an absolute max and min there. Candidates Test: evaluate f at every critical point in (a, b) and at both endpoints; the largest value is the absolute max, the smallest is the absolute min.",
+      trap: "Forgetting to test the ENDPOINTS is the most common error. The answer is the y-value; say where it occurs if asked.",
+      terms: [
+        ["Candidates Test", "Compare f at critical points and endpoints to find absolute extrema."],
+        ["Closed interval", "An interval including its endpoints, [a, b]."],
+      ],
+    },
+    {
+      title: "Connecting the graphs of f, f′ and f″",
+      simple: "The sign and slope of f′ tell you where f rises, falls and bends.",
+      detail: "f′ > 0 → f increasing; f′ < 0 → f decreasing; f′ changes sign → f has a relative extremum. f′ increasing (f″ > 0) → f concave up; f′ decreasing → f concave down. Extrema of f′ are inflection points of f.",
+      trap: "In justifications, name the graph you're using: \"because f′ changes from positive to negative\" earns credit; \"because the graph goes down\" doesn't.",
+      terms: [
+        ["Inflection point", "Point where a function's concavity changes."],
+        ["Relative maximum", "Occurs where f′ changes from positive to negative."],
+      ],
+    },
+    {
+      title: "Solving optimization problems",
+      simple: "To optimize, write the quantity as a function of one variable, then find its extreme on the allowed domain.",
+      detail: "Steps: draw and label, write the objective function, use a constraint to eliminate a variable, set the derivative to zero, check endpoints or use a derivative test, answer the question asked with units. The domain comes from the physical setup.",
+      trap: "Justify that the critical point is a max or min (a sign chart, second derivative test, or Candidates Test). A critical point alone isn't proof.",
+      terms: [
+        ["Objective function", "The quantity being maximized or minimized."],
+        ["Constraint", "An equation relating the variables that limits the possibilities."],
+      ],
+    },
+    {
+      title: "Behavior of implicit relations",
+      simple: "Use dy/dx from implicit differentiation to find horizontal and vertical tangents on curves.",
+      detail: "Horizontal tangent: dy/dx = 0 (numerator zero, denominator nonzero). Vertical tangent: denominator zero, numerator nonzero. Plug the conditions back into the original equation to find the actual points. Second derivatives can be found implicitly too.",
+      trap: "A point where dy/dx = 0 must ALSO be on the curve. Check it satisfies the original equation.",
+      terms: [
+        ["Horizontal tangent", "Occurs where dy/dx = 0."],
+        ["Vertical tangent", "Occurs where dy/dx is undefined because the denominator is 0."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "Trapezoidal sums and over/underestimates",
+      simple: "Trapezoids average the left and right heights, and the curve's shape tells if an estimate is too high or low.",
+      detail: "Trapezoid area = ½(b₁ + b₂)·Δx; intervals can be unequal in table problems. If f is increasing, left sums underestimate and right sums overestimate. If f is concave up, the trapezoidal rule overestimates and midpoint underestimates.",
+      trap: "Use the actual width of EACH subinterval from the table. Unequal widths are common on the exam.",
+      terms: [
+        ["Trapezoidal sum", "An estimate of area averaging left and right heights on each subinterval."],
+        ["Midpoint sum", "A Riemann sum using the height at the middle of each subinterval."],
+      ],
+    },
+    {
+      title: "Properties of definite integrals",
+      simple: "Integrals can be split, flipped and combined using a few basic rules.",
+      detail: "∫ₐᵃ f = 0; ∫ₐᵇ f = −∫ᵇₐ f; ∫ₐᵇ f + ∫ᵇᶜ f = ∫ₐᶜ f; ∫ₐᵇ [f ± g] = ∫f ± ∫g; ∫ₐᵇ k f = k∫f. Integrals over regions below the x-axis are negative. Geometry (areas of triangles, semicircles) can evaluate integrals from graphs.",
+      trap: "The integral counts area below the axis as NEGATIVE. Total area needs absolute values.",
+      terms: [
+        ["Additivity", "∫ₐᵇ f + ∫ᵇᶜ f = ∫ₐᶜ f"],
+        ["Reversing limits", "∫ₐᵇ f = −∫ᵇₐ f"],
+      ],
+    },
+    {
+      title: "Analyzing accumulation functions",
+      simple: "A function defined as an integral grows when its integrand is positive and shrinks when it's negative.",
+      detail: "If g(x) = ∫ₐˣ f(t) dt, then g′(x) = f(x) and g″(x) = f′(x). So g increases where f > 0, has extrema where f changes sign, and is concave up where f increases. With a variable upper limit, apply the chain rule: d/dx ∫ₐ^(u(x)) f(t) dt = f(u(x))·u′(x).",
+      trap: "Values of g come from AREAS under f, but slopes of g come from VALUES of f. Keep them straight on graph problems.",
+      terms: [
+        ["g′(x) for g(x) = ∫ₐˣ f(t) dt", "f(x): the rate of accumulation equals the integrand."],
+        ["FTC with chain rule", "d/dx ∫ₐ^(u(x)) f(t) dt = f(u(x))·u′(x)"],
+      ],
+    },
+    {
+      title: "Basic antiderivative rules",
+      simple: "Antidifferentiation reverses each derivative rule you know.",
+      detail: "∫xⁿ dx = xⁿ⁺¹/(n + 1) + C (n ≠ −1); ∫1/x dx = ln|x| + C; ∫eˣ dx = eˣ + C; ∫sin x dx = −cos x + C; ∫cos x dx = sin x + C; ∫sec² x dx = tan x + C; ∫1/(1 + x²) dx = arctan x + C. Split sums and pull out constants.",
+      trap: "Always include + C on indefinite integrals, and remember ∫1/x dx is ln|x| (the power rule fails at n = −1).",
+      terms: [
+        ["Indefinite integral", "The family of all antiderivatives, written with + C."],
+        ["∫1/x dx", "ln|x| + C"],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "Modeling with differential equations",
+      simple: "A differential equation describes how a quantity changes, often from a sentence about proportionality.",
+      detail: "\"The rate of change of y is proportional to y\" → dy/dt = ky. \"Proportional to the difference between T and 70\" → dT/dt = k(T − 70) (Newton's law of cooling). Logistic growth appears in BC. Translate each phrase carefully, including the sign.",
+      trap: "\"Proportional to\" means multiply by a constant k. \"Inversely proportional\" means divide: dy/dt = k/y.",
+      terms: [
+        ["Proportional", "Equal to a constant times the quantity."],
+        ["Newton's law of cooling", "dT/dt = k(T − Tₐ), the rate of cooling proportional to the temperature difference."],
+      ],
+    },
+    {
+      title: "Verifying solutions to differential equations",
+      simple: "To check a solution, differentiate it and substitute into the equation.",
+      detail: "If y = f(x) is proposed, compute y′ (and y″ if needed), substitute everything, and confirm both sides are equal for all x. An initial condition picks out one particular solution from the family.",
+      trap: "Verifying means substituting into the DIFFERENTIAL EQUATION, not just checking the initial condition.",
+      terms: [
+        ["Verify a solution", "Substitute the function and its derivatives into the equation to confirm it holds."],
+        ["Family of solutions", "All solutions of a differential equation, differing by a constant."],
+      ],
+    },
+    {
+      title: "Reasoning from a differential equation",
+      simple: "You can learn a lot about a solution's behavior without solving the equation.",
+      detail: "Where dy/dx > 0 the solution rises; where dy/dx = 0 it's level (equilibrium solutions if constant). Find d²y/dx² by differentiating dy/dx implicitly (substituting dy/dx) to decide concavity. Tangent lines from the equation approximate nearby values.",
+      trap: "When finding d²y/dx², differentiate implicitly and substitute dy/dx back in. Treating y as a constant is a common mistake.",
+      terms: [
+        ["Equilibrium solution", "A constant solution where dy/dx = 0 for all x."],
+        ["Tangent line approximation", "Using y₁ ≈ y₀ + (dy/dx)Δx near a known point."],
+      ],
+    },
+  ],
+  7: [
+    {
+      title: "Accumulation in applied contexts",
+      simple: "Integrate a rate to find how much has accumulated; combine rates in and out for net change.",
+      detail: "Amount at time t = initial amount + ∫₀ᵗ (rate in − rate out) dt. The amount is at a max or min when rate in = rate out (or at an endpoint). Interpret an integral with units: the integral of gallons/hour over hours gives gallons.",
+      trap: "Don't forget the INITIAL AMOUNT. The integral gives only the change, not the total.",
+      terms: [
+        ["Net change theorem", "∫ₐᵇ R(t) dt gives the net change in the quantity from a to b."],
+        ["Rate in − rate out", "The net rate of change of an amount."],
+      ],
+    },
+    {
+      title: "Area with respect to y and intersecting curves",
+      simple: "Sometimes it's easier to slice horizontally, and curves that cross need separate integrals.",
+      detail: "With respect to y: A = ∫ (right curve − left curve) dy, with y-limits. When curves cross within the interval, split at the intersection or integrate |f − g|. Find intersection points by solving f = g (a calculator is allowed on calculator sections).",
+      trap: "In dy integrals, subtract RIGHT minus LEFT, not top minus bottom, and use y-values as limits.",
+      terms: [
+        ["Horizontal slices", "Integrating with respect to y using right minus left."],
+        ["Points of intersection", "Where two curves meet, found by setting them equal."],
+      ],
+    },
+    {
+      title: "Revolving around other axes",
+      simple: "When the axis isn't the x- or y-axis, measure each radius from that line.",
+      detail: "Around y = k with dx slices: R = |outer curve − k|, r = |inner curve − k|, V = π∫(R² − r²) dx. Around x = h use dy slices and horizontal distances. Always sketch the region and the axis first.",
+      trap: "The radius is a DISTANCE to the axis of rotation. Revolving around y = −2 means adding 2 to the function value, not subtracting.",
+      terms: [
+        ["Radius of revolution", "Distance from the axis of rotation to the curve."],
+        ["Washer", "A disc with a hole, area π(R² − r²)."],
+      ],
+    },
+    {
+      title: "Position from velocity with an initial condition",
+      simple: "Add the integral of velocity to a starting position to find where a particle is later.",
+      detail: "x(b) = x(a) + ∫ₐᵇ v(t) dt. Total distance traveled = ∫ₐᵇ |v(t)| dt. To find a particle's farthest position, check where v changes sign and the endpoints (Candidates Test on position).",
+      trap: "Displacement (∫v dt) and position are different. Position needs the starting point added.",
+      terms: [
+        ["Position function", "x(t) = x(0) + ∫₀ᵗ v(s) ds"],
+        ["Farthest position", "Found by checking where velocity changes sign and the endpoints."],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/psychology.js */
+// More key concepts for content/psychology.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["psychology"] = {
+  0: [
+    {
+      title: "Research methods and ethics",
+      simple: "Psychologists use experiments to find causes and other methods to describe and relate behaviors.",
+      detail: "Experiments randomly assign participants to conditions and manipulate the independent variable to measure its effect on the dependent variable. Correlational studies show relationships (r from −1 to +1) but not causation. Case studies, surveys and naturalistic observation describe behavior. Ethics requires informed consent, protection from harm, confidentiality, and debriefing (especially after deception), approved by an IRB.",
+      example: "To test whether caffeine improves memory, randomly assign people to caffeine or placebo (IV) and compare recall scores (DV).",
+      trap: "Random ASSIGNMENT (which group you're in) supports causal claims. Random SAMPLING (who is in the study) supports generalizing. The exam tests this difference constantly.",
+      terms: [
+        ["Random assignment", "Placing participants in groups by chance so the groups are equivalent at the start."],
+        ["Confounding variable", "A factor other than the IV that could explain differences in the DV."],
+        ["Informed consent", "Participants agree to take part after learning enough about the study to decide."],
+      ],
+    },
+    {
+      title: "Statistics in psychology",
+      simple: "Statistics describe data and tell us whether results are likely due to chance.",
+      detail: "Measures of central tendency: mean (sensitive to outliers), median, mode. Variability: range and standard deviation. In a normal curve, about 68% of scores fall within 1 SD of the mean and 95% within 2. A statistically significant result (usually p < .05) is unlikely to be due to chance. Skewed distributions pull the mean toward the tail.",
+      trap: "In a positively skewed distribution (a long tail to the right), the mean is HIGHER than the median. Picture the tail pulling the mean.",
+      terms: [
+        ["Standard deviation", "How spread out scores are around the mean."],
+        ["Statistical significance", "A result unlikely to have occurred by chance (typically p < .05)."],
+        ["Positive skew", "A distribution with a long tail on the high end; the mean exceeds the median."],
+      ],
+    },
+    {
+      title: "Heredity, environment and evolutionary psychology",
+      simple: "Behavior comes from both genes and experience, and psychologists study how they interact.",
+      detail: "Twin studies (identical vs. fraternal) and adoption studies estimate heritability, the share of VARIATION in a trait within a group that's due to genes. Epigenetics describes how experience switches genes on or off. Evolutionary psychology explains behaviors as adaptations that helped ancestors survive and reproduce.",
+      trap: "Heritability describes differences within a GROUP, not how much of one person's trait is genetic. A heritability of 0.5 doesn't mean half of your intelligence came from genes.",
+      terms: [
+        ["Heritability", "Proportion of variation in a trait among individuals that's attributable to genes."],
+        ["Epigenetics", "Study of environmental influences on gene expression without changing DNA."],
+        ["Twin studies", "Comparing identical and fraternal twins to estimate genetic influence."],
+      ],
+    },
+    {
+      title: "Brain regions and their functions",
+      simple: "Different brain regions handle different jobs, from breathing to planning.",
+      detail: "Brainstem: medulla (heartbeat, breathing), pons (sleep), reticular activating system (arousal). Cerebellum: balance and coordination. Limbic system: amygdala (fear, emotion), hippocampus (forming new explicit memories), hypothalamus (hunger, thirst, body temperature, controls the pituitary), thalamus (sensory relay except smell). Cortex lobes: frontal (planning, motor cortex, Broca's area), parietal (touch, somatosensory cortex), temporal (hearing, Wernicke's area), occipital (vision).",
+      hook: "Broca's = Broken speech (production). Wernicke's = Words make no sense (comprehension).",
+      trap: "The thalamus relays every sense EXCEPT smell. The hypothalamus is the one that regulates hunger, thirst and hormones.",
+      terms: [
+        ["Hippocampus", "Limbic structure essential for forming new explicit memories."],
+        ["Broca's area", "Frontal lobe region controlling speech production."],
+        ["Corpus callosum", "Band of fibers connecting the two hemispheres."],
+      ],
+    },
+    {
+      title: "Consciousness and psychoactive drugs",
+      simple: "Consciousness shifts across sleep stages and can be altered by drugs.",
+      detail: "Sleep cycles run about 90 minutes: NREM stages (N3 = deep, slow-wave sleep with delta waves) and REM (vivid dreams, paralyzed muscles, active brain). Circadian rhythms run on about 24 hours. Disorders: insomnia, narcolepsy, sleep apnea. Drugs: depressants (alcohol, barbiturates) slow the nervous system; stimulants (caffeine, cocaine, amphetamines) speed it up; hallucinogens (LSD) distort perception; opioids relieve pain. Tolerance and withdrawal signal dependence.",
+      trap: "REM is called PARADOXICAL sleep: the brain is highly active while the body is essentially paralyzed.",
+      terms: [
+        ["REM sleep", "Sleep stage with rapid eye movements, vivid dreams and muscle paralysis."],
+        ["Circadian rhythm", "The body's roughly 24-hour biological clock."],
+        ["Tolerance", "Needing more of a drug to get the same effect."],
+      ],
+    },
+    {
+      title: "Vision, hearing and the other senses",
+      simple: "Each sense turns a kind of energy into neural signals the brain can read.",
+      detail: "Vision: light passes through the cornea, pupil, and lens to the retina, where rods (dim light, black and white) and cones (color, detail, concentrated in the fovea) transduce it. Trichromatic theory explains color at the receptors; opponent-process theory explains afterimages. Hearing: sound waves vibrate the eardrum and ossicles, then the cochlea's hair cells transduce them. Pitch is explained by place theory (high pitches) and frequency theory (low pitches). Other senses: smell (goes straight to the limbic system), taste, touch, pain (gate-control theory), vestibular and kinesthetic senses.",
+      trap: "Opponent-process theory explains AFTERIMAGES (stare at green, see red). Trichromatic theory can't.",
+      terms: [
+        ["Cones", "Retinal receptors for color and fine detail, concentrated in the fovea."],
+        ["Cochlea", "Fluid-filled inner-ear structure where sound is transduced."],
+        ["Gate-control theory", "The spinal cord has a neural \"gate\" that can block or allow pain signals."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Perceptual organization and depth perception",
+      simple: "The brain organizes raw sensations into objects and judges distance from clues.",
+      detail: "Gestalt principles: figure-ground, proximity, similarity, continuity, closure. Binocular depth cues need two eyes: retinal disparity and convergence. Monocular cues work with one eye: relative size, interposition (overlap), linear perspective, texture gradient, relative height, light and shadow. Perceptual constancy keeps size, shape and color stable as conditions change.",
+      trap: "Retinal disparity and convergence are the ONLY binocular cues. Anything a painter can show on a flat canvas is monocular.",
+      terms: [
+        ["Retinal disparity", "Binocular cue: the difference between the images on the two retinas."],
+        ["Linear perspective", "Monocular cue: parallel lines appear to converge in the distance."],
+        ["Perceptual set", "A mental predisposition to perceive one thing and not another."],
+      ],
+    },
+    {
+      title: "Encoding and storing memories",
+      simple: "Memories are encoded, stored across stages, and strengthened by meaning and practice.",
+      detail: "The multi-store model: sensory memory → short-term/working memory (about 7 ± 2 items, around 20 seconds) → long-term memory. Working memory has a central executive, phonological loop and visuospatial sketchpad. Deep (semantic) processing beats shallow processing. Chunking, mnemonics, and spaced practice (the spacing effect) improve storage. Long-term potentiation strengthens synapses.",
+      trap: "The spacing effect says distributed practice beats cramming for LONG-TERM retention, even if cramming feels effective the night before.",
+      terms: [
+        ["Chunking", "Organizing items into familiar, manageable units."],
+        ["Spacing effect", "Distributed study produces better long-term retention than massed study."],
+        ["Long-term potentiation", "Strengthening of synapses with repeated stimulation; a basis of learning."],
+      ],
+    },
+    {
+      title: "Retrieval, forgetting and memory errors",
+      simple: "We forget because memories fade, are blocked, or get rebuilt with errors.",
+      detail: "Retrieval cues: recall vs. recognition, context-dependent and state-dependent memory, the serial position effect (primacy and recency). Forgetting: Ebbinghaus's forgetting curve, encoding failure, and interference (proactive: old blocks new; retroactive: new blocks old). Memories are reconstructed: the misinformation effect (Loftus) and source amnesia create false memories. Amnesia: anterograde (can't form new) vs. retrograde (lose old).",
+      hook: "PROactive = PRior learning interferes. RETROactive = REcent learning interferes backward.",
+      trap: "Anterograde amnesia (can't form NEW memories) is the kind linked to hippocampus damage, as in patient H.M.",
+      terms: [
+        ["Serial position effect", "Better recall of the first and last items in a list."],
+        ["Misinformation effect", "Misleading information after an event distorts memory of it."],
+        ["Anterograde amnesia", "Inability to form new memories."],
+      ],
+    },
+    {
+      title: "Language",
+      simple: "Language uses rules to combine sounds into meaning, and children learn it remarkably fast.",
+      detail: "Building blocks: phonemes (sounds), morphemes (smallest units of meaning), grammar (syntax and semantics). Development: babbling (about 4 months), one-word stage (about 1 year), two-word telegraphic speech (about 2 years). Chomsky proposed an inborn language acquisition device; Skinner emphasized learning. The linguistic relativity hypothesis (Whorf) says language shapes thought.",
+      trap: "Phonemes are SOUNDS, morphemes carry MEANING. \"Cats\" has two morphemes (cat + s) but four phonemes.",
+      terms: [
+        ["Morpheme", "The smallest unit of language that carries meaning."],
+        ["Telegraphic speech", "Early speech of mostly nouns and verbs (\"want milk\")."],
+        ["Linguistic relativity", "Whorf's idea that language influences how we think."],
+      ],
+    },
+    {
+      title: "Theories of intelligence",
+      simple: "Psychologists debate whether intelligence is one general ability or several.",
+      detail: "Spearman: a general intelligence factor (g). Gardner: multiple intelligences (linguistic, spatial, interpersonal, and more). Sternberg's triarchic theory: analytical, creative, practical. Fluid intelligence (reasoning speed) declines with age; crystallized intelligence (knowledge) grows. IQ was originally mental age ÷ chronological age × 100. The Flynn effect describes rising scores over generations.",
+      trap: "A test can be RELIABLE (consistent) without being VALID (measuring what it claims). Validity requires reliability, but not the reverse.",
+      terms: [
+        ["General intelligence (g)", "Spearman's single underlying factor measured by all mental ability tests."],
+        ["Crystallized intelligence", "Accumulated knowledge and verbal skills, which increase with age."],
+        ["Flynn effect", "The rise in average intelligence test scores over generations."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Physical development across the lifespan",
+      simple: "The body and brain change in predictable ways from before birth to old age.",
+      detail: "Prenatal: germinal, embryonic, fetal stages; teratogens (alcohol causes fetal alcohol syndrome). Newborn reflexes: rooting, sucking, grasping. Maturation follows a biological timetable. Adolescence brings puberty; the frontal lobes keep developing into the mid-20s. Adulthood: menopause; later, slower reaction time and some memory decline, though crystallized knowledge holds.",
+      trap: "The limbic system matures before the frontal lobe in adolescence. That's the exam's explanation for teen risk-taking.",
+      terms: [
+        ["Teratogen", "Harmful agent (like alcohol or a virus) that can damage a developing fetus."],
+        ["Rooting reflex", "A baby turns toward a touch on the cheek, looking for a nipple."],
+        ["Maturation", "Biological growth processes that unfold regardless of experience."],
+      ],
+    },
+    {
+      title: "Adolescent and adult development",
+      simple: "Identity, moral reasoning and life stages keep developing after childhood.",
+      detail: "Erikson's eight psychosocial stages, each with a crisis: trust vs. mistrust (infancy), identity vs. role confusion (adolescence), intimacy vs. isolation (young adulthood), generativity vs. stagnation (middle age), integrity vs. despair (old age). Kohlberg's moral reasoning: preconventional (punishment and reward), conventional (rules and approval), postconventional (universal principles). Emerging adulthood (18–25) is a modern stage.",
+      trap: "Kohlberg measures moral REASONING, not behavior. Two people can make the same choice at different levels depending on why.",
+      terms: [
+        ["Identity vs. role confusion", "Erikson's adolescent stage of forming a sense of self."],
+        ["Postconventional morality", "Kohlberg's level based on self-chosen ethical principles."],
+        ["Emerging adulthood", "The period from about 18 to 25 between adolescence and full adulthood."],
+      ],
+    },
+    {
+      title: "Parenting styles and social development",
+      simple: "How parents raise children is linked to children's confidence and self-control.",
+      detail: "Baumrind's styles: authoritative (warm, clear rules, explains reasons; linked to the best outcomes), authoritarian (strict, obedience-focused), permissive (few demands), and neglectful. Harlow's monkeys showed contact comfort matters more than food. Ainsworth's Strange Situation identified secure, insecure-avoidant, and insecure-anxious attachment. Temperament is present from birth.",
+      hook: "AuthoriTATIVE = TALKS it through. AuthoriTARIAN = \"because I said so.\"",
+      trap: "The research on parenting styles is CORRELATIONAL. It can't prove the parenting style caused the outcome.",
+      terms: [
+        ["Authoritative parenting", "Warm but firm parenting that explains rules; linked to competence."],
+        ["Contact comfort", "Harlow's finding that physical comfort drives infant attachment."],
+        ["Temperament", "A person's characteristic emotional reactivity, present from birth."],
+      ],
+    },
+    {
+      title: "Principles of classical conditioning",
+      simple: "Learned associations can be strengthened, weakened, and spread to similar stimuli.",
+      detail: "Acquisition: the NS becomes a CS by pairing with the UCS (best when the NS comes just before). Extinction: the CR fades when the CS repeatedly appears without the UCS. Spontaneous recovery: the extinguished CR reappears after a pause. Generalization: similar stimuli trigger the CR (Little Albert feared white furry objects). Discrimination: telling the CS apart from similar stimuli. Garcia showed taste aversions form after one pairing, even with long delays: biological preparedness.",
+      trap: "Extinction doesn't erase the association. Spontaneous recovery proves the learning was suppressed, not deleted.",
+      terms: [
+        ["Spontaneous recovery", "Reappearance of an extinguished conditioned response after a pause."],
+        ["Stimulus generalization", "Responding to stimuli similar to the conditioned stimulus."],
+        ["Taste aversion", "Learned avoidance of a food after one pairing with illness."],
+      ],
+    },
+    {
+      title: "Reinforcement schedules and shaping",
+      simple: "When and how often a behavior is rewarded changes how fast it's learned and how long it lasts.",
+      detail: "Continuous reinforcement: fast learning, fast extinction. Partial schedules resist extinction: fixed-ratio (every nth response), variable-ratio (unpredictable number, highest and most persistent response, like slot machines), fixed-interval (after set time, scalloped pattern), variable-interval (unpredictable time, steady responding, like checking email). Shaping rewards successive approximations. Primary reinforcers are unlearned (food); secondary are learned (money).",
+      trap: "Positive and negative refer to ADDING or REMOVING a stimulus, not good or bad. Negative reinforcement still increases a behavior.",
+      terms: [
+        ["Shaping", "Reinforcing successive approximations of a target behavior."],
+        ["Fixed-interval schedule", "Reinforcement for the first response after a set time."],
+        ["Secondary reinforcer", "A stimulus that gains reinforcing power through association, like money."],
+      ],
+    },
+    {
+      title: "Cognitive and social learning",
+      simple: "Learning also happens through thinking and watching others, not just rewards.",
+      detail: "Tolman's rats formed cognitive maps and showed latent learning (learning that appears only when there's a reason to show it). Köhler's chimps showed insight learning. Bandura's Bobo doll study showed observational learning; modeling needs attention, retention, reproduction and motivation. Learned helplessness (Seligman) develops when outcomes seem uncontrollable.",
+      trap: "Latent learning shows that reinforcement affects PERFORMANCE, not whether learning happened.",
+      terms: [
+        ["Latent learning", "Learning that isn't shown until there's an incentive to demonstrate it."],
+        ["Cognitive map", "A mental representation of the layout of one's environment."],
+        ["Learned helplessness", "Passive resignation after repeated uncontrollable bad events."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Persuasion, prejudice and discrimination",
+      simple: "Attitudes can be changed through arguments or cues, and group biases lead to prejudice.",
+      detail: "Elaboration likelihood model: the central route (strong arguments, lasting change) vs. peripheral route (attractiveness, credibility). Foot-in-the-door (small request first) and door-in-the-face (big request first) increase compliance. Prejudice is an attitude; discrimination is a behavior. Ingroup bias, out-group homogeneity, scapegoating, and the just-world phenomenon sustain prejudice. Stereotype threat can lower performance.",
+      trap: "Prejudice (attitude) vs. discrimination (action) vs. stereotype (belief). Match the word to the component on the exam.",
+      terms: [
+        ["Central route persuasion", "Change driven by thoughtful consideration of arguments."],
+        ["Foot-in-the-door", "Agreeing to a small request makes agreeing to a larger one more likely."],
+        ["Just-world phenomenon", "Believing people get what they deserve."],
+      ],
+    },
+    {
+      title: "Relationships, attraction and helping",
+      simple: "Proximity, similarity and familiarity draw people together, and situations shape whether we help.",
+      detail: "The mere exposure effect makes familiar things more liked. Proximity, similarity and physical attractiveness predict attraction. Sternberg: passionate vs. companionate love. Altruism is explained by social exchange theory, reciprocity norms and social responsibility norms. The bystander effect: diffusion of responsibility lowers help as the crowd grows. Superordinate goals reduce conflict (Sherif's Robbers Cave).",
+      trap: "Bystander effect: a victim is LESS likely to get help when more people are present, because everyone assumes someone else will act.",
+      terms: [
+        ["Mere exposure effect", "Repeated exposure increases liking."],
+        ["Superordinate goals", "Shared goals that require groups to cooperate."],
+        ["Diffusion of responsibility", "Feeling less personal responsibility when others are present."],
+      ],
+    },
+    {
+      title: "Psychodynamic and humanistic personality theories",
+      simple: "Freud focused on unconscious conflicts; humanists focused on growth and self-concept.",
+      detail: "Freud: id (pleasure), ego (reality), superego (morality). Defense mechanisms reduce anxiety: repression, denial, projection, displacement, reaction formation, rationalization, sublimation, regression. Projective tests (Rorschach, TAT) try to reveal the unconscious. Humanists: Maslow's self-actualization and Rogers' unconditional positive regard, genuineness and empathy.",
+      hook: "Displacement = kick the dog. Projection = \"YOU'RE the one who's angry.\"",
+      trap: "Projective tests have low reliability and validity. Expect them as the example of weak measurement.",
+      terms: [
+        ["Defense mechanism", "Unconscious strategy the ego uses to reduce anxiety."],
+        ["Reaction formation", "Expressing the opposite of one's true unacceptable feelings."],
+        ["Unconditional positive regard", "Rogers' attitude of total acceptance toward another person."],
+      ],
+    },
+    {
+      title: "Trait and social-cognitive personality theories",
+      simple: "Trait theories describe stable characteristics; social-cognitive theories stress how people and situations interact.",
+      detail: "The Big Five (OCEAN): openness, conscientiousness, extraversion, agreeableness, neuroticism (emotional stability), measured by personality inventories like the MMPI (empirically derived). Bandura's reciprocal determinism: behavior, internal factors and environment influence each other. Locus of control: internal vs. external (Rotter).",
+      trap: "Traits predict AVERAGE behavior across many situations well, but single situations poorly. The situation matters too.",
+      terms: [
+        ["Big Five", "Openness, conscientiousness, extraversion, agreeableness, neuroticism."],
+        ["Reciprocal determinism", "Behavior, personal factors and environment all influence each other."],
+        ["Locus of control", "Belief that outcomes are controlled internally or by outside forces."],
+      ],
+    },
+    {
+      title: "Theories of motivation",
+      simple: "People are driven by biological needs, arousal levels, incentives and higher-level goals.",
+      detail: "Drive-reduction theory: needs create drives that push us to restore homeostasis. Arousal theory: we seek an optimal arousal level (Yerkes-Dodson: moderate arousal is best, lower for hard tasks). Incentive theory: external rewards pull us. Maslow's hierarchy: physiological needs first, self-actualization last. Intrinsic vs. extrinsic motivation; the overjustification effect. Hunger involves ghrelin (hunger), leptin (fullness) and the hypothalamus.",
+      trap: "The overjustification effect: rewarding something a person already enjoys can REDUCE their intrinsic motivation.",
+      terms: [
+        ["Drive-reduction theory", "Physiological needs create drives that motivate us to meet them."],
+        ["Overjustification effect", "Extrinsic rewards undermine intrinsic motivation."],
+        ["Ghrelin", "Hormone secreted by an empty stomach that triggers hunger."],
+      ],
+    },
+    {
+      title: "Theories of emotion",
+      simple: "Theories disagree about whether body changes come before, with, or after the feeling.",
+      detail: "James-Lange: body arousal comes first, then the emotion. Cannon-Bard: arousal and emotion happen at the same time. Schachter-Singer two-factor: arousal plus a cognitive label. Zajonc and LeDoux: some emotions happen before thought (a fast amygdala pathway); Lazarus: appraisal comes first. Facial expressions of basic emotions are largely universal (Ekman); display rules vary by culture. The facial feedback effect: expressions can influence feelings.",
+      hook: "James-Lange: \"I'm trembling, so I'm afraid.\" Two-factor: \"I'm aroused, and the situation says it's fear.\"",
+      trap: "Two-factor theory requires BOTH arousal and a label. The same arousal can become fear or excitement depending on the label.",
+      terms: [
+        ["James-Lange theory", "Emotion is our awareness of physiological responses to a stimulus."],
+        ["Two-factor theory", "Emotion requires physical arousal and a cognitive label."],
+        ["Display rules", "Cultural norms about when and how to show emotions."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Positive psychology and coping",
+      simple: "Psychologists also study what helps people thrive and handle stress.",
+      detail: "Positive psychology studies well-being, strengths and flow. Problem-focused coping tackles the stressor directly; emotion-focused coping manages the reaction. Social support, exercise, optimism, and a sense of control buffer stress. Type A personalities (competitive, hostile) have higher heart-disease risk, driven mainly by hostility. Posttraumatic growth can follow adversity.",
+      trap: "Problem-focused coping is best when you CAN change the situation; emotion-focused coping helps when you can't.",
+      terms: [
+        ["Problem-focused coping", "Reducing stress by changing the stressor or how we interact with it."],
+        ["Flow", "Complete, focused involvement in an activity."],
+        ["Type A personality", "Competitive, hard-driving, impatient; hostility raises heart-disease risk."],
+      ],
+    },
+    {
+      title: "Anxiety, obsessive-compulsive and trauma disorders",
+      simple: "These disorders involve persistent fear, intrusive thoughts, or lasting reactions to trauma.",
+      detail: "Generalized anxiety disorder: persistent, unfocused worry. Panic disorder: sudden panic attacks and fear of the next one. Specific phobias and social anxiety disorder: intense, irrational fears. OCD: unwanted obsessions and repetitive compulsions. PTSD: flashbacks, avoidance, and hyperarousal after trauma. Learning (conditioning, observational learning) and biology (an overactive amygdala) both contribute.",
+      trap: "OCD is classified separately from anxiety disorders in the DSM-5. The obsession is the THOUGHT; the compulsion is the ACTION.",
+      terms: [
+        ["Panic disorder", "Recurrent, unexpected panic attacks and worry about future attacks."],
+        ["Obsessive-compulsive disorder", "Unwanted repetitive thoughts and/or actions."],
+        ["PTSD", "Lasting flashbacks, avoidance and hyperarousal after trauma."],
+      ],
+    },
+    {
+      title: "Mood, dissociative, personality and eating disorders",
+      simple: "Other categories involve extreme moods, splits in awareness, rigid traits, or disordered eating.",
+      detail: "Major depressive disorder: two or more weeks of depressed mood or loss of pleasure. Bipolar disorder: alternating depression and mania. Dissociative identity disorder: two or more distinct identities (controversial). Personality disorders: enduring maladaptive patterns, e.g. antisocial (no conscience) and borderline. Eating disorders: anorexia nervosa (restriction, significantly low weight) and bulimia nervosa (binge-purge cycles, often normal weight).",
+      trap: "Dissociative identity disorder is NOT schizophrenia. Schizophrenia means a split from reality, not a split personality.",
+      terms: [
+        ["Bipolar disorder", "Mood disorder alternating between depression and mania."],
+        ["Antisocial personality disorder", "Pattern of disregard for others and lack of conscience."],
+        ["Anorexia nervosa", "Eating disorder of severe restriction and significantly low body weight."],
+      ],
+    },
+    {
+      title: "Psychotherapy approaches",
+      simple: "Different therapies target the unconscious, thoughts, behaviors, or the whole person.",
+      detail: "Psychodynamic: insight into unconscious conflicts (free association, dream analysis, interpreting resistance and transference). Humanistic: client-centered therapy with active listening and unconditional positive regard. Behavioral: exposure therapy, systematic desensitization, aversive conditioning, token economies. Cognitive: Beck's therapy for depression and Ellis' REBT challenge irrational thoughts. Group and family therapy treat people in context. The therapeutic alliance predicts success across approaches.",
+      trap: "Insight therapies (psychodynamic, humanistic) aim to understand; behavior therapies change the behavior directly without needing insight.",
+      terms: [
+        ["Exposure therapy", "Treating anxiety by gradually or intensely confronting the feared thing."],
+        ["Token economy", "Rewarding desired behavior with tokens exchangeable for privileges."],
+        ["Active listening", "Echoing, restating and clarifying, as in client-centered therapy."],
+      ],
+    },
+    {
+      title: "Biomedical therapies",
+      simple: "Medications and brain-based treatments change the biology behind disorders.",
+      detail: "Antipsychotics block dopamine receptors (long-term use can cause tardive dyskinesia). Antianxiety drugs (benzodiazepines) enhance GABA. Antidepressants (SSRIs) increase available serotonin. Lithium stabilizes bipolar mood swings. Electroconvulsive therapy (ECT) helps severe, treatment-resistant depression. Transcranial magnetic stimulation (TMS) and, rarely, psychosurgery are other options.",
+      trap: "Match the drug to the neurotransmitter: antipsychotics ↔ dopamine, SSRIs ↔ serotonin, benzodiazepines ↔ GABA.",
+      terms: [
+        ["Antipsychotic drugs", "Medications that block dopamine to reduce psychotic symptoms."],
+        ["Lithium", "Mood stabilizer used for bipolar disorder."],
+        ["Electroconvulsive therapy", "Brief electric current through the brain to treat severe depression."],
+      ],
+    },
+  ],
+};
+
+</script>
 <script>/* content/deep/us-history.js */
 // More key concepts for content/us-history.js, appended to each unit after the original concepts.
 // Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
