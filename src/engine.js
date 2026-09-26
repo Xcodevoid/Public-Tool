@@ -399,8 +399,11 @@ const Engine = (() => {
     if (d.length) return { kind: "review", title: `Review ${d.length} concept${d.length === 1 ? "" : "s"} due today`, reason: "Spaced review locks in what you've learned before you forget it.", courses: [...new Set(d.map((c) => c.courseId))] };
     const w = weakest(active, 1)[0];
     if (w) return { kind: "concept", title: `Fix your weakest concept: ${w.title}`, reason: `${courseById[w.courseId].name} · Unit ${w.unitIdx + 1}. You're at ${Math.round(w.s.m * 100)}% mastery.`, concept: w };
-    const needsDiag = courseIds.find((id) => !store.data.diag[id]);
-    if (needsDiag) return { kind: "diagnostic", title: `Take the ${courseById[needsDiag].name} diagnostic`, reason: "5 minutes to find out exactly which concepts you don't know yet.", courseId: needsDiag };
+    // The diagnostic is optional: courses the student chose to skip it for get "start learning" instead.
+    const needsDiag = courseIds.find((id) => !store.data.diag[id] && !store.data.skip?.[id] && !active.includes(id));
+    if (needsDiag) return { kind: "diagnostic", title: `Take the ${courseById[needsDiag].name} diagnostic`, reason: "5 minutes to find out exactly which concepts you don't know yet. Optional: you can skip it and start learning.", courseId: needsDiag };
+    const fresh = courseIds.find((id) => !active.includes(id));
+    if (!active.length && fresh) return { kind: "learn", title: `Start learning ${courseById[fresh].name}`, reason: "Begin with Unit 1's concepts. Each question you answer builds your mastery.", courseId: fresh };
     const next = active[0] || courseIds[0];
     return next ? { kind: "smart", title: "Continue smart practice", reason: "Keep building mastery on concepts you haven't locked in yet.", courseId: next } : null;
   }

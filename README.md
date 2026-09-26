@@ -35,6 +35,7 @@ right before you'd forget it.
 - 🩺 **Diagnostic, quick or full**: 12 questions (~5 min) across every unit, or a full diagnostic of up to 50
   questions that rotates through every unit (you can finish early). The report shows your strong and weak *concepts*
   (not just units), with an explanation for everything you missed.
+  The diagnostic is optional: "Skip it: learn concepts" starts at Unit 1, and mastery builds as you practice.
 - 🎯 **Concept-level mastery**: every question is tagged to a concept. Each concept has a mastery score
   and a status: Not started, Needs practice, Getting there, or Strong.
 - 🧠 **Mistakes grouped by concept**: "Elasticity: 42% mastery. You've missed 4 questions involving this concept."

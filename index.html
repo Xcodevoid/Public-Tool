@@ -864,6 +864,10 @@ main { outline: none; min-height: 70vh; }
 .concept-index .ci-dot.st-strong { background: var(--good); }
 .concept { scroll-margin-top: 80px; }
 
+/* ---------- Skipping the diagnostic ---------- */
+.diag-skip { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); text-align: left; }
+.diag-skip > div { display: flex; flex-direction: column; gap: 2px; flex: 1 1 260px; }
+
 </style>
 </head>
 <body>
@@ -12146,8 +12150,11 @@ const Engine = (() => {
     if (d.length) return { kind: "review", title: `Review ${d.length} concept${d.length === 1 ? "" : "s"} due today`, reason: "Spaced review locks in what you've learned before you forget it.", courses: [...new Set(d.map((c) => c.courseId))] };
     const w = weakest(active, 1)[0];
     if (w) return { kind: "concept", title: `Fix your weakest concept: ${w.title}`, reason: `${courseById[w.courseId].name} · Unit ${w.unitIdx + 1}. You're at ${Math.round(w.s.m * 100)}% mastery.`, concept: w };
-    const needsDiag = courseIds.find((id) => !store.data.diag[id]);
-    if (needsDiag) return { kind: "diagnostic", title: `Take the ${courseById[needsDiag].name} diagnostic`, reason: "5 minutes to find out exactly which concepts you don't know yet.", courseId: needsDiag };
+    // The diagnostic is optional: courses the student chose to skip it for get "start learning" instead.
+    const needsDiag = courseIds.find((id) => !store.data.diag[id] && !store.data.skip?.[id] && !active.includes(id));
+    if (needsDiag) return { kind: "diagnostic", title: `Take the ${courseById[needsDiag].name} diagnostic`, reason: "5 minutes to find out exactly which concepts you don't know yet. Optional: you can skip it and start learning.", courseId: needsDiag };
+    const fresh = courseIds.find((id) => !active.includes(id));
+    if (!active.length && fresh) return { kind: "learn", title: `Start learning ${courseById[fresh].name}`, reason: "Begin with Unit 1's concepts. Each question you answer builds your mastery.", courseId: fresh };
     const next = active[0] || courseIds[0];
     return next ? { kind: "smart", title: "Continue smart practice", reason: "Keep building mastery on concepts you haven't locked in yet.", courseId: next } : null;
   }
@@ -12257,7 +12264,7 @@ const catIcon = (cat, size = 20) => icon((CAT_META[cat] || CAT_META["AP Capstone
 // switches to "apprep.v1.s.<CODE>", so students sharing a computer each keep their own progress.
 const STORE_KEY = "apprep.v1";
 const STUDENT_KEY = "apprep.student";
-const EMPTY = () => ({ v: 2, q: {}, cs: {}, hist: [], diag: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
+const EMPTY = () => ({ v: 2, q: {}, cs: {}, hist: [], diag: {}, skip: {}, known: {}, mine: [], frq: {}, days: [], recent: null });
 const keyFor = (code) => (code ? `${STORE_KEY}.s.${code}` : STORE_KEY);
 function readProgress(code) {
   try {
@@ -12497,7 +12504,7 @@ function renderHome() {
               ? `<a class="btn btn-primary btn-xl" href="#/today">${icon("zap", 20)} What should I study today?</a>
                  <button class="btn btn-lg" data-pick-diagnostic>${icon("stethoscope", 18)} New diagnostic</button>`
               : `<button class="btn btn-primary btn-xl" data-pick-diagnostic>${icon("stethoscope", 20)} Start diagnostic</button>
-                 <span class="muted small">Quick (12 questions) or full (42) · no sign-up</span>`}
+                 <button class="btn btn-lg" data-pick-learn>${icon("book", 18)} Skip it: learn concepts</button>`}
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -12594,17 +12601,19 @@ const REASON_LABEL = {
   practice: { short: "to strengthen", icon: "trend", title: "Strengthen what you know" },
 };
 
-// Course picker for the "Start diagnostic" button.
-function openDiagnosticPicker() {
+// Course picker for "Start diagnostic" and "Skip it: learn concepts".
+function openDiagnosticPicker(learn = false) {
   const el = document.createElement("div");
   el.className = "palette-overlay";
   el.innerHTML = `
     <div class="palette picker" role="dialog" aria-label="Choose a course">
       <div class="picker-head"><h2>Which course are you taking?</h2><button class="icon-btn" data-close aria-label="Close">${icon("x", 18)}</button></div>
-      <p class="muted">Choose a quick check (12 questions) or a full diagnostic (up to 50 questions across every unit). At the end you'll see exactly which concepts you understand, and which ones to fix first.</p>
+      <p class="muted">${learn
+        ? "Start with Unit 1's concepts. Your mastery builds as you practice, and you can take the diagnostic any time."
+        : "Choose a quick check (12 questions) or a full diagnostic (up to 50 questions across every unit). At the end you'll see exactly which concepts you understand, and which ones to fix first."}</p>
       <div class="picker-grid">${GUIDE_IDS.map((id) => {
         const c = courseById[id];
-        return `<a class="picker-item" href="#/course/${id}/diagnostic" style="${catVars(c.cat)}"><span class="cat-icon sm">${catIcon(c.cat, 16)}</span><span>${esc(c.name)}</span></a>`;
+        return `<a class="picker-item" href="#/course/${id}/${learn ? "unit/1" : "diagnostic"}" ${learn ? `data-skip-diag="${id}"` : ""} style="${catVars(c.cat)}"><span class="cat-icon sm">${catIcon(c.cat, 16)}</span><span>${esc(c.name)}</span></a>`;
       }).join("")}</div>
     </div>`;
   const close = () => { el.remove(); document.body.classList.remove("no-scroll"); document.removeEventListener("keydown", onKey); };
@@ -12615,7 +12624,13 @@ function openDiagnosticPicker() {
   document.body.classList.add("no-scroll");
   el.querySelector(".picker-item").focus();
 }
-document.addEventListener("click", (e) => { if (e.target.closest("[data-pick-diagnostic]")) openDiagnosticPicker(); });
+document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-pick-diagnostic]")) openDiagnosticPicker();
+  else if (e.target.closest("[data-pick-learn]")) openDiagnosticPicker(true);
+  // Choosing to learn without a diagnostic: stop recommending that course's diagnostic.
+  const skip = e.target.closest("[data-skip-diag]");
+  if (skip) { store.data.skip[skip.dataset.skipDiag] = true; store.save(); }
+});
 
 /* ================= "What should I study today?" ================= */
 
@@ -12629,9 +12644,10 @@ function renderToday() {
       <div class="page narrow">
         <div class="page-head"><div class="cat-icon lg">${icon("zap", 26)}</div><div><h1>What should I study today?</h1>
         <p class="muted">We plan your study time from your mistakes, mastery and review schedule. First we need to know where you stand.</p></div></div>
-        <div class="card empty"><div class="empty-ico">${icon("stethoscope", 26)}</div><h3>Take a 5-minute diagnostic first</h3>
-        <p class="muted">12 questions. Then this page will build a personalized plan every day.</p>
-        <button class="btn btn-primary btn-lg" data-pick-diagnostic>${icon("stethoscope", 16)} Start diagnostic</button></div>
+        <div class="card empty"><div class="empty-ico">${icon("stethoscope", 26)}</div><h3>Start with a diagnostic, or skip it</h3>
+        <p class="muted">A 12-question diagnostic finds your weak concepts fastest. Or skip it and learn concept by concept: once you've answered a few questions, this page builds a personalized plan every day.</p>
+        <div class="btn-row center"><button class="btn btn-primary btn-lg" data-pick-diagnostic>${icon("stethoscope", 16)} Start diagnostic</button>
+        <button class="btn btn-lg" data-pick-learn>${icon("book", 16)} Skip it: learn concepts</button></div></div>
       </div>`;
     return;
   }
@@ -12682,6 +12698,7 @@ function recHref(rec) {
   if (rec.kind === "review") return "#/today";
   if (rec.kind === "concept") return `#/practice/concept/${rec.concept.courseId}/${rec.concept.unitIdx}/${rec.concept.conceptIdx}`;
   if (rec.kind === "diagnostic") return `#/course/${rec.courseId}/diagnostic`;
+  if (rec.kind === "learn") return `#/course/${rec.courseId}/unit/1`;
   return `#/course/${rec.courseId}/smart`;
 }
 
@@ -12695,11 +12712,11 @@ function courseCard(c) {
       <div class="cc-row"><span>${m.strong}/${m.total} concepts strong</span><b>${m.pct}%</b></div>${bar(m.pct)}
       ${m.due ? `<span class="due-pill">${icon("calendar", 12)} ${m.due} due</span>` : ""}</div>`;
   } else if (ready) {
-    foot = `<span class="cc-cta">${icon("stethoscope", 14)} ${diag ? "Continue practice" : "Take the diagnostic"}</span><span class="meta">${m.total} concepts</span>`;
+    foot = `<span class="cc-cta">${icon("book", 14)} ${diag ? "Continue practice" : "Start learning"}</span><span class="meta">${m.total} concepts</span>`;
   } else {
     foot = `<div class="badges">${badgesFor(c)}</div><span class="meta">${c.units ? `${c.units.length} units` : "Exam overview"}</span>`;
   }
-  const href = ready && !(m && m.tried) && !diag ? `#/course/${c.id}/diagnostic` : `#/course/${c.id}`;
+  const href = `#/course/${c.id}`;
   return `
     <a class="card course-card" href="${href}" style="${catVars(c.cat)}">
       <div class="course-card-top">
@@ -12779,7 +12796,7 @@ async function renderCourse(course) {
                 ? `<a class="btn btn-primary btn-lg" href="#/course/${course.id}/smart">${icon("zap", 16)} Smart practice</a>
                    <a class="btn btn-lg" href="#/course/${course.id}/diagnostic">${icon("stethoscope", 16)} Retake diagnostic</a>`
                 : `<a class="btn btn-primary btn-lg" href="#/course/${course.id}/diagnostic">${icon("stethoscope", 16)} Take the 5-minute diagnostic</a>
-                   <a class="btn btn-lg" href="#/course/${course.id}/unit/1">${icon("book", 16)} Start at Unit 1</a>`) : ""}
+                   <a class="btn btn-lg" href="#/course/${course.id}/unit/1" data-skip-diag="${course.id}">${icon("book", 16)} Skip it: learn concepts</a>`) : ""}
               <button class="btn btn-lg ${isMine ? "is-starred" : ""}" id="star">${icon("star", 16)} ${isMine ? "In my courses" : "Add to my courses"}</button>
             </div>
           </div>
@@ -13527,6 +13544,11 @@ function renderDiagnostic(course) {
           </button>
         </div>
         <p class="muted small">Need to stop partway? Use "Finish & see report" at any time and we'll grade what you've answered.</p>
+        <div class="diag-skip">
+          <div><b>Rather learn concept by concept?</b>
+          <span class="muted small">The diagnostic is optional. Your mastery builds as you practice each concept, and you can come back to the diagnostic any time.</span></div>
+          <a class="btn" href="#/course/${course.id}/unit/1" data-skip-diag="${course.id}">${icon("book", 16)} Skip: start at Unit 1</a>
+        </div>
       </div>
     </div>`;
   app.querySelectorAll("[data-len]").forEach((btn) => btn.addEventListener("click", () => {
@@ -13886,8 +13908,9 @@ function renderDashboard() {
         <div class="card empty">
           <div class="empty-ico">${icon("stethoscope", 26)}</div>
           <h3>Let's find out what you know</h3>
-          <p class="muted">Take a 5-minute diagnostic. Your mastery table, weakest concepts and recommendations will show up here.</p>
-          <button class="btn btn-primary" data-pick-diagnostic>${icon("stethoscope", 16)} Start diagnostic</button>
+          <p class="muted">Take a 5-minute diagnostic, or skip it and start learning concepts. Your mastery table, weakest concepts and recommendations show up here as soon as you answer questions.</p>
+          <div class="btn-row center"><button class="btn btn-primary" data-pick-diagnostic>${icon("stethoscope", 16)} Start diagnostic</button>
+          <button class="btn" data-pick-learn>${icon("book", 16)} Skip it: learn concepts</button></div>
         </div>`}
     </div>`;
 
