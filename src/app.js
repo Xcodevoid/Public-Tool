@@ -765,6 +765,12 @@ function renderLearn(body, course, idx, unit) {
           <button data-view="both" class="${conceptView === "both" ? "is-active" : ""}">+ Exam detail</button>
         </div>
       </div>
+      <nav class="concept-index" aria-label="Concepts in this unit">
+        ${unit.concepts.map((c, i) => {
+          const st = Engine.status(Engine.state(Engine.conceptKey(course.id, idx, i)));
+          return `<button data-jump="${i}" title="${esc(st.label)}"><span class="ci-dot st-${st.id}"></span><span class="n">${i + 1}</span>${esc(c.title)}</button>`;
+        }).join("")}
+      </nav>
       ${unit.concepts.map((c, i) => {
         const s = Engine.state(Engine.conceptKey(course.id, idx, i));
         return `
@@ -786,6 +792,9 @@ function renderLearn(body, course, idx, unit) {
       }).join("")}
     `;
     body.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => { conceptView = b.dataset.view; draw(); }));
+    body.querySelectorAll("[data-jump]").forEach((b) => b.addEventListener("click", () => {
+      body.querySelector(`#concept-${b.dataset.jump}`).scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
     body.querySelectorAll("[data-try]").forEach((el) => tryIt(el, course, idx, +el.dataset.try));
   };
   draw();

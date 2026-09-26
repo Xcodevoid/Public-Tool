@@ -852,6 +852,18 @@ main { outline: none; min-height: 70vh; }
 @media (max-width: 1120px) { .search-btn { width: auto; } .search-btn .search-label, .search-btn kbd { display: none; } }
 @media (max-width: 800px) { .nav a span:not(.count-pill):not([data-icon]) { display: none; } .nav a { padding: 7px 9px; } }
 
+/* ---------- Concept index on the Learn tab ---------- */
+.concept-index { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+.concept-index button { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text-2); font: inherit; font-size: 0.82rem; cursor: pointer; text-align: left; max-width: 100%; }
+.concept-index button:hover { border-color: var(--border-strong); color: var(--text); }
+.concept-index .n { font-weight: 700; color: var(--muted); }
+.concept-index .ci-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; padding: 0; }
+.concept-index .ci-dot.st-new { background: var(--border-strong); }
+.concept-index .ci-dot.st-weak { background: var(--bad); }
+.concept-index .ci-dot.st-learning { background: var(--warn); }
+.concept-index .ci-dot.st-strong { background: var(--good); }
+.concept { scroll-margin-top: 80px; }
+
 </style>
 </head>
 <body>
@@ -9613,6 +9625,683 @@ window.AP_DEEP["physics-1"] = {
 };
 
 </script>
+<script>/* content/deep/physics-2.js */
+// More key concepts for content/physics-2.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["physics-2"] = {
+  0: [
+    {
+      title: "Pressure from molecular collisions",
+      simple: "Gas pressure comes from countless molecules hitting the container walls.",
+      detail: "Each collision transfers momentum to the wall; pressure = average force per area. Faster molecules (higher T) or more molecules per volume raise pressure. The root-mean-square speed v_rms = √(3kT/m), so lighter molecules move faster at the same temperature.",
+      trap: "At the same temperature, different gases have the same average KE but NOT the same speed. Lighter molecules are faster.",
+      terms: [
+        ["Root-mean-square speed", "v_rms = √(3kT/m), a typical molecular speed."],
+        ["Boltzmann constant (k)", "1.38 × 10⁻²³ J/K, linking temperature and molecular energy."],
+      ],
+    },
+    {
+      title: "Specific heat and thermal equilibrium",
+      simple: "Different materials need different amounts of energy to warm up, and objects in contact reach the same temperature.",
+      detail: "Q = mcΔT. Materials with high specific heat (like water) change temperature slowly. When objects reach thermal equilibrium, heat lost by the hot object = heat gained by the cold one. Heat flows by conduction, convection and radiation; conduction rate depends on area, thickness and thermal conductivity.",
+      trap: "Temperature and heat are different: two objects at the same temperature can hold very different amounts of internal energy.",
+      terms: [
+        ["Specific heat", "Energy to raise 1 kg of a material by 1 K."],
+        ["Thermal equilibrium", "State where objects in contact have the same temperature and no net heat flow."],
+      ],
+    },
+    {
+      title: "Comparing thermodynamic processes",
+      simple: "Each process holds something constant, which decides which terms in the first law are zero.",
+      detail: "Isobaric (constant P): W = −PΔV, horizontal line on a PV diagram. Isochoric (constant V): W = 0, vertical line. Isothermal (constant T): ΔU = 0, curved hyperbola. Adiabatic (Q = 0): steeper curve than isothermal; compression heats the gas. For a closed cycle, ΔU = 0 and net work = enclosed area.",
+      trap: "In an ADIABATIC process no heat flows, but temperature still changes, because work changes the internal energy.",
+      terms: [
+        ["Isobaric process", "A process at constant pressure."],
+        ["Isochoric process", "A process at constant volume; no work is done."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Charge conservation and charging",
+      simple: "Charge is never created or destroyed; it moves between objects by friction, contact or induction.",
+      detail: "Rubbing transfers electrons (friction). Touching a charged conductor shares charge (conduction). Induction uses a nearby charge to separate charges, then grounding removes one kind, leaving the object oppositely charged. Charge is quantized in units of e = 1.6 × 10⁻¹⁹ C.",
+      trap: "Only ELECTRONS move in solids. A positively charged object has lost electrons; it didn't gain protons.",
+      terms: [
+        ["Conservation of charge", "Total charge in an isolated system stays constant."],
+        ["Grounding", "Connecting an object to Earth so charge can flow in or out."],
+        ["Elementary charge", "e = 1.6 × 10⁻¹⁹ C, the charge of one proton."],
+      ],
+    },
+    {
+      title: "Uniform fields and charged particle motion",
+      simple: "Between parallel plates, the field is uniform, so charges accelerate steadily like projectiles.",
+      detail: "Between parallel plates: E = ΔV/d, pointing from + to −. A charge feels F = qE, with a = qE/m. A charge entering sideways follows a parabolic path, like a projectile in gravity. Positive charges accelerate along E; electrons accelerate opposite to E.",
+      trap: "Gravity is usually negligible for electrons and protons in these problems. The electric force is billions of times larger.",
+      terms: [
+        ["Uniform electric field", "A field with the same magnitude and direction everywhere, as between parallel plates."],
+        ["E = ΔV/d", "Field strength between parallel plates."],
+      ],
+    },
+    {
+      title: "Electric potential energy of configurations",
+      simple: "Bringing like charges together stores energy; letting them fly apart releases it.",
+      detail: "For two point charges, U = kq₁q₂/r (positive for like charges, negative for unlike). For several charges, add U for every pair. Conservation of energy: a released charge converts potential energy into kinetic energy (qΔV = −ΔK).",
+      trap: "Electric potential (V) is energy PER CHARGE; potential energy (U) is the total. U = qV.",
+      terms: [
+        ["Electric potential energy", "Energy stored in a configuration of charges: U = kq₁q₂/r."],
+        ["Electron volt (eV)", "Energy gained by one electron across 1 volt: 1.6 × 10⁻¹⁹ J."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Electric power",
+      simple: "Power tells how fast a circuit element converts electrical energy, and brighter bulbs use more power.",
+      detail: "P = IV = I²R = V²/R. In series, the larger resistor gets more power (same I). In parallel, the smaller resistor gets more power (same V). Bulb brightness depends on the power it dissipates.",
+      trap: "Which bulb is brighter depends on the connection: in SERIES the bigger resistance glows brighter, in PARALLEL the smaller one does.",
+      terms: [
+        ["Electric power", "Rate of energy transfer: P = IV."],
+        ["Kilowatt-hour", "Unit of energy: 1 kW for 1 hour = 3.6 × 10⁶ J."],
+      ],
+    },
+    {
+      title: "Meters and internal resistance",
+      simple: "Ammeters go in series, voltmeters go in parallel, and real batteries lose some voltage inside.",
+      detail: "An ideal ammeter has zero resistance and is placed in series; an ideal voltmeter has infinite resistance and is placed in parallel. A real battery has internal resistance r: terminal voltage V = ε − Ir, which drops as current rises.",
+      trap: "A voltmeter placed in SERIES blocks the current. Meter placement is a frequent lab-design question.",
+      terms: [
+        ["Ammeter", "Measures current; connected in series."],
+        ["Voltmeter", "Measures potential difference; connected in parallel."],
+        ["Terminal voltage", "V = ε − Ir for a battery with internal resistance."],
+      ],
+    },
+    {
+      title: "Capacitors in series and parallel",
+      simple: "Capacitors combine opposite to resistors.",
+      detail: "Parallel: C_eq = C₁ + C₂ (same V). Series: 1/C_eq = 1/C₁ + 1/C₂ (same Q). Energy stored U = ½CV². In an RC circuit at steady state, no current flows through a capacitor branch, and the capacitor's voltage equals the voltage across its parallel branch.",
+      trap: "Parallel capacitors ADD directly, like series resistors. Don't use the resistor rules.",
+      terms: [
+        ["Capacitors in parallel", "Capacitances add: C_eq = C₁ + C₂."],
+        ["Energy in a capacitor", "U = ½CV²"],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Circular motion of charges in magnetic fields",
+      simple: "A charge moving perpendicular to a magnetic field travels in a circle.",
+      detail: "Magnetic force provides the centripetal force: qvB = mv²/r, so r = mv/(qB). Faster or heavier particles make bigger circles; stronger fields make smaller ones. Mass spectrometers use this to separate isotopes. The magnetic force does no work, so speed stays constant.",
+      trap: "The radius is proportional to MOMENTUM (mv). Doubling speed doubles the radius.",
+      terms: [
+        ["Radius in a magnetic field", "r = mv/(qB)"],
+        ["Mass spectrometer", "Device separating particles by mass using magnetic deflection."],
+      ],
+    },
+    {
+      title: "Motional emf",
+      simple: "A conductor moving through a magnetic field develops a voltage across it.",
+      detail: "A rod of length L moving at speed v perpendicular to B has emf ε = BLv. In a circuit, this drives current I = BLv/R. The magnetic force on the induced current opposes the motion (Lenz's law), so an external force is needed to keep the rod moving.",
+      trap: "The force on the induced current always OPPOSES the rod's motion. Otherwise energy would come from nothing.",
+      terms: [
+        ["Motional emf", "ε = BLv for a conductor moving through a magnetic field."],
+        ["Eddy currents", "Induced current loops in conductors that oppose motion."],
+      ],
+    },
+    {
+      title: "Magnetic dipoles and materials",
+      simple: "Magnets always have north and south poles, and some materials become magnetized in a field.",
+      detail: "Magnetic field lines leave north and enter south, forming closed loops (no isolated poles). Ferromagnetic materials (iron) have domains that align in a field. A current loop acts like a magnetic dipole. Earth's magnetic field acts like a giant bar magnet.",
+      trap: "Cutting a magnet in half gives two smaller magnets, each with N and S poles. Magnetic monopoles don't exist.",
+      terms: [
+        ["Magnetic dipole", "A pair of north and south poles, like a bar magnet or current loop."],
+        ["Ferromagnetism", "Strong magnetization from aligned domains, as in iron."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Plane mirrors and images",
+      simple: "A plane mirror makes a virtual image the same size, as far behind the mirror as the object is in front.",
+      detail: "Law of reflection: angle of incidence = angle of reflection, measured from the normal. Plane mirror images are virtual, upright, same size, and left-right reversed. Rays appear to come from the image location.",
+      trap: "Measure angles from the NORMAL (perpendicular to the surface), not from the surface itself.",
+      terms: [
+        ["Law of reflection", "Angle of incidence equals angle of reflection."],
+        ["Virtual image", "An image where light rays only appear to come from; it can't be projected."],
+      ],
+    },
+    {
+      title: "The thin lens and mirror equations",
+      simple: "One equation relates object distance, image distance and focal length for lenses and mirrors.",
+      detail: "1/f = 1/d_o + 1/d_i. Magnification M = h_i/h_o = −d_i/d_o. Converging lenses and concave mirrors have f > 0; diverging lenses and convex mirrors have f < 0. Positive d_i means a real image; negative means virtual.",
+      trap: "Sign conventions matter: a negative image distance means VIRTUAL, and negative magnification means INVERTED.",
+      terms: [
+        ["Thin lens equation", "1/f = 1/d_o + 1/d_i"],
+        ["Magnification", "M = −d_i/d_o = h_i/h_o"],
+      ],
+    },
+    {
+      title: "Ray diagrams",
+      simple: "Draw two or three special rays to find where an image forms.",
+      detail: "For a converging lens: a ray parallel to the axis refracts through the far focal point; a ray through the center goes straight; a ray through the near focal point exits parallel. An object inside the focal length of a converging lens forms a virtual, upright, enlarged image (a magnifying glass). Diverging lenses always form virtual, upright, smaller images.",
+      trap: "An object AT the focal point of a converging lens forms no image: the rays exit parallel.",
+      terms: [
+        ["Principal rays", "Standard rays used to locate images in ray diagrams."],
+        ["Converging lens", "A lens that bends parallel rays toward a focal point."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "Types of waves and wave speed",
+      simple: "Waves carry energy, not matter, and their speed depends on the medium.",
+      detail: "Transverse waves oscillate perpendicular to their direction (light, waves on a string); longitudinal waves oscillate parallel (sound). v = fλ. The medium sets wave speed; frequency is set by the source and stays the same when a wave changes medium, so wavelength changes.",
+      trap: "When a wave enters a new medium, FREQUENCY stays the same; speed and wavelength change.",
+      terms: [
+        ["Transverse wave", "A wave whose oscillation is perpendicular to its direction of travel."],
+        ["Longitudinal wave", "A wave whose oscillation is parallel to its direction of travel, like sound."],
+      ],
+    },
+    {
+      title: "Superposition and beats",
+      simple: "Overlapping waves add together, and two slightly different frequencies make a pulsing sound.",
+      detail: "Superposition: the displacements of overlapping waves add. Beat frequency = |f₁ − f₂|, heard as loudness rising and falling. Musicians tune instruments by eliminating beats.",
+      trap: "Beat frequency is the DIFFERENCE between the two frequencies, not their average or sum.",
+      terms: [
+        ["Superposition principle", "Overlapping waves' displacements add."],
+        ["Beat frequency", "|f₁ − f₂|, the rate of loudness variation."],
+      ],
+    },
+    {
+      title: "Double-slit interference and diffraction gratings",
+      simple: "Light through two slits makes bright and dark bands, proving it behaves like a wave.",
+      detail: "Bright fringes where the path difference is a whole number of wavelengths: d sin θ = mλ. For small angles, fringe spacing Δy = λL/d. Diffraction gratings (many slits) give sharper, brighter maxima. Single-slit diffraction spreads light more for narrower slits.",
+      trap: "Fringes spread FARTHER apart with longer wavelength or SMALLER slit spacing.",
+      terms: [
+        ["Path difference", "Difference in distance traveled by two waves."],
+        ["Diffraction grating", "A surface with many slits producing sharp interference maxima."],
+      ],
+    },
+    {
+      title: "Thin-film interference",
+      simple: "Colors in soap bubbles come from light reflecting off both surfaces of a thin film.",
+      detail: "Light reflecting off a medium with a higher index of refraction flips phase by half a wavelength. The extra path through the film (2t) combined with these phase flips determines whether reflected colors interfere constructively or destructively. The wavelength inside the film is λ/n.",
+      trap: "Count phase flips at EACH surface. Only reflection from a higher-index medium flips the phase.",
+      terms: [
+        ["Thin-film interference", "Interference between reflections from the two surfaces of a thin film."],
+        ["Phase change on reflection", "A half-wavelength shift when light reflects from a higher-index medium."],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "Mass–energy equivalence and binding energy",
+      simple: "Mass can turn into energy: E = mc².",
+      detail: "The mass of a nucleus is less than the total mass of its separate protons and neutrons; this mass defect times c² is the binding energy. Fission of heavy nuclei and fusion of light nuclei both release energy by moving toward the most tightly bound nuclei (around iron).",
+      trap: "Both fission AND fusion release energy, because both increase binding energy per nucleon.",
+      terms: [
+        ["Mass defect", "Difference between the mass of separated nucleons and the nucleus."],
+        ["Binding energy", "Energy needed to separate a nucleus into its nucleons."],
+      ],
+    },
+    {
+      title: "Types of radioactive decay",
+      simple: "Unstable nuclei release alpha particles, beta particles, or gamma rays.",
+      detail: "Alpha decay: emits a helium nucleus (mass number −4, atomic number −2). Beta-minus decay: a neutron becomes a proton, emitting an electron (atomic number +1). Beta-plus decay emits a positron. Gamma decay emits a photon with no change in particles. Charge and nucleon number are conserved.",
+      trap: "In beta-minus decay, the atomic number INCREASES by 1 while the mass number stays the same.",
+      terms: [
+        ["Alpha decay", "Emission of a helium nucleus, reducing mass number by 4."],
+        ["Beta-minus decay", "A neutron converts to a proton, emitting an electron."],
+        ["Gamma ray", "High-energy photon emitted by a nucleus."],
+      ],
+    },
+    {
+      title: "Conservation laws in nuclear reactions",
+      simple: "Nuclear reactions conserve charge, nucleon number, energy and momentum.",
+      detail: "Balance equations so the atomic numbers (charge) and mass numbers (nucleons) are equal on both sides. Energy released (Q) = (mass of reactants − mass of products)c². Momentum is conserved, so decay products recoil in opposite directions.",
+      trap: "Balance BOTH the top numbers (mass number) and the bottom numbers (atomic number).",
+      terms: [
+        ["Nucleon number", "Total number of protons and neutrons (mass number)."],
+        ["Q value", "Energy released in a nuclear reaction."],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/physics-c-em.js */
+// More key concepts for content/physics-c-em.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["physics-c-em"] = {
+  0: [
+    {
+      title: "Superposition of point-charge fields",
+      simple: "The total field from several charges is the vector sum of each charge's field.",
+      detail: "Find each field's magnitude with kq/r², draw its direction (away from +, toward −), break into components, and add. Symmetry often cancels components. Somewhere between two like charges the field is zero; for unlike charges, the zero point lies outside, nearer the smaller charge.",
+      trap: "Add fields as VECTORS by component. Adding magnitudes directly is only valid when they point the same way.",
+      terms: [
+        ["Superposition", "The net field is the vector sum of individual fields."],
+        ["Null point", "A location where the net electric field is zero."],
+      ],
+    },
+    {
+      title: "Electric dipoles",
+      simple: "A dipole is a pair of equal and opposite charges; in a field, it feels torque but no net force.",
+      detail: "Dipole moment p = qd, pointing from − to +. In a uniform field: net force = 0, torque τ = p × E (magnitude pE sin θ), which aligns the dipole with the field. Potential energy U = −p·E is lowest when aligned. Far from a dipole, its field falls off as 1/r³.",
+      trap: "In a UNIFORM field, a dipole feels zero net force. It only rotates. A nonuniform field can pull it.",
+      terms: [
+        ["Dipole moment", "p = qd, pointing from the negative to the positive charge."],
+        ["Torque on a dipole", "τ = p × E"],
+      ],
+    },
+    {
+      title: "Field lines",
+      simple: "Field lines show the direction of the field, and their density shows its strength.",
+      detail: "Lines start on positive charges and end on negative charges (or infinity), never cross, and are perpendicular to conductor surfaces. The number of lines is proportional to the charge. Closer lines mean a stronger field.",
+      trap: "A charge released from rest does NOT generally follow a curved field line. Its velocity and the field direction can differ.",
+      terms: [
+        ["Field line density", "Closer lines indicate a stronger field."],
+        ["Field line rule", "Field lines never cross each other."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Potential of continuous charge distributions",
+      simple: "Add up the potential from every small piece of charge, which is easier than adding fields because potential is a scalar.",
+      detail: "V = ∫k dq/r. On the axis of a ring: V = kQ/√(x² + R²). For a uniformly charged rod, integrate along its length. Once V is known as a function of position, find E = −dV/dx.",
+      trap: "No vector components needed for V: it's a scalar. That's why finding V first and then E = −dV/dx is often easier.",
+      terms: [
+        ["Potential from continuous charge", "V = ∫k dq/r"],
+        ["Potential on a ring's axis", "V = kQ/√(x² + R²)"],
+      ],
+    },
+    {
+      title: "Equipotential surfaces",
+      simple: "Equipotentials are surfaces of constant voltage, always perpendicular to field lines.",
+      detail: "Moving a charge along an equipotential takes no work. Closely spaced equipotentials mean a strong field (E ≈ ΔV/Δs). Around a point charge, equipotentials are spheres; between parallel plates, they are flat planes parallel to the plates.",
+      trap: "Equipotentials and field lines are always PERPENDICULAR. Drawing them any other way loses points.",
+      terms: [
+        ["Equipotential surface", "A surface where the potential is the same everywhere."],
+        ["Field from equipotential spacing", "E ≈ ΔV/Δs, stronger where equipotentials are closer."],
+      ],
+    },
+    {
+      title: "Potential of spheres and conductors",
+      simple: "Outside a charged sphere, V looks like a point charge; inside a conductor, V is constant.",
+      detail: "For a charged conducting sphere: V = kQ/r outside, and V = kQ/R (constant) everywhere inside. For a uniformly charged insulating sphere, V keeps increasing toward the center. Connecting two conducting spheres by a wire makes them the same potential, so the smaller sphere has a higher surface charge density.",
+      trap: "E = 0 inside a conductor but V is NOT zero. It equals the surface value.",
+      terms: [
+        ["Potential inside a conductor", "Constant, equal to its surface potential."],
+        ["Charge sharing", "Connected conductors reach the same potential."],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "Induced charges and shielding",
+      simple: "A conductor rearranges its charges to cancel fields inside, which shields its interior.",
+      detail: "A charge placed inside a cavity of a neutral conductor induces an equal and opposite charge on the cavity wall and an equal charge on the outer surface. A closed conducting shell with no charge inside has zero field in its cavity, regardless of outside fields (a Faraday cage).",
+      trap: "Charge inside a cavity still shows up on the OUTER surface of the conductor. The outside field isn't blocked.",
+      terms: [
+        ["Faraday cage", "A conducting enclosure that blocks external electric fields."],
+        ["Induced charge", "Charge redistributed in a conductor by a nearby field."],
+      ],
+    },
+    {
+      title: "Capacitance of cylinders and spheres",
+      simple: "Use Gauss's law to find the field, integrate to find ΔV, then C = Q/ΔV.",
+      detail: "Steps: assume charge ±Q, find E between the conductors with Gauss's law, compute ΔV = −∫E·dr, and divide. Cylindrical: C = 2πε₀L/ln(b/a). Spherical: C = 4πε₀ab/(b − a). An isolated sphere: C = 4πε₀R.",
+      trap: "Capacitance depends only on GEOMETRY. The Q you assumed cancels out at the end.",
+      terms: [
+        ["Cylindrical capacitor", "C = 2πε₀L/ln(b/a)"],
+        ["Isolated sphere capacitance", "C = 4πε₀R"],
+      ],
+    },
+    {
+      title: "How dielectrics work",
+      simple: "A dielectric's molecules line up in the field, weakening it and letting the capacitor store more charge.",
+      detail: "Polarized molecules create an opposing internal field, so the net field is reduced by a factor κ. With the battery disconnected (Q fixed), V drops and C rises by κ. With the battery connected (V fixed), Q rises by κ. Every dielectric has a breakdown field beyond which it conducts.",
+      trap: "Decide first whether Q or V is fixed. The effects of inserting a dielectric depend on it.",
+      terms: [
+        ["Polarization", "Alignment of molecular dipoles in an electric field."],
+        ["Dielectric strength", "The maximum field a material can withstand before breaking down."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Multi-loop circuits with Kirchhoff's rules",
+      simple: "For circuits that can't be simplified, write junction and loop equations and solve them together.",
+      detail: "Assign a current (with a guessed direction) to each branch. Junction rule at nodes: ΣI_in = ΣI_out. Loop rule around independent loops: ΣΔV = 0 (−IR going with the current, +ε going from − to + through a battery). A negative answer means the current actually flows the other way.",
+      trap: "A negative current isn't wrong. It means your guessed direction was backward. Keep the sign when using it.",
+      terms: [
+        ["Branch current", "The current in one path of a circuit."],
+        ["Independent loops", "Loops giving new equations; you need as many as unknown currents minus junction equations."],
+      ],
+    },
+    {
+      title: "Current density and resistivity",
+      simple: "Current comes from charges drifting slowly through a wire, and resistivity depends on the material.",
+      detail: "I = nqv_dA, where v_d is the drift velocity (typically under a millimeter per second). Current density J = I/A = σE, and resistivity ρ = 1/σ. R = ρL/A. Resistivity of metals rises with temperature.",
+      trap: "Drift velocity is SLOW even though signals travel near light speed. The field sets all charges moving almost instantly.",
+      terms: [
+        ["Drift velocity", "The average velocity of charge carriers in a conductor."],
+        ["Current density", "J = I/A, current per unit cross-sectional area."],
+      ],
+    },
+    {
+      title: "Discharging RC circuits",
+      simple: "A discharging capacitor loses charge exponentially through the resistor.",
+      detail: "q(t) = Q₀e^(−t/RC), I(t) = (Q₀/RC)e^(−t/RC), V(t) = V₀e^(−t/RC). After one time constant, 37% remains. The energy stored in the capacitor is dissipated in the resistor. With several resistors, use the equivalent resistance the capacitor sees.",
+      trap: "During discharge, the current flows OPPOSITE to its charging direction. Watch the direction in circuit questions.",
+      terms: [
+        ["Discharging capacitor", "q(t) = Q₀e^(−t/RC)"],
+        ["37% rule", "After one time constant, a discharging capacitor keeps about 37% of its charge."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Magnetic dipole moment and torque on loops",
+      simple: "A current loop in a magnetic field feels a torque that turns it to line up with the field.",
+      detail: "Magnetic moment μ = NIA, perpendicular to the loop (right-hand rule). Torque τ = μ × B, magnitude NIAB sin θ. In a uniform field, the net force on a closed loop is zero. This torque powers electric motors.",
+      trap: "The torque is MAXIMUM when the plane of the loop is parallel to B (μ perpendicular to B), and zero when the loop faces the field.",
+      terms: [
+        ["Magnetic moment", "μ = NIA for a current loop."],
+        ["Torque on a current loop", "τ = μ × B"],
+      ],
+    },
+    {
+      title: "Velocity selectors and combined fields",
+      simple: "Crossed electric and magnetic fields let only particles of one speed pass straight through.",
+      detail: "The Lorentz force F = q(E + v × B). When qE = qvB, the forces cancel: v = E/B. Faster particles curve one way and slower ones the other. Mass spectrometers pair a velocity selector with a magnetic field to measure mass.",
+      trap: "The selected speed v = E/B is the same for ANY charge or mass. Only speed matters.",
+      terms: [
+        ["Lorentz force", "F = q(E + v × B)"],
+        ["Velocity selector", "Crossed E and B fields passing only particles with v = E/B."],
+      ],
+    },
+    {
+      title: "Using the Biot–Savart law for arcs and segments",
+      simple: "For curved or finite wires, add up the field contributions from each small piece.",
+      detail: "Arc of angle θ (radians) and radius R, at its center: B = μ₀Iθ/(4πR). A full loop (θ = 2π) gives μ₀I/(2R). Straight segments pointing directly at the point contribute nothing. Combine contributions from arcs and segments with their directions.",
+      trap: "Straight wire segments aimed at the point contribute ZERO field, because dl × r̂ = 0 for them.",
+      terms: [
+        ["Field at the center of an arc", "B = μ₀Iθ/(4πR)"],
+        ["Field at the center of a loop", "B = μ₀I/(2R)"],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "Rotating loops and generators",
+      simple: "A coil spinning in a magnetic field produces an alternating emf.",
+      detail: "Φ = NBA cos(ωt), so ε = NBAω sin(ωt). The emf is greatest when the flux is changing fastest, which happens when the flux itself is zero (the loop's plane is parallel to B). Generators convert mechanical work into electrical energy; motors do the reverse.",
+      trap: "Maximum emf occurs at ZERO flux, not maximum flux. The emf depends on the rate of change.",
+      terms: [
+        ["AC generator", "A rotating coil in a magnetic field that produces alternating emf."],
+        ["Peak emf of a generator", "ε_max = NBAω"],
+      ],
+    },
+    {
+      title: "Self-inductance of a solenoid",
+      simple: "A coil's inductance depends on its turns, area and length.",
+      detail: "For a long solenoid: L = μ₀N²A/ℓ. The induced emf ε = −L dI/dt opposes changes in current. Inductors smooth current changes, so a sudden break in a circuit with an inductor can cause a large voltage spike.",
+      trap: "Inductance scales with N², so doubling the number of turns (same length) quadruples L.",
+      terms: [
+        ["Inductance of a solenoid", "L = μ₀N²A/ℓ"],
+        ["Back emf", "The emf induced in an inductor opposing changes in current."],
+      ],
+    },
+    {
+      title: "Energy in inductors and magnetic fields",
+      simple: "An inductor stores energy in its magnetic field, just as a capacitor stores it in an electric field.",
+      detail: "U = ½LI². Magnetic energy density u = B²/(2μ₀). In an LR circuit, the energy stored at steady state is ½L(ε/R)². When the circuit is opened through a resistor, that energy is dissipated as heat.",
+      trap: "At steady state, the inductor acts like a wire (no voltage across it) but STILL stores energy ½LI².",
+      terms: [
+        ["Energy in an inductor", "U = ½LI²"],
+        ["Magnetic energy density", "u = B²/(2μ₀)"],
+      ],
+    },
+  ],
+};
+
+</script>
+<script>/* content/deep/physics-c-mechanics.js */
+// More key concepts for content/physics-c-mechanics.js, appended to each unit after the original concepts.
+// Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
+window.AP_DEEP = window.AP_DEEP || {};
+window.AP_DEEP["physics-c-mechanics"] = {
+  0: [
+    {
+      title: "Vectors in two dimensions",
+      simple: "Break two-dimensional motion into independent x and y components.",
+      detail: "Position, velocity and acceleration are vectors: r = xî + yĵ, v = dr/dt, a = dv/dt. Treat each component separately with its own equations, then combine: speed = √(vₓ² + v_y²). The dot product finds components along a direction; unit vectors î and ĵ mark directions.",
+      trap: "Each direction has its OWN acceleration. Don't use a vertical acceleration in horizontal equations.",
+      terms: [
+        ["Unit vector", "A vector of length 1 marking a direction, like î or ĵ."],
+        ["Position vector", "r(t) = x(t)î + y(t)ĵ"],
+      ],
+    },
+    {
+      title: "Relative motion",
+      simple: "Velocity depends on the reference frame, and velocities in different frames add as vectors.",
+      detail: "v_A relative to ground = v_A relative to B + v_B relative to ground. Accelerations are the same in all inertial frames. Classic problems: boats crossing rivers and planes in wind, where the heading and actual path differ.",
+      trap: "For a boat to go straight across a river, it must point UPSTREAM, so its crossing speed is less than its speed in still water.",
+      terms: [
+        ["Relative velocity", "Velocity measured with respect to a chosen reference frame."],
+        ["Galilean transformation", "Adding velocities between frames: v = v′ + u."],
+      ],
+    },
+    {
+      title: "Kinematics graphs with calculus",
+      simple: "Slopes of graphs give derivatives, and areas under graphs give integrals.",
+      detail: "Slope of x–t = velocity; slope of v–t = acceleration. Area under v–t = displacement; area under a–t = change in velocity. Curved graphs need instantaneous slopes (tangent lines) and integrals rather than simple triangles and rectangles.",
+      trap: "Area under an a–t graph gives CHANGE in velocity, not the velocity itself. Add the initial velocity.",
+      terms: [
+        ["Slope of a v–t graph", "Instantaneous acceleration."],
+        ["Area under an a–t graph", "Change in velocity."],
+      ],
+    },
+  ],
+  1: [
+    {
+      title: "Friction",
+      simple: "Friction opposes sliding: static friction adjusts up to a limit, kinetic friction is roughly constant.",
+      detail: "Static friction: f_s ≤ μ_sN, only as large as needed to prevent slipping. Kinetic friction: f_k = μ_kN, opposite the relative motion. Usually μ_s > μ_k. On an incline at the verge of slipping, μ_s = tan θ.",
+      trap: "Static friction is NOT always μ_sN. That's only its maximum, reached right before slipping.",
+      terms: [
+        ["Static friction", "Friction preventing motion, up to μ_sN."],
+        ["Kinetic friction", "f_k = μ_kN, opposing sliding motion."],
+      ],
+    },
+    {
+      title: "Connected systems",
+      simple: "Treat connected objects as one system for acceleration, then isolate one object to find tension.",
+      detail: "For an Atwood machine (ideal pulley): a = (m₁ − m₂)g/(m₁ + m₂). Write Newton's second law for each object with a consistent sign convention for the direction of motion. Tension is internal to the system and cancels when the objects are combined.",
+      trap: "Tension is NOT equal to either hanging weight when the system accelerates. Solve for it.",
+      terms: [
+        ["Atwood machine", "Two masses connected over a pulley."],
+        ["Ideal pulley", "Massless, frictionless pulley; the tension is the same on both sides."],
+      ],
+    },
+    {
+      title: "Spring forces",
+      simple: "A spring pulls or pushes back in proportion to how far it's stretched or compressed.",
+      detail: "F = −kx. Springs in series: 1/k_eq = 1/k₁ + 1/k₂ (softer). Springs in parallel: k_eq = k₁ + k₂ (stiffer). A hanging mass stretches a spring by x = mg/k to its new equilibrium.",
+      trap: "Springs combine OPPOSITE to resistors: in series the equivalent spring constant is SMALLER.",
+      terms: [
+        ["Springs in parallel", "k_eq = k₁ + k₂"],
+        ["Springs in series", "1/k_eq = 1/k₁ + 1/k₂"],
+      ],
+    },
+  ],
+  2: [
+    {
+      title: "The work-energy theorem with variable forces",
+      simple: "Net work, even from changing forces, equals the change in kinetic energy.",
+      detail: "W_net = ∫F_net · dx = ΔK. For a force given as F(x), integrate to find work, then use ΔK to find the speed. Negative net work slows the object down.",
+      trap: "Use the NET force for ΔK, or add the work of every force. One force's work alone doesn't give the speed change.",
+      terms: [
+        ["Work-energy theorem", "W_net = ΔK"],
+        ["Work by a variable force", "W = ∫F(x) dx"],
+      ],
+    },
+    {
+      title: "Nonconservative work",
+      simple: "Friction and other nonconservative forces change a system's mechanical energy.",
+      detail: "W_nc = ΔK + ΔU. Kinetic friction removes mechanical energy, converting it to thermal energy; the work depends on the path. With drag forces that vary with speed, the energy lost must be found by integration or from the energy difference.",
+      trap: "Conservative forces can be written as potential energy; nonconservative forces CAN'T. Don't give friction a potential energy.",
+      terms: [
+        ["Nonconservative force", "A force whose work depends on path, like friction."],
+        ["Mechanical energy", "K + U"],
+      ],
+    },
+    {
+      title: "Energy diagrams and turning points",
+      simple: "A U(x) graph shows where an object can go, where it turns around, and where it balances.",
+      detail: "Total energy E is a horizontal line. The object can only be where U ≤ E; K = E − U at each point. Turning points occur where U = E (K = 0). The force is F = −dU/dx: it points downhill on the graph. Minima are stable equilibria; maxima are unstable.",
+      trap: "The object can't be where U > E. Those regions are classically FORBIDDEN, since K would be negative.",
+      terms: [
+        ["Turning point", "Where U = E and the object momentarily stops."],
+        ["Unstable equilibrium", "A maximum of U(x); a small push sends the object away."],
+      ],
+    },
+  ],
+  3: [
+    {
+      title: "Momentum and Newton's second law",
+      simple: "Force equals the rate of change of momentum, which works even when mass changes.",
+      detail: "F_net = dp/dt. For constant mass this is ma. It applies directly to changing-mass systems like rockets and conveyor belts (F = v dm/dt when material lands at speed v). A system's total momentum changes only due to external forces.",
+      trap: "For changing mass, use F = dp/dt, not F = ma. Mass entering or leaving the system carries momentum.",
+      terms: [
+        ["Newton's second law (momentum form)", "F_net = dp/dt"],
+        ["Rocket propulsion", "Forward force from expelling mass backward at high speed."],
+      ],
+    },
+    {
+      title: "Center of mass of continuous objects",
+      simple: "For a solid object, find the center of mass by integrating over its mass.",
+      detail: "x_cm = (1/M)∫x dm. With linear density λ(x), dm = λ dx. A uniform rod's center of mass is at its middle; if density increases toward one end, the center of mass shifts that way. For systems, v_cm = Σm·v/M and a_cm = F_ext/M.",
+      trap: "Set dm correctly: for a rod with λ = kx, dm = kx dx, and the total mass M = ∫λ dx isn't just k × L.",
+      terms: [
+        ["dm for a rod", "dm = λ dx, where λ may vary with position."],
+        ["Center of mass (continuous)", "x_cm = (1/M)∫x dm"],
+      ],
+    },
+    {
+      title: "Collisions in two dimensions",
+      simple: "In 2D collisions, momentum is conserved separately in the x and y directions.",
+      detail: "Σpₓ before = Σpₓ after, and Σp_y before = Σp_y after. Glancing collisions produce objects moving at angles. For an elastic collision between equal masses with one at rest, they move off at 90° to each other.",
+      trap: "Conserve each COMPONENT separately. Adding the momentum magnitudes (ignoring direction) gives wrong answers.",
+      terms: [
+        ["Glancing collision", "A collision where objects move off at angles."],
+        ["Momentum components", "pₓ and p_y, each conserved separately with no external force."],
+      ],
+    },
+  ],
+  4: [
+    {
+      title: "Calculating rotational inertia by integration",
+      simple: "Rotational inertia adds up r² times each bit of mass across an object.",
+      detail: "I = ∫r² dm. For a uniform rod about its center: I = ML²/12; about one end: ML²/3. Thin hoop: MR². Solid disk: ½MR². Solid sphere: ⅖MR². The same mass farther from the axis gives more rotational inertia.",
+      trap: "Measure r from the AXIS OF ROTATION, not from the object's center, when setting up the integral.",
+      terms: [
+        ["Rotational inertia (integral)", "I = ∫r² dm"],
+        ["Solid sphere", "I = ⅖MR² about its center."],
+      ],
+    },
+    {
+      title: "The parallel-axis theorem",
+      simple: "Shift rotational inertia to a new axis by adding Md².",
+      detail: "I = I_cm + Md², where d is the distance between the new axis and a parallel axis through the center of mass. The smallest rotational inertia for any direction is about an axis through the center of mass.",
+      trap: "Start from the CENTER-OF-MASS axis. You can't use the theorem directly between two off-center axes.",
+      terms: [
+        ["Distance d in the parallel-axis theorem", "The distance between the new axis and the parallel center-of-mass axis."],
+        ["Center-of-mass axis", "Axis through the center of mass; gives the minimum I for that direction."],
+      ],
+    },
+    {
+      title: "Torque as a cross product",
+      simple: "Torque is a vector: its direction comes from the right-hand rule.",
+      detail: "τ = r × F, magnitude rF sin θ, where r goes from the axis to the point where F acts. Curl your fingers from r to F; your thumb points along τ. Counterclockwise torques point out of the page; clockwise into it.",
+      trap: "Use the angle BETWEEN r and F. When they are parallel or antiparallel, the torque is zero.",
+      terms: [
+        ["Torque vector", "τ = r × F"],
+        ["Lever arm", "Perpendicular distance from the axis to the line of the force."],
+      ],
+    },
+  ],
+  5: [
+    {
+      title: "Rolling with friction",
+      simple: "Static friction makes objects roll without slipping; it adjusts to keep v = Rω.",
+      detail: "For rolling without slipping, v = Rω and a = Rα, and static friction does no work. Down an incline, objects with smaller I/(MR²) accelerate faster: a solid sphere beats a disk, which beats a hoop. If an object slips, kinetic friction does work and v ≠ Rω.",
+      trap: "In a race down a ramp, MASS and RADIUS don't matter, only the shape (the ratio I/MR²).",
+      terms: [
+        ["Contact point in rolling", "The point touching the ground is momentarily at rest."],
+        ["Shape factor", "The ratio I/(MR²), which determines rolling acceleration."],
+      ],
+    },
+    {
+      title: "Angular impulse",
+      simple: "A torque acting over time changes angular momentum.",
+      detail: "Angular impulse = ∫τ dt = ΔL, the rotational analog of J = Δp. Net external torque τ = dL/dt. A point particle has angular momentum L = r × p about any point, magnitude mvr⊥.",
+      trap: "Angular momentum depends on the chosen POINT. State which point you are measuring it about.",
+      terms: [
+        ["Net torque and angular momentum", "τ_net = dL/dt"],
+        ["Angular momentum of a particle", "L = r × p"],
+      ],
+    },
+    {
+      title: "Orbits and Kepler's laws",
+      simple: "Planets move in ellipses, sweep out equal areas in equal times, and take longer to orbit when farther out.",
+      detail: "Kepler's second law follows from conservation of angular momentum: a planet moves fastest at its closest point. Kepler's third law: T² ∝ r³ (T² = 4π²r³/GM for circular orbits). Gravitational PE U = −GMm/r; circular orbit total energy E = −GMm/(2r).",
+      trap: "Angular momentum (not speed) is constant in an elliptical orbit, so speed CHANGES around the orbit.",
+      terms: [
+        ["Kepler's third law", "T² ∝ r³ for orbits around the same body."],
+        ["Gravitational potential energy", "U = −GMm/r, zero at infinite separation."],
+      ],
+    },
+  ],
+  6: [
+    {
+      title: "The physical pendulum",
+      simple: "Any rigid object swinging about a pivot oscillates with a period set by its inertia and center of mass.",
+      detail: "For small angles, τ = −mgd θ, so T = 2π√(I/(mgd)), where d is the distance from pivot to center of mass and I is about the pivot. A simple pendulum is the special case I = mL², d = L, giving T = 2π√(L/g).",
+      trap: "Use rotational inertia about the PIVOT, not about the center of mass (use the parallel-axis theorem).",
+      terms: [
+        ["Period of a physical pendulum", "T = 2π√(I/(mgd)), with I about the pivot."],
+        ["Torsion pendulum", "An object twisting on a wire: T = 2π√(I/κ)."],
+      ],
+    },
+    {
+      title: "Phase and initial conditions",
+      simple: "The general SHM solution has an amplitude and a phase that match where the motion starts.",
+      detail: "x(t) = A cos(ωt + φ). Use x(0) and v(0) to find A and φ: A = √(x₀² + (v₀/ω)²). Starting at maximum displacement: φ = 0 (cosine). Starting at equilibrium moving in the positive direction: x = A sin(ωt).",
+      trap: "Match BOTH initial position and initial velocity. A cosine starting at x = A only fits if the object starts at rest.",
+      terms: [
+        ["Phase constant (φ)", "Sets where in the cycle the oscillation starts."],
+        ["Amplitude from initial conditions", "A = √(x₀² + (v₀/ω)²)"],
+      ],
+    },
+    {
+      title: "Vertical springs and SHM",
+      simple: "A mass on a vertical spring oscillates the same way as a horizontal one, around a shifted equilibrium.",
+      detail: "The new equilibrium stretch is mg/k. Measured from that point, the motion is SHM with ω = √(k/m) and the same period as horizontally. Gravity only shifts the center of oscillation.",
+      trap: "Gravity does NOT change the period of a mass on a spring. It only moves the equilibrium position.",
+      terms: [
+        ["Equilibrium stretch", "The extension mg/k where a hanging mass is balanced."],
+        ["Period of a mass-spring system", "T = 2π√(m/k)"],
+      ],
+    },
+  ],
+};
+
+</script>
 <script>/* content/deep/precalculus.js */
 // More key concepts for content/precalculus.js, appended to each unit after the original concepts.
 // Each concept carries its own AP trap and flashcards (terms), which feed practice questions.
@@ -12257,6 +12946,12 @@ function renderLearn(body, course, idx, unit) {
           <button data-view="both" class="${conceptView === "both" ? "is-active" : ""}">+ Exam detail</button>
         </div>
       </div>
+      <nav class="concept-index" aria-label="Concepts in this unit">
+        ${unit.concepts.map((c, i) => {
+          const st = Engine.status(Engine.state(Engine.conceptKey(course.id, idx, i)));
+          return `<button data-jump="${i}" title="${esc(st.label)}"><span class="ci-dot st-${st.id}"></span><span class="n">${i + 1}</span>${esc(c.title)}</button>`;
+        }).join("")}
+      </nav>
       ${unit.concepts.map((c, i) => {
         const s = Engine.state(Engine.conceptKey(course.id, idx, i));
         return `
@@ -12278,6 +12973,9 @@ function renderLearn(body, course, idx, unit) {
       }).join("")}
     `;
     body.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => { conceptView = b.dataset.view; draw(); }));
+    body.querySelectorAll("[data-jump]").forEach((b) => b.addEventListener("click", () => {
+      body.querySelector(`#concept-${b.dataset.jump}`).scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
     body.querySelectorAll("[data-try]").forEach((el) => tryIt(el, course, idx, +el.dataset.try));
   };
   draw();

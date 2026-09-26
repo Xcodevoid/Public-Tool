@@ -25,13 +25,15 @@ right before you'd forget it.
 
 - ⚡ **"What should I study today?"**: pick 5, 12, 20 or 30 minutes and get a personalized plan built from your
   open mistakes, reviews due today, weakest concepts and new ones. No need to choose a course or unit.
-- ⚠️ **AP Traps**: all 242 concepts have a hand-written trap showing how the exam catches students on it.
+- 📚 **Deep unit coverage**: 740 key concepts across 14 courses (7–10 per unit), each with a plain-English
+  explanation, exam-level detail, and its own flashcards. A clickable concept list opens every unit.
+- ⚠️ **AP Traps**: every concept has a hand-written trap showing how the exam catches students on it.
 - 📝 **Learn → Trap → Try it**: every concept ends with an inline AP-style question, a prompt to explain your
   answer before checking it, and "Similar question" for more practice.
-- 🔬 **Unit checks**: two questions per concept, ending with "You understand 3 of 4 Unit 2 concepts. You're
+- 🔬 **Unit checks**: one or two questions per concept, ending with "You understand 3 of 4 Unit 2 concepts. You're
   struggling with Elasticity. Here's a 4-minute review designed around that weakness."
-- 🩺 **Diagnostic, quick or full**: 12 questions (~5 min) across every unit, or a full 42-question diagnostic that
-  tests every concept (you can finish early). The report shows your strong and weak *concepts*
+- 🩺 **Diagnostic, quick or full**: 12 questions (~5 min) across every unit, or a full diagnostic of up to 50
+  questions that rotates through every unit (you can finish early). The report shows your strong and weak *concepts*
   (not just units), with an explanation for everything you missed.
 - 🎯 **Concept-level mastery**: every question is tagged to a concept. Each concept has a mastery score
   and a status: Not started, Needs practice, Getting there, or Strong.
@@ -90,6 +92,7 @@ data/catalog.js              all 42 courses: exam format, weights, units, 2026-2
 content/<id>.js              study guide for one course (concepts, terms, questions, FRQs)
 content/diagnostics/<id>.js  concept tag + wrong-answer notes for every question in that guide
 content/traps/<id>.js        one "AP Trap" per concept
+content/deep/<id>.js         more key concepts per unit, each with its own trap and flashcards
 research/                    notes from researching the official College Board CEDs
 ```
 
@@ -143,6 +146,9 @@ window.AP_CONTENT["chemistry"] = {
 3. Create `content/diagnostics/<id>.js`, tagging every question with its concept index and adding a
    "why a student might pick this" note for each wrong choice (see `content/diagnostics/biology.js`).
    Add `content/traps/<id>.js` with one AP Trap per concept.
+   To cover more of a unit, add concepts in `content/deep/<id>.js` (keyed by unit index), each with
+   `title`, `simple`, `detail`, `trap` and 2–3 `terms`. They're appended after the unit's original
+   concepts, so saved progress keeps pointing at the right concepts.
 4. Set `guide: true` on that course in `data/catalog.js`.
    - A guide can build on another one: `content/calculus-bc.js` uses `extends: "calculus-ab"`
      to reuse AB's units, with BC exam `weights`, BC-only `patches` per unit, and extra `units`.
