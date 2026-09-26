@@ -1,0 +1,28 @@
+// "AP Trap" for every concept in content/microeconomics.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["microeconomics"] = {
+  "0.0": "Opportunity cost is only the single NEXT-BEST alternative, not every option added together. \"Free\" things still have one.",
+  "0.1": "A point INSIDE the PPC = inefficiency or unemployment, not growth. Growth SHIFTS the curve outward.",
+  "0.2": "Trade follows COMPARATIVE advantage (lower opportunity cost), not absolute advantage. A country can gain even if it's worse at both goods.",
+  "0.3": "Maximize utility by equalizing MU PER DOLLAR, not total MU. Buy more of whatever gives more satisfaction per dollar.",
+  "1.0": "A change in the good's OWN price moves along the curve (quantity demanded). Anything else SHIFTS demand. This is the #1 AP Micro trap.",
+  "1.1": "When BOTH curves shift, one of P or Q is INDETERMINATE. Say which one, and why.",
+  "1.2": "Use the TOTAL REVENUE test: price up and TR down means elastic. Use percentage changes (midpoint method), not raw changes.",
+  "1.3": "A binding price ceiling sits BELOW equilibrium (causing a shortage). A binding floor sits ABOVE it (causing a surplus). The more INELASTIC side bears more of a tax.",
+  "2.0": "Diminishing marginal returns is a SHORT-RUN idea (at least one input is fixed). Don't confuse it with diseconomies of scale.",
+  "2.1": "MC crosses ATC and AVC at their MINIMUMS. Fixed cost doesn't affect MC.",
+  "2.2": "Profit is maximized where MR = MC, NOT where profit per unit is highest. Shut down only if P < minimum AVC.",
+  "2.3": "In long-run perfect competition, economic profit is ZERO (P = min ATC). Accounting profit can still be positive.",
+  "3.0": "Find Q where MR = MC, then go UP to the DEMAND curve for the price. Don't read the price off MR.",
+  "3.1": "Perfect price discrimination eliminates DWL AND consumer surplus. Fair-return pricing is P = ATC; socially optimal pricing is P = MC.",
+  "3.2": "Monopolistic competition earns ZERO long-run profit but has EXCESS CAPACITY (it doesn't produce at minimum ATC).",
+  "3.3": "A dominant strategy is best NO MATTER what the rival does. Check both of the rival's choices. Nash equilibrium ≠ the best joint outcome.",
+  "4.0": "MRP = MP × P (the product's price), not MP alone. Labor demand shifts when the product price or productivity changes.",
+  "4.1": "Hire until MRP = MRC. In a competitive labor market, MRC = the wage.",
+  "4.2": "A monopsony hires where MRP = MRC but pays the wage from the SUPPLY curve. It hires fewer workers at a lower wage.",
+  "4.3": "Least-cost rule: equalize MP PER DOLLAR across inputs (MP_L/w = MP_K/r), not total MP.",
+  "5.0": "Negative externality → market Q is TOO HIGH. The fix is a per-unit tax equal to the external cost. The MSC curve lies above MPC.",
+  "5.1": "Positive externality → market Q is TOO LOW. The fix is a SUBSIDY. The MSB curve lies above MPB.",
+  "5.2": "A public good must be BOTH nonrival and nonexcludable. \"Provided by the government\" isn't the definition.",
+  "5.3": "Regressive = LOW earners pay a higher PERCENTAGE. A sales tax is regressive even though everyone pays the same rate.",
+};

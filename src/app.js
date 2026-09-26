@@ -237,14 +237,15 @@ async function route() {
   if (cleanup) { cleanup(); cleanup = null; }
   closePalette();
   const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-  const section = parts[0] === "course" || !parts[0] ? "home" : parts[0] === "practice" ? "dashboard" : parts[0];
+  const section = parts[0] === "course" || !parts[0] ? "home" : parts[0] === "practice" ? "today" : parts[0];
   document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("is-active", a.dataset.nav === section));
   try {
     await loadAllGuides();
     Engine.migrate();
     if (parts[0] === "course" && courseById[parts[1]]) {
       const course = courseById[parts[1]];
-      if (parts[2] === "unit") await renderUnit(course, +parts[3] - 1, parts[4] || "learn");
+      if (parts[2] === "unit" && parts[4] === "check") renderUnitCheck(course, +parts[3] - 1);
+      else if (parts[2] === "unit") await renderUnit(course, +parts[3] - 1, parts[4] || "learn");
       else if (parts[2] === "quiz") await renderQuizSetup(course);
       else if (parts[2] === "diagnostic") renderDiagnostic(course);
       else if (parts[2] === "smart") renderSmart([course.id], `Smart practice · ${course.name}`, course);
@@ -254,6 +255,8 @@ async function route() {
     } else if (parts[0] === "practice" && parts[1] === "review") {
       const active = GUIDE_IDS.filter((id) => Engine.due([id]).length);
       renderSmart(active.length ? active : GUIDE_IDS, "Today's review");
+    } else if (parts[0] === "today") {
+      renderToday();
     } else if (parts[0] === "review") {
       renderReview();
     } else if (parts[0] === "dashboard") {
@@ -277,10 +280,8 @@ function renderHome() {
   document.title = "AP Prep Hub | Find what you don't know. Fix it. Keep it.";
   const days = Math.ceil((new Date(EXAM_WINDOW.start + "T08:00:00") - new Date()) / 86400000);
   const active = GUIDE_IDS.filter((id) => Engine.concepts(id).some((c) => c.s.n));
-  const mine = store.data.mine.map((id) => courseById[id]).filter(Boolean);
-  const rec = active.length ? Engine.recommend(active) : null;
-  const dueCount = Engine.due(active).length;
   const totalQ = GUIDE_IDS.reduce((n, id) => { const c = window.AP_CONTENT[id]; return n + (c.own ? c.own.questions : c.units.reduce((a, u) => a + u.questions.length, 0)); }, 0);
+  const plan = active.length ? Engine.studyPlan(12, active) : null;
 
   app.innerHTML = `
     <section class="hero">
@@ -288,60 +289,64 @@ function renderHome() {
         <div class="hero-copy">
           ${days > 0 ? `<div class="eyebrow">${icon("clock", 14)} <b>${days} days</b> until AP Exams · May 3–14, 2027</div>` : ""}
           <h1>Stop rereading.<br><span class="grad">Find what you actually don't know.</span></h1>
-          <p class="lead">A personal AP coach that diagnoses your weak concepts, explains <em>why</em> you're
-          getting them wrong, gives you targeted practice, and brings each concept back right before you'd forget it.</p>
+          <p class="lead">Not a textbook. A personal AP coach that tests you, finds your weak concepts, explains
+          <em>why</em> you're getting them wrong, and tells you exactly what to study next.</p>
           <div class="btn-row hero-ctas">
-            <a class="btn btn-primary btn-lg" href="#start">${icon("stethoscope", 18)} Take a 5-minute diagnostic</a>
-            <button class="btn btn-lg" data-open-search>${icon("search", 18)} Search a topic</button>
+            ${active.length
+              ? `<a class="btn btn-primary btn-xl" href="#/today">${icon("zap", 20)} What should I study today?</a>
+                 <button class="btn btn-lg" data-pick-diagnostic>${icon("stethoscope", 18)} New diagnostic</button>`
+              : `<button class="btn btn-primary btn-xl" data-pick-diagnostic>${icon("stethoscope", 20)} Start diagnostic</button>
+                 <span class="muted small">12 questions · about 5 minutes · no sign-up</span>`}
           </div>
-          <ol class="loop">
-            <li><span>1</span>Diagnose</li>
-            <li><span>2</span>Pinpoint weak concepts</li>
-            <li><span>3</span>Targeted practice</li>
-            <li><span>4</span>Review before you forget</li>
-          </ol>
         </div>
         <div class="hero-art" aria-hidden="true">
           <div class="mock mock-q1">
             <div class="mock-top">${catIcon("History & Social Sciences", 14)} AP Microeconomics · Unit 2</div>
             <div class="mock-q">Incomes rise and pizza is a normal good. In the pizza market:</div>
             <div class="mock-choice is-wrong">${icon("x", 14)} Quantity demanded rises along the curve</div>
-            <div class="mock-why"><b>Why that's tempting:</b> a change in income shifts the whole curve. "Along the curve" is only for the good's own price.</div>
+            <div class="mock-why"><b>⚠️ AP Trap:</b> a change in quantity demanded is NOT a change in demand.</div>
           </div>
           <div class="mock mock-weak">
             <div class="mock-top warn">${icon("target", 14)} Weak concept detected</div>
             <div class="mock-term">Shifts vs. movements</div>
-            <div class="mock-def">3 targeted questions → mastery 34% → 81%</div>
+            <div class="mock-def">3 targeted questions · mastery 34% → 81%</div>
           </div>
           <div class="mock mock-review">${icon("calendar", 18)}<div><b>Review scheduled</b><span>in 3 days, so it sticks</span></div></div>
         </div>
       </div>
+      <div class="page loop-strip">
+        <div class="loop-step"><div class="loop-ico">${icon("stethoscope", 22)}</div><b>Test what you know</b><span>A 5-minute diagnostic across every unit</span></div>
+        <div class="loop-arrow">${icon("arrowR", 20)}</div>
+        <div class="loop-step"><div class="loop-ico">${icon("target", 22)}</div><b>Find your weak concepts</b><span>Concept by concept, with the misconception behind each miss</span></div>
+        <div class="loop-arrow">${icon("arrowR", 20)}</div>
+        <div class="loop-step"><div class="loop-ico">${icon("zap", 22)}</div><b>Practice them</b><span>Targeted questions, AP traps, and review before you forget</span></div>
+        <div class="loop-arrow">${icon("arrowR", 20)}</div>
+        <div class="loop-step"><div class="loop-ico">${icon("chart", 22)}</div><b>Track mastery</b><span>Real mastery per concept, not "pages completed"</span></div>
+      </div>
     </section>
 
     <div class="page">
-      ${active.length ? `
-        <div class="today card">
-          <div class="today-head"><div class="overline">${icon("zap", 12)} Your plan for today</div>
-            <span class="muted small">${icon("flame", 14)} ${streak()}-day streak</span></div>
-          <div class="today-grid">
-            ${rec ? `<a class="today-main" href="${recHref(rec)}">
-              <div><b>${esc(rec.title)}</b><p class="muted small">${esc(rec.reason)}</p></div>
-              <span class="btn btn-primary">Start ${icon("arrowR", 16)}</span></a>` : ""}
-            <a class="today-stat" href="#/practice/review">${icon("calendar", 18)}<b>${dueCount}</b><span>concepts due for review</span></a>
-            <a class="today-stat" href="#/review">${icon("rotate", 18)}<b>${mistakes().length}</b><span>mistakes to learn from</span></a>
-            <a class="today-stat" href="#/dashboard">${icon("trend", 18)}<b>${Engine.weekStats().answered}</b><span>questions this week</span></a>
-          </div>
-        </div>` : ""}
+      ${plan ? `
+        <a class="card today-cta" href="#/today">
+          <div class="nb-ico">${icon("zap", 22)}</div>
+          <div class="grow"><div class="overline">What should I study today?</div>
+            <h2>Your ${plan.minutes}-minute personalized review is ready</h2>
+            <p class="muted">${plan.blocks.map((b) => `${b.count} ${REASON_LABEL[b.reason].short}`).join(" · ")}</p></div>
+          <span class="btn btn-primary btn-lg">Start ${icon("arrowR", 16)}</span>
+        </a>` : ""}
 
-      <div class="section-head" id="start"><h2>${active.length ? "Your courses" : "Start with a 5-minute diagnostic"}</h2>
-        <span class="muted">${GUIDE_IDS.length} adaptive courses · ${totalQ} practice questions + questions generated from every flashcard</span></div>
+      <div class="section-head" id="start"><h2>${active.length ? "Your courses" : "Pick a course to diagnose"}</h2>
+        <span class="muted">${GUIDE_IDS.length} adaptive courses · ${totalQ} written questions + ones generated from every flashcard</span></div>
       <div class="grid">${(active.length ? [...new Set([...active, ...store.data.mine.filter((id) => GUIDE_IDS.includes(id)), ...GUIDE_IDS])] : GUIDE_IDS).map((id) => courseCard(courseById[id])).join("")}</div>
 
-      <div class="why-grid">
-        <div class="why-card"><div class="how-ico">${icon("stethoscope", 20)}</div><h3>Diagnose, don't reread</h3><p>12 questions across every unit reveal which concepts you actually don't know, in about 5 minutes.</p></div>
-        <div class="why-card"><div class="how-ico">${icon("target", 20)}</div><h3>Learn from every mistake</h3><p>Each wrong answer explains the misconception behind it, then drills that exact concept until it's fixed.</p></div>
-        <div class="why-card"><div class="how-ico">${icon("chart", 20)}</div><h3>Mastery you can trust</h3><p>Progress is tracked per concept (Strong, Getting there, Needs practice), not by how many pages you clicked.</p></div>
-        <div class="why-card"><div class="how-ico">${icon("calendar", 20)}</div><h3>Remember it on exam day</h3><p>Spaced review brings each concept back after 1, 3, 7, 14 and 30 days, right before you'd forget it.</p></div>
+      <div class="versus card">
+        <h2>Why not just use a textbook?</h2>
+        <div class="versus-grid">
+          <div><div class="overline muted">A textbook</div><ul>
+            <li>Here's everything. Good luck.</li><li>Same chapter for every student</li><li>Checks answers, never asks <em>why</em> you missed</li><li>"Completed 7/10 lessons"</li></ul></div>
+          <div class="us"><div class="overline">AP Prep Hub</div><ul>
+            <li>${icon("check", 14)} Here's what <b>you</b> don't know yet</li><li>${icon("check", 14)} Picks what you study each day</li><li>${icon("check", 14)} Names the misconception behind every miss</li><li>${icon("check", 14)} "Elasticity: 43% → 71% mastery"</li></ul></div>
+        </div>
       </div>
 
       <div class="section-head" id="browse"><h2>All ${COURSES.length} AP courses</h2><span class="muted">Exam formats, 2027 changes and official links for every course</span></div>
@@ -377,14 +382,103 @@ function renderHome() {
     document.querySelectorAll("#chips .chip").forEach((b) => b.classList.toggle("is-active", b === btn));
     draw();
   });
-  document.querySelector('a[href="#start"]').addEventListener("click", (e) => {
-    e.preventDefault();
-    document.getElementById("start").scrollIntoView({ behavior: "smooth" });
+}
+
+const REASON_LABEL = {
+  mistake: { short: "mistakes to redo", icon: "rotate", title: "Redo recent mistakes" },
+  due: { short: "reviews due", icon: "calendar", title: "Spaced review (due today)" },
+  weak: { short: "weak concepts", icon: "target", title: "Your weakest concepts" },
+  focus: { short: "focus concepts", icon: "target", title: "Focus concepts" },
+  new: { short: "new concepts", icon: "sparkle", title: "New concepts to try" },
+  practice: { short: "to strengthen", icon: "trend", title: "Strengthen what you know" },
+};
+
+// Course picker for the "Start diagnostic" button.
+function openDiagnosticPicker() {
+  const el = document.createElement("div");
+  el.className = "palette-overlay";
+  el.innerHTML = `
+    <div class="palette picker" role="dialog" aria-label="Choose a course">
+      <div class="picker-head"><h2>Which course are you taking?</h2><button class="icon-btn" data-close aria-label="Close">${icon("x", 18)}</button></div>
+      <p class="muted">12 questions across every unit. At the end you'll see exactly which concepts you understand, and which ones to fix first.</p>
+      <div class="picker-grid">${GUIDE_IDS.map((id) => {
+        const c = courseById[id];
+        return `<a class="picker-item" href="#/course/${id}/diagnostic" style="${catVars(c.cat)}"><span class="cat-icon sm">${catIcon(c.cat, 16)}</span><span>${esc(c.name)}</span></a>`;
+      }).join("")}</div>
+    </div>`;
+  const close = () => { el.remove(); document.body.classList.remove("no-scroll"); document.removeEventListener("keydown", onKey); };
+  const onKey = (e) => { if (e.key === "Escape") close(); };
+  el.addEventListener("click", (e) => { if (e.target === el || e.target.closest("[data-close]") || e.target.closest(".picker-item")) close(); });
+  document.addEventListener("keydown", onKey);
+  document.body.appendChild(el);
+  document.body.classList.add("no-scroll");
+  el.querySelector(".picker-item").focus();
+}
+document.addEventListener("click", (e) => { if (e.target.closest("[data-pick-diagnostic]")) openDiagnosticPicker(); });
+
+/* ================= "What should I study today?" ================= */
+
+const todayState = { minutes: 12, scope: "all" };
+
+function renderToday() {
+  document.title = "Study today | AP Prep Hub";
+  const active = GUIDE_IDS.filter((id) => Engine.concepts(id).some((c) => c.s.n));
+  if (!active.length) {
+    app.innerHTML = `
+      <div class="page narrow">
+        <div class="page-head"><div class="cat-icon lg">${icon("zap", 26)}</div><div><h1>What should I study today?</h1>
+        <p class="muted">We plan your study time from your mistakes, mastery and review schedule. First we need to know where you stand.</p></div></div>
+        <div class="card empty"><div class="empty-ico">${icon("stethoscope", 26)}</div><h3>Take a 5-minute diagnostic first</h3>
+        <p class="muted">12 questions. Then this page will build a personalized plan every day.</p>
+        <button class="btn btn-primary btn-lg" data-pick-diagnostic>${icon("stethoscope", 16)} Start diagnostic</button></div>
+      </div>`;
+    return;
+  }
+  if (todayState.scope !== "all" && !active.includes(todayState.scope)) todayState.scope = "all";
+  const scope = todayState.scope === "all" ? active : [todayState.scope];
+  const plan = Engine.studyPlan(todayState.minutes, scope);
+  const week = Engine.weekStats();
+  const open = Engine.mistakesIn(scope).length;
+  const dueN = Engine.due(scope).length;
+  const tried = scope.flatMap((id) => Engine.concepts(id)).filter((c) => c.s.n).length;
+
+  app.innerHTML = `
+    <div class="page narrow">
+      <div class="page-head"><div class="cat-icon lg">${icon("zap", 26)}</div><div class="grow"><h1>What should I study today?</h1>
+      <p class="muted">You don't have to decide. Tell us how much time you have.</p></div>
+      <span class="muted small streak-pill">${icon("flame", 14)} ${streak()}-day streak</span></div>
+
+      <div class="card plan-setup">
+        <div class="setup-label">I have…</div>
+        <div class="seg big" id="mins">${[5, 12, 20, 30].map((m) => `<button data-m="${m}" class="${todayState.minutes === m ? "is-active" : ""}">${m} min</button>`).join("")}</div>
+        ${active.length > 1 ? `<div class="setup-label" style="margin-top:16px">Study…</div>
+        <div class="chips" id="scope">${[["all", "All my courses"], ...active.map((id) => [id, courseById[id].name])].map(([k, label]) => `<button class="chip ${todayState.scope === k ? "is-active" : ""}" data-s="${k}">${esc(label)}</button>`).join("")}</div>` : ""}
+      </div>
+
+      <div class="card plan">
+        <div class="plan-head"><div><div class="overline">${icon("zap", 12)} Your personalized plan</div><h2>${plan.items.length} questions · about ${plan.minutes} minutes</h2></div></div>
+        <div class="plan-blocks">
+          ${plan.blocks.map((b) => `
+            <div class="plan-block reason-${b.reason}">
+              <div class="pb-ico">${icon(REASON_LABEL[b.reason].icon, 18)}</div>
+              <div class="grow"><b>${REASON_LABEL[b.reason].title}</b><span class="muted small">${b.titles.slice(0, 4).map(esc).join(" · ")}${b.titles.length > 4 ? ` · +${b.titles.length - 4} more` : ""}</span></div>
+              <span class="pb-count">${b.count}</span>
+            </div>`).join("")}
+        </div>
+        <p class="muted small plan-why">${icon("bulb", 14)} Built from your ${open} open mistake${open === 1 ? "" : "s"}, ${dueN} review${dueN === 1 ? "" : "s"} due, and mastery on ${tried} concept${tried === 1 ? "" : "s"}. ${week.answered} questions answered this week.</p>
+        <button class="btn btn-primary btn-xl btn-block" id="go">${icon("play", 18)} Start my ${plan.minutes}-minute review</button>
+      </div>
+    </div>`;
+  app.querySelectorAll("[data-m]").forEach((b) => b.addEventListener("click", () => { todayState.minutes = +b.dataset.m; renderToday(); }));
+  app.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { todayState.scope = b.dataset.s; renderToday(); }));
+  app.querySelector("#go").addEventListener("click", () => {
+    app.innerHTML = `<div class="page narrow">${crumbs(["Study today", "#/today"], [`${plan.minutes}-minute review`])}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), plan.items, { title: `Your ${plan.minutes}-minute review`, mode: "smart", showSource: true, onRestart: renderToday });
   });
 }
 
 function recHref(rec) {
-  if (rec.kind === "review") return "#/practice/review";
+  if (rec.kind === "review") return "#/today";
   if (rec.kind === "concept") return `#/practice/concept/${rec.concept.courseId}/${rec.concept.unitIdx}/${rec.concept.conceptIdx}`;
   if (rec.kind === "diagnostic") return `#/course/${rec.courseId}/diagnostic`;
   return `#/course/${rec.courseId}/smart`;
@@ -606,7 +700,10 @@ async function renderUnit(course, idx, tab) {
             <div class="overline">Unit ${idx + 1} · ${esc(weightText(unit, true))}</div>
             <h1>${esc(unit.title)}</h1>
           </div>
-          <div class="unit-head-stat">${ring(um.pct, 56, 5)}<div class="small muted">${um.tried ? `${um.strong}/${um.total} concepts strong` : "Not started"}</div></div>
+          <div class="unit-head-side">
+            <div class="unit-head-stat">${ring(um.pct, 56, 5)}<div class="small muted">${um.tried ? `${um.strong}/${um.total} concepts strong` : "Not started"}</div></div>
+            <a class="btn btn-primary" href="#/course/${course.id}/unit/${idx + 1}/check">${icon("stethoscope", 16)} Check this unit</a>
+          </div>
         </div>
         <nav class="tabs" role="tablist">
           ${TABS.map(([k, label, ic]) => `<a class="tab ${k === tab ? "is-active" : ""}" href="${base}/${k}" role="tab" aria-selected="${k === tab}">${icon(ic, 16)}<span>${label}</span></a>`).join("")}
@@ -636,12 +733,13 @@ async function renderUnit(course, idx, tab) {
   else renderWatchOut(body, content, unit);
 }
 
+// Learn tab: Concept → Example → AP Trap → AP-style question → Explain your answer → Similar question.
 function renderLearn(body, course, idx, unit) {
   const draw = () => {
     body.innerHTML = `
       <div class="tldr"><div class="tldr-ico">${icon("sparkle", 18)}</div><div><span class="label">The big idea</span>${fmt(unit.tldr)}</div></div>
       <div class="learn-bar">
-        <span class="muted small">${unit.concepts.length} key concepts · each one tracked separately</span>
+        <span class="muted small">${unit.concepts.length} concepts · each one: explanation → AP trap → try an AP-style question</span>
         <div class="seg" role="group" aria-label="Explanation level">
           <button data-view="simple" class="${conceptView === "simple" ? "is-active" : ""}">Plain English</button>
           <button data-view="both" class="${conceptView === "both" ? "is-active" : ""}">+ Exam detail</button>
@@ -653,7 +751,7 @@ function renderLearn(body, course, idx, unit) {
         <article class="card concept" id="concept-${i}">
           <div class="concept-head">
             <h3><span class="n">${i + 1}</span>${esc(c.title)}</h3>
-            ${chip(s)}
+            <span class="concept-status" data-status="${i}">${chip(s)}${s.n ? ` <span class="muted small">${pctOf(s.m)}%</span>` : ""}</span>
           </div>
           <p class="simple">${fmt(c.simple)}</p>
           <details ${conceptView === "both" ? "open" : ""}>
@@ -662,16 +760,106 @@ function renderLearn(body, course, idx, unit) {
           </details>
           ${c.example ? `<div class="note note-example"><b>${icon("pen", 14)} Example</b><div>${fmt(c.example)}</div></div>` : ""}
           ${c.hook ? `<div class="note note-hook"><b>${icon("bulb", 14)} Memory hook</b><div>${fmt(c.hook)}</div></div>` : ""}
-          <div class="concept-foot">
-            <span class="muted small">${s.n ? `${pctOf(s.m)}% mastery · ${s.n} answer${s.n === 1 ? "" : "s"}${s.n && s.due > Date.now() ? ` · review in ${Engine.reviewInDays(s)} day${Engine.reviewInDays(s) === 1 ? "" : "s"}` : ""}` : "Check your understanding"}</span>
-            <a class="btn btn-sm" href="#/practice/concept/${course.id}/${idx}/${i}">${icon("target", 14)} Practice this concept</a>
-          </div>
+          ${c.trap ? `<div class="note note-trap"><b>⚠️ AP Trap</b><div>${fmt(c.trap)}</div></div>` : ""}
+          <div class="tryit" data-try="${i}"></div>
         </article>`;
       }).join("")}
     `;
     body.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => { conceptView = b.dataset.view; draw(); }));
+    body.querySelectorAll("[data-try]").forEach((el) => tryIt(el, course, idx, +el.dataset.try));
   };
   draw();
+}
+
+// An inline AP-style question for one concept: answer, explain your reasoning, check, then a similar question.
+function tryIt(el, course, unitIdx, conceptIdx) {
+  let queue = Engine.conceptItems(course.id, unitIdx, conceptIdx, 6);
+  let k = 0;
+  let picked = null;
+  let revealed = false;
+  let change = null;
+  const collapsed = () => {
+    el.innerHTML = `<button class="tryit-start">${icon("play", 16)} <b>Try an AP-style question</b> <span class="muted small">on this concept</span></button>`;
+    el.querySelector("button").addEventListener("click", () => { k = 0; drawQ(); });
+  };
+  const drawQ = () => {
+    const it = queue[k % queue.length];
+    if (!it.perm) it.perm = shuffle(it.q.choices.map((_, j) => j));
+    const q = it.q;
+    const ans = it.perm.indexOf(q.answer);
+    const ok = picked === ans;
+    el.innerHTML = `
+      <div class="tryit-card">
+        <div class="tryit-top"><span class="overline">${icon("target", 12)} AP-style question ${k + 1}</span>${q.gen ? `<span class="q-source gen">${icon("cards", 12)} From flashcards</span>` : ""}</div>
+        <div class="q-text">${fmt(q.q)}</div>
+        <div class="choices">${it.perm.map((orig, ci) => {
+          let cls = "";
+          if (revealed && ci === ans) cls = "is-correct";
+          else if (revealed && ci === picked) cls = "is-wrong";
+          else if (!revealed && ci === picked) cls = "is-picked";
+          else if (revealed) cls = "is-dim";
+          return `<button class="choice" data-ci="${ci}" ${revealed ? "disabled" : ""}><span class="letter">${LETTERS[ci]}</span><span class="choice-text">${fmt(q.choices[orig])}</span></button>`.replace('class="choice"', `class="choice ${cls}"`);
+        }).join("")}</div>
+        ${picked !== null && !revealed ? `
+          <div class="explain-box">
+            <label for="why-${conceptIdx}"><b>Explain your answer</b> <span class="muted small">One sentence: why is ${LETTERS[picked]} right? Explaining it is what makes it stick.</span></label>
+            <textarea id="why-${conceptIdx}" rows="2" placeholder="Because…"></textarea>
+            <div class="btn-row end"><button class="btn btn-ghost" id="skip">Skip, just check</button><button class="btn btn-primary" id="check">Check my answer</button></div>
+          </div>` : ""}
+        ${revealed ? `
+          <div class="feedback ${ok ? "good" : "bad"}">
+            <div class="fb-ico">${icon(ok ? "check" : "alert", 20)}</div>
+            <div class="grow"><strong>${ok ? "Correct!" : `Not quite. The answer is ${LETTERS[ans]}.`}</strong>
+              ${!ok && q.why && q.why[it.perm[picked]] ? `<div class="fb-why"><span class="fb-label">Why ${LETTERS[picked]} is tempting</span><p>${fmt(q.why[it.perm[picked]])}</p></div>` : ""}
+              <div class="fb-why"><span class="fb-label">Explanation</span><p>${fmt(q.explain)}</p></div>
+              ${change ? `<div class="mastery-line"><span class="muted small">Mastery</span> <span class="delta ${change.after >= change.before ? "up" : "down"}">${pctOf(change.before)}% ${icon("arrowR", 12)} ${pctOf(change.after)}%</span></div>` : ""}
+            </div>
+          </div>
+          <div class="btn-row end"><button class="btn btn-ghost" id="close">Done</button><button class="btn btn-primary" id="similar">${icon("shuffle", 16)} Similar question</button></div>` : ""}
+      </div>`;
+    el.querySelectorAll(".choice").forEach((b) => b.addEventListener("click", () => { if (revealed) return; picked = +b.dataset.ci; drawQ(); el.querySelector("textarea")?.focus(); }));
+    const check = () => {
+      revealed = true;
+      change = Engine.record(it, it.perm[picked], picked === ans);
+      drawQ();
+      const s = Engine.state(change.ck);
+      const st = el.closest(".concept")?.querySelector("[data-status]");
+      if (st) st.innerHTML = `${chip(s)} <span class="muted small">${pctOf(s.m)}%</span>`;
+    };
+    el.querySelector("#check")?.addEventListener("click", check);
+    el.querySelector("#skip")?.addEventListener("click", check);
+    el.querySelector("#similar")?.addEventListener("click", () => {
+      k++; picked = null; revealed = false; change = null;
+      if (k % queue.length === 0) queue = Engine.conceptItems(course.id, unitIdx, conceptIdx, 6);
+      drawQ();
+    });
+    el.querySelector("#close")?.addEventListener("click", () => { picked = null; revealed = false; change = null; collapsed(); });
+  };
+  collapsed();
+}
+
+/* ================= Unit check ================= */
+
+function renderUnitCheck(course, unitIdx) {
+  const unit = window.AP_CONTENT[course.id]?.units?.[unitIdx];
+  if (!unit) { location.hash = `#/course/${course.id}`; return; }
+  document.title = `Unit ${unitIdx + 1} check | ${course.name}`;
+  const items = Engine.unitCheck(course.id, unitIdx);
+  const crumb = crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], [`Unit ${unitIdx + 1}`, `#/course/${course.id}/unit/${unitIdx + 1}`], ["Unit check"]);
+  app.innerHTML = `
+    <div class="page narrow" style="${catVars(course.cat)}">
+      ${crumb}
+      <div class="card diag-intro">
+        <div class="cat-icon lg">${icon("stethoscope", 28)}</div>
+        <h1>Unit ${unitIdx + 1} check: ${esc(unit.title)}</h1>
+        <p class="lead">${items.length} questions, two per concept, about ${Math.round(items.length * Engine.MIN_PER_QUESTION)} minutes. At the end you'll see which of the ${unit.concepts.length} concepts you understand, and get a short review built around the ones you don't.</p>
+        <button class="btn btn-primary btn-lg" id="go">${icon("play", 16)} Start unit check</button>
+      </div>
+    </div>`;
+  app.querySelector("#go").addEventListener("click", () => {
+    app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumb}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), items, { title: "Unit check", mode: "diagnostic", courseId: course.id, unitIdx, showSource: false });
+  });
 }
 
 function renderFlashcards(body, course, idx, unit) {
@@ -835,6 +1023,7 @@ function runSession(body, items, opts = {}) {
   let rem = null;             // active remediation { ck, courseId, unitIdx, conceptIdx, title, total, right, done }
   const results = [];
   const remediated = new Set();
+  const startMastery = new Map(); // conceptKey -> mastery before this session
   let timeLeft = opts.pace ? opts.pace * queue.length : null;
   let timer = null;
 
@@ -1012,6 +1201,7 @@ function runSession(body, items, opts = {}) {
     const it = queue[i];
     const ok = it.perm[ci] === it.q.answer;
     change = Engine.record(it, it.perm[ci], ok);
+    if (!startMastery.has(change.ck)) startMastery.set(change.ck, change.before);
     results.push({ ...it, ok, pickedOrig: it.perm[ci] });
     if (it.rem && rem) { rem.answered++; if (ok) rem.right++; }
     if (!feedback) { setTimeout(next, 180); drawQuestion(); return; }
@@ -1047,15 +1237,21 @@ function runSession(body, items, opts = {}) {
           ${timedOut ? `<div class="callout callout-warn">${icon("clock", 18)}<div><strong>Time's up!</strong>Unanswered questions weren't counted.</div></div>` : ""}
           <div class="overline">${esc(opts.title || "Practice")} complete</div>
           <div class="results-score">${ring(pct, 120, 10)}<div><div class="score-big">${right}<span>/${results.length}</span></div><p>${msg}</p></div></div>
-          <h3 class="card-title left">${icon("target", 16)} Concepts you practiced</h3>
+          ${mode === "concept" && touched.length ? (() => {
+            const k = `${touched[0].courseId}|${touched[0].unitIdx}|${touched[0].q.concept}`;
+            const b = startMastery.get(k) ?? 0, a = Engine.state(k).m;
+            return `<div class="mastery-jump ${a >= b ? "up" : "down"}"><span class="muted">Mastery</span><b>${pctOf(b)}%</b>${icon("arrowR", 22)}<b>${pctOf(a)}%</b>${chip(Engine.state(k))}</div>`;
+          })() : ""}
+          <h3 class="card-title left">${icon("target", 16)} Mastery change by concept</h3>
           <div class="concept-results">
             ${touched.map((r) => {
               const key = `${r.courseId}|${r.unitIdx}|${r.q.concept}`;
               const s = Engine.state(key);
               const c = window.AP_CONTENT[r.courseId].units[r.unitIdx].concepts[r.q.concept];
+              const before = startMastery.get(key) ?? 0;
               return `<a class="cr-row" href="#/practice/concept/${r.courseId}/${r.unitIdx}/${r.q.concept}">
                 <div class="grow"><b>${esc(c.title)}</b><span class="muted small">${courses.length > 1 ? esc(courseById[r.courseId].name) + " · " : ""}Unit ${r.unitIdx + 1}</span></div>
-                ${chip(s)}<span class="cr-pct">${pctOf(s.m)}%</span></a>`;
+                ${chip(s)}<span class="delta ${s.m >= before ? "up" : "down"}">${pctOf(before)}% ${icon("arrowR", 12)} ${pctOf(s.m)}%</span></a>`;
             }).join("")}
           </div>
           ${rec ? `<a class="next-step" href="${recHref(rec)}"><div class="grow"><div class="overline">${icon("zap", 12)} Recommended next</div><b>${esc(rec.title)}</b><p class="muted small">${esc(rec.reason)}</p></div>${icon("arrowR", 18)}</a>` : ""}
@@ -1120,10 +1316,9 @@ function renderDiagnostic(course) {
 
 function renderDiagnosticReport(body, results, opts) {
   const courseId = opts.courseId;
-  const course = courseById[courseId];
+  const unitScoped = opts.unitIdx != null;
   const right = results.filter((r) => r.ok).length;
-  store.data.diag[courseId] = { t: Date.now(), right, total: results.length };
-  store.save();
+  if (!unitScoped) { store.data.diag[courseId] = { t: Date.now(), right, total: results.length }; store.save(); }
   const byConcept = new Map();
   results.forEach((r) => {
     const key = Engine.conceptKey(r.courseId, r.unitIdx, r.q.concept);
@@ -1133,30 +1328,41 @@ function renderDiagnosticReport(body, results, opts) {
   });
   const tested = [...byConcept.values()];
   const strong = tested.filter((e) => e.ok === e.n);
-  const weak = tested.filter((e) => e.ok < e.n);
-  const allConcepts = Engine.concepts(courseId);
-  const untested = allConcepts.filter((c) => !byConcept.has(c.key)).length;
+  const weak = tested.filter((e) => e.ok < e.n).sort((a, b) => a.ok / a.n - b.ok / b.n);
   const title = (e) => window.AP_CONTENT[e.r.courseId].units[e.r.unitIdx].concepts[e.r.q.concept].title;
+  const list = (arr) => { const b = arr.map((x) => `<b>${x}</b>`); return b.length <= 1 ? b.join("") : `${b.slice(0, -1).join(", ")} and ${b[b.length - 1]}`; };
   const misses = results.filter((r) => !r.ok);
+  const review = weak.length ? Engine.focusedReview(weak.map((e) => e.key), 3) : [];
+  const mins = Math.max(1, Math.round(review.length * Engine.MIN_PER_QUESTION));
+  const scopeLabel = unitScoped ? `Unit ${opts.unitIdx + 1} concepts` : "concepts we tested";
+  const allConcepts = unitScoped ? window.AP_CONTENT[courseId].units[opts.unitIdx].concepts.length : Engine.concepts(courseId).length;
 
   body.innerHTML = `
     <div class="quiz">
       <div class="card results diag-report">
-        <div class="overline">Diagnostic report</div>
-        <div class="results-score">${ring(Math.round((right / results.length) * 100), 120, 10)}
-          <div><div class="score-big">${right}<span>/${results.length}</span></div>
-          <p>We tested ${tested.length} of ${allConcepts.length} concepts. Smart practice will cover the other ${untested}.</p></div></div>
+        <div class="overline">${unitScoped ? "Unit check" : "Diagnostic"} report</div>
+        <div class="verdict">
+          ${ring(Math.round((strong.length / Math.max(1, tested.length)) * 100), 110, 10, `${strong.length}/${tested.length}`)}
+          <div>
+            <h2>You understand ${strong.length} of ${tested.length} ${scopeLabel}.</h2>
+            ${weak.length
+              ? `<p>You're specifically struggling with ${list(weak.slice(0, 3).map((e) => esc(title(e))))}${weak.length > 3 ? ` (+${weak.length - 3} more)` : ""}.
+                 Here's a <b>${mins}-minute review</b> designed around ${weak.length === 1 ? "that weakness" : `those ${weak.length} weaknesses`}.</p>`
+              : `<p>No weak spots in what we tested. ${unitScoped ? "Move on to the next unit, or" : ""} keep it fresh with smart practice.</p>`}
+            ${!unitScoped && tested.length < allConcepts ? `<p class="muted small">We tested ${tested.length} of ${allConcepts} concepts. Smart practice and unit checks cover the rest.</p>` : ""}
+          </div>
+        </div>
+        ${weak.length ? `<button class="btn btn-primary btn-xl btn-block" id="fix">${icon("zap", 18)} Start my ${mins}-minute review</button>`
+          : `<a class="btn btn-primary btn-lg btn-block" href="${unitScoped && opts.unitIdx + 1 < window.AP_CONTENT[courseId].units.length ? `#/course/${courseId}/unit/${opts.unitIdx + 2}` : `#/course/${courseId}/smart`}">${icon("arrowR", 16)} ${unitScoped ? "Next unit" : "Continue with smart practice"}</a>`}
 
         <div class="diag-cols">
           <div class="diag-col bad"><h3>${icon("target", 16)} Needs practice <span>${weak.length}</span></h3>
-            ${weak.length ? weak.map((e) => `<a href="#/practice/concept/${e.r.courseId}/${e.r.unitIdx}/${e.r.q.concept}"><b>${esc(title(e))}</b><span>Unit ${e.r.unitIdx + 1}</span></a>`).join("") : `<p class="muted small">Nothing! Great start.</p>`}
+            ${weak.length ? weak.map((e) => `<a href="#/practice/concept/${e.r.courseId}/${e.r.unitIdx}/${e.r.q.concept}"><b>${esc(title(e))}</b><span>${e.ok}/${e.n} right</span></a>`).join("") : `<p class="muted small">Nothing! Great start.</p>`}
           </div>
-          <div class="diag-col good"><h3>${icon("check", 16)} Looking strong <span>${strong.length}</span></h3>
-            ${strong.length ? strong.map((e) => `<a href="#/course/${e.r.courseId}/unit/${e.r.unitIdx + 1}"><b>${esc(title(e))}</b><span>Unit ${e.r.unitIdx + 1}</span></a>`).join("") : `<p class="muted small">We'll build these up together.</p>`}
+          <div class="diag-col good"><h3>${icon("check", 16)} Understood <span>${strong.length}</span></h3>
+            ${strong.length ? strong.map((e) => `<a href="#/course/${e.r.courseId}/unit/${e.r.unitIdx + 1}"><b>${esc(title(e))}</b><span>${e.ok}/${e.n} right</span></a>`).join("") : `<p class="muted small">We'll build these up together.</p>`}
           </div>
         </div>
-
-        ${weak.length ? `<button class="btn btn-primary btn-lg btn-block" id="fix">${icon("zap", 16)} Fix my ${weak.length} weak concept${weak.length === 1 ? "" : "s"} now</button>` : `<a class="btn btn-primary btn-lg btn-block" href="#/course/${courseId}/smart">${icon("zap", 16)} Continue with smart practice</a>`}
 
         ${misses.length ? `
           <h3 class="card-title left" style="margin-top:28px">${icon("rotate", 16)} What you missed, and why</h3>
@@ -1164,12 +1370,13 @@ function renderDiagnosticReport(body, results, opts) {
       </div>
     </div>`;
   body.querySelector("#fix")?.addEventListener("click", () => {
-    pendingFocus = weak.map((e) => e.key);
-    location.hash = `#/course/${courseId}/smart`;
+    const course = courseById[courseId];
+    body.innerHTML = "";
+    body.closest(".page").querySelector(".crumbs").insertAdjacentHTML("afterend", `<div class="session-head"><div class="cat-icon lg">${icon("zap", 26)}</div><div><h1>Your ${mins}-minute review</h1><p class="muted">Built around ${list(weak.slice(0, 3).map((e) => esc(title(e))))}. Watch your mastery climb.</p></div></div>`);
+    runSession(body, review, { title: `${mins}-minute review`, mode: "smart", showSource: false, onRestart: () => { location.hash = `#/course/${course.id}`; } });
   });
 }
 
-// A compact "mistake as a lesson" card: your answer, the correct one, why yours was tempting, the concept.
 function missCard(r, pickedOrig, actions = "") {
   const q = r.q;
   const c = window.AP_CONTENT[r.courseId].units[r.unitIdx].concepts[q.concept];
@@ -1307,60 +1514,77 @@ async function renderQuizSetup(course) {
 
 function renderReview() {
   document.title = "My mistakes | AP Prep Hub";
-  const lastTime = {};
-  store.data.hist.forEach((h) => { lastTime[h.k] = h.t; });
-  const list = mistakes()
-    .map((m) => ({ ...m, ...Engine.item(m.courseId, m.unitIdx, m.qIdx), t: lastTime[m.key] || 0 }))
-    .sort((a, b) => b.t - a.t);
-
+  const list = Engine.mistakesIn(GUIDE_IDS);
   if (!list.length) {
     app.innerHTML = `
       <div class="page narrow">
-        <div class="page-head"><div class="cat-icon lg">${icon("rotate", 26)}</div><div><h1>My mistakes</h1><p class="muted">Every wrong answer becomes a mini-lesson here.</p></div></div>
+        <div class="page-head"><div class="cat-icon lg">${icon("rotate", 26)}</div><div><h1>My mistakes</h1><p class="muted">Your mistakes, organized by the concept behind them.</p></div></div>
         <div class="card empty">
           <div class="empty-ico good">${icon("check", 28)}</div>
           <h3>No open mistakes</h3>
-          <p class="muted">When you miss a question, it shows up here with your answer, the correct one, the misconception
-          behind your choice, and targeted practice to fix it. Get it right and it leaves this list.</p>
-          <a class="btn btn-primary" href="#/">Start practicing</a>
+          <p class="muted">When you miss questions, they're grouped here by concept, with your mastery, the error pattern behind
+          your wrong answers, the AP trap for that concept, and targeted practice. Fix them and they leave this list.</p>
+          <a class="btn btn-primary" href="#/today">What should I study today?</a>
         </div>
       </div>`;
     return;
   }
 
-  const byCourse = {};
-  list.forEach((it) => { (byCourse[it.courseId] = byCourse[it.courseId] || []).push(it); });
-  const week = Engine.weekStats();
+  // Group open mistakes by concept, weakest concept first.
+  const groups = new Map();
+  list.forEach((m) => {
+    const it = Engine.item(m.courseId, m.unitIdx, m.qIdx);
+    const ck = Engine.conceptKey(m.courseId, m.unitIdx, it.q.concept);
+    if (!groups.has(ck)) groups.set(ck, { ck, courseId: m.courseId, unitIdx: m.unitIdx, conceptIdx: it.q.concept, items: [] });
+    groups.get(ck).items.push({ ...m, ...it });
+  });
+  const concepts = [...groups.values()].map((g) => ({ ...g, s: Engine.state(g.ck), prof: Engine.errorProfile(g.ck) }))
+    .sort((a, b) => a.s.m - b.s.m);
+  const fixItems = () => Engine.focusedReview(concepts.map((c) => c.ck), 3);
+  const mins = Math.round(concepts.length * 3 * Engine.MIN_PER_QUESTION);
+
   app.innerHTML = `
     <div class="page narrow">
       <div class="page-head">
         <div class="cat-icon lg">${icon("rotate", 26)}</div>
-        <div class="grow"><h1>My mistakes</h1><p class="muted">${list.length} open · ${week.mistakes} this week. Understand why, then prove it: answer correctly and it leaves this list.</p></div>
-        <button class="btn btn-primary btn-lg" id="retry-all">${icon("play", 16)} Retry all</button>
+        <div class="grow"><h1>My mistakes</h1><p class="muted">${list.length} open mistake${list.length === 1 ? "" : "s"} come from <b>${concepts.length} concept${concepts.length === 1 ? "" : "s"}</b>. Fix the concept, not just the question.</p></div>
+        <button class="btn btn-primary btn-lg" id="fix-all">${icon("zap", 16)} Fix all · ~${mins} min</button>
       </div>
-      ${Object.entries(byCourse).map(([cid, its]) => {
-        const c = courseById[cid];
+      ${concepts.map((g) => {
+        const c = courseById[g.courseId];
+        const concept = g.prof.concept;
         return `
-        <section class="review-course" style="${catVars(c.cat)}">
-          <div class="review-head">
-            <div class="cat-icon">${catIcon(c.cat)}</div>
-            <h2 class="grow">${esc(c.name)}</h2>
-            <button class="btn" data-retry="${cid}">Retry ${its.length}</button>
+        <section class="card mc-card" style="${catVars(c.cat)}">
+          <div class="mc-head">
+            ${ring(pctOf(g.s.m), 58, 6)}
+            <div class="grow">
+              <h2>${esc(concept.title)} <span class="mc-pct">${pctOf(g.s.m)}% mastery</span></h2>
+              <div class="muted small">${esc(c.name)} · Unit ${g.unitIdx + 1} · ${chip(g.s)}</div>
+            </div>
           </div>
-          <div class="miss-list">${its.map((it) => missCard(it, it.picked)).join("")}</div>
+          <p class="mc-count">You've missed <b>${g.prof.misses} question${g.prof.misses === 1 ? "" : "s"}</b> involving this concept${g.items.length < g.prof.misses ? ` (${g.items.length} still open)` : ""}.</p>
+          ${g.prof.notes.length ? `<div class="mc-block"><div class="fb-label bad">Your error pattern</div><ul>${g.prof.notes.map((n) => `<li>${fmt(n)}</li>`).join("")}</ul></div>` : ""}
+          ${concept.trap ? `<div class="note note-trap"><b>⚠️ AP Trap</b><div>${fmt(concept.trap)}</div></div>` : ""}
+          <div class="mc-actions">
+            <a class="btn btn-primary" href="#/practice/concept/${g.courseId}/${g.unitIdx}/${g.conceptIdx}">${icon("play", 16)} Practice 5 similar</a>
+            <a class="btn" href="#/course/${g.courseId}/unit/${g.unitIdx + 1}/learn">${icon("book", 16)} Review the concept</a>
+          </div>
+          <details class="mc-qs"><summary>See the ${g.items.length} question${g.items.length === 1 ? "" : "s"} you missed</summary>
+            <div class="miss-list">${g.items.map((it) => missCard(it, it.picked, " ")).join("")}</div>
+          </details>
         </section>`;
       }).join("")}
     </div>
   `;
-  const start = (subset) => {
-    app.innerHTML = `<div class="page narrow">${crumbs(["My mistakes", "#/review"], ["Retry"])}<div id="quiz-body"></div></div>`;
-    runSession(document.getElementById("quiz-body"), shuffle(subset.map((m) => Engine.item(m.courseId, m.unitIdx, m.qIdx))), { title: "Mistake review", mode: "review", showSource: true, onRestart: renderReview });
-  };
-  app.querySelector("#retry-all").addEventListener("click", () => start(list));
-  app.querySelectorAll("[data-retry]").forEach((b) => b.addEventListener("click", () => start(byCourse[b.dataset.retry])));
+  app.querySelector("#fix-all").addEventListener("click", () => {
+    app.innerHTML = `<div class="page narrow">${crumbs(["My mistakes", "#/review"], ["Fix all"])}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), fixItems(), { title: "Mistake fix-up", mode: "review", showSource: true, onRestart: renderReview });
+  });
 }
 
 /* ================= Dashboard: progress that means something ================= */
+
+let dashSort = "weakest";
 
 function renderDashboard() {
   document.title = "My progress | AP Prep Hub";
@@ -1369,91 +1593,82 @@ function renderDashboard() {
   const all = active.flatMap((id) => Engine.concepts(id));
   const strong = all.filter((c) => Engine.status(c.s).id === "strong").length;
   const tried = all.filter((c) => c.s.n).length;
-  const weakest = Engine.weakest(active, 5);
-  const due = Engine.due(active);
+  const weakest = Engine.weakest(active, 1)[0];
   const rec = active.length ? Engine.recommend(active) : null;
-  const open = mistakes().length;
+  const open = Engine.mistakesIn(GUIDE_IDS).length;
+  const ago = (t) => { if (!t) return "–"; const d = Math.floor((Date.now() - t) / 86400000); return d <= 0 ? "Today" : d === 1 ? "Yesterday" : `${d} days ago`; };
+
+  const table = (id) => {
+    let rows = Engine.concepts(id);
+    if (dashSort === "weakest") rows = rows.slice().sort((a, b) => (a.s.n ? 0 : 1) - (b.s.n ? 0 : 1) || a.s.m - b.s.m);
+    const started = rows.filter((r) => r.s.n);
+    const rest = rows.filter((r) => !r.s.n);
+    const row = (r) => `
+      <tr class="${r.s.n ? "" : "is-new"}">
+        <td><a href="#/course/${id}/unit/${r.unitIdx + 1}/learn">${esc(r.title)}</a><span class="muted small">Unit ${r.unitIdx + 1}</span></td>
+        <td class="mt-bar">${r.s.n ? `${bar(pctOf(r.s.m), Engine.status(r.s).id === "strong" ? "good" : Engine.status(r.s).id === "weak" ? "bad" : "warn")}` : ""}</td>
+        <td class="mt-pct">${r.s.n ? `${pctOf(r.s.m)}%` : "–"}</td>
+        <td>${chip(r.s)}</td>
+        <td class="mt-when muted small">${ago(r.s.last)}</td>
+        <td><a class="btn btn-sm" href="#/practice/concept/${id}/${r.unitIdx}/${r.conceptIdx}">Practice</a></td>
+      </tr>`;
+    const w = Engine.weakest([id], 1)[0];
+    return `
+      <table class="mastery-table">
+        <thead><tr><th>Concept</th><th colspan="2">Mastery</th><th>Status</th><th>Last practiced</th><th></th></tr></thead>
+        <tbody>${(dashSort === "weakest" ? started : rows).map(row).join("")}</tbody>
+        ${dashSort === "weakest" && rest.length ? `<tbody class="mt-rest" hidden>${rest.map(row).join("")}</tbody>` : ""}
+      </table>
+      ${dashSort === "weakest" && rest.length ? `<button class="btn btn-ghost btn-sm mt-more">Show ${rest.length} concepts not started yet</button>` : ""}
+      ${w ? `<a class="rec-next" href="#/practice/concept/${id}/${w.unitIdx}/${w.conceptIdx}">${icon("zap", 16)} <span>Recommended next: <b>${esc(w.title)}</b> (${pctOf(w.s.m)}%)</span>${icon("arrowR", 16)}</a>` : ""}`;
+  };
 
   app.innerHTML = `
     <div class="page">
-      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Mastery is tracked per concept. Saved only in this browser.</p></div>
+      <div class="page-head"><div class="cat-icon lg">${icon("chart", 26)}</div><div class="grow"><h1>My progress</h1><p class="muted">Mastery per concept, not lessons completed. Saved only in this browser.</p></div>
         <div class="btn-row"><button class="btn btn-ghost" id="export">${icon("download", 16)} Back up</button><label class="btn btn-ghost">${icon("upload", 16)} Restore<input type="file" id="import" accept="application/json" hidden></label></div></div>
 
       ${rec ? `
         <a class="card next-best" href="${recHref(rec)}">
           <div class="nb-ico">${icon("zap", 22)}</div>
-          <div class="grow"><div class="overline">Your next best step</div><h2>${esc(rec.title)}</h2><p class="muted">${esc(rec.reason)}</p></div>
+          <div class="grow"><div class="overline">Recommended next</div><h2>${esc(rec.title)}</h2><p class="muted">${esc(rec.reason)}</p></div>
           <span class="btn btn-primary btn-lg">Start ${icon("arrowR", 16)}</span>
         </a>` : ""}
 
       <div class="stat-grid">
-        <div class="card stat"><div class="stat-ico flame">${icon("flame", 20)}</div><b>${streak()}</b><span>day study streak</span></div>
+        <div class="card stat"><div class="stat-ico good">${icon("target", 20)}</div><b>${strong}<small>/${tried || 0}</small></b><span>concepts mastered (of those started)</span></div>
+        <div class="card stat"><div class="stat-ico bad">${icon("alert", 20)}</div><b class="stat-text">${weakest ? esc(weakest.title) : "–"}</b><span>${weakest ? `your weakest concept · ${pctOf(weakest.s.m)}%` : "your weakest concept"}</span></div>
         <div class="card stat"><div class="stat-ico">${icon("check", 20)}</div><b>${week.answered}</b><span>questions this week${week.answered ? ` · ${Math.round((week.correct / week.answered) * 100)}% right` : ""}</span></div>
-        <div class="card stat"><div class="stat-ico bad">${icon("rotate", 20)}</div><b>${week.mistakes}</b><span>mistakes this week · ${open} still open</span></div>
-        <div class="card stat"><div class="stat-ico good">${icon("target", 20)}</div><b>${strong}<small>/${tried || 0}</small></b><span>concepts strong (of those started)</span></div>
+        <div class="card stat"><div class="stat-ico flame">${icon("flame", 20)}</div><b>${week.mistakes}</b><span>mistakes this week · ${open} still open · ${streak()}-day streak</span></div>
       </div>
 
       ${active.length ? `
-      <div class="dash-grid">
-        <div>
-          <div class="section-head"><h2>Mastery by concept</h2><div class="legend inline"><span><i class="dot dot-strong"></i>Strong</span><span><i class="dot dot-learning"></i>Getting there</span><span><i class="dot dot-weak"></i>Needs practice</span><span><i class="dot dot-new"></i>Not started</span></div></div>
-          ${active.map((id) => {
-            const c = courseById[id];
-            const m = Engine.courseMastery(id);
-            const units = window.AP_CONTENT[id].units;
-            return `
-            <details class="card dash-course-card" style="${catVars(c.cat)}" ${active.length <= 2 ? "open" : ""}>
-              <summary>
-                <div class="cat-icon">${catIcon(c.cat)}</div>
-                <div class="grow"><b>${esc(c.name)}</b><div class="muted small">${m.strong}/${m.total} strong · ${m.weak} need practice · ${m.due} due</div>${bar(m.pct)}</div>
-                <span class="pct">${m.pct}%</span>
-              </summary>
-              <div class="unit-mastery">
-                ${units.map((u, ui) => {
-                  const um = Engine.unitMastery(id, ui);
-                  return `<div class="um-row">
-                    <a class="um-title" href="#/course/${id}/unit/${ui + 1}"><span>Unit ${ui + 1}: ${esc(u.title)}</span><b>${um.tried ? `${um.pct}%` : "–"}</b></a>
-                    <div class="um-concepts">${u.concepts.map((cc, ci) => {
-                      const s = Engine.state(Engine.conceptKey(id, ui, ci));
-                      return `<a class="cchip cchip-${Engine.status(s).id}" href="#/practice/concept/${id}/${ui}/${ci}" title="${Engine.status(s).label}${s.n ? ` · ${pctOf(s.m)}%` : ""}">${esc(cc.title)}</a>`;
-                    }).join("")}</div>
-                  </div>`;
-                }).join("")}
-                <div class="btn-row"><a class="btn btn-sm btn-primary" href="#/course/${id}/smart">${icon("zap", 14)} Smart practice</a><a class="btn btn-sm" href="#/course/${id}/diagnostic">${icon("stethoscope", 14)} Diagnostic</a></div>
-              </div>
-            </details>`;
-          }).join("")}
-        </div>
-        <div>
-          <div class="section-head"><h2>Weakest concepts</h2></div>
-          <div class="card">
-            ${weakest.length ? `<div class="rec-list">${weakest.map((w, k) => `
-              <a class="rec" href="#/practice/concept/${w.courseId}/${w.unitIdx}/${w.conceptIdx}" style="${catVars(courseById[w.courseId].cat)}">
-                <div class="rank">${k + 1}</div>
-                <div class="grow"><b>${esc(w.title)}</b><div class="muted small">${esc(courseById[w.courseId].name)} · Unit ${w.unitIdx + 1} · ${w.s.ok}/${w.s.n} right</div>${bar(pctOf(w.s.m), "bad")}</div>
-                <span class="btn btn-sm">Practice</span>
-              </a>`).join("")}</div>` : `<p class="muted small">No weak concepts yet. Take a diagnostic to find them.</p>`}
-          </div>
-
-          <div class="section-head"><h2>Review schedule</h2></div>
-          <div class="card">
-            ${due.length ? `<p><b>${due.length}</b> concept${due.length === 1 ? " is" : "s are"} due today.</p>
-              <ul class="due-list">${due.slice(0, 6).map((d) => `<li>${esc(d.title)} <span class="muted small">· ${esc(courseById[d.courseId].name)}</span></li>`).join("")}</ul>
-              <a class="btn btn-primary btn-block" href="#/practice/review">${icon("calendar", 16)} Start today's review</a>`
-              : `<p class="muted small">Nothing due today. Concepts come back after 1, 3, 7, 14 and 30 days of correct answers, right before you'd forget them.</p>`}
-            ${open ? `<a class="btn btn-block" href="#/review" style="margin-top:10px">${icon("rotate", 16)} Learn from ${open} mistake${open === 1 ? "" : "s"}</a>` : ""}
-          </div>
-          <button class="btn btn-ghost btn-block danger" id="reset">Reset all progress</button>
-        </div>
-      </div>` : `
+        <div class="section-head"><h2>Mastery by concept</h2>
+          <div class="seg" id="sort"><button data-sort="weakest" class="${dashSort === "weakest" ? "is-active" : ""}">Weakest first</button><button data-sort="course" class="${dashSort === "course" ? "is-active" : ""}">Course order</button></div></div>
+        ${active.map((id) => {
+          const c = courseById[id];
+          const m = Engine.courseMastery(id);
+          return `
+          <section class="card dash-table-card" style="${catVars(c.cat)}">
+            <div class="dtc-head">
+              <div class="cat-icon">${catIcon(c.cat)}</div>
+              <div class="grow"><h3>${esc(c.name)}</h3><div class="muted small">${m.strong}/${m.total} concepts mastered · ${m.weak} need practice · ${m.due} due for review</div></div>
+              ${ring(m.pct, 52, 5)}
+            </div>
+            ${table(id)}
+          </section>`;
+        }).join("")}
+        <button class="btn btn-ghost danger" id="reset">Reset all progress</button>` : `
         <div class="card empty">
           <div class="empty-ico">${icon("stethoscope", 26)}</div>
           <h3>Let's find out what you know</h3>
-          <p class="muted">Take a 5-minute diagnostic in any course. Your concept-by-concept mastery, weakest concepts and review schedule will show up here.</p>
-          <a class="btn btn-primary" href="#/">Pick a course</a>
+          <p class="muted">Take a 5-minute diagnostic. Your mastery table, weakest concepts and recommendations will show up here.</p>
+          <button class="btn btn-primary" data-pick-diagnostic>${icon("stethoscope", 16)} Start diagnostic</button>
         </div>`}
     </div>`;
 
+  app.querySelectorAll("[data-sort]").forEach((b) => b.addEventListener("click", () => { dashSort = b.dataset.sort; renderDashboard(); }));
+  app.querySelectorAll(".mt-more").forEach((b) => b.addEventListener("click", () => { b.previousElementSibling.querySelector(".mt-rest").hidden = false; b.remove(); }));
   app.querySelector("#reset")?.addEventListener("click", () => {
     if (!confirm("Erase all progress, flashcards, saved answers and My courses in this browser? This can't be undone.")) return;
     Object.keys(store.data).forEach((k) => delete store.data[k]);

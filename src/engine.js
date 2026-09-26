@@ -20,6 +20,13 @@ const Engine = (() => {
   // Copy concept tags and wrong-answer notes from content/diagnostics/<id>.js onto question objects.
   function annotate(id, content) {
     const d = (window.AP_DIAG && window.AP_DIAG[id]) || {};
+    const traps = (window.AP_TRAPS && window.AP_TRAPS[id]) || {};
+    if (content.extends) {
+      Object.entries(content.patches || {}).forEach(([u, p]) => (p.concepts || []).forEach((c, i) => { c.trap = traps[`p${u}.${i}`]; }));
+      content.units.forEach((u, ui) => u.concepts.forEach((c, i) => { c.trap = traps[`u${ui}.${i}`]; }));
+    } else {
+      content.units.forEach((u, ui) => u.concepts.forEach((c, i) => { c.trap = traps[`${ui}.${i}`]; }));
+    }
     const tag = (q, entry, offset = 0) => {
       q.concept = entry ? entry[0] + offset : 0;
       q.why = entry ? entry[1] : {};
@@ -135,14 +142,14 @@ const Engine = (() => {
     const now = Date.now();
     const prev = store.data.q[it.key] || { n: 0 };
     store.data.q[it.key] = { c: ok, n: prev.n + 1, p: picked };
-    store.data.hist.push({ k: it.key, t: now, ok });
+    store.data.hist.push({ k: it.key, t: now, ok, p: picked });
     if (store.data.hist.length > 4000) store.data.hist = store.data.hist.slice(-4000);
 
     const ck = conceptKey(it.courseId, it.unitIdx, it.q.concept);
     const s = { ...state(ck) };
     const before = s.n ? s.m : 0;
     if (!s.n) s.m = ok ? 0.6 : 0.15;
-    else s.m = ok ? s.m + (1 - s.m) * 0.35 : s.m * 0.5;
+    else s.m = ok ? s.m + (1 - s.m) * 0.35 : s.m * 0.6;
     s.n++; s.ok += ok ? 1 : 0; s.last = now;
     s.streak = ok ? s.streak + 1 : 0;
     s.due = ok ? now + REVIEW_DAYS[Math.min(s.streak - 1, REVIEW_DAYS.length - 1)] * DAY : now;
@@ -203,7 +210,7 @@ const Engine = (() => {
   }
 
   // Due reviews first, then weak concepts, then new ones in course order, then the least-mastered rest.
-  function smartSession(courseIds, n = 10, focusKeys = []) {
+  function smartSession(courseIds, n = 10, focusKeys = [], exclude = new Set()) {
     const now = Date.now();
     const all = courseIds.flatMap((id) => concepts(id));
     const focus = focusKeys.map((k) => all.find((c) => c.key === k)).filter(Boolean);
@@ -213,19 +220,105 @@ const Engine = (() => {
     const rest = all.filter((c) => c.s.n).sort((a, b) => a.s.m - b.s.m);
     const seen = new Set();
     const picked = [];
-    for (const c of [...focus, ...due, ...weak, ...fresh, ...rest]) {
+    const tagged = [
+      ...focus.map((c) => [c, "focus"]), ...due.map((c) => [c, "due"]), ...weak.map((c) => [c, "weak"]),
+      ...fresh.map((c) => [c, "new"]), ...rest.map((c) => [c, "practice"]),
+    ];
+    for (const [c, reason] of tagged) {
       if (picked.length >= n) break;
-      if (seen.has(c.key)) continue;
+      if (seen.has(c.key) || exclude.has(c.key)) continue;
       seen.add(c.key);
-      picked.push(c);
+      picked.push({ ...c, reason });
     }
     return picked.map((c) => {
       const { authored } = pool(c.courseId, c.unitIdx, c.conceptIdx);
       // Prefer an authored question the student hasn't gotten right yet.
       const open = authored.filter((i) => !store.data.q[`${c.courseId}|${c.unitIdx}|${i}`]?.c);
       const qi = shuffle(open.length ? open : authored)[0];
-      return qi != null ? item(c.courseId, c.unitIdx, qi) : conceptItems(c.courseId, c.unitIdx, c.conceptIdx, 1)[0];
+      const it = qi != null ? item(c.courseId, c.unitIdx, qi) : conceptItems(c.courseId, c.unitIdx, c.conceptIdx, 1)[0];
+      return it && { ...it, reason: c.reason };
     }).filter(Boolean);
+  }
+
+  // "What should I study today?": a time-boxed plan from open mistakes, due reviews, weak and new concepts.
+  const MIN_PER_QUESTION = 1;
+  function studyPlan(minutes, courseIds) {
+    const n = Math.max(3, Math.round(minutes / MIN_PER_QUESTION));
+    const open = mistakesIn(courseIds).slice(0, Math.ceil(n * 0.3));
+    const redo = open.map((m) => ({ ...item(m.courseId, m.unitIdx, m.qIdx), reason: "mistake" }));
+    const covered = new Set(redo.map((it) => conceptKey(it.courseId, it.unitIdx, it.q.concept)));
+    const rest = smartSession(courseIds, n - redo.length, [], covered);
+    const items = [...redo, ...rest];
+    const blocks = ["mistake", "due", "weak", "new", "practice"].map((reason) => {
+      const its = items.filter((it) => it.reason === reason);
+      const titles = [...new Set(its.map((it) => window.AP_CONTENT[it.courseId].units[it.unitIdx].concepts[it.q.concept].title))];
+      return { reason, count: its.length, titles };
+    }).filter((b) => b.count);
+    return { items: interleave(items), blocks, minutes: Math.round(items.length * MIN_PER_QUESTION) };
+  }
+
+  // Avoid long runs of the same concept or course.
+  function interleave(items) {
+    const out = [];
+    const pool = items.slice();
+    while (pool.length) {
+      const last = out[out.length - 1];
+      const i = pool.findIndex((x) => !last || x.q.concept !== last.q.concept || x.unitIdx !== last.unitIdx);
+      out.push(pool.splice(i < 0 ? 0 : i, 1)[0]);
+    }
+    return out;
+  }
+
+  // Open (still wrong) authored mistakes, newest first.
+  function mistakesIn(courseIds) {
+    const last = {};
+    store.data.hist.forEach((h) => { last[h.k] = h.t; });
+    return Object.entries(store.data.q)
+      .filter(([k, r]) => !r.c && /\|\d+$/.test(k))
+      .map(([k, r]) => { const [courseId, u, q] = k.split("|"); return { key: k, courseId, unitIdx: +u, qIdx: +q, picked: r.p, t: last[k] || 0 }; })
+      .filter((m) => courseIds.includes(m.courseId) && window.AP_CONTENT[m.courseId]?.units?.[m.unitIdx]?.questions?.[m.qIdx])
+      .sort((a, b) => b.t - a.t);
+  }
+
+  // Which concept a question key belongs to (authored "u|q" or flashcard-generated "u|t<term>").
+  function conceptOfKey(key) {
+    const [courseId, u, q] = key.split("|");
+    const unit = window.AP_CONTENT[courseId]?.units?.[+u];
+    if (!unit) return null;
+    const ci = q[0] === "t" ? termConcepts(courseId, +u)[+q.slice(1)] : unit.questions[+q]?.concept;
+    return ci == null ? null : conceptKey(courseId, +u, ci);
+  }
+
+  // Everything we know about a student's errors on one concept.
+  function errorProfile(ck) {
+    const [courseId, u, c] = ck.split("|");
+    const wrong = store.data.hist.filter((h) => !h.ok && conceptOfKey(h.k) === ck);
+    const notes = [];
+    const seen = new Set();
+    [...wrong].reverse().forEach((h) => {
+      const [, , q] = h.k.split("|");
+      if (q[0] === "t") return;
+      const qq = window.AP_CONTENT[courseId].units[+u].questions[+q];
+      const pick = h.p ?? store.data.q[h.k]?.p;
+      const note = qq && pick != null && qq.why && qq.why[pick];
+      if (note && !seen.has(note)) { seen.add(note); notes.push(note); }
+    });
+    const concept = window.AP_CONTENT[courseId].units[+u].concepts[+c];
+    return { misses: wrong.length, notes: notes.slice(0, 2), trap: concept.trap, concept };
+  }
+
+  // Unit check: two questions per concept (written first, flashcard-generated to fill).
+  function unitCheck(courseId, unitIdx, perConcept = 2) {
+    const u = window.AP_CONTENT[courseId].units[unitIdx];
+    return interleave(shuffle(u.concepts.flatMap((_, ci) => conceptItems(courseId, unitIdx, ci, perConcept))));
+  }
+
+  // A focused review around specific weak concepts (used after diagnostics and unit checks).
+  function focusedReview(keys, perConcept = 3) {
+    return interleave(keys.flatMap((k) => {
+      const [courseId, u, c] = k.split("|");
+      return conceptItems(courseId, +u, +c, perConcept);
+    }));
   }
 
   /* ---------- Analytics ---------- */
@@ -274,7 +367,7 @@ const Engine = (() => {
       if (!qq) return;
       const ck = conceptKey(courseId, +u, qq.concept);
       const s = { ...state(ck) };
-      s.m = s.n ? (r.c ? s.m + (1 - s.m) * 0.35 : s.m * 0.5) : (r.c ? 0.6 : 0.15);
+      s.m = s.n ? (r.c ? s.m + (1 - s.m) * 0.35 : s.m * 0.6) : (r.c ? 0.6 : 0.15);
       s.n++; s.ok += r.c ? 1 : 0; s.streak = r.c ? s.streak + 1 : 0;
       s.due = Date.now() + (r.c ? DAY : 0); s.last = Date.now();
       store.data.cs[ck] = s;
@@ -286,5 +379,6 @@ const Engine = (() => {
   return {
     annotate, pool, conceptItems, item, record, state, status, conceptKey, reviewInDays,
     concepts, unitMastery, courseMastery, diagnostic, smartSession, weakest, due, weekStats, recommend, migrate,
+    studyPlan, mistakesIn, conceptOfKey, errorProfile, unitCheck, focusedReview, MIN_PER_QUESTION,
   };
 })();

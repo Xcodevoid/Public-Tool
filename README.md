@@ -23,20 +23,28 @@ right before you'd forget it.
 
 ## Features
 
+- ⚡ **"What should I study today?"**: pick 5, 12, 20 or 30 minutes and get a personalized plan built from your
+  open mistakes, reviews due today, weakest concepts and new ones. No need to choose a course or unit.
+- ⚠️ **AP Traps**: all 242 concepts have a hand-written trap showing how the exam catches students on it.
+- 📝 **Learn → Trap → Try it**: every concept ends with an inline AP-style question, a prompt to explain your
+  answer before checking it, and "Similar question" for more practice.
+- 🔬 **Unit checks**: two questions per concept, ending with "You understand 3 of 4 Unit 2 concepts. You're
+  struggling with Elasticity. Here's a 4-minute review designed around that weakness."
 - 🩺 **5-minute diagnostic**: 12 questions across every unit, and a report of your strong and weak *concepts*
   (not just units), with an explanation for everything you missed.
 - 🎯 **Concept-level mastery**: every question is tagged to a concept. Each concept has a mastery score
   and a status: Not started, Needs practice, Getting there, or Strong.
-- 🧠 **Mistakes that teach**: every wrong answer shows your answer, the correct one, *why your choice was
-  tempting* (768 hand-written misconception notes), the concept, and "Practice 5 similar."
+- 🧠 **Mistakes grouped by concept**: "Elasticity: 42% mastery. You've missed 4 questions involving this concept."
+  Shows your personal error pattern (from 768 hand-written misconception notes), the AP trap, and "Practice 5 similar,"
+  which ends with your mastery change (42% → 71%).
 - ⚡ **Smart practice**: due reviews first, then your weakest concepts, then new ones. Miss a question and
   it detects the weak concept, gives a refresher, and drills it on the spot.
 - 🗓️ **Spaced review**: concepts you get right come back after 1 → 3 → 7 → 14 → 30 days. Misses come
   back in the next session.
 - 🃏 **Unlimited targeted questions**: besides 256 written questions, every flashcard term becomes a
   generated question tied to its concept, so each concept always has enough to practice.
-- 📈 **Dashboard that means something**: weakest concepts, mistakes this week, concepts due today,
-  mastery for every concept in every unit, and one recommended next step.
+- 📈 **Progress = mastery**: a table of every concept with its mastery %, status and last practice date,
+  sorted weakest first, plus "Recommended next" for each course.
 - 📖 **Study guides**: plain-English concepts with exam-level detail, flashcards, free-response
   practice with scoring guides, common mistakes, and exam strategy for 9 courses.
 - 🗂️ **All 42 AP courses (2026-27)**: exam formats, 2027 changes, and official CED links.
@@ -76,6 +84,7 @@ src/app.js                   views: home, course, unit tabs, session runner (the
 data/catalog.js              all 42 courses: exam format, weights, units, 2026-27 changes, CED links
 content/<id>.js              study guide for one course (concepts, terms, questions, FRQs)
 content/diagnostics/<id>.js  concept tag + wrong-answer notes for every question in that guide
+content/traps/<id>.js        one "AP Trap" per concept
 research/                    notes from researching the official College Board CEDs
 ```
 
@@ -93,7 +102,7 @@ learner
 ```
 
 Mastery update (rules-based): a first answer sets mastery to 60% if right or 15% if wrong. After that,
-a right answer closes 35% of the gap to 100%, and a wrong answer halves mastery.
+a right answer closes 35% of the gap to 100%, and a wrong answer keeps 60% of current mastery.
 
 ## Adding a study guide (great club project!)
 
@@ -127,6 +136,7 @@ window.AP_CONTENT["chemistry"] = {
 
 3. Create `content/diagnostics/<id>.js`, tagging every question with its concept index and adding a
    "why a student might pick this" note for each wrong choice (see `content/diagnostics/biology.js`).
+   Add `content/traps/<id>.js` with one AP Trap per concept.
 4. Set `guide: true` on that course in `data/catalog.js`.
    - A guide can build on another one: `content/calculus-bc.js` uses `extends: "calculus-ab"`
      to reuse AB's units, with BC exam `weights`, BC-only `patches` per unit, and extra `units`.
