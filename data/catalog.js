@@ -41,7 +41,7 @@ const COURSES = [
     ced: CED("ap-us-history"), page: PAGE("ap-united-states-history"),
   },
   {
-    id: "world-history", name: "AP World History: Modern", cat: "History & Social Sciences", status: "changed",
+    id: "world-history", name: "AP World History: Modern", cat: "History & Social Sciences", guide: true, status: "changed",
     blurb: "Global history from c. 1200 to the present: empires, trade networks, revolutions and globalization.",
     exam: HISTORY_EXAM, changes: HISTORY_CHANGE,
     units: ["The Global Tapestry", "Networks of Exchange", "Land-Based Empires", "Transoceanic Interconnections", "Revolutions", "Consequences of Industrialization", "Global Conflict", "Cold War and Decolonization", "Globalization"],
@@ -147,7 +147,7 @@ const COURSES = [
     ced: CED("ap-calculus-ab-and-bc"), page: PAGE("ap-calculus-bc"),
   },
   {
-    id: "precalculus", name: "AP Precalculus", cat: "Math & Computer Science",
+    id: "precalculus", name: "AP Precalculus", cat: "Math & Computer Science", guide: true,
     blurb: "Functions as models of change: polynomial, rational, exponential, logarithmic and trigonometric.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 2 hr", weight: 62.5 },
@@ -228,7 +228,7 @@ const COURSES = [
     ced: CED("ap-physics-1"), page: PAGE("ap-physics-1"),
   },
   {
-    id: "physics-2", name: "AP Physics 2: Algebra-Based", cat: "Sciences",
+    id: "physics-2", name: "AP Physics 2: Algebra-Based", cat: "Sciences", guide: true,
     blurb: "Thermodynamics, electricity, magnetism, optics and modern physics.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
@@ -238,7 +238,7 @@ const COURSES = [
     ced: CED("ap-physics-2"), page: PAGE("ap-physics-2"),
   },
   {
-    id: "physics-c-mechanics", name: "AP Physics C: Mechanics", cat: "Sciences",
+    id: "physics-c-mechanics", name: "AP Physics C: Mechanics", cat: "Sciences", guide: true,
     blurb: "Calculus-based mechanics for future scientists and engineers.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
@@ -248,12 +248,13 @@ const COURSES = [
     ced: CED("ap-physics-c-mechanics"), page: PAGE("ap-physics-c-mechanics"),
   },
   {
-    id: "physics-c-em", name: "AP Physics C: Electricity and Magnetism", cat: "Sciences",
+    id: "physics-c-em", name: "AP Physics C: Electricity and Magnetism", cat: "Sciences", guide: true,
     blurb: "Calculus-based electrostatics, circuits, magnetism and induction.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
       { name: "Free response", detail: "4 questions · 100 min", weight: 50 },
     ],
+    units: ["Electric Charges, Fields, and Gauss's Law", "Electric Potential", "Conductors and Capacitors", "Electric Circuits", "Magnetic Fields and Electromagnetism", "Electromagnetic Induction"],
     ced: null, page: PAGE("ap-physics-c-electricity-and-magnetism"),
   },
 

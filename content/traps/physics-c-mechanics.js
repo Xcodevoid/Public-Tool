@@ -1,0 +1,32 @@
+// "AP Trap" for every concept in content/physics-c-mechanics.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["physics-c-mechanics"] = {
+  "0.0": "Differentiate EVERY term. Dropping the linear term (−2t → −2) is the most common slip on graded answers.",
+  "0.1": "Integrating needs the initial condition. Without x₀ or v₀ you only have the answer up to a constant, and AP takes points for missing it.",
+  "0.2": "Kinematic equations only hold for CONSTANT acceleration. If a depends on t, you must integrate.",
+  "0.3": "At the top of a projectile's path, vertical velocity is zero but acceleration is still g downward, not zero.",
+  "1.0": "For drag problems, write Newton's 2nd law as a differential equation (m dv/dt = mg − bv) and separate variables. Don't just jump to terminal velocity.",
+  "1.1": "The normal force is NOT always mg. On inclines, in elevators and in loops, find N from the free-body diagram.",
+  "1.2": "\"Centripetal force\" is not a new force on the FBD. It's the NET inward force from tension, gravity, normal, friction and so on.",
+  "1.3": "Orbital speed and period depend on r, not on the satellite's mass. Bigger orbits are SLOWER.",
+  "2.0": "When force varies with position, W = ∫F dx. Multiplying one force value by distance only works if F is constant.",
+  "2.1": "F = −dU/dx. Forgetting the minus sign points the force the wrong way, and AP grades direction.",
+  "2.2": "Energy is conserved only without nonconservative work. With friction, K + U + thermal energy is conserved, not K + U.",
+  "2.3": "P = F·v uses the component of force along the velocity. Average power is W/Δt, instantaneous power is dW/dt.",
+  "3.0": "Impulse is the AREA under F(t), and it equals Δp, a vector. Watch the sign when an object bounces back.",
+  "3.1": "Momentum is conserved only when the net EXTERNAL force is zero, and it's conserved in each direction separately.",
+  "3.2": "Momentum is conserved in all collisions. Kinetic energy is conserved only in ELASTIC ones.",
+  "3.3": "Internal forces (explosions, collisions) can't change the center of mass's motion. Only external forces can.",
+  "4.0": "Angular and linear quantities link through r: v = rω, a_t = rα. Centripetal acceleration ω²r is a different component.",
+  "4.1": "Torque uses the PERPENDICULAR distance from the axis to the line of force (τ = rF sin θ), not just the distance to where it's applied.",
+  "4.2": "The parallel-axis theorem only works from the CENTER-OF-MASS axis: I = I_cm + Md². Don't apply it between two off-center axes.",
+  "4.3": "For a string over a massive pulley, the tensions on each side are DIFFERENT. Equal tensions would mean zero net torque.",
+  "5.0": "Rolling objects have BOTH translational and rotational KE. Leaving out ½Iω² gives the wrong speed at the bottom of a ramp.",
+  "5.1": "A point particle moving in a straight line still has angular momentum about any point off its line: L = mvr⊥.",
+  "5.2": "Angular momentum is conserved when external TORQUE is zero, but kinetic energy usually is not.",
+  "5.3": "Rotational power is P = τω. It parallels P = Fv exactly, so use the same logic.",
+  "6.0": "Show that F = −kx (or τ = −κθ) to PROVE SHM. Then read ω² off the differential equation d²x/dt² = −ω²x.",
+  "6.1": "Max speed occurs at equilibrium and max acceleration occurs at the ends. They are never at the same time.",
+  "6.2": "Pendulum period T = 2π√(L/g) works only for small angles, and it doesn't depend on mass or amplitude.",
+  "6.3": "Total energy in SHM is ½kA². It depends on amplitude squared, not on mass."
+};

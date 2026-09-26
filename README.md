@@ -42,20 +42,21 @@ right before you'd forget it.
   it detects the weak concept, gives a refresher, and drills it on the spot.
 - 🗓️ **Spaced review**: concepts you get right come back after 1 → 3 → 7 → 14 → 30 days. Misses come
   back in the next session.
-- 🃏 **Unlimited targeted questions**: besides 256 written questions, every flashcard term becomes a
+- 🃏 **Unlimited targeted questions**: besides 390 written questions, every flashcard term becomes a
   generated question tied to its concept, so each concept always has enough to practice.
 - 📈 **Progress = mastery**: a table of every concept with its mastery %, status and last practice date,
   sorted weakest first, plus "Recommended next" for each course.
 - 📖 **Study guides**: plain-English concepts with exam-level detail, flashcards, free-response
-  practice with scoring guides, common mistakes, and exam strategy for 9 courses.
+  practice with scoring guides, common mistakes, and exam strategy for 14 courses.
 - 🗂️ **All 42 AP courses (2026-27)**: exam formats, 2027 changes, and official CED links.
 - 🔎 Search (`/` or `Ctrl K`), timed mixed quizzes, dark mode, mobile layout, keyboard shortcuts.
 - 🔒 **Local-first**: no accounts and no tracking. Progress lives in `localStorage`, with backup/restore
   as a JSON file.
 - 📄 **One file**: the whole site builds into a single self-contained `index.html`.
 
-Adaptive courses: AP Calculus AB, Calculus BC, Physics 1, Chemistry, Biology, Microeconomics,
-Psychology, U.S. History, English Language.
+Adaptive courses: AP Precalculus, Calculus AB, Calculus BC, Physics 1, Physics 2, Physics C: Mechanics,
+Physics C: E&M, Chemistry, Biology, Microeconomics, Psychology, U.S. History, World History: Modern,
+English Language.
 
 ## Running it locally
 

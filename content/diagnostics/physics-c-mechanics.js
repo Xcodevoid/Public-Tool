@@ -1,0 +1,32 @@
+// Concept tags and wrong-answer diagnoses for content/physics-c-mechanics.js.
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["physics-c-mechanics"] = {
+  "0.0": [0, { 0: "You may have dropped the constant term: v = 6t − 2, so v(2) = 12 − 2 = 10.", 2: "6t = 12 forgets the −2 from differentiating −2t.", 3: "6 m/s doesn't match v = 6t − 2 at t = 2. Differentiate first, then plug in." }],
+  "0.1": [1, { 1: "4 m is v(1), not x(1). Integrate: x = t⁴, so x(1) = 1.", 2: "12 m is the acceleration 12t² at t = 1. You differentiated instead of integrating.", 3: "∫4t³ dt = t⁴, not t⁴/4. The 4 cancels." }],
+  "0.2": [1, { 0: "6 is a(t) at t = 1, not a function. Integrate 6t to get 3t².", 2: "∫6t dt = 3t², not 6t². Remember to divide by the new power.", 3: "t³ integrates the wrong power. ∫6t dt = 3t²." }],
+  "0.3": [3, { 0: "30° and 60° give EQUAL ranges, both less than 45°.", 2: "60° goes higher but spends that height, not distance. Range ∝ sin 2θ peaks at 45°.", 3: "Straight up gives zero range. The ball lands where it started." }],
+  "1.0": [1, { 0: "mg is the weight (a force), not a speed. Set mg = bv and solve for v.", 2: "That's upside down. mg = bv gives v = mg/b.", 3: "The square root belongs to QUADRATIC drag (F = cv²), not linear drag." }],
+  "1.1": [0, { 0: "g is free fall. The incline only lets the component along the slope accelerate the block.", 1: "g cos θ is the component INTO the incline, balanced by the normal force.", 3: "tan θ appears in friction problems (μ = tan θ), not for the acceleration here." }],
+  "1.2": [2, { 0: "At zero speed the string goes slack before the top. Gravity alone must supply mv²/r.", 2: "√(2gr) comes from an energy equation, not the minimum-speed condition mg = mv²/r.", 3: "gr has units of speed², not speed." }],
+  "1.3": [3, { 0: "Orbital speed DECREASES with radius: v = √(GM/r).", 1: "Speed goes like 1/√r, so it falls, not rises.", 3: "v = √(GM/r) depends on r, so it must change." }],
+  "2.0": [1, { 0: "6 J treats the force like it was linear. Integrate: W = ∫3x² dx = x³ from 0 to 2 = 8 J.", 2: "12 J is F(2) × 1. Work is the integral, not force × one number.", 3: "24 J is F(2) × 2, treating the force as constant at its maximum." }],
+  "2.1": [1, { 0: "You forgot the minus sign: F = −dU/dx.", 2: "F = −dU/dx, so differentiate AND flip the sign: −8x.", 3: "That integrates U instead of differentiating it." }],
+  "2.2": [1, { 0: "At a maximum of U, a small push makes the force drive the object AWAY. That's unstable.", 2: "U = 0 depends on your reference choice. Equilibrium needs dU/dx = 0.", 3: "Steepest U means the LARGEST force, the opposite of equilibrium." }],
+  "2.3": [3, { 0: "Dividing force by speed doesn't give power. P = Fv.", 2: "Adding force and speed mixes units. Multiply: P = Fv.", 3: "Subtracting speed from force mixes units. P = Fv = 10,000 W." }],
+  "3.0": [0, { 0: "6 N·s uses F(1). Impulse is the AREA: ∫6t dt = 3t² from 0 to 2 = 12.", 2: "24 N·s is F(2) × 2, as if the force were constant at its max.", 3: "3 N·s is the antiderivative's coefficient, not the value at t = 2." }],
+  "3.1": [3, { 0: "1 m pulls the center toward the LIGHTER mass. It's weighted by mass: (6 × 4)/8 = 3.", 1: "2 m is the midpoint, which only works for equal masses.", 3: "The center of mass lies between the two masses, not on the heavier one." }],
+  "3.2": [2, { 0: "Sticking together is a perfectly INELASTIC collision, not an elastic one.", 2: "Half speed each conserves momentum but loses kinetic energy, so it isn't elastic.", 3: "The target was at rest, so both can't reverse. That breaks momentum conservation." }],
+  "3.3": [3, { 1: "Internal forces can't move the center of mass. It stays at rest.", 2: "The center of mass isn't any single piece. With no external force its velocity stays zero.", 3: "Momentum conservation fixes it: initially zero, so the CM velocity stays zero." }],
+  "4.0": [2, { 0: "ML²/12 is about the CENTER. Use the parallel-axis theorem: add M(L/2)².", 1: "Check the parallel-axis step: ML²/12 + ML²/4 = ML²/3.", 3: "ML² would put all the mass at the far end." }],
+  "4.1": [3, { 0: "20 multiplies τ × I. Use α = τ/I = 10/2.", 2: "0.2 is I/τ, upside down. α = τ/I.", 3: "Adding τ and I mixes units. α = τ/I = 5 rad/s²." }],
+  "4.2": [1, { 0: "Maximum torque needs the force PERPENDICULAR to the lever arm.", 2: "Torque isn't force. τ = rF sin θ, and θ = 0 here.", 3: "A force through the pivot has zero lever arm, so the torque is zero, not negative." }],
+  "4.3": [3, { 0: "In equilibrium, torques balance about EVERY axis, not just the CM.", 1: "You can choose any pivot. Picking one where an unknown force acts is just a shortcut.", 3: "Any axis works. Choose one that eliminates unknowns." }],
+  "5.0": [0, { 0: "Check the ratio: K_rot = ¼Mv² and K_trans = ½Mv², so rotational is 1/3 of the total.", 2: "Half would need I = MR² (a hoop), not a disk.", 3: "2/3 is the TRANSLATIONAL fraction. Rotational is the smaller part." }],
+  "5.1": [1, { 0: "6 is just mv. Multiply by the perpendicular distance: L = mvr⊥ = 24.", 2: "12 uses half the distance or half the mass. L = 2 × 3 × 4.", 3: "A particle moving in a straight line HAS angular momentum about points not on its line." }],
+  "5.2": [2, { 0: "L stays constant, but K = L²/2I rises as I falls. The skater does work pulling in.", 1: "L is conserved, not kinetic energy. K = L²/2I increases.", 3: "She is still spinning, faster in fact, so K isn't zero." }],
+  "5.3": [2, { 0: "Dividing by ω doesn't give power. P = τω.", 1: "Adding torque and angular speed mixes units. P = τω = 500 W.", 3: "0.2 is ω/τ, upside down. P = τω." }],
+  "6.0": [0, { 0: "25 is ω², not ω. Take the square root: ω = 5.", 2: "625 squares 25 again. ω² = 25, so ω = 5.", 3: "2π/5 is the PERIOD, not the angular frequency." }],
+  "6.1": [1, { 0: "0.2 m is the amplitude. v_max = Aω = 0.2 × 10.", 2: "10 is ω alone. Multiply by the amplitude: v_max = Aω.", 3: "20 m/s is Aω² (max acceleration), not max speed." }],
+  "6.2": [3, { 0: "For a spring, T = 2π√(m/k). Amplitude doesn't appear.", 1: "T doesn't depend on amplitude, so it can't halve.", 3: "√2 would come from changing m or k, not amplitude." }],
+  "6.3": [2, { 0: "At max displacement the mass stops momentarily, so KE = 0 there.", 2: "Halfway out, some energy is already potential. KE peaks at x = 0.", 3: "Energy shifts between K and U, so KE isn't constant." }]
+};

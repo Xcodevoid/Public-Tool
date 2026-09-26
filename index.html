@@ -910,7 +910,7 @@ const COURSES = [
     ced: CED("ap-us-history"), page: PAGE("ap-united-states-history"),
   },
   {
-    id: "world-history", name: "AP World History: Modern", cat: "History & Social Sciences", status: "changed",
+    id: "world-history", name: "AP World History: Modern", cat: "History & Social Sciences", guide: true, status: "changed",
     blurb: "Global history from c. 1200 to the present: empires, trade networks, revolutions and globalization.",
     exam: HISTORY_EXAM, changes: HISTORY_CHANGE,
     units: ["The Global Tapestry", "Networks of Exchange", "Land-Based Empires", "Transoceanic Interconnections", "Revolutions", "Consequences of Industrialization", "Global Conflict", "Cold War and Decolonization", "Globalization"],
@@ -1016,7 +1016,7 @@ const COURSES = [
     ced: CED("ap-calculus-ab-and-bc"), page: PAGE("ap-calculus-bc"),
   },
   {
-    id: "precalculus", name: "AP Precalculus", cat: "Math & Computer Science",
+    id: "precalculus", name: "AP Precalculus", cat: "Math & Computer Science", guide: true,
     blurb: "Functions as models of change: polynomial, rational, exponential, logarithmic and trigonometric.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 2 hr", weight: 62.5 },
@@ -1097,7 +1097,7 @@ const COURSES = [
     ced: CED("ap-physics-1"), page: PAGE("ap-physics-1"),
   },
   {
-    id: "physics-2", name: "AP Physics 2: Algebra-Based", cat: "Sciences",
+    id: "physics-2", name: "AP Physics 2: Algebra-Based", cat: "Sciences", guide: true,
     blurb: "Thermodynamics, electricity, magnetism, optics and modern physics.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
@@ -1107,7 +1107,7 @@ const COURSES = [
     ced: CED("ap-physics-2"), page: PAGE("ap-physics-2"),
   },
   {
-    id: "physics-c-mechanics", name: "AP Physics C: Mechanics", cat: "Sciences",
+    id: "physics-c-mechanics", name: "AP Physics C: Mechanics", cat: "Sciences", guide: true,
     blurb: "Calculus-based mechanics for future scientists and engineers.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
@@ -1117,12 +1117,13 @@ const COURSES = [
     ced: CED("ap-physics-c-mechanics"), page: PAGE("ap-physics-c-mechanics"),
   },
   {
-    id: "physics-c-em", name: "AP Physics C: Electricity and Magnetism", cat: "Sciences",
+    id: "physics-c-em", name: "AP Physics C: Electricity and Magnetism", cat: "Sciences", guide: true,
     blurb: "Calculus-based electrostatics, circuits, magnetism and induction.",
     exam: [
       { name: "Multiple choice", detail: "40 questions · 80 min", weight: 50 },
       { name: "Free response", detail: "4 questions · 100 min", weight: 50 },
     ],
+    units: ["Electric Charges, Fields, and Gauss's Law", "Electric Potential", "Conductors and Capacitors", "Electric Circuits", "Magnetic Fields and Electromagnetism", "Electromagnetic Induction"],
     ced: null, page: PAGE("ap-physics-c-electricity-and-magnetism"),
   },
 
@@ -4016,6 +4017,1354 @@ window.AP_CONTENT["physics-1"] = {
 };
 
 </script>
+<script>/* content/physics-2.js */
+window.AP_CONTENT = window.AP_CONTENT || {};
+window.AP_CONTENT["physics-2"] = {
+  intro: "The official course numbers these units 9–15, continuing from Physics 1. Each unit's exam weighting is listed in the official CED.",
+  tips: [
+    "Start with a diagram: PV diagrams, circuit sketches, field lines, ray diagrams. Many points are awarded for correct representations.",
+    "Explain with principles: \"energy is conserved,\" \"charge is conserved,\" \"flux is changing so an emf is induced.\" Name the law before doing algebra.",
+    "Watch signs and directions. AP Physics defines W as the work done ON the gas, and direction questions (fields, currents, forces) are common traps.",
+    "Scaling questions (\"if r doubles, what happens to F?\") are everywhere. Know which quantities are squared or inverse.",
+    "You get an equation sheet and a calculator. Practice deciding WHICH equation applies, not memorizing them.",
+  ],
+  units: [
+    {
+      title: "Thermodynamics",
+      weightLabel: "CED Unit 9",
+      tldr: "Temperature measures the average kinetic energy of particles. Energy moves as heat and work, following the first law (energy conservation), and PV diagrams show those exchanges. The second law says entropy tends to increase.",
+      concepts: [
+        {
+          title: "Temperature, kinetic theory and ideal gases",
+          simple: "Hotter means the particles are moving faster on average.",
+          detail: "Average KE ∝ absolute temperature (K). Ideal gas law: PV = nRT = NkT. Pressure comes from particles colliding with the walls. Temperatures must be in kelvin.",
+          example: "Doubling the Kelvin temperature doubles the average kinetic energy.",
+        },
+        {
+          title: "The first law of thermodynamics",
+          simple: "A gas's internal energy changes by the heat added plus the work done on it.",
+          detail: "ΔU = Q + W, where W is the work done ON the gas (the AP convention). Isothermal: ΔU = 0. Isochoric (constant volume): W = 0. Adiabatic: Q = 0.",
+          hook: "Compress the gas and W is positive (work done ON it). Let it expand and W is negative.",
+        },
+        {
+          title: "PV diagrams",
+          simple: "A pressure–volume graph shows a gas's process, and the area under the curve is the work.",
+          detail: "|Work| = area under the P–V curve. Expansion means the gas does work, so W on the gas is negative. In a closed cycle, the net work equals the enclosed area.",
+        },
+        {
+          title: "Heat transfer and entropy",
+          simple: "Heat flows from hot to cold, and disorder tends to increase.",
+          detail: "Conduction rate: Q/Δt = kAΔT/L. Heat also moves by convection and radiation. The second law: the entropy of an isolated system never decreases, and heat flows naturally from hot to cold.",
+        },
+      ],
+      terms: [
+        ["Internal energy", "The total kinetic and potential energy of a system's particles."],
+        ["First law of thermodynamics", "ΔU = Q + W (W = work done ON the system)."],
+        ["Isothermal process", "A process at constant temperature (ΔU = 0 for an ideal gas)."],
+        ["Adiabatic process", "A process with no heat exchange (Q = 0)."],
+        ["Entropy", "A measure of disorder. It increases in isolated systems."],
+        ["Thermal conductivity", "How easily a material conducts heat (k)."],
+      ],
+      mistakes: [
+        "Using Celsius in PV = nRT or kinetic energy relations. Use kelvin.",
+        "Mixing up sign conventions: AP's W is work done ON the gas.",
+      ],
+      questions: [
+        { q: "An ideal gas is compressed at constant temperature. Which is true?", choices: ["ΔU > 0 and heat enters the gas", "ΔU = 0 and heat leaves the gas", "ΔU = 0 and no heat flows", "ΔU < 0 and work is done by the gas"], answer: 1, explain: "Isothermal means ΔU = 0. Compression does positive work ON the gas, so Q = −W < 0: heat leaves." },
+        { q: "The Kelvin temperature of a gas doubles. The average kinetic energy of its molecules:", choices: ["Halves", "Stays the same", "Doubles", "Quadruples"], answer: 2, explain: "Average KE is proportional to absolute temperature." },
+        { q: "On a PV diagram, the magnitude of the work done in a process equals:", choices: ["The slope of the curve", "The area under the curve", "The pressure at the end", "The volume change only"], answer: 1, explain: "W = ∫P dV, which is the area under the P–V curve." },
+        { q: "A gas is heated in a sealed rigid container (constant volume). Which is true?", choices: ["W = 0, so ΔU = Q", "Q = 0", "ΔU = 0", "The gas does positive work"], answer: 0, explain: "No volume change means no work, so all the heat goes into internal energy." },
+      ],
+      frq: {
+        prompt: "An ideal gas expands at constant pressure 2.0 × 10⁵ Pa from 0.010 m³ to 0.030 m³, and 9,000 J of heat is added.\n(a) Calculate the work done ON the gas.\n(b) Calculate the change in internal energy.\n(c) Did the gas's temperature rise, fall or stay the same? Justify.",
+        points: [
+          "(a) W = −PΔV = −(2.0 × 10⁵)(0.020) = −4,000 J (the gas does 4,000 J of work).",
+          "(b) ΔU = Q + W = 9,000 − 4,000 = 5,000 J.",
+          "(c) It rose: ΔU > 0, and an ideal gas's internal energy is proportional to temperature.",
+        ],
+      },
+    },
+    {
+      title: "Electric Force, Field, and Potential",
+      weightLabel: "CED Unit 10",
+      tldr: "Charges exert forces on each other according to Coulomb's law. An electric field describes the force per unit charge at each point, and electric potential describes energy per unit charge. Conductors let charge move freely.",
+      concepts: [
+        {
+          title: "Coulomb's law",
+          simple: "Like charges repel and opposite charges attract, and the force weakens quickly with distance.",
+          detail: "F = k|q₁q₂|/r². It's an inverse-square law. Forces add as vectors (superposition). Charge is conserved and quantized (in multiples of e).",
+          example: "Double both charges and halve the distance: F × 2 × 2 × 4 = 16F.",
+        },
+        {
+          title: "Electric fields",
+          simple: "An electric field is the \"push per unit charge\" at each point in space.",
+          detail: "E = F/q. Field lines point away from + and toward −. A positive charge feels a force along E; a negative charge (like an electron) feels a force opposite to E. The field between parallel plates is uniform.",
+        },
+        {
+          title: "Electric potential and energy",
+          simple: "Potential is energy per unit charge. Charges \"roll\" from high to low potential energy.",
+          detail: "V = kq/r is a scalar, so add potentials without directions. ΔU = qΔV. For uniform fields, E = ΔV/d. Moving a charge along an equipotential takes no work. Field lines are perpendicular to equipotentials.",
+        },
+        {
+          title: "Conductors and charging",
+          simple: "In a conductor, charges move freely and spread out on the surface.",
+          detail: "Charging happens by friction, conduction or induction (polarization). In electrostatic equilibrium, E = 0 inside a conductor and excess charge sits on the outer surface.",
+        },
+      ],
+      terms: [
+        ["Coulomb's law", "F = k|q₁q₂|/r², the force between point charges."],
+        ["Electric field", "Force per unit charge, E = F/q (N/C)."],
+        ["Electric potential", "Potential energy per unit charge, V (volts)."],
+        ["Equipotential", "A surface of constant potential. Moving along it takes no work."],
+        ["Induction (charging)", "Charging by rearranging charges without contact."],
+        ["Superposition", "The net field or force is the vector sum of the individual ones."],
+      ],
+      mistakes: [
+        "Adding potentials as vectors. Potential is a SCALAR.",
+        "Forgetting that electrons accelerate OPPOSITE to the field direction.",
+      ],
+      questions: [
+        { q: "Both charges double and the distance between them halves. The electric force becomes:", choices: ["2F", "4F", "8F", "16F"], answer: 3, explain: "F ∝ q₁q₂/r²: 2 × 2 × (1/(½)²) = 4 × 4 = 16." },
+        { q: "An electron is released from rest in a uniform electric field pointing east. It accelerates:", choices: ["East", "West", "North", "It doesn't move"], answer: 1, explain: "Negative charges feel a force opposite to E." },
+        { q: "How much work does it take to move a charge along an equipotential surface?", choices: ["Positive work", "Negative work", "Zero work", "It depends on the charge"], answer: 2, explain: "ΔV = 0 along an equipotential, so W = qΔV = 0." },
+        { q: "Excess charge placed on a solid metal sphere ends up:", choices: ["Evenly spread through the volume", "On the outer surface", "At the center", "It leaks out immediately"], answer: 1, explain: "Charges repel each other to the surface, and E = 0 inside the conductor." },
+      ],
+      frq: {
+        prompt: "Two parallel plates 0.020 m apart have a potential difference of 100 V.\n(a) Find the electric field between the plates.\n(b) Find the force on a proton between the plates (e = 1.6 × 10⁻¹⁹ C).\n(c) How much kinetic energy does a proton gain moving from the positive plate to the negative plate?",
+        points: [
+          "(a) E = ΔV/d = 100/0.020 = 5,000 V/m (N/C).",
+          "(b) F = qE = (1.6 × 10⁻¹⁹)(5,000) = 8.0 × 10⁻¹⁶ N, toward the negative plate.",
+          "(c) ΔK = qΔV = (1.6 × 10⁻¹⁹)(100) = 1.6 × 10⁻¹⁷ J.",
+        ],
+      },
+    },
+    {
+      title: "Electric Circuits",
+      weightLabel: "CED Unit 11",
+      tldr: "Current is the flow of charge, driven by a potential difference and limited by resistance. Resistors combine in series or parallel. Kirchhoff's rules (conservation of energy and charge) analyze any circuit. Capacitors store charge.",
+      concepts: [
+        {
+          title: "Current, resistance and Ohm's law",
+          simple: "Voltage pushes charge, resistance limits it, and current is how much charge flows per second.",
+          detail: "I = ΔQ/Δt, V = IR, and R = ρL/A (longer and thinner wires mean more resistance). Power: P = IV = I²R = V²/R.",
+        },
+        {
+          title: "Series and parallel",
+          simple: "In series, everything shares one path. In parallel, the current splits into branches.",
+          detail: "Series: R_eq = R₁ + R₂, with the same current everywhere. Parallel: 1/R_eq = 1/R₁ + 1/R₂, with the same voltage across each branch. Adding a parallel branch LOWERS total resistance and raises total current.",
+        },
+        {
+          title: "Kirchhoff's rules",
+          simple: "Charge doesn't pile up at junctions, and the voltage around any loop adds to zero.",
+          detail: "Junction rule: current in = current out (conservation of charge). Loop rule: ΣΔV = 0 around a loop (conservation of energy).",
+        },
+        {
+          title: "Capacitors in circuits",
+          simple: "A capacitor stores charge. Once it's full, current stops flowing through its branch.",
+          detail: "C = Q/V, and C = κε₀A/d for parallel plates. Energy U = ½CV². In a DC circuit at steady state, a fully charged capacitor acts like an open switch (no current).",
+        },
+      ],
+      terms: [
+        ["Current", "The rate of charge flow, I = ΔQ/Δt (amperes)."],
+        ["Resistivity", "A material property ρ that determines resistance: R = ρL/A."],
+        ["Equivalent resistance", "The single resistance that could replace a combination."],
+        ["Junction rule", "Total current into a junction equals total current out."],
+        ["Loop rule", "The sum of potential changes around a closed loop is zero."],
+        ["Capacitance", "Charge stored per volt, C = Q/V."],
+      ],
+      mistakes: [
+        "Thinking current gets \"used up\" in resistors. It's the same all around a series loop.",
+        "Adding parallel resistors directly. Use reciprocals, and remember the result is smaller than the smallest resistor.",
+      ],
+      questions: [
+        { q: "Two 6 Ω resistors are connected in parallel. The equivalent resistance is:", choices: ["12 Ω", "6 Ω", "3 Ω", "1/3 Ω"], answer: 2, explain: "1/R = 1/6 + 1/6 = 1/3, so R = 3 Ω." },
+        { q: "A wire's length doubles (same material and thickness). Its resistance:", choices: ["Halves", "Stays the same", "Doubles", "Quadruples"], answer: 2, explain: "R = ρL/A is proportional to L." },
+        { q: "Another bulb is added in parallel to a battery that already powers one bulb. The total current from the battery:", choices: ["Decreases", "Stays the same", "Increases", "Becomes zero"], answer: 2, explain: "Adding a parallel branch lowers total resistance, so more current flows." },
+        { q: "In a DC circuit long after the switch closes, the current through a capacitor's branch is:", choices: ["Maximum", "Zero", "Equal to the total current", "Increasing"], answer: 1, explain: "A fully charged capacitor blocks steady current, acting like an open circuit." },
+      ],
+      frq: {
+        prompt: "A 12 V battery is connected to R₁ = 2 Ω in series with a parallel pair: R₂ = 6 Ω and R₃ = 3 Ω.\n(a) Find the equivalent resistance.\n(b) Find the current through R₁.\n(c) Find the current through R₂.",
+        points: [
+          "(a) Parallel: 1/(1/6 + 1/3) = 2 Ω. Total = 2 + 2 = 4 Ω.",
+          "(b) I = V/R = 12/4 = 3 A through R₁.",
+          "(c) The voltage across the parallel pair is 3 A × 2 Ω = 6 V, so I₂ = 6/6 = 1 A.",
+        ],
+      },
+    },
+    {
+      title: "Magnetism and Electromagnetism",
+      weightLabel: "CED Unit 12",
+      tldr: "Moving charges create magnetic fields and feel magnetic forces. A changing magnetic flux induces an emf (Faraday's law), and the induced current opposes the change (Lenz's law). That principle is behind generators and transformers.",
+      concepts: [
+        {
+          title: "Magnetic force on moving charges",
+          simple: "A magnetic field pushes sideways on a moving charge, but does nothing to a charge at rest.",
+          detail: "F = qvB sin θ, with direction from the right-hand rule (reversed for negative charges). Charges moving PARALLEL to B feel no force. The force is perpendicular to the velocity, so it does NO work, which leads to circular motion.",
+        },
+        {
+          title: "Force on current-carrying wires",
+          simple: "A wire carrying current in a magnetic field gets pushed, which is how motors work.",
+          detail: "F = ILB sin θ, with direction from the right-hand rule. Parallel currents in the same direction attract; opposite directions repel.",
+        },
+        {
+          title: "Magnetic fields from currents",
+          simple: "Current in a wire creates circular magnetic field loops around it.",
+          detail: "Long straight wire: B = μ₀I/(2πr), with direction from the right-hand grip rule. Field lines form closed loops, and magnets have north and south poles (no isolated poles).",
+        },
+        {
+          title: "Electromagnetic induction",
+          simple: "Changing the magnetic field through a loop creates a voltage that drives current.",
+          detail: "Flux Φ = BA cos θ. Faraday: ε = −ΔΦ/Δt. Lenz's law: the induced current creates a field that OPPOSES the change in flux. You can change flux by changing B, the area or the orientation.",
+          hook: "Lenz's law: nature resists change. The induced current fights whatever is changing the flux.",
+        },
+      ],
+      terms: [
+        ["Magnetic field", "A field (B, in teslas) that exerts forces on moving charges."],
+        ["Right-hand rule", "A method for finding the direction of magnetic forces and fields."],
+        ["Magnetic flux", "Φ = BA cos θ, the field through an area."],
+        ["Faraday's law", "Induced emf = the rate of change of magnetic flux."],
+        ["Lenz's law", "The induced current opposes the change in flux that caused it."],
+        ["Generator", "A device that converts mechanical energy to electrical energy by induction."],
+      ],
+      mistakes: [
+        "Thinking a steady (unchanging) magnetic field induces current. Only CHANGING flux does.",
+        "Saying magnetic forces do work on charges. The force is perpendicular to the motion, so it doesn't.",
+      ],
+      questions: [
+        { q: "A charged particle moves parallel to a uniform magnetic field. The magnetic force on it is:", choices: ["Maximum", "Zero", "Along the field", "Opposite the velocity"], answer: 1, explain: "F = qvB sin θ, and θ = 0 gives F = 0." },
+        { q: "How much work does a magnetic force do on a moving charged particle?", choices: ["Positive work", "Negative work", "Zero work", "Work equal to qvB"], answer: 2, explain: "The force is always perpendicular to the velocity, so it changes direction but not speed." },
+        { q: "Two long parallel wires carry current in the SAME direction. The wires:", choices: ["Attract", "Repel", "Feel no force", "Rotate"], answer: 0, explain: "Parallel currents in the same direction attract." },
+        { q: "A bar magnet is held motionless inside a coil. The induced current is:", choices: ["Large and steady", "Zero", "Alternating", "Increasing"], answer: 1, explain: "No change in flux means no induced emf." },
+      ],
+      frq: {
+        prompt: "A square loop (side 0.10 m) sits in a uniform magnetic field perpendicular to its plane. The field increases from 0.20 T to 0.60 T in 0.50 s.\n(a) Find the change in magnetic flux.\n(b) Find the magnitude of the induced emf.\n(c) State the direction of the induced current's magnetic field relative to the external field, and justify with Lenz's law.",
+        points: [
+          "(a) ΔΦ = ΔB·A = (0.40)(0.010) = 4.0 × 10⁻³ Wb.",
+          "(b) ε = ΔΦ/Δt = 4.0 × 10⁻³/0.50 = 8.0 × 10⁻³ V.",
+          "(c) Opposite to the external field. The flux is increasing, so the induced current creates a field that opposes the increase.",
+        ],
+      },
+    },
+    {
+      title: "Geometric Optics",
+      weightLabel: "CED Unit 13",
+      tldr: "Light travels in straight lines as rays that reflect and refract. Snell's law describes bending between materials, and total internal reflection traps light inside higher-index materials. Lenses and mirrors form images you can predict with ray diagrams and the thin-lens equation.",
+      concepts: [
+        {
+          title: "Reflection",
+          simple: "Light bounces off a surface at the same angle it arrived.",
+          detail: "Angle of incidence = angle of reflection, measured from the NORMAL. Plane mirrors form virtual, upright, same-size images.",
+        },
+        {
+          title: "Refraction and Snell's law",
+          simple: "Light bends when it changes speed going from one material into another.",
+          detail: "n = c/v. Snell's law: n₁ sin θ₁ = n₂ sin θ₂. Going into a higher n, light slows and bends TOWARD the normal. The frequency stays the same; the wavelength changes.",
+        },
+        {
+          title: "Total internal reflection",
+          simple: "Light can get trapped inside glass or water if it hits the surface at a steep enough angle.",
+          detail: "This happens only going from HIGHER n to LOWER n, when θ exceeds the critical angle θc = sin⁻¹(n₂/n₁). It's the principle behind fiber optics.",
+        },
+        {
+          title: "Lenses and mirrors",
+          simple: "Curved lenses and mirrors focus light to form images, which can be real (projectable) or virtual.",
+          detail: "1/f = 1/d₀ + 1/dᵢ, and magnification M = −dᵢ/d₀. A converging lens with the object beyond f makes a real, inverted image. With the object inside f it makes a virtual, upright, larger image. Diverging lenses always make virtual, upright, smaller images.",
+        },
+      ],
+      terms: [
+        ["Normal", "The line perpendicular to a surface at the point of incidence."],
+        ["Index of refraction", "n = c/v, how much a material slows light."],
+        ["Snell's law", "n₁ sin θ₁ = n₂ sin θ₂"],
+        ["Critical angle", "The minimum incident angle for total internal reflection."],
+        ["Real image", "An image formed where light actually converges, which can be projected."],
+        ["Focal length", "The distance from a lens or mirror to its focal point."],
+      ],
+      mistakes: [
+        "Measuring angles from the surface instead of the normal.",
+        "Thinking total internal reflection can happen going into a denser medium. It can't.",
+      ],
+      questions: [
+        { q: "Light passes from air into glass at an angle. Compared to the incident ray, the refracted ray:", choices: ["Bends away from the normal and speeds up", "Bends toward the normal and slows down", "Doesn't bend", "Reflects completely"], answer: 1, explain: "Glass has a higher n, so light slows and bends toward the normal." },
+        { q: "Total internal reflection can occur when light travels:", choices: ["From air into water", "From water into air at a large angle", "From air into glass", "Along the normal"], answer: 1, explain: "It requires going from higher n to lower n, above the critical angle." },
+        { q: "An object is placed at 2f in front of a converging lens. The image is:", choices: ["Virtual, upright, larger", "Real, inverted, same size, at 2f", "Real, upright, smaller", "No image forms"], answer: 1, explain: "1/f = 1/(2f) + 1/dᵢ gives dᵢ = 2f, and M = −1." },
+        { q: "A diverging lens always produces an image that is:", choices: ["Real and inverted", "Virtual, upright and smaller", "Real and larger", "Virtual and inverted"], answer: 1, explain: "Diverging lenses spread light out, so the image is virtual, upright and reduced." },
+      ],
+      frq: {
+        prompt: "An object is 30 cm from a converging lens with a focal length of 10 cm.\n(a) Find the image distance.\n(b) Find the magnification and describe the image.\n(c) The object is moved to 5 cm from the lens. Describe the new image.",
+        points: [
+          "(a) 1/dᵢ = 1/10 − 1/30 = 2/30, so dᵢ = 15 cm.",
+          "(b) M = −15/30 = −0.5: a real, inverted image half the object's size.",
+          "(c) The object is inside f: 1/dᵢ = 1/10 − 1/5 = −1/10, so dᵢ = −10 cm. The image is virtual, upright and magnified (M = +2).",
+        ],
+      },
+    },
+    {
+      title: "Waves, Sound, and Physical Optics",
+      weightLabel: "CED Unit 14",
+      tldr: "Waves carry energy without carrying matter. Their speed depends on the medium, and v = fλ links speed, frequency and wavelength. Sound shows the Doppler effect, and light's wave nature appears in interference and diffraction.",
+      concepts: [
+        {
+          title: "Wave properties",
+          simple: "A wave's speed equals how often it oscillates times how long each wave is.",
+          detail: "v = fλ. The medium sets the speed. Frequency is set by the source and stays the same across boundaries. Transverse waves (light, waves on a string) vs. longitudinal waves (sound). Amplitude relates to energy and intensity.",
+        },
+        {
+          title: "Sound and the Doppler effect",
+          simple: "A siren sounds higher as it approaches you and lower as it moves away.",
+          detail: "Sound is a longitudinal pressure wave. Intensity falls with distance (∝ 1/r²). Doppler effect: relative motion toward each other raises the observed frequency; motion apart lowers it.",
+        },
+        {
+          title: "Standing waves",
+          simple: "Waves bouncing back and forth can form fixed patterns with nodes that don't move.",
+          detail: "A string fixed at both ends: λₙ = 2L/n and fₙ = nv/(2L). The fundamental is n = 1. Open and closed pipes follow similar patterns. These patterns come from interference.",
+        },
+        {
+          title: "Interference and diffraction of light",
+          simple: "Light waves can add up or cancel out, making bright and dark bands.",
+          detail: "Double slit: d sin θ = mλ for bright fringes. A longer λ or a smaller d spreads the fringes apart. Diffraction is spreading around edges or through openings. Thin-film interference produces soap-bubble colors.",
+        },
+      ],
+      terms: [
+        ["Wavelength", "The distance between repeating points of a wave (λ)."],
+        ["Frequency", "Oscillations per second (Hz), set by the source."],
+        ["Doppler effect", "A change in observed frequency due to relative motion."],
+        ["Node", "A point of zero amplitude in a standing wave."],
+        ["Constructive interference", "Waves in phase add together to a larger amplitude."],
+        ["Diffraction", "Waves spreading as they pass edges or openings."],
+      ],
+      mistakes: [
+        "Thinking frequency changes when a wave enters a new medium. Speed and wavelength change; frequency doesn't.",
+        "Saying a louder sound travels faster. The medium sets the speed.",
+      ],
+      questions: [
+        { q: "In the same medium, a wave's frequency doubles. Its wavelength:", choices: ["Doubles", "Halves", "Stays the same", "Quadruples"], answer: 1, explain: "v = fλ with v fixed by the medium, so λ ∝ 1/f." },
+        { q: "An ambulance approaches you. The siren sounds:", choices: ["Lower in pitch", "Higher in pitch", "The same pitch", "Silent"], answer: 1, explain: "Approaching sources compress the waves, raising the observed frequency." },
+        { q: "In a double-slit experiment, the light's wavelength increases. The bright fringes:", choices: ["Move closer together", "Spread farther apart", "Disappear", "Stay the same"], answer: 1, explain: "d sin θ = mλ: a larger λ gives larger angles between fringes." },
+        { q: "A string fixed at both ends has length L. The wavelength of its fundamental is:", choices: ["L/2", "L", "2L", "4L"], answer: 2, explain: "The fundamental is half a wavelength fitting between the two fixed ends, so λ = 2L." },
+      ],
+      frq: {
+        prompt: "A guitar string is 0.65 m long, and waves travel along it at 260 m/s.\n(a) Find the wavelength of the fundamental.\n(b) Find the fundamental frequency.\n(c) Find the frequency of the second harmonic, and sketch or describe its standing-wave pattern.",
+        points: [
+          "(a) λ₁ = 2L = 1.30 m.",
+          "(b) f₁ = v/λ₁ = 260/1.30 = 200 Hz.",
+          "(c) f₂ = 2f₁ = 400 Hz. The pattern has nodes at both ends and at the center, with two antinodes (two loops).",
+        ],
+      },
+    },
+    {
+      title: "Modern Physics",
+      weightLabel: "CED Unit 15",
+      tldr: "At small scales, energy comes in packets (photons), matter behaves like waves, and atoms only have certain energy levels. Nuclei can decay, and mass converts to energy (E = mc²).",
+      concepts: [
+        {
+          title: "Photons and the photoelectric effect",
+          simple: "Light comes in energy packets called photons. Only photons with enough energy can knock electrons loose.",
+          detail: "E = hf. Photoelectric effect: K_max = hf − φ, where φ is the work function. Below the threshold frequency, NO electrons are emitted, no matter how intense the light. Intensity changes the NUMBER of electrons, not their energy.",
+          hook: "Frequency sets the energy of each photon. Intensity sets how many photons there are.",
+        },
+        {
+          title: "Atomic energy levels and spectra",
+          simple: "Electrons in atoms can only have certain energies. Jumping between levels emits or absorbs specific colors of light.",
+          detail: "A photon's energy = the difference between levels (hf = E_upper − E_lower). Each element has its own emission or absorption line spectrum.",
+        },
+        {
+          title: "Wave-particle duality",
+          simple: "Particles like electrons can act like waves.",
+          detail: "de Broglie wavelength λ = h/p = h/(mv). Electron diffraction shows wave behavior. Faster particles (larger p) have shorter wavelengths.",
+        },
+        {
+          title: "Nuclear physics",
+          simple: "Unstable nuclei decay into other nuclei, and a little mass turns into a lot of energy.",
+          detail: "Alpha decay (−2 protons, −4 mass number), beta decay (a neutron → a proton + an electron), gamma decay (energy only). Half-life: after n half-lives, (½)ⁿ remains. E = mc² (mass defect, fission and fusion). Charge and nucleon number are conserved.",
+        },
+      ],
+      terms: [
+        ["Photon", "A quantum of light energy, E = hf."],
+        ["Work function", "The minimum energy needed to free an electron from a metal."],
+        ["Threshold frequency", "The minimum light frequency needed for the photoelectric effect."],
+        ["de Broglie wavelength", "λ = h/p, the wavelength of a moving particle."],
+        ["Half-life", "The time for half of a radioactive sample to decay."],
+        ["Alpha particle", "A helium nucleus (2 protons, 2 neutrons)."],
+      ],
+      mistakes: [
+        "Thinking brighter light below the threshold frequency will eventually eject electrons. It won't.",
+        "Forgetting that alpha decay lowers the mass number by 4 AND the atomic number by 2.",
+      ],
+      questions: [
+        { q: "Light below a metal's threshold frequency shines on it. Increasing the intensity:", choices: ["Ejects more electrons", "Ejects faster electrons", "Still ejects no electrons", "Lowers the work function"], answer: 2, explain: "Each photon still has too little energy. Intensity only adds more such photons." },
+        { q: "An electron drops from −3.4 eV to −13.6 eV. The emitted photon's energy is:", choices: ["3.4 eV", "10.2 eV", "13.6 eV", "17.0 eV"], answer: 1, explain: "The photon energy is the difference between levels: −3.4 − (−13.6) = 10.2 eV." },
+        { q: "A sample goes through 3 half-lives. What fraction remains?", choices: ["1/3", "1/6", "1/8", "1/9"], answer: 2, explain: "(½)³ = 1/8." },
+        { q: "In alpha decay, the parent nucleus's mass number and atomic number change by:", choices: ["−4 and −2", "−2 and −4", "0 and +1", "−1 and 0"], answer: 0, explain: "An alpha particle carries 4 nucleons, 2 of them protons." },
+      ],
+      frq: {
+        prompt: "Light of frequency 1.5 × 10¹⁵ Hz shines on a metal with a work function of 4.0 eV (h = 4.14 × 10⁻¹⁵ eV·s).\n(a) Find the photon energy in eV.\n(b) Find the maximum kinetic energy of the ejected electrons.\n(c) The intensity doubles. What happens to the number of electrons and to K_max? Explain.",
+        points: [
+          "(a) E = hf = (4.14 × 10⁻¹⁵)(1.5 × 10¹⁵) ≈ 6.2 eV.",
+          "(b) K_max = 6.2 − 4.0 = 2.2 eV.",
+          "(c) Twice as many electrons are ejected (more photons), but K_max is unchanged because each photon has the same energy.",
+        ],
+      },
+    },
+  ],
+};
+
+</script>
+<script>/* content/physics-c-em.js */
+window.AP_CONTENT = window.AP_CONTENT || {};
+window.AP_CONTENT["physics-c-em"] = {
+  intro: "Calculus-based electricity and magnetism. The official course numbers these units 8–13, continuing from Physics C: Mechanics. Each unit's exam weighting is listed in the official CED.",
+  tips: [
+    "Symmetry is your best tool. Gauss's law and Ampère's law only make problems easy when you pick a surface or loop that matches the symmetry.",
+    "Expect calculus: E from integrating dq, V = −∫E·dr, E = −dV/dr, and RC/RL circuits as differential equations. The setup earns points on its own.",
+    "Directions are graded. Use the right-hand rule carefully and state directions explicitly (\"into the page,\" \"toward the wire\").",
+    "Lenz's law questions ask WHY: the induced current opposes the CHANGE in flux. Say that sentence.",
+    "Answer \"derive an expression\" questions in terms of the given symbols and fundamental constants like ε₀ and μ₀.",
+  ],
+  units: [
+    {
+      title: "Electric Charges, Fields, and Gauss's Law",
+      weightLabel: "CED Unit 8",
+      tldr: "Charges exert forces through electric fields. For continuous charge, you add up the field from each small piece with an integral. Gauss's law links the flux through a closed surface to the charge inside, which makes symmetric problems fast.",
+      concepts: [
+        {
+          title: "Coulomb's law and the electric field",
+          simple: "Charges push or pull on each other, and the field tells you the force per unit charge at each point.",
+          detail: "F = kq₁q₂/r², with k = 1/(4πε₀). E = F/q, and a point charge makes E = kq/r² pointing away from positive charge. Fields from several charges add as vectors.",
+          example: "Doubling the distance from a point charge cuts the field to 1/4.",
+        },
+        {
+          title: "Fields from continuous charge distributions",
+          simple: "Break a charged object into tiny pieces, find each piece's field, and add them with an integral.",
+          detail: "dE = k dq/r². Use λ = dq/dx for lines, σ for surfaces and ρ for volumes. Use symmetry to cancel components before integrating. On the axis of a ring, E = kQx/(x² + R²)^(3/2).",
+        },
+        {
+          title: "Electric flux and Gauss's law",
+          simple: "The field lines poking out of a closed surface count the charge inside it.",
+          detail: "Φ_E = ∮E·dA = Q_enc/ε₀. Only charge INSIDE the surface counts. Choose spheres, cylinders or pillboxes so E is constant and parallel to dA.",
+          hook: "A charge outside the surface sends as many field lines in as out, so its net flux is zero.",
+        },
+        {
+          title: "Applying Gauss's law to symmetric shapes",
+          simple: "For spheres, long lines and big sheets, Gauss's law gives the field in one line.",
+          detail: "Outside a sphere: E = kQ/r². Infinite line: E = λ/(2πε₀r). Infinite sheet: E = σ/(2ε₀), independent of distance. Inside a uniformly charged solid sphere: E grows linearly with r.",
+        },
+      ],
+      terms: [
+        ["Electric field", "Force per unit charge: E = F/q, in N/C."],
+        ["Linear charge density (λ)", "Charge per unit length, dq/dx."],
+        ["Electric flux", "Φ_E = ∮E·dA, the field passing through a surface."],
+        ["Gaussian surface", "An imaginary closed surface chosen to use Gauss's law."],
+        ["Permittivity of free space (ε₀)", "8.85 × 10⁻¹² C²/(N·m²)."],
+      ],
+      mistakes: [
+        "Counting charge outside the Gaussian surface as if it contributed net flux.",
+        "Integrating the magnitude of dE without first canceling components by symmetry.",
+      ],
+      questions: [
+        { q: "The distance from a point charge triples. The electric field becomes:", choices: ["1/3 as large", "1/9 as large", "3 times as large", "9 times as large"], answer: 1, explain: "E = kq/r², so tripling r divides E by 3² = 9." },
+        { q: "A uniformly charged ring lies in the yz-plane, centered at the origin. What is the electric field at its center?", choices: ["kQ/R²", "Zero", "kQ/R", "Infinite"], answer: 1, explain: "Every piece of the ring has an opposite piece whose field cancels it at the center." },
+        { q: "A closed surface encloses no charge, but a charge +q sits just outside it. What is the net flux through the surface?", choices: ["q/ε₀", "Zero", "−q/ε₀", "q/(2ε₀)"], answer: 1, explain: "Gauss's law counts only enclosed charge. Field lines from outside enter and leave, giving zero net flux." },
+        { q: "How does the field of a very large, uniformly charged sheet depend on the distance d from it?", choices: ["E ∝ 1/d²", "E ∝ 1/d", "E is independent of d", "E ∝ d"], answer: 2, explain: "E = σ/(2ε₀) for an infinite sheet, the same at any distance." },
+      ],
+      frq: {
+        prompt: "A long, solid, nonconducting cylinder of radius R has uniform charge density ρ.\n(a) Use Gauss's law to find E for r < R.\n(b) Find E for r > R.\n(c) Sketch E versus r.",
+        points: [
+          "(a) Use a coaxial cylinder of radius r and length L: E(2πrL) = ρπr²L/ε₀, so E = ρr/(2ε₀).",
+          "(b) All the charge is enclosed: E(2πrL) = ρπR²L/ε₀, so E = ρR²/(2ε₀r).",
+          "(c) E rises linearly from 0 at r = 0 to its maximum at r = R, then falls off as 1/r.",
+        ],
+      },
+    },
+    {
+      title: "Electric Potential",
+      weightLabel: "CED Unit 9",
+      tldr: "Electric potential is potential energy per unit charge. It's a scalar, so potentials from several charges simply add. The field points downhill in potential, and E is the negative gradient of V.",
+      concepts: [
+        {
+          title: "Electric potential energy",
+          simple: "Pushing like charges together stores energy, just like lifting a weight.",
+          detail: "U = kq₁q₂/r for two point charges, with U = 0 at infinity. For a group of charges, add U for every pair. Work done by the field: W = −ΔU.",
+        },
+        {
+          title: "Electric potential",
+          simple: "Potential is energy per charge. It tells you how much energy a charge would gain or lose at each point.",
+          detail: "V = U/q, in volts. Point charge: V = kq/r. Potentials are SCALARS, so they add without directions. ΔU = qΔV.",
+          example: "Midway between +q and −q the potential is zero, even though the field there is not.",
+        },
+        {
+          title: "Relating field and potential",
+          simple: "The field points from high potential to low potential, and it's strongest where potential changes fastest.",
+          detail: "ΔV = −∫E·dr and E_x = −dV/dx. In a uniform field, ΔV = −Ed. Equipotential surfaces are perpendicular to field lines.",
+        },
+        {
+          title: "Motion of charges and conservation of energy",
+          simple: "A charge moving through a potential difference trades potential energy for kinetic energy.",
+          detail: "K_i + qV_i = K_f + qV_f. A positive charge speeds up moving to LOWER V, and a negative charge speeds up moving to HIGHER V. 1 eV = 1.6 × 10⁻¹⁹ J.",
+        },
+      ],
+      terms: [
+        ["Volt", "One joule per coulomb."],
+        ["Equipotential", "A surface of constant V. No work is done moving along it."],
+        ["Electron-volt (eV)", "The energy an electron gains across 1 V: 1.6 × 10⁻¹⁹ J."],
+        ["Potential gradient", "The rate V changes with position. E = −dV/dx."],
+        ["Reference point", "Where V = 0 is chosen, usually at infinity."],
+      ],
+      mistakes: [
+        "Adding potentials as vectors instead of scalars.",
+        "Assuming zero potential means zero field, or zero field means zero potential.",
+      ],
+      questions: [
+        { q: "V(x) = 5x² (volts, x in meters). What is E_x at x = 2 m?", choices: ["20 V/m", "−20 V/m", "10 V/m", "−10 V/m"], answer: 1, explain: "E_x = −dV/dx = −10x = −20 V/m." },
+        { q: "Charges +q and −q are separated by a distance d. What is the potential at the midpoint?", choices: ["2kq/d", "4kq/d", "Zero", "kq/d"], answer: 2, explain: "V is a scalar: kq/(d/2) + k(−q)/(d/2) = 0." },
+        { q: "A proton is released from rest in a uniform electric field. It moves toward:", choices: ["Higher potential", "Lower potential", "Constant potential", "Wherever the field is weakest"], answer: 1, explain: "A positive charge moves along E, which points from high V to low V." },
+        { q: "An electron accelerates from rest through a potential difference of 100 V. What kinetic energy does it gain?", choices: ["100 eV", "1 eV", "1.6 × 10⁻¹⁹ J", "0"], answer: 0, explain: "ΔK = |q|ΔV = e × 100 V = 100 eV." },
+      ],
+      frq: {
+        prompt: "Two point charges, +Q at x = −a and +Q at x = +a, lie on the x-axis.\n(a) Find the potential at the origin.\n(b) Find the electric field at the origin.\n(c) A small charge +q is released from rest just off the origin along the y-axis. Describe its motion and justify.",
+        points: [
+          "(a) V = kQ/a + kQ/a = 2kQ/a.",
+          "(b) The fields from the two charges are equal and opposite, so E = 0.",
+          "(c) Along the y-axis the x-components cancel and the y-components point away from the origin, so +q is pushed away along the y-axis and speeds up, approaching a final kinetic energy of q(2kQ/a) far away.",
+        ],
+      },
+    },
+    {
+      title: "Conductors and Capacitors",
+      weightLabel: "CED Unit 10",
+      tldr: "In a conductor at equilibrium, charge sits on the surface and the field inside is zero. Capacitors store charge and energy in the field between their plates. Dielectrics raise capacitance.",
+      concepts: [
+        {
+          title: "Conductors in electrostatic equilibrium",
+          simple: "Charges in a conductor move until they stop feeling any push, which leaves zero field inside.",
+          detail: "E = 0 inside the conductor, excess charge lives on the surface, the whole conductor is one equipotential, and E just outside is perpendicular to the surface with magnitude σ/ε₀.",
+        },
+        {
+          title: "Capacitance",
+          simple: "A capacitor's capacitance says how much charge it holds per volt.",
+          detail: "C = Q/ΔV. Parallel plates: C = ε₀A/d. C depends only on geometry (and any dielectric), not on Q or V.",
+          example: "Doubling the plate separation halves the capacitance.",
+        },
+        {
+          title: "Energy stored in capacitors",
+          simple: "Charging a capacitor stores energy in the electric field between its plates.",
+          detail: "U = ½QV = ½CV² = Q²/(2C). Energy density in a field: u = ½ε₀E².",
+          hook: "Connected to a battery, V stays fixed. Disconnected, Q stays fixed. Decide which is constant first.",
+        },
+        {
+          title: "Dielectrics and capacitor combinations",
+          simple: "Insulating material between the plates lets the capacitor hold more charge.",
+          detail: "With dielectric constant κ: C = κε₀A/d. Parallel: C_eq = C₁ + C₂. Series: 1/C_eq = 1/C₁ + 1/C₂ (the opposite of resistors).",
+        },
+      ],
+      terms: [
+        ["Capacitance", "C = Q/ΔV, measured in farads."],
+        ["Dielectric", "An insulator that raises capacitance by a factor κ."],
+        ["Electrostatic equilibrium", "When no charges in a conductor are moving."],
+        ["Surface charge density (σ)", "Charge per unit area."],
+        ["Energy density", "u = ½ε₀E², the energy per volume in a field."],
+      ],
+      mistakes: [
+        "Combining capacitors with the resistor rules.",
+        "Forgetting whether Q or V is held constant when a capacitor changes.",
+      ],
+      questions: [
+        { q: "What is the electric field inside a solid conductor in electrostatic equilibrium?", choices: ["σ/ε₀", "Zero", "kQ/r²", "It depends on the conductor's shape"], answer: 1, explain: "Any field inside would move charges, so at equilibrium E = 0 inside." },
+        { q: "The plate separation of a parallel-plate capacitor is doubled. Its capacitance:", choices: ["Doubles", "Halves", "Stays the same", "Quadruples"], answer: 1, explain: "C = ε₀A/d, so doubling d halves C." },
+        { q: "A charged capacitor is disconnected from the battery, then its plate separation is doubled. The stored energy:", choices: ["Halves", "Stays the same", "Doubles", "Quadruples"], answer: 2, explain: "Q is fixed and C halves, so U = Q²/(2C) doubles." },
+        { q: "Two 6 μF capacitors are connected in series. What is the equivalent capacitance?", choices: ["12 μF", "6 μF", "3 μF", "36 μF"], answer: 2, explain: "Series: 1/C = 1/6 + 1/6 = 1/3, so C = 3 μF." },
+      ],
+      frq: {
+        prompt: "A parallel-plate capacitor with plate area A and separation d is charged by a battery of voltage V₀ and stays connected. A dielectric slab of constant κ is then inserted, filling the gap.\n(a) Find the new capacitance.\n(b) Find the new charge.\n(c) Does the stored energy increase or decrease? Justify.",
+        points: [
+          "(a) C = κε₀A/d.",
+          "(b) V stays V₀ because the battery is connected, so Q = κε₀AV₀/d, κ times the original.",
+          "(c) U = ½CV₀² and C rose by κ with V fixed, so the energy INCREASES (the battery supplies the extra).",
+        ],
+      },
+    },
+    {
+      title: "Electric Circuits",
+      weightLabel: "CED Unit 11",
+      tldr: "Current flows through resistors according to Ohm's law, and Kirchhoff's rules handle any circuit. With capacitors, current changes exponentially with time constant RC.",
+      concepts: [
+        {
+          title: "Current, resistance and Ohm's law",
+          simple: "Voltage pushes charge through a circuit, and resistance holds it back.",
+          detail: "I = dQ/dt. ΔV = IR. R = ρL/A, so resistance rises with length and falls with cross-sectional area. Power: P = IV = I²R = V²/R.",
+        },
+        {
+          title: "Kirchhoff's rules and combinations",
+          simple: "Charge isn't lost at junctions, and the voltage changes around any loop add up to zero.",
+          detail: "Junction rule: ΣI_in = ΣI_out. Loop rule: ΣΔV = 0. Series: R_eq = R₁ + R₂. Parallel: 1/R_eq = 1/R₁ + 1/R₂. A real battery's terminal voltage is ε − Ir.",
+        },
+        {
+          title: "RC circuits",
+          simple: "A capacitor fills up quickly at first, then more and more slowly.",
+          detail: "Charging: q(t) = Cε(1 − e^(−t/RC)), I(t) = (ε/R)e^(−t/RC). Time constant τ = RC. Right after closing the switch an uncharged capacitor acts like a wire. At steady state it acts like a break.",
+          hook: "After one time constant, a charging capacitor is about 63% full.",
+        },
+        {
+          title: "Power and energy in circuits",
+          simple: "Resistors turn electrical energy into heat, and the battery supplies it.",
+          detail: "P = I²R in a resistor. While a capacitor charges, the battery supplies Qε, half is stored (½Qε) and half is dissipated in the resistor.",
+        },
+      ],
+      terms: [
+        ["Current", "Rate of charge flow: I = dQ/dt, in amperes."],
+        ["Resistivity (ρ)", "A material property. R = ρL/A."],
+        ["Time constant", "τ = RC, the time scale of charging and discharging."],
+        ["EMF", "The energy per charge a source supplies (ε)."],
+        ["Internal resistance", "Resistance inside a real battery, lowering its terminal voltage."],
+      ],
+      mistakes: [
+        "Treating a capacitor as a wire at steady state (it's a break then).",
+        "Forgetting the minus sign convention when walking a loop through a resistor with the current.",
+      ],
+      questions: [
+        { q: "A 12 V battery drives current through a 4 Ω resistor. What power is dissipated?", choices: ["3 W", "48 W", "36 W", "16 W"], answer: 2, explain: "P = V²/R = 144/4 = 36 W." },
+        { q: "Three 6 Ω resistors are in parallel. What is the equivalent resistance?", choices: ["18 Ω", "6 Ω", "2 Ω", "3 Ω"], answer: 2, explain: "1/R = 3 × (1/6) = 1/2, so R = 2 Ω." },
+        { q: "What is the time constant of an RC circuit with R = 2 kΩ and C = 5 μF?", choices: ["10 ms", "0.4 s", "2.5 ms", "10 s"], answer: 0, explain: "τ = RC = 2000 × 5 × 10⁻⁶ = 0.01 s = 10 ms." },
+        { q: "An uncharged capacitor is in series with a resistor and a battery. Immediately after the switch closes, the current is:", choices: ["Zero", "ε/R", "ε/(2R)", "It depends on C"], answer: 1, explain: "An empty capacitor has no voltage across it, so the full ε is across R: I = ε/R." },
+      ],
+      frq: {
+        prompt: "A battery of emf ε, a resistor R and an uncharged capacitor C are connected in series. The switch closes at t = 0.\n(a) Write the loop equation as a differential equation for q(t).\n(b) Solve for q(t).\n(c) Find the current at t = RC.",
+        points: [
+          "(a) ε − IR − q/C = 0 with I = dq/dt, so R dq/dt = ε − q/C.",
+          "(b) Separate variables with q(0) = 0: q(t) = Cε(1 − e^(−t/RC)).",
+          "(c) I = dq/dt = (ε/R)e^(−t/RC). At t = RC, I = (ε/R)e^(−1) ≈ 0.37ε/R.",
+        ],
+      },
+    },
+    {
+      title: "Magnetic Fields and Electromagnetism",
+      weightLabel: "CED Unit 12",
+      tldr: "Moving charges and currents feel magnetic forces and also create magnetic fields. The Biot–Savart law gives the field from any current, and Ampère's law makes symmetric cases fast.",
+      concepts: [
+        {
+          title: "Magnetic force on moving charges",
+          simple: "A magnetic field pushes sideways on a moving charge, so it curves without speeding up.",
+          detail: "F = qv × B, magnitude qvB sin θ. The force is perpendicular to v, so it does no work. In a uniform field, a charge moving perpendicular to B circles with r = mv/(qB).",
+        },
+        {
+          title: "Magnetic force on currents",
+          simple: "A current-carrying wire in a magnetic field feels a push, like the moving charges inside it.",
+          detail: "F = IL × B. Parallel currents in the same direction ATTRACT, opposite directions repel. A current loop in a field feels a torque, the principle behind motors.",
+        },
+        {
+          title: "The Biot–Savart law",
+          simple: "Each small piece of current makes a little magnetic field, and you add them all up.",
+          detail: "dB = (μ₀/4π) I dl × r̂ / r². Center of a circular loop: B = μ₀I/(2R). Field lines around a wire form circles (right-hand rule).",
+        },
+        {
+          title: "Ampère's law",
+          simple: "The magnetic field around a closed loop counts the current passing through it.",
+          detail: "∮B·dl = μ₀I_enc. Long straight wire: B = μ₀I/(2πr). Inside a long solenoid: B = μ₀nI, uniform, and nearly zero outside.",
+          hook: "Like Gauss's law, Ampère's law only saves work when symmetry makes B constant along the loop.",
+        },
+      ],
+      terms: [
+        ["Tesla", "The SI unit of magnetic field: N/(A·m)."],
+        ["Right-hand rule", "Finds the direction of v × B, or of B around a current."],
+        ["Permeability of free space (μ₀)", "4π × 10⁻⁷ T·m/A."],
+        ["Solenoid", "A long coil of wire. Its inside field is μ₀nI."],
+        ["Cyclotron radius", "r = mv/(qB) for circular motion in a magnetic field."],
+      ],
+      mistakes: [
+        "Forgetting to flip the right-hand-rule direction for negative charges.",
+        "Saying a magnetic force changes a charge's speed. It only changes direction.",
+      ],
+      questions: [
+        { q: "A charged particle moves parallel to a uniform magnetic field. The magnetic force on it is:", choices: ["qvB", "Zero", "Perpendicular to both, qvB/2", "Along the field"], answer: 1, explain: "F = qvB sin θ and θ = 0, so the force is zero." },
+        { q: "A long straight wire carries current I. The magnetic field at distance r is proportional to:", choices: ["1/r²", "1/r", "r", "It's constant"], answer: 1, explain: "Ampère's law gives B = μ₀I/(2πr)." },
+        { q: "Two parallel wires carry currents in the SAME direction. The wires:", choices: ["Repel", "Attract", "Feel no force", "Twist"], answer: 1, explain: "Each wire sits in the other's field, and same-direction currents attract." },
+        { q: "The number of turns per meter of a long solenoid doubles, and the current is unchanged. The field inside:", choices: ["Halves", "Stays the same", "Doubles", "Quadruples"], answer: 2, explain: "B = μ₀nI, so doubling n doubles B." },
+      ],
+      frq: {
+        prompt: "A long cylindrical wire of radius R carries current I, spread uniformly over its cross-section.\n(a) Use Ampère's law to find B for r > R.\n(b) Find B for r < R.\n(c) Where is B largest?",
+        points: [
+          "(a) Circular loop of radius r: B(2πr) = μ₀I, so B = μ₀I/(2πr).",
+          "(b) Enclosed current is I(r²/R²): B(2πr) = μ₀Ir²/R², so B = μ₀Ir/(2πR²).",
+          "(c) B grows linearly inside and falls as 1/r outside, so it's largest at the surface, r = R.",
+        ],
+      },
+    },
+    {
+      title: "Electromagnetic Induction",
+      weightLabel: "CED Unit 13",
+      tldr: "A changing magnetic flux induces an emf (Faraday's law), and the induced current opposes the change (Lenz's law). Inductors resist changes in current, which gives LR and LC circuits their behavior.",
+      concepts: [
+        {
+          title: "Magnetic flux and Faraday's law",
+          simple: "Change the magnetic field through a loop, and a voltage appears around the loop.",
+          detail: "Φ_B = ∫B·dA. ε = −N dΦ_B/dt. The flux can change through B, the area, or the angle. A rod sliding on rails: ε = BLv.",
+        },
+        {
+          title: "Lenz's law",
+          simple: "The induced current always fights the change that caused it.",
+          detail: "The induced current makes its own field to oppose the CHANGE in flux (not the flux itself). Increasing flux into the page produces a counterclockwise current (field out of the page).",
+          hook: "Lenz's law is why a magnet falls slowly through a copper pipe.",
+        },
+        {
+          title: "Inductance and LR circuits",
+          simple: "An inductor resists changes in current, like inertia for electricity.",
+          detail: "ε_L = −L dI/dt. Energy: U = ½LI². In an LR circuit, current rises as I = (ε/R)(1 − e^(−t/τ)) with τ = L/R. Right after switching, an inductor acts like a break. At steady state it acts like a wire.",
+        },
+        {
+          title: "LC circuits",
+          simple: "Energy sloshes back and forth between a capacitor's field and an inductor's field.",
+          detail: "q(t) = Q_max cos(ωt) with ω = 1/√(LC). This is the electrical version of a mass on a spring. Total energy Q²/(2C) + ½LI² stays constant.",
+        },
+      ],
+      terms: [
+        ["Magnetic flux", "Φ_B = ∫B·dA, in webers."],
+        ["Induced emf", "The voltage produced by changing flux."],
+        ["Inductance (L)", "How strongly a coil opposes changes in current, in henries."],
+        ["Time constant (LR)", "τ = L/R."],
+        ["Eddy currents", "Loops of induced current in bulk conductors."],
+      ],
+      mistakes: [
+        "Thinking a large but steady flux induces an emf. Only CHANGING flux does.",
+        "Mixing up the RC and LR rules for what acts like a wire right after switching.",
+      ],
+      questions: [
+        { q: "A metal rod of length 0.5 m slides at 4 m/s on rails in a 0.2 T field perpendicular to the circuit. What is the induced emf?", choices: ["0.4 V", "10 V", "1.6 V", "0.1 V"], answer: 0, explain: "ε = BLv = 0.2 × 0.5 × 4 = 0.4 V." },
+        { q: "The magnetic field into the page through a loop is increasing. The induced current flows:", choices: ["Clockwise", "Counterclockwise", "There is no current", "Back and forth"], answer: 1, explain: "The current opposes the increase by making a field OUT of the page, which is counterclockwise." },
+        { q: "What is the time constant of an LR circuit with L = 4 H and R = 2 Ω?", choices: ["8 s", "0.5 s", "2 s", "6 s"], answer: 2, explain: "τ = L/R = 4/2 = 2 s." },
+        { q: "In an LC circuit, the capacitance is quadrupled. The oscillation frequency:", choices: ["Quadruples", "Doubles", "Halves", "Stays the same"], answer: 2, explain: "ω = 1/√(LC), so quadrupling C halves ω." },
+      ],
+      frq: {
+        prompt: "A square loop of side s and resistance R is pulled at constant speed v out of a region of uniform magnetic field B directed into the page.\n(a) Find the induced emf while the loop is leaving the field.\n(b) Find the induced current and its direction.\n(c) What external force is needed to keep v constant?",
+        points: [
+          "(a) The area inside the field shrinks at rate sv, so ε = Bsv.",
+          "(b) I = Bsv/R. The inward flux is decreasing, so the current is CLOCKWISE (making field into the page to oppose the decrease).",
+          "(c) The magnetic force on the side still in the field is IsB = B²s²v/R, opposing the motion, so the external force must equal B²s²v/R in the direction of motion.",
+        ],
+      },
+    },
+  ],
+};
+
+</script>
+<script>/* content/physics-c-mechanics.js */
+window.AP_CONTENT = window.AP_CONTENT || {};
+window.AP_CONTENT["physics-c-mechanics"] = {
+  intro: "Calculus-based mechanics: the same topics as Physics 1 (minus fluids), but with derivatives and integrals for non-constant forces and accelerations. Each unit's exam weighting is listed in the official CED.",
+  tips: [
+    "Expect calculus: v = dx/dt, a = dv/dt, W = ∫F dx, J = ∫F dt, I = ∫r² dm. Set up the integral clearly, since the setup earns points on its own.",
+    "Free-body diagrams are still worth points. Draw forces as arrows starting on the object, with no components mixed in.",
+    "Differential equations appear: drag (m dv/dt = mg − bv) and SHM (d²x/dt² = −(k/m)x). Know their solutions and what they mean.",
+    "Justify with principles (\"angular momentum is conserved because the net external torque is zero\") before calculating.",
+    "Answer \"derive an expression\" questions in terms of the given symbols, not numbers.",
+  ],
+  units: [
+    {
+      title: "Kinematics",
+      weightLabel: "CED Unit 1",
+      tldr: "Position, velocity and acceleration are linked by derivatives and integrals. Constant-acceleration equations are a special case. Projectiles combine independent horizontal and vertical motion.",
+      concepts: [
+        {
+          title: "Derivatives: from position to acceleration",
+          simple: "Velocity is how fast position changes, and acceleration is how fast velocity changes.",
+          detail: "v(t) = dx/dt and a(t) = dv/dt = d²x/dt². Example: x = 3t² − 2t gives v = 6t − 2 and a = 6.",
+        },
+        {
+          title: "Integrals: from acceleration to position",
+          simple: "Add up acceleration over time to get velocity, and add up velocity to get position.",
+          detail: "v(t) = v₀ + ∫a dt and x(t) = x₀ + ∫v dt. The area under a v–t graph is displacement. Use the initial conditions to find the constants.",
+          example: "a = 6t from rest: v = 3t², x = t³.",
+        },
+        {
+          title: "Constant acceleration",
+          simple: "When acceleration doesn't change, a few standard equations cover everything.",
+          detail: "v = v₀ + at, x = x₀ + v₀t + ½at², v² = v₀² + 2aΔx. These are only valid for CONSTANT a.",
+        },
+        {
+          title: "Projectile motion",
+          simple: "Sideways and up-and-down motion happen independently. Gravity only affects the vertical part.",
+          detail: "vₓ is constant and v_y = v₀ sin θ − gt. Time of flight on level ground: T = 2v₀ sin θ/g. Range R = v₀² sin 2θ/g, maximized at 45°.",
+        },
+      ],
+      terms: [
+        ["Instantaneous velocity", "v = dx/dt"],
+        ["Instantaneous acceleration", "a = dv/dt = d²x/dt²"],
+        ["Displacement", "∫v dt, the net change in position."],
+        ["Range", "The horizontal distance a projectile travels."],
+        ["Reference frame", "The coordinate system motion is measured in."],
+      ],
+      mistakes: [
+        "Using constant-acceleration equations when a depends on time.",
+        "Forgetting the initial conditions (+C) when integrating.",
+      ],
+      questions: [
+        { q: "x(t) = 3t² − 2t (meters). What is the velocity at t = 2 s?", choices: ["8 m/s", "10 m/s", "12 m/s", "6 m/s"], answer: 1, explain: "v = dx/dt = 6t − 2 = 12 − 2 = 10 m/s." },
+        { q: "An object starts from rest at x = 0 with v(t) = 4t³. What is its position at t = 1 s?", choices: ["1 m", "4 m", "12 m", "0.25 m"], answer: 0, explain: "x = ∫4t³ dt = t⁴, and 1⁴ = 1 m." },
+        { q: "a(t) = 6t, and the object starts from rest. What is v(t)?", choices: ["6", "3t²", "6t²", "t³"], answer: 1, explain: "v = ∫6t dt = 3t² + C, and C = 0 because it starts at rest." },
+        { q: "On level ground, which launch angle gives the maximum range (no air resistance)?", choices: ["30°", "45°", "60°", "90°"], answer: 1, explain: "R ∝ sin 2θ, which is maximized when 2θ = 90°." },
+      ],
+      frq: {
+        prompt: "A particle moves along the x-axis with a(t) = 12t − 6 (m/s²). At t = 0, v = 2 m/s and x = 1 m.\n(a) Find v(t).\n(b) Find x(t).\n(c) When is the particle momentarily at rest?",
+        points: [
+          "(a) v = ∫(12t − 6) dt = 6t² − 6t + 2.",
+          "(b) x = ∫v dt = 2t³ − 3t² + 2t + 1.",
+          "(c) Solve 6t² − 6t + 2 = 0. The discriminant 36 − 48 < 0, so there are no real roots: the particle is never at rest.",
+        ],
+      },
+    },
+    {
+      title: "Force and Translational Dynamics",
+      weightLabel: "CED Unit 2",
+      tldr: "Newton's laws connect forces to acceleration. Calculus handles forces that change, like drag that depends on velocity. Circular motion and gravitation are applications.",
+      concepts: [
+        {
+          title: "Newton's laws and free-body diagrams",
+          simple: "The net force on an object sets its acceleration. Equal and opposite forces come in pairs acting on different objects.",
+          detail: "ΣF = ma, or more generally F = dp/dt. Third-law pairs act on DIFFERENT objects. On a frictionless incline, a = g sin θ. Connected systems (Atwood machines) can be treated as one system for acceleration.",
+        },
+        {
+          title: "Velocity-dependent forces (drag)",
+          simple: "Air resistance grows as you go faster, until it balances gravity and speed stops increasing.",
+          detail: "Linear drag: m dv/dt = mg − bv. Terminal velocity: v_t = mg/b. The solution is v(t) = v_t(1 − e^(−bt/m)). Speed approaches v_t exponentially.",
+        },
+        {
+          title: "Circular motion",
+          simple: "Moving in a circle needs a net inward force.",
+          detail: "a_c = v²/r toward the center. At the top of a vertical circle on a string, the minimum speed is √(gr) (tension = 0). Banked curves use the normal force's horizontal component.",
+        },
+        {
+          title: "Gravitation",
+          simple: "Every mass attracts every other mass, and the pull weakens with distance squared.",
+          detail: "F = Gm₁m₂/r². Orbits: GM/r² = v²/r gives v = √(GM/r). g at the surface is GM/R².",
+        },
+      ],
+      terms: [
+        ["Net force", "The vector sum of all forces: ΣF = ma."],
+        ["Terminal velocity", "The constant speed reached when drag balances weight: v_t = mg/b."],
+        ["Centripetal acceleration", "v²/r, directed toward the center."],
+        ["Normal force", "The perpendicular contact force from a surface."],
+        ["Universal gravitation", "F = Gm₁m₂/r²"],
+      ],
+      mistakes: [
+        "Treating \"centripetal force\" as an extra force on the diagram. It's the net inward force.",
+        "Assuming drag makes velocity decrease forever. It approaches terminal velocity.",
+      ],
+      questions: [
+        { q: "An object falls with linear drag F = −bv. What is its terminal velocity?", choices: ["mg", "mg/b", "b/mg", "√(mg/b)"], answer: 1, explain: "At terminal velocity the net force is 0: mg = bv, so v = mg/b." },
+        { q: "What is the acceleration of a block sliding down a frictionless incline of angle θ?", choices: ["g", "g cos θ", "g sin θ", "g tan θ"], answer: 2, explain: "The component of gravity along the incline is mg sin θ." },
+        { q: "A ball on a string moves in a vertical circle of radius r. What is the minimum speed at the top?", choices: ["0", "√(gr)", "√(2gr)", "gr"], answer: 1, explain: "At the minimum, gravity alone provides the centripetal force: mg = mv²/r." },
+        { q: "A satellite's orbital radius quadruples. Its orbital speed:", choices: ["Quadruples", "Doubles", "Halves", "Stays the same"], answer: 2, explain: "v = √(GM/r), so v ∝ 1/√r, and 1/√4 = 1/2." },
+      ],
+      frq: {
+        prompt: "A ball of mass m is dropped from rest and experiences drag F = −bv.\n(a) Write Newton's second law as a differential equation.\n(b) Derive an expression for the terminal speed.\n(c) Solve for v(t) and sketch it.",
+        points: [
+          "(a) m dv/dt = mg − bv.",
+          "(b) At terminal speed dv/dt = 0, so v_t = mg/b.",
+          "(c) v(t) = (mg/b)(1 − e^(−bt/m)). The graph starts at 0 and rises toward the asymptote v_t, concave down.",
+        ],
+      },
+    },
+    {
+      title: "Work, Energy, and Power",
+      weightLabel: "CED Unit 3",
+      tldr: "Work is the integral of force over distance. Conservative forces have potential energy functions, and F = −dU/dx connects the two. Mechanical energy is conserved when only conservative forces do work.",
+      concepts: [
+        {
+          title: "Work as an integral",
+          simple: "When the force changes along the path, add up force times each small step.",
+          detail: "W = ∫F·dx. For a spring, W = ½kx². Work-energy theorem: W_net = ΔK.",
+          example: "F = 3x² from 0 to 2 m: W = [x³] = 8 J.",
+        },
+        {
+          title: "Potential energy and force",
+          simple: "A potential energy graph tells you which way the force pushes: downhill.",
+          detail: "F = −dU/dx. Equilibrium is where dU/dx = 0: stable at a minimum of U, unstable at a maximum. Gravity near Earth: U = mgh. General gravity: U = −GMm/r.",
+        },
+        {
+          title: "Conservation of energy",
+          simple: "When only conservative forces act, kinetic plus potential energy stays constant.",
+          detail: "K₁ + U₁ = K₂ + U₂. Friction and other nonconservative forces change mechanical energy: ΔE = W_nc. Always define the system.",
+        },
+        {
+          title: "Power",
+          simple: "Power is how fast energy is transferred.",
+          detail: "P = dW/dt = F·v. Average power = W/Δt.",
+        },
+      ],
+      terms: [
+        ["Work", "W = ∫F·dx"],
+        ["Conservative force", "A force whose work is independent of path, so it has a potential energy."],
+        ["F = −dU/dx", "Force is the negative slope of potential energy."],
+        ["Stable equilibrium", "A minimum of U, where the object returns after a small push."],
+        ["Power", "P = dW/dt = F·v"],
+      ],
+      mistakes: [
+        "Forgetting the negative sign in F = −dU/dx.",
+        "Using W = Fd when the force varies with position. Integrate.",
+      ],
+      questions: [
+        { q: "A force F(x) = 3x² (N) acts from x = 0 to x = 2 m. What is the work done?", choices: ["6 J", "8 J", "12 J", "24 J"], answer: 1, explain: "W = ∫₀² 3x² dx = [x³]₀² = 8 J." },
+        { q: "U(x) = 4x² (J). What is the force at x?", choices: ["8x", "−8x", "4x", "−4x³/3"], answer: 1, explain: "F = −dU/dx = −8x." },
+        { q: "On a U(x) graph, a stable equilibrium point is located at:", choices: ["A maximum of U", "A minimum of U", "Where U = 0", "Where U is steepest"], answer: 1, explain: "At a minimum, the force points back toward equilibrium on both sides." },
+        { q: "A 500 N force pushes a car at a constant 20 m/s in the direction of motion. What is the power delivered?", choices: ["25 W", "10,000 W", "520 W", "480 W"], answer: 1, explain: "P = Fv = 500 × 20 = 10,000 W." },
+      ],
+      frq: {
+        prompt: "A particle moves in a potential U(x) = x³ − 3x (J).\n(a) Find F(x).\n(b) Find the equilibrium positions and classify each.\n(c) The particle has total energy E = 1 J. Can it reach x = 2? Explain.",
+        points: [
+          "(a) F = −dU/dx = −(3x² − 3) = 3 − 3x².",
+          "(b) F = 0 at x = ±1. U″ = 6x: at x = 1, U is a minimum (stable). At x = −1, U is a maximum (unstable).",
+          "(c) U(2) = 8 − 6 = 2 J > E = 1 J, so K would be negative there. It can't reach x = 2.",
+        ],
+      },
+    },
+    {
+      title: "Linear Momentum",
+      weightLabel: "CED Unit 4",
+      tldr: "Impulse (the integral of force over time) changes momentum. Momentum is conserved for an isolated system, and the center of mass moves as if all the mass and external force were concentrated there.",
+      concepts: [
+        {
+          title: "Impulse as an integral",
+          simple: "Impulse is the total push over time: the area under a force–time graph.",
+          detail: "J = ∫F dt = Δp. Also F = dp/dt.",
+          example: "F = 6t (N) from 0 to 2 s: J = [3t²] = 12 N·s.",
+        },
+        {
+          title: "Conservation of momentum",
+          simple: "In an isolated system, total momentum stays constant.",
+          detail: "If ΣF_ext = 0, then Σp is conserved, component by component. This applies to collisions and explosions.",
+        },
+        {
+          title: "Collisions",
+          simple: "Momentum is conserved in every collision. Kinetic energy is conserved only in elastic ones.",
+          detail: "Elastic: KE is conserved. A 1-D elastic collision between equal masses swaps their velocities. Perfectly inelastic: the objects stick together and the most KE is lost.",
+        },
+        {
+          title: "Center of mass",
+          simple: "The center of mass is the average position of the mass, and it moves smoothly even when the parts don't.",
+          detail: "x_cm = Σmᵢxᵢ/M, or (1/M)∫x dm for continuous objects. M·a_cm = ΣF_ext. With no external force, v_cm is constant.",
+        },
+      ],
+      terms: [
+        ["Impulse", "J = ∫F dt = Δp"],
+        ["Isolated system", "No net external force, so momentum is conserved."],
+        ["Elastic collision", "A collision where total kinetic energy is conserved."],
+        ["Center of mass", "The mass-weighted average position, x_cm = Σmx/M."],
+        ["Linear mass density", "λ = dm/dx, used in center-of-mass integrals."],
+      ],
+      mistakes: [
+        "Assuming kinetic energy is conserved in all collisions.",
+        "Forgetting that momentum is a vector. Use signs for direction.",
+      ],
+      questions: [
+        { q: "F(t) = 6t (N) acts from t = 0 to t = 2 s. What is the impulse?", choices: ["6 N·s", "12 N·s", "24 N·s", "3 N·s"], answer: 1, explain: "J = ∫₀² 6t dt = [3t²]₀² = 12 N·s." },
+        { q: "A 2 kg mass is at x = 0 and a 6 kg mass is at x = 4 m. Where is the center of mass?", choices: ["x = 1 m", "x = 2 m", "x = 3 m", "x = 4 m"], answer: 2, explain: "x_cm = (2·0 + 6·4)/8 = 24/8 = 3 m." },
+        { q: "Two equal masses collide elastically head-on. One was at rest. After the collision:", choices: ["They stick together", "The moving one stops and the other moves off with its velocity", "Both move at half speed", "Both reverse"], answer: 1, explain: "For an elastic collision of equal masses in 1-D, the velocities are exchanged." },
+        { q: "A bomb at rest explodes into pieces. The velocity of the center of mass afterward is:", choices: ["Zero", "Upward", "Equal to the fastest piece's velocity", "Impossible to determine"], answer: 0, explain: "The explosion forces are internal, so v_cm stays 0 (ignoring gravity during the instant of explosion)." },
+      ],
+      frq: {
+        prompt: "A thin rod of length L lies along the x-axis from 0 to L, with linear density λ(x) = αx.\n(a) Find the rod's total mass.\n(b) Find the x-coordinate of its center of mass.\n(c) Explain why the center of mass isn't at L/2.",
+        points: [
+          "(a) M = ∫₀ᴸ αx dx = αL²/2.",
+          "(b) x_cm = (1/M)∫₀ᴸ x·αx dx = (αL³/3)/(αL²/2) = 2L/3.",
+          "(c) The density increases with x, so more mass is near the far end, which pulls the center of mass past the midpoint.",
+        ],
+      },
+    },
+    {
+      title: "Torque and Rotational Dynamics",
+      weightLabel: "CED Unit 5",
+      tldr: "Rotation mirrors linear motion. Torque causes angular acceleration, and rotational inertia (I = ∫r² dm) plays the role of mass. The parallel-axis theorem shifts I to a new axis.",
+      concepts: [
+        {
+          title: "Rotational kinematics",
+          simple: "Spinning motion uses angles, angular velocity and angular acceleration.",
+          detail: "ω = dθ/dt and α = dω/dt. The constant-α equations mirror the linear ones. Tangential velocity v = rω, and tangential acceleration a_t = rα.",
+        },
+        {
+          title: "Torque",
+          simple: "Torque is how strongly a force twists something around an axis.",
+          detail: "τ = r × F, with magnitude rF sin θ. Only the perpendicular component of the force (or the lever arm) matters.",
+        },
+        {
+          title: "Rotational inertia",
+          simple: "How hard it is to spin something depends on how far its mass is from the axis.",
+          detail: "I = Σmr² = ∫r² dm. Rod about its center: ML²/12. Rod about its end: ML²/3. Parallel-axis theorem: I = I_cm + Md².",
+        },
+        {
+          title: "Newton's second law for rotation and equilibrium",
+          simple: "Net torque causes angular acceleration. Balance forces and torques for equilibrium.",
+          detail: "τ_net = Iα. Static equilibrium needs ΣF = 0 and Στ = 0 about ANY axis.",
+        },
+      ],
+      terms: [
+        ["Angular velocity", "ω = dθ/dt (rad/s)."],
+        ["Torque", "τ = rF sin θ, the rotational effect of a force."],
+        ["Rotational inertia", "I = ∫r² dm, resistance to angular acceleration."],
+        ["Parallel-axis theorem", "I = I_cm + Md²"],
+        ["Static equilibrium", "ΣF = 0 and Στ = 0."],
+      ],
+      mistakes: [
+        "Using I = ML²/12 when the axis is at the end (ML²/3).",
+        "Forgetting that Md² in the parallel-axis theorem is added to I about the CENTER OF MASS.",
+      ],
+      questions: [
+        { q: "A uniform rod has I_cm = ML²/12. What is I about one end?", choices: ["ML²/12", "ML²/6", "ML²/3", "ML²"], answer: 2, explain: "Parallel axis: ML²/12 + M(L/2)² = ML²/12 + ML²/4 = ML²/3." },
+        { q: "A wheel with I = 2 kg·m² has a net torque of 10 N·m. What is its angular acceleration?", choices: ["20 rad/s²", "5 rad/s²", "0.2 rad/s²", "12 rad/s²"], answer: 1, explain: "α = τ/I = 10/2 = 5 rad/s²." },
+        { q: "A force is applied along a line passing through the pivot. The torque is:", choices: ["Maximum", "Zero", "Equal to the force", "Negative"], answer: 1, explain: "The lever arm is zero (sin θ = 0), so τ = 0." },
+        { q: "For static equilibrium, torques must sum to zero about:", choices: ["Only the center of mass", "Only the pivot", "Any axis", "The point of largest force"], answer: 2, explain: "If ΣF = 0 and Στ = 0 about one point, Στ = 0 about every point." },
+      ],
+      frq: {
+        prompt: "A uniform rod of mass M and length L is pivoted at one end and released from rest in a horizontal position.\n(a) Find the torque about the pivot just after release.\n(b) Find the initial angular acceleration.\n(c) Find the linear acceleration of the free end, and compare it to g.",
+        points: [
+          "(a) The weight acts at L/2: τ = Mg(L/2).",
+          "(b) α = τ/I = (MgL/2)/(ML²/3) = 3g/(2L).",
+          "(c) a_end = Lα = 3g/2, which is GREATER than g.",
+        ],
+      },
+    },
+    {
+      title: "Energy and Momentum of Rotating Systems",
+      weightLabel: "CED Unit 6",
+      tldr: "Rotating objects carry rotational kinetic energy (½Iω²) and angular momentum (L = Iω). Rolling combines translation and rotation. Angular momentum is conserved when the net external torque is zero.",
+      concepts: [
+        {
+          title: "Rotational kinetic energy and rolling",
+          simple: "A rolling object has energy from moving forward and from spinning.",
+          detail: "K = ½Mv² + ½Iω², with v = ωR for rolling without slipping. Energy conservation down a ramp: a smaller I/(MR²) means faster.",
+          example: "Rolling solid disk (I = ½MR²): rotational KE is 1/3 of the total KE.",
+        },
+        {
+          title: "Angular momentum",
+          simple: "Spinning objects keep spinning unless an outside twist acts on them.",
+          detail: "Rigid body: L = Iω. Point particle: L = r × p, with magnitude mvr sin θ. τ_net = dL/dt.",
+        },
+        {
+          title: "Conservation of angular momentum",
+          simple: "If no outside torque acts, a spinning system keeps the same angular momentum.",
+          detail: "If τ_ext = 0, then I₁ω₁ = I₂ω₂. Examples: a skater pulling their arms in, a clay ball sticking to a rotating rod, orbits. KE may change even though L is conserved.",
+        },
+        {
+          title: "Work and power in rotation",
+          simple: "Torque does work when it turns something through an angle.",
+          detail: "W = ∫τ dθ and P = τω. W_net = ΔK_rot.",
+        },
+      ],
+      terms: [
+        ["Rotational kinetic energy", "½Iω²"],
+        ["Rolling without slipping", "v_cm = ωR"],
+        ["Angular momentum", "L = Iω, or r × p for a particle."],
+        ["Angular impulse", "∫τ dt = ΔL"],
+        ["Rotational power", "P = τω"],
+      ],
+      mistakes: [
+        "Assuming kinetic energy is conserved whenever angular momentum is.",
+        "Forgetting a point particle can have angular momentum (mvr) about an axis even while moving in a straight line.",
+      ],
+      questions: [
+        { q: "A solid disk (I = ½MR²) rolls without slipping. What fraction of its kinetic energy is rotational?", choices: ["1/4", "1/3", "1/2", "2/3"], answer: 1, explain: "K_rot = ½(½MR²)(v/R)² = ¼Mv². Total = ½Mv² + ¼Mv² = ¾Mv². Ratio = 1/3." },
+        { q: "A 2 kg particle moves at 3 m/s in a straight line whose closest distance to a point is 4 m. What is its angular momentum about that point?", choices: ["6 kg·m²/s", "24 kg·m²/s", "12 kg·m²/s", "0"], answer: 1, explain: "L = mvr⊥ = 2 × 3 × 4 = 24." },
+        { q: "A spinning skater pulls her arms in (no external torque). Her rotational kinetic energy:", choices: ["Decreases", "Stays the same", "Increases", "Becomes zero"], answer: 2, explain: "L is constant, and K = L²/(2I), so a smaller I means larger K. Her muscles do the work." },
+        { q: "A motor applies 50 N·m of torque to a wheel spinning at 10 rad/s. What is the power?", choices: ["5 W", "60 W", "500 W", "0.2 W"], answer: 2, explain: "P = τω = 50 × 10 = 500 W." },
+      ],
+      frq: {
+        prompt: "A solid sphere (I = (2/5)MR²) rolls without slipping from rest down a ramp of height h.\n(a) Write the energy conservation equation.\n(b) Derive the speed at the bottom.\n(c) Compare with a hoop of the same mass and radius. Which arrives first, and why?",
+        points: [
+          "(a) Mgh = ½Mv² + ½(2/5 MR²)(v/R)².",
+          "(b) Mgh = (7/10)Mv², so v = √(10gh/7).",
+          "(c) The sphere arrives first. The hoop's I = MR² puts more energy into rotation, leaving less for translation (v = √(gh)).",
+        ],
+      },
+    },
+    {
+      title: "Oscillations",
+      weightLabel: "CED Unit 7",
+      tldr: "Simple harmonic motion comes from a restoring force proportional to displacement, which gives the differential equation d²x/dt² = −ω²x. Its solution is sinusoidal, and the period depends on the system's properties, not the amplitude.",
+      concepts: [
+        {
+          title: "The SHM differential equation",
+          simple: "When the restoring force is proportional to displacement, the motion is a perfect sine wave.",
+          detail: "m d²x/dt² = −kx, so d²x/dt² = −(k/m)x. The solution is x(t) = A cos(ωt + φ) with ω = √(k/m). Period T = 2π/ω.",
+        },
+        {
+          title: "Velocity and acceleration in SHM",
+          simple: "Speed is fastest at the center, and acceleration is largest at the ends.",
+          detail: "v(t) = −Aω sin(ωt + φ), so v_max = Aω. a(t) = −Aω² cos(ωt + φ), so a_max = Aω².",
+        },
+        {
+          title: "Pendulums",
+          simple: "A swinging pendulum is approximately SHM for small angles.",
+          detail: "Simple pendulum: T = 2π√(L/g). Physical pendulum: T = 2π√(I/(mgd)), where d is the distance from the pivot to the center of mass.",
+        },
+        {
+          title: "Energy in SHM",
+          simple: "Energy moves back and forth between motion and storage, but the total stays constant.",
+          detail: "E = ½kA² = ½mv² + ½kx². KE is maximum at x = 0, and PE is maximum at x = ±A.",
+        },
+      ],
+      terms: [
+        ["Angular frequency", "ω = √(k/m) for a spring."],
+        ["Amplitude", "The maximum displacement, A."],
+        ["Phase constant", "φ, which sets the starting point in the cycle."],
+        ["Physical pendulum", "A rigid body swinging about a pivot: T = 2π√(I/mgd)."],
+        ["Simple harmonic motion", "Motion satisfying d²x/dt² = −ω²x."],
+      ],
+      mistakes: [
+        "Thinking amplitude changes the period. For ideal SHM it doesn't.",
+        "Mixing up ω (rad/s) and f (Hz): ω = 2πf.",
+      ],
+      questions: [
+        { q: "A mass on a spring obeys d²x/dt² = −25x. What is its angular frequency?", choices: ["25 rad/s", "5 rad/s", "625 rad/s", "2π/5 rad/s"], answer: 1, explain: "ω² = 25, so ω = 5 rad/s." },
+        { q: "x(t) = 0.2 cos(10t) (m). What is the maximum speed?", choices: ["0.2 m/s", "2 m/s", "10 m/s", "20 m/s"], answer: 1, explain: "v_max = Aω = 0.2 × 10 = 2 m/s." },
+        { q: "The amplitude of a spring oscillator doubles. Its period:", choices: ["Doubles", "Halves", "Stays the same", "Increases by √2"], answer: 2, explain: "T = 2π√(m/k) doesn't depend on amplitude." },
+        { q: "Where is the kinetic energy of a mass in SHM greatest?", choices: ["At maximum displacement", "At equilibrium (x = 0)", "Halfway to maximum", "It's constant"], answer: 1, explain: "At x = 0 the potential energy is zero, so all the energy is kinetic." },
+      ],
+      frq: {
+        prompt: "A uniform rod of mass M and length L swings as a physical pendulum from one end.\n(a) Write I about the pivot.\n(b) Derive the period for small oscillations.\n(c) Compare it with a simple pendulum of length L.",
+        points: [
+          "(a) I = ML²/3.",
+          "(b) T = 2π√(I/(Mgd)) with d = L/2: T = 2π√((ML²/3)/(MgL/2)) = 2π√(2L/(3g)).",
+          "(c) It's shorter than a simple pendulum's 2π√(L/g), because the rod's mass is distributed closer to the pivot.",
+        ],
+      },
+    },
+  ],
+};
+
+</script>
+<script>/* content/precalculus.js */
+window.AP_CONTENT = window.AP_CONTENT || {};
+window.AP_CONTENT["precalculus"] = {
+  intro: "Units 1–3 are on the AP exam. Unit 4 is part of the course but not assessed on the exam. It's included here for your class and for calculus readiness.",
+  tips: [
+    "Part of the exam allows a graphing calculator and part doesn't. Practice both ways, including reading values off graphs and tables.",
+    "Free-response questions ask you to model real situations. Always state what your function's input and output represent, with units.",
+    "Justify with rates of change: \"f is increasing and concave down because the rate of change is positive and decreasing.\"",
+    "Know the parent functions (polynomial, rational, exponential, logarithmic, sine, cosine, tangent) by their graphs, not just their formulas.",
+    "Give answers in exact form (π/3, ln 5) unless a decimal is asked for. A calculator decimal can lose points on no-calculator parts.",
+  ],
+  units: [
+    {
+      title: "Polynomial and Rational Functions",
+      weight: "30–40%",
+      tldr: "Functions describe how one quantity changes with another. Polynomials are built from powers of x and have predictable zeros and end behavior. Rational functions (a ratio of polynomials) add asymptotes and holes.",
+      concepts: [
+        {
+          title: "Rates of change",
+          simple: "Rate of change is how fast the output changes as the input changes. It can itself speed up or slow down.",
+          detail: "Average rate of change on [a, b] = (f(b) − f(a))/(b − a), the slope of the secant line. If the rate of change is increasing, the graph is concave up. If it's decreasing, the graph is concave down.",
+          example: "f(x) = x² on [1, 3]: (9 − 1)/(3 − 1) = 4.",
+        },
+        {
+          title: "Polynomial functions: zeros and end behavior",
+          simple: "A polynomial's highest power controls what happens at the far ends of the graph. Its zeros are where it crosses or touches the x-axis.",
+          detail: "End behavior comes from the leading term. An even degree means both ends go the same way; an odd degree means opposite ways, and a negative leading coefficient flips them. A zero with odd multiplicity CROSSES the axis; even multiplicity TOUCHES and turns. A degree-n polynomial has at most n real zeros and at most n − 1 turning points.",
+          hook: "Odd multiplicity crosses; even multiplicity bounces.",
+        },
+        {
+          title: "Rational functions: asymptotes and holes",
+          simple: "Dividing by zero breaks a rational function. If the factor cancels you get a hole; if it doesn't, you get a vertical asymptote.",
+          detail: "Factor the top and bottom. A common factor gives a hole. A remaining zero of the denominator gives a vertical asymptote. Horizontal asymptote: compare degrees. If the bottom's degree is larger, y = 0. If equal, the ratio of leading coefficients. If the top's is larger, there's none (a slant asymptote when it's larger by exactly 1).",
+          example: "(x − 2)(x + 1)/((x − 2)(x − 3)): hole at x = 2, vertical asymptote at x = 3, horizontal asymptote y = 1.",
+        },
+        {
+          title: "Transformations and function models",
+          simple: "Shifting, stretching and flipping a basic graph creates new functions, and those functions can model data.",
+          detail: "g(x) = a·f(b(x − h)) + k. h shifts right, k shifts up, a stretches vertically (and flips if negative), b compresses horizontally. Choose a model (linear, quadratic, cubic, piecewise) based on how the rate of change behaves, and use regression to fit data.",
+          hook: "Inside the parentheses does the OPPOSITE of what you'd expect: f(x − 3) moves RIGHT.",
+        },
+      ],
+      terms: [
+        ["Average rate of change", "(f(b) − f(a))/(b − a), the slope of the secant line."],
+        ["End behavior", "What f(x) does as x → ∞ and x → −∞."],
+        ["Multiplicity", "How many times a factor repeats. It decides whether the graph crosses or bounces."],
+        ["Vertical asymptote", "A line x = a that the graph approaches but never reaches, from a non-canceling zero of the denominator."],
+        ["Hole (removable discontinuity)", "A missing point caused by a factor that cancels."],
+        ["Horizontal asymptote", "The value f(x) approaches as x → ±∞."],
+      ],
+      mistakes: [
+        "Calling every zero of the denominator a vertical asymptote. Factor first: canceled factors are holes.",
+        "Shifting the wrong way. f(x − 3) moves RIGHT 3, not left.",
+        "Reading end behavior from the constant term instead of the leading term.",
+      ],
+      questions: [
+        { q: "What is the average rate of change of f(x) = x² on [1, 3]?", choices: ["2", "4", "8", "9"], answer: 1, explain: "(f(3) − f(1))/(3 − 1) = (9 − 1)/2 = 4." },
+        { q: "As x → ∞, what happens to f(x) = −2x⁵ + 3x²?", choices: ["f(x) → ∞", "f(x) → −∞", "f(x) → 0", "f(x) → −2"], answer: 1, explain: "The leading term −2x⁵ dominates. For large positive x it is very negative." },
+        { q: "The graph of a polynomial touches the x-axis at x = 4 without crossing it. The factor (x − 4) has:", choices: ["Multiplicity 1", "Even multiplicity", "Odd multiplicity of at least 3", "No relation to the graph"], answer: 1, explain: "Even multiplicity means the sign doesn't change, so the graph touches and turns around." },
+        { q: "r(x) = (x − 2)(x + 1)/((x − 2)(x − 3)) has:", choices: ["Vertical asymptotes at x = 2 and x = 3", "A hole at x = 2 and a vertical asymptote at x = 3", "A hole at x = 3 and a vertical asymptote at x = 2", "No vertical asymptotes"], answer: 1, explain: "The (x − 2) factor cancels, leaving a hole. (x − 3) remains in the denominator, giving an asymptote." },
+        { q: "g(x) = f(x − 3) + 2. Compared to f, the graph of g is shifted:", choices: ["Left 3, up 2", "Right 3, up 2", "Right 3, down 2", "Left 3, down 2"], answer: 1, explain: "Subtracting inside the parentheses shifts RIGHT. Adding outside shifts up." },
+      ],
+      frq: {
+        prompt: "Let r(x) = (x² − 4)/(x² − x − 6).\n(a) Factor r and find any holes.\n(b) Find the vertical and horizontal asymptotes.\n(c) Describe the behavior of r as x → 3 from the right.",
+        points: [
+          "(a) (x − 2)(x + 2)/((x − 3)(x + 2)), so there's a hole at x = −2 (at y = (−4)/(−5) = 4/5).",
+          "(b) Vertical asymptote x = 3. The degrees are equal, so the horizontal asymptote is y = 1.",
+          "(c) For x slightly above 3, the numerator (x − 2) is about 1 > 0 and the denominator (x − 3) is a small positive number, so r(x) → +∞.",
+        ],
+      },
+    },
+    {
+      title: "Exponential and Logarithmic Functions",
+      weight: "27–40%",
+      tldr: "Linear functions add the same amount each step. Exponential functions MULTIPLY by the same factor. Logarithms undo exponentials, which makes them the tool for solving for an exponent.",
+      concepts: [
+        {
+          title: "Arithmetic vs. geometric sequences",
+          simple: "Arithmetic sequences add the same number each time. Geometric sequences multiply by the same number each time.",
+          detail: "Arithmetic: aₙ = a₀ + dn (linear, constant differences). Geometric: aₙ = a₀·rⁿ (exponential, constant ratios). Over equal input intervals, linear functions change by equal DIFFERENCES and exponential functions by equal RATIOS.",
+          example: "3, 6, 12, 24 is geometric with r = 2, so aₙ = 3·2ⁿ⁻¹ starting at n = 1.",
+        },
+        {
+          title: "Exponential functions and models",
+          simple: "Exponential growth speeds up over time because each step builds on the last one.",
+          detail: "f(x) = a·bˣ with a > 0. If b > 1 it's growth; if 0 < b < 1 it's decay. A percent change r gives the factor b = 1 + r (for example, −20% gives 0.8). Doubling or half-life models: a·2^(t/T) or a·(½)^(t/T).",
+          hook: "Decreasing by 20% means KEEPING 80%, so multiply by 0.8.",
+        },
+        {
+          title: "Logarithms and their properties",
+          simple: "A logarithm answers: \"what exponent do I need?\"",
+          detail: "log_b(x) = y means b^y = x. Properties: log(ab) = log a + log b, log(a/b) = log a − log b, log(aⁿ) = n·log a. Change of base: log_b(x) = ln x / ln b. The domain is x > 0.",
+          example: "log₂(8) = 3 because 2³ = 8.",
+        },
+        {
+          title: "Inverses, equations and semi-log plots",
+          simple: "Exponential and log functions undo each other, so you can use one to solve equations involving the other.",
+          detail: "f(x) = bˣ and f⁻¹(x) = log_b(x) are reflections over y = x. Solve 5·2ˣ = 40 → 2ˣ = 8 → x = 3. On a semi-log plot (log of y against x), exponential data looks LINEAR.",
+        },
+      ],
+      terms: [
+        ["Geometric sequence", "A sequence with a constant ratio between terms."],
+        ["Growth factor", "The b in a·bˣ. It equals 1 + the percent change."],
+        ["Logarithm", "The exponent that produces a given number: log_b(x) = y ⇔ b^y = x."],
+        ["Natural log (ln)", "A logarithm with base e ≈ 2.718."],
+        ["Inverse function", "A function that undoes another. Its graph is the reflection over y = x."],
+        ["Semi-log plot", "A graph using log(y). Exponential data appears linear on it."],
+      ],
+      mistakes: [
+        "Writing log(a + b) = log a + log b. The product rule is log(ab), not a sum.",
+        "Using 0.2 for a 20% decrease. The factor is 0.8.",
+        "Forgetting the domain: log(x) needs x > 0.",
+      ],
+      questions: [
+        { q: "What is the nth term of the sequence 3, 6, 12, 24, … (starting at n = 1)?", choices: ["aₙ = 3n", "aₙ = 3 + 3(n − 1)", "aₙ = 3·2ⁿ⁻¹", "aₙ = 2·3ⁿ⁻¹"], answer: 2, explain: "Each term doubles (ratio 2) starting from 3, so aₙ = 3·2ⁿ⁻¹." },
+        { q: "A car loses 20% of its value each year. Which is its growth factor?", choices: ["0.2", "0.8", "1.2", "−0.2"], answer: 1, explain: "It keeps 80% of its value each year, so it's multiplied by 0.8." },
+        { q: "log₂(8) = ?", choices: ["3", "4", "16", "2.08"], answer: 0, explain: "2³ = 8." },
+        { q: "log(x) + log(y) equals:", choices: ["log(x + y)", "log(xy)", "log(x)·log(y)", "log(x/y)"], answer: 1, explain: "The product property: log a + log b = log(ab)." },
+        { q: "On a semi-log plot (log y against x), a data set appears linear. The best model is:", choices: ["Linear", "Quadratic", "Exponential", "Logarithmic"], answer: 2, explain: "Taking a log of exponential data straightens it, so a linear semi-log plot means exponential data." },
+      ],
+      frq: {
+        prompt: "A bacteria culture has 500 cells at t = 0 hours and 2,000 cells at t = 4 hours. Assume exponential growth.\n(a) Write a model P(t) = a·bᵗ.\n(b) Find the doubling time.\n(c) Use logarithms to find when the population reaches 10,000.",
+        points: [
+          "(a) a = 500. b⁴ = 4, so b = 4^(1/4) = √2 ≈ 1.414. P(t) = 500(√2)ᵗ.",
+          "(b) (√2)ᵗ = 2 when t = 2, so the population doubles every 2 hours.",
+          "(c) 500·2^(t/2) = 10,000 → 2^(t/2) = 20 → t = 2·log₂(20) ≈ 8.64 hours.",
+        ],
+      },
+    },
+    {
+      title: "Trigonometric and Polar Functions",
+      weight: "30–35%",
+      tldr: "Trigonometric functions describe things that repeat, like tides, sound and circular motion. Their shape is set by amplitude, period, midline and phase shift. Polar coordinates describe points by distance and angle instead of x and y.",
+      concepts: [
+        {
+          title: "The unit circle and radians",
+          simple: "On a circle of radius 1, cosine is the x-coordinate and sine is the y-coordinate of a point at a given angle.",
+          detail: "Radians measure an angle by arc length: 2π radians = 360°. Key values: sin(π/6) = ½, cos(π/3) = ½, sin(π/4) = cos(π/4) = √2/2, sin(π/2) = 1. tan θ = sin θ / cos θ.",
+        },
+        {
+          title: "Sinusoidal functions",
+          simple: "A sine wave has a height (amplitude), a center line (midline), a length before it repeats (period) and a starting shift.",
+          detail: "f(x) = a·sin(b(x − h)) + k. Amplitude = |a|, period = 2π/|b|, midline y = k, phase shift h. Use them to model periodic data: find the max and min, then amplitude = (max − min)/2 and midline = (max + min)/2.",
+          example: "4cos(x) − 1: amplitude 4, midline y = −1, period 2π.",
+        },
+        {
+          title: "Tangent and inverse trig functions",
+          simple: "Tangent is sine divided by cosine, so it breaks wherever cosine is zero. Inverse trig functions give back an angle.",
+          detail: "tan x has period π and vertical asymptotes at x = π/2 + kπ. Inverses: arcsin and arccos output angles from restricted ranges (arcsin: [−π/2, π/2], arccos: [0, π]).",
+        },
+        {
+          title: "Polar coordinates and graphs",
+          simple: "Polar coordinates give a point by how far it is from the origin (r) and in which direction (θ).",
+          detail: "x = r cos θ, y = r sin θ, r² = x² + y². Graph r = f(θ) by tracking how r changes as θ sweeps. For example, r = 2cos θ is a circle, and r = 1 + cos θ is a cardioid. When r is increasing, the point moves away from the origin.",
+          example: "(r, θ) = (2, π/2) → (x, y) = (2·0, 2·1) = (0, 2).",
+        },
+      ],
+      terms: [
+        ["Radian", "The angle whose arc length equals the radius. 2π rad = 360°."],
+        ["Amplitude", "Half the distance from the maximum to the minimum of a periodic function."],
+        ["Period", "The input length of one full cycle: 2π/|b| for sin(bx)."],
+        ["Midline", "The horizontal center line of a sinusoid, y = (max + min)/2."],
+        ["Phase shift", "A horizontal shift of a periodic function."],
+        ["Polar coordinates", "(r, θ): distance from the origin and angle."],
+      ],
+      mistakes: [
+        "Using b as the period. The period is 2π/b.",
+        "Forgetting that tangent is undefined where cos x = 0.",
+        "Mixing up which coordinate is sine and which is cosine on the unit circle (x = cos, y = sin).",
+      ],
+      questions: [
+        { q: "What is the period of f(x) = sin(3x)?", choices: ["3", "3π", "2π/3", "6π"], answer: 2, explain: "Period = 2π/|b| = 2π/3." },
+        { q: "For g(x) = 4cos(x) − 1, what are the amplitude and midline?", choices: ["Amplitude 4, midline y = −1", "Amplitude −1, midline y = 4", "Amplitude 4, midline y = 0", "Amplitude 3, midline y = −1"], answer: 0, explain: "Amplitude = |a| = 4, and the vertical shift −1 is the midline." },
+        { q: "sin(π/6) = ?", choices: ["√3/2", "½", "√2/2", "1"], answer: 1, explain: "π/6 = 30°, and sin 30° = ½." },
+        { q: "Convert the polar point (2, π/2) to rectangular coordinates.", choices: ["(2, 0)", "(0, 2)", "(−2, 0)", "(0, −2)"], answer: 1, explain: "x = 2cos(π/2) = 0 and y = 2sin(π/2) = 2." },
+        { q: "Where is tan x undefined?", choices: ["x = 0", "x = π", "x = π/2", "x = π/4"], answer: 2, explain: "tan x = sin x/cos x, and cos(π/2) = 0." },
+      ],
+      frq: {
+        prompt: "The water depth in a harbor varies sinusoidally. High tide is 12 m at t = 0 hours, and the next low tide is 4 m at t = 6 hours.\n(a) Find the amplitude, midline and period.\n(b) Write a model D(t).\n(c) Is the depth increasing or decreasing at t = 8? Explain.",
+        points: [
+          "(a) Amplitude = (12 − 4)/2 = 4 m. Midline = (12 + 4)/2 = 8 m. High to low is half a cycle, so the period is 12 hours.",
+          "(b) D(t) = 4cos(πt/6) + 8, because b = 2π/12 = π/6 and the maximum is at t = 0.",
+          "(c) Increasing: the low tide is at t = 6 and the next high is at t = 12, so from 6 to 12 the depth is rising.",
+        ],
+      },
+    },
+    {
+      title: "Functions Involving Parameters, Vectors, and Matrices",
+      weightLabel: "Not assessed on the AP exam",
+      tldr: "This unit extends functions to new forms (parametric equations, vectors and matrices) that prepare you for calculus and linear algebra. It's part of the course, but the AP exam doesn't test it.",
+      concepts: [
+        {
+          title: "Parametric functions",
+          simple: "Instead of y depending on x, both x and y depend on a third variable, often time.",
+          detail: "(x(t), y(t)) traces a path. Eliminate the parameter by solving one equation for t and substituting. For example, x = t, y = t² gives y = x².",
+        },
+        {
+          title: "Vectors",
+          simple: "A vector has both a size and a direction, like a velocity.",
+          detail: "⟨a, b⟩ has magnitude √(a² + b²). Add vectors component-wise. The dot product u·v = u₁v₁ + u₂v₂, and u·v = 0 means the vectors are perpendicular.",
+          example: "⟨3, 4⟩ has magnitude 5.",
+        },
+        {
+          title: "Matrices and linear transformations",
+          simple: "A matrix is a grid of numbers that can transform points, for example rotating or stretching a shape.",
+          detail: "For [[a, b], [c, d]], the determinant is ad − bc. The matrix has an inverse only if the determinant ≠ 0. Multiplying a vector by a matrix applies a linear transformation. The determinant's absolute value scales area.",
+        },
+      ],
+      terms: [
+        ["Parameter", "The third variable (often t) that both x and y depend on."],
+        ["Magnitude", "A vector's length: √(a² + b²)."],
+        ["Dot product", "u₁v₁ + u₂v₂. It's zero for perpendicular vectors."],
+        ["Determinant", "ad − bc for a 2×2 matrix. It's zero when the matrix has no inverse."],
+      ],
+      mistakes: [
+        "Multiplying matrices entry by entry. Use row-times-column.",
+        "Forgetting that a zero determinant means there's no inverse.",
+      ],
+      questions: [
+        { q: "What is the magnitude of the vector ⟨3, 4⟩?", choices: ["5", "7", "12", "25"], answer: 0, explain: "√(3² + 4²) = √25 = 5." },
+        { q: "x = t and y = t². Eliminating t gives:", choices: ["y = x", "y = x²", "x = y²", "y = 2x"], answer: 1, explain: "Substitute t = x into y = t²." },
+        { q: "What is the determinant of [[2, 3], [1, 4]]?", choices: ["5", "8", "11", "−5"], answer: 0, explain: "ad − bc = 2·4 − 3·1 = 5." },
+      ],
+      frq: {
+        prompt: "Let u = ⟨2, −1⟩ and v = ⟨1, 2⟩.\n(a) Find u + v and |u|.\n(b) Compute u·v and state what it tells you.\n(c) Find the determinant of the matrix with rows u and v, and say whether the matrix is invertible.",
+        points: [
+          "(a) u + v = ⟨3, 1⟩ and |u| = √5.",
+          "(b) u·v = 2 − 2 = 0, so the vectors are perpendicular.",
+          "(c) det = 2·2 − (−1)(1) = 5 ≠ 0, so the matrix is invertible.",
+        ],
+      },
+    },
+  ],
+};
+
+</script>
 <script>/* content/psychology.js */
 window.AP_CONTENT = window.AP_CONTENT || {};
 window.AP_CONTENT["psychology"] = {
@@ -4791,6 +6140,498 @@ window.AP_CONTENT["us-history"] = {
 };
 
 </script>
+<script>/* content/world-history.js */
+window.AP_CONTENT = window.AP_CONTENT || {};
+window.AP_CONTENT["world-history"] = {
+  tips: [
+    "New for May 2027: all three short-answer questions are required. Q1 uses a secondary source, Q2 a primary source, and Q3 a non-text source such as a map or image.",
+    "New for May 2027: the long essay is one required, broad prompt. Build a stock of evidence you know well from every era.",
+    "Think in comparisons and causation across regions. Most questions are \"how did X change Y\" or \"compare A and B,\" not \"what year.\"",
+    "DBQ: use at least 4 documents plus outside evidence, and explain the sourcing (point of view, purpose, historical situation or audience) for 2 of them.",
+    "Organize your knowledge by theme: governance, economic systems, social structures, technology, cultural developments and the environment.",
+  ],
+  units: [
+    {
+      title: "The Global Tapestry (c. 1200–1450)",
+      weight: "8–10%",
+      tldr: "Around 1200, powerful states across Afro-Eurasia and the Americas built on older traditions. China's Song dynasty, the Islamic world, South and Southeast Asian kingdoms, and societies in Africa, Europe and the Americas each developed distinctive governments, economies and belief systems.",
+      concepts: [
+        {
+          title: "Song China",
+          simple: "China's Song dynasty was rich, innovative and run by educated officials.",
+          detail: "Neo-Confucianism shaped government and family life, and filial piety and patriarchy were reinforced. Civil-service exams selected a bureaucracy by merit. Champa rice (fast-ripening) boosted food supplies and population. The Grand Canal linked markets. Innovations included paper money, gunpowder and printing.",
+        },
+        {
+          title: "Dar al-Islam",
+          simple: "The Islamic world stretched from Spain to South Asia and led the world in science and trade.",
+          detail: "The Abbasid Caliphate fragmented, and Turkic groups (Seljuks), Mamluks and the Delhi Sultanate rose. Scholars preserved and advanced Greek knowledge in math, medicine and astronomy (the House of Wisdom). Islam spread through trade, conquest and Sufi missionaries.",
+        },
+        {
+          title: "South and Southeast Asia",
+          simple: "Hinduism and Buddhism shaped kingdoms across India and Southeast Asia, often blended with local beliefs.",
+          detail: "The Vijayanagara Empire (Hindu) resisted the Delhi Sultanate (Muslim). Srivijaya (sea-based) controlled the Strait of Malacca's trade. The Khmer Empire (Angkor Wat) reflected Hindu-Buddhist influences. The Bhakti movement (Hindu) and Sufism (Islamic) made religion more personal.",
+        },
+        {
+          title: "The Americas, Africa and Europe",
+          simple: "Large states rose around the world, each organizing labor and power differently.",
+          detail: "The Mexica (Aztec) collected tribute. The Inca used the mit'a labor system and road networks. Mali grew rich on gold and trans-Saharan trade. Great Zimbabwe traded through the Indian Ocean. Feudal Europe relied on manorialism and serfdom, and the Catholic Church held great power.",
+        },
+      ],
+      terms: [
+        ["Neo-Confucianism", "A blend of Confucian, Buddhist and Daoist ideas that shaped Song government and society."],
+        ["Champa rice", "A fast-growing rice that increased China's food supply and population."],
+        ["Civil-service exam", "China's merit-based test for bureaucrats."],
+        ["Mit'a", "The Inca system of required public labor."],
+        ["Tribute", "Payments of goods from conquered peoples, central to the Mexica state."],
+        ["Feudalism", "A European system of land for loyalty and military service."],
+      ],
+      mistakes: [
+        "Treating \"Islam\" as a single unified empire in this period. The Abbasid Caliphate had fragmented.",
+        "Confusing the Inca mit'a with Spanish colonial labor (the Spanish later adapted it in Unit 4).",
+      ],
+      questions: [
+        { q: "Champa rice most directly contributed to which development in Song China?", choices: ["The spread of Buddhism", "Rapid population growth", "The end of the civil-service exams", "Mongol conquest"], answer: 1, explain: "Fast-ripening rice allowed multiple harvests, increasing the food supply and population." },
+        { q: "Song China selected government officials mainly through:", choices: ["Hereditary nobility", "Military conquest", "Civil-service examinations", "Religious appointment"], answer: 2, explain: "Merit-based exams on Confucian texts staffed the bureaucracy." },
+        { q: "Scholars in Dar al-Islam (e.g., at the House of Wisdom) are known for:", choices: ["Rejecting Greek learning", "Preserving and expanding Greek and Indian knowledge", "Inventing the printing press", "Ending trade with Europe"], answer: 1, explain: "They translated and built on Greek and Indian works in math, medicine and astronomy." },
+        { q: "The Inca mit'a system was primarily a:", choices: ["Tax paid in gold", "Required labor system for public projects", "Religious ceremony", "Trade agreement with the Aztecs"], answer: 1, explain: "Subjects owed labor on roads, farms and buildings for the state." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Describe ONE way the Song dynasty strengthened its government.\n(b) Describe ONE economic innovation of Song China.\n(c) Explain ONE similarity in how the Mexica and Inca governed large territories.",
+        points: [
+          "(a) E.g. a merit-based civil-service bureaucracy, or Neo-Confucian ideology legitimizing rule.",
+          "(b) E.g. champa rice, paper money, the Grand Canal, or expanded commercialization and manufacturing.",
+          "(c) E.g. both extracted resources from conquered peoples (Mexica tribute, Inca mit'a labor) to support a central state.",
+        ],
+      },
+    },
+    {
+      title: "Networks of Exchange (c. 1200–1450)",
+      weight: "8–10%",
+      tldr: "Trade routes such as the Silk Roads, the Indian Ocean and the trans-Saharan routes connected Afro-Eurasia. They carried goods, ideas, religions, technologies and diseases. The Mongols briefly united much of Eurasia, which sped up exchange.",
+      concepts: [
+        {
+          title: "The Silk Roads",
+          simple: "Overland routes across Asia carried luxury goods, ideas and religions between China and the Mediterranean.",
+          detail: "Luxury goods (silk, porcelain) were traded because transport was costly. Innovations such as caravanserai (inns), flying cash and bills of exchange supported trade. Trading cities like Kashgar and Samarkand grew.",
+        },
+        {
+          title: "The Mongol Empire",
+          simple: "The Mongols built the largest land empire in history, then let trade and ideas flow across it.",
+          detail: "The Pax Mongolica made the Silk Roads safer. The Mongols adopted local administration and transferred technologies and knowledge (for example, Greek and Islamic medicine and astronomy). They also spread the Black Death along trade routes.",
+        },
+        {
+          title: "Indian Ocean trade",
+          simple: "Sailors used predictable seasonal winds to trade across the Indian Ocean, from East Africa to China.",
+          detail: "Monsoon winds and technologies like the lateen sail, the astrolabe and the dhow made the trade possible. Swahili city-states (like Kilwa) grew through trade and Islam. Diasporic merchant communities settled in foreign ports. Zheng He's Ming voyages displayed Chinese power.",
+        },
+        {
+          title: "Trans-Saharan trade and the effects of exchange",
+          simple: "Camel caravans crossed the Sahara to trade gold and salt, making West African empires rich.",
+          detail: "Camel saddles and caravans made the routes possible. Mali (Mansa Musa's pilgrimage to Mecca) grew wealthy from gold. Travelers like Ibn Battuta documented connected worlds. Effects of exchange included the spread of Islam and Buddhism, crops (Champa rice, citrus) and disease (the Black Death).",
+        },
+      ],
+      terms: [
+        ["Caravanserai", "An inn for merchants along trade routes."],
+        ["Pax Mongolica", "The period of stability under Mongol rule that boosted Eurasian trade."],
+        ["Monsoon", "Seasonal winds that made Indian Ocean sailing predictable."],
+        ["Swahili city-states", "East African coastal trading cities that blended Bantu and Arab cultures."],
+        ["Diasporic community", "A group of merchants living far from their homeland."],
+        ["Mansa Musa", "The ruler of Mali whose pilgrimage to Mecca displayed its gold wealth."],
+      ],
+      mistakes: [
+        "Thinking bulky everyday goods traveled the Silk Roads. Mostly LUXURY goods did.",
+        "Forgetting that the same routes that spread goods also spread disease (the Black Death).",
+      ],
+      questions: [
+        { q: "Why did the Silk Roads mainly carry luxury goods?", choices: ["Luxury goods were lighter and valuable enough to justify costly overland transport", "Governments banned other goods", "Only nobles could travel", "Bulk goods were illegal in China"], answer: 0, explain: "Long, expensive overland travel only paid off for high-value, low-weight goods." },
+        { q: "The Pax Mongolica most directly led to:", choices: ["The collapse of Eurasian trade", "Increased trade and cultural exchange across Eurasia", "The end of the Black Death", "The rise of feudalism in Europe"], answer: 1, explain: "Mongol control made routes safer, boosting trade and the transfer of ideas and technology." },
+        { q: "Indian Ocean trade depended most on:", choices: ["Camel caravans", "Knowledge of monsoon wind patterns", "Steam-powered ships", "The Grand Canal"], answer: 1, explain: "Seasonal monsoons made sailing schedules predictable." },
+        { q: "Mansa Musa's pilgrimage to Mecca is significant because it:", choices: ["Introduced Islam to Europe", "Displayed Mali's enormous gold wealth to the Islamic world", "Ended trans-Saharan trade", "Began the Atlantic slave trade"], answer: 1, explain: "He spent so much gold in Cairo that it made Mali famous, and gold's value dropped there." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE technology that facilitated trade between 1200 and 1450.\n(b) Explain ONE way the Mongol Empire affected Eurasian exchange.\n(c) Explain ONE unintended consequence of expanding trade networks.",
+        points: [
+          "(a) E.g. caravanserai, the compass, the astrolabe, the lateen sail, the camel saddle, or flying cash.",
+          "(b) E.g. the Pax Mongolica made routes safe, and the Mongols transferred technology and knowledge between regions.",
+          "(c) E.g. the spread of the Black Death along trade routes, which killed large parts of Afro-Eurasia's population.",
+        ],
+      },
+    },
+    {
+      title: "Land-Based Empires (c. 1450–1750)",
+      weight: "12–15%",
+      tldr: "Gunpowder empires (the Ottomans, Safavids and Mughals) plus the Qing and Russia expanded by conquest. They held diverse populations together through bureaucracy, taxation and religion, and used monumental architecture and ritual to legitimize their rule.",
+      concepts: [
+        {
+          title: "Expansion of the gunpowder empires",
+          simple: "Big land empires used cannons and guns to conquer and hold territory.",
+          detail: "The Ottomans took Constantinople in 1453. The Safavids ruled Persia and the Mughals ruled South Asia. The Qing (Manchu) conquered China, and Russia expanded east. Firearms and cannons gave them decisive military advantages.",
+        },
+        {
+          title: "Administering empires",
+          simple: "Rulers needed loyal officials and steady taxes to control huge, diverse territories.",
+          detail: "The Ottoman devshirme took Christian boys to train as soldiers (Janissaries) and officials. Tax farming was used by the Ottomans, and the Mughals used zamindars as tax collectors. Bureaucracies were often staffed by merit or loyalty, not birth.",
+        },
+        {
+          title: "Legitimizing power",
+          simple: "Rulers showed they deserved power through religion, grand buildings and ceremonies.",
+          detail: "Monumental architecture (the Taj Mahal, Versailles). Religious authority (the Ottoman sultan as caliph, divine right in Europe). Art and court ritual.",
+        },
+        {
+          title: "Religious conflict and change",
+          simple: "Religious divisions shaped politics, both between empires and inside them.",
+          detail: "The Protestant Reformation split Christianity (Luther, 1517), and the Counter-Reformation followed. The Sunni Ottomans fought the Shia Safavids. Sikhism emerged in South Asia, blending Hindu and Islamic ideas. The Mughal ruler Akbar practiced religious tolerance.",
+        },
+      ],
+      terms: [
+        ["Gunpowder empire", "An empire that expanded using firearms and cannons (Ottoman, Safavid, Mughal)."],
+        ["Devshirme", "The Ottoman practice of recruiting Christian boys as soldiers and officials."],
+        ["Janissaries", "Elite Ottoman infantry drawn from the devshirme."],
+        ["Zamindar", "A Mughal-era landholder who collected taxes."],
+        ["Protestant Reformation", "The 16th-century split from the Catholic Church, started by Luther."],
+        ["Sikhism", "A religion founded in South Asia that blends Hindu and Islamic elements."],
+      ],
+      mistakes: [
+        "Mixing up the Sunni Ottomans and the Shia Safavids. Their religious rivalry drove their conflict.",
+        "Forgetting that tolerance varied: Akbar was tolerant, while the later ruler Aurangzeb was less so.",
+      ],
+      questions: [
+        { q: "The Ottoman devshirme system was used to:", choices: ["Collect taxes from farmers", "Recruit Christian boys to become soldiers and officials", "Convert Europe to Islam", "Build the Taj Mahal"], answer: 1, explain: "Boys were trained as Janissaries or administrators loyal to the sultan." },
+        { q: "Conflict between the Ottoman and Safavid empires was fueled partly by:", choices: ["The Sunni–Shia divide", "The Protestant Reformation", "Competition over Atlantic colonies", "The Opium Wars"], answer: 0, explain: "The Ottomans were Sunni and the Safavids were Shia." },
+        { q: "The Taj Mahal is an example of rulers legitimizing power through:", choices: ["Military conquest", "Monumental architecture", "Tax farming", "Joint-stock companies"], answer: 1, explain: "Grand buildings displayed the wealth and power of the Mughal ruler." },
+        { q: "What was a major effect of the Protestant Reformation?", choices: ["Unification of Christianity", "Religious division and wars in Europe", "The end of the Catholic Church", "The spread of Islam in Europe"], answer: 1, explain: "It split Western Christianity and led to religious conflicts and the Counter-Reformation." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Describe ONE method a land-based empire used to expand between 1450 and 1750.\n(b) Explain ONE way a land-based empire legitimized its rule.\n(c) Explain ONE similarity in how two land-based empires administered diverse populations.",
+        points: [
+          "(a) E.g. gunpowder weapons and cannons (the Ottoman conquest of Constantinople, Mughal campaigns).",
+          "(b) E.g. monumental architecture, religious authority (the caliph, divine right), or court ritual.",
+          "(c) E.g. both Ottomans and Mughals used bureaucracies and tax collection (devshirme and tax farming, zamindars), or both practiced a degree of religious tolerance.",
+        ],
+      },
+    },
+    {
+      title: "Transoceanic Interconnections (c. 1450–1750)",
+      weight: "12–15%",
+      tldr: "New maritime technology let Europeans cross oceans. That created the Columbian Exchange, maritime empires and new labor systems, including the Atlantic slave trade. It reshaped societies in the Americas, Africa and Europe, and provoked resistance.",
+      concepts: [
+        {
+          title: "Maritime technology and exploration",
+          simple: "Better ships and navigation tools made long ocean voyages possible.",
+          detail: "The caravel, lateen sail, astrolabe and magnetic compass, many borrowed from other cultures. Motives included wealth, God and glory, and finding sea routes to Asian trade. Portugal pioneered voyages along Africa (Prince Henry, da Gama), and Columbus reached the Americas in 1492.",
+        },
+        {
+          title: "The Columbian Exchange",
+          simple: "Plants, animals, people and diseases moved between the Eastern and Western Hemispheres.",
+          detail: "Smallpox devastated Native populations. American crops (potatoes, maize) fed population growth in Afro-Eurasia. Horses and cattle transformed the Americas, and sugar and cash crops drove plantation economies.",
+        },
+        {
+          title: "Maritime empires and trade",
+          simple: "European states built ocean empires, some based on trading posts and some on colonies.",
+          detail: "Portugal built a trading-post empire. Spain conquered land and mined silver (Potosí), and silver flowed to China. Joint-stock companies (the Dutch VOC, the British East India Company) spread risk among investors. Mercantilism viewed colonies as sources of wealth.",
+        },
+        {
+          title: "Labor systems and resistance",
+          simple: "Colonial economies relied on forced labor, and many people resisted.",
+          detail: "The encomienda system, the hacienda, the Spanish adaptation of the mit'a for mines, and the chattel slavery of the Atlantic slave trade (Middle Passage). Resistance included the Pueblo Revolt (1680), maroon communities and cultural preservation. The casta system created racial hierarchy.",
+        },
+      ],
+      terms: [
+        ["Caravel", "A small, maneuverable Portuguese ship used for exploration."],
+        ["Columbian Exchange", "The transfer of plants, animals, people and diseases between hemispheres."],
+        ["Joint-stock company", "A company owned by shareholders, which spread the risk of trading ventures."],
+        ["Mercantilism", "The idea that colonies should enrich the home country."],
+        ["Chattel slavery", "Slavery in which people are treated as property, and enslavement is hereditary."],
+        ["Maroon community", "A settlement of people who escaped slavery."],
+      ],
+      mistakes: [
+        "Thinking European technology was all invented in Europe. The compass and astrolabe came from Asia and the Islamic world.",
+        "Forgetting that American silver flowed across the Pacific to China, making trade truly global.",
+      ],
+      questions: [
+        { q: "Which technology came to Europeans from other cultures and aided exploration?", choices: ["The steam engine", "The astrolabe and magnetic compass", "The telegraph", "The cotton gin"], answer: 1, explain: "Both reached Europe through Islamic and Chinese contact." },
+        { q: "A major effect of the Columbian Exchange on Afro-Eurasia was:", choices: ["Population decline from smallpox", "Population growth from American crops like potatoes and maize", "The end of the slave trade", "The collapse of Chinese trade"], answer: 1, explain: "Calorie-rich American crops supported population growth. Smallpox devastated the AMERICAS." },
+        { q: "Joint-stock companies like the Dutch East India Company were important because they:", choices: ["Were run by monarchs", "Spread financial risk among many investors", "Banned slavery", "Ended mercantilism"], answer: 1, explain: "Shareholders shared the risk and profit of costly voyages." },
+        { q: "The Pueblo Revolt of 1680 is an example of:", choices: ["Resistance to Spanish colonial rule", "A European religious war", "Ottoman expansion", "The Industrial Revolution"], answer: 0, explain: "The Pueblo temporarily drove the Spanish out of New Mexico." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE motive for European maritime exploration.\n(b) Explain ONE effect of the Columbian Exchange on the Americas.\n(c) Explain ONE way enslaved or colonized peoples resisted European control.",
+        points: [
+          "(a) E.g. access to Asian trade and spices, spreading Christianity, or gaining wealth and prestige.",
+          "(b) E.g. smallpox killed most Native people, or horses and cattle transformed ways of life.",
+          "(c) E.g. the Pueblo Revolt, maroon communities, slave revolts, or preserving cultural and religious practices.",
+        ],
+      },
+    },
+    {
+      title: "Revolutions (c. 1750–1900)",
+      weight: "12–15%",
+      tldr: "Enlightenment ideas inspired political revolutions and nationalism, while the Industrial Revolution transformed how goods were made, how people worked, and which states held power. New ideologies and reform movements responded to industrial society.",
+      concepts: [
+        {
+          title: "Enlightenment and political revolutions",
+          simple: "New ideas about natural rights and consent of the governed inspired people to overthrow their rulers.",
+          detail: "Locke (natural rights) and Rousseau (the social contract). The American Revolution (1776), the French Revolution (1789) and the Haitian Revolution (1791, led by enslaved people under Toussaint Louverture). Latin American independence came under Bolívar. The Declaration of the Rights of Man.",
+        },
+        {
+          title: "Nationalism",
+          simple: "People began to see themselves as a nation united by language and culture, and demanded their own state.",
+          detail: "German unification (Bismarck, 1871) and Italian unification (1861). Nationalism both united and divided empires, fueling independence movements.",
+        },
+        {
+          title: "The Industrial Revolution",
+          simple: "Machines and factories replaced hand production, starting in Britain.",
+          detail: "Britain had coal, iron, rivers, capital, colonies and an agricultural revolution that freed up labor. Factories, the steam engine and railroads followed. The Second Industrial Revolution brought steel, chemicals and electricity. Industrialization spread to the U.S., Germany, Russia and Meiji Japan.",
+        },
+        {
+          title: "Responses to industrialization",
+          simple: "Industrial life created harsh conditions, and people organized to change them.",
+          detail: "Liberalism and laissez-faire (Adam Smith), socialism and Marxism (class struggle). Labor unions, and reforms such as child labor laws and suffrage. Some states resisted industrialization (the Ottomans and Qing, which were slower) while others pursued state-led reform (Meiji Japan).",
+        },
+      ],
+      terms: [
+        ["Enlightenment", "An 18th-century movement emphasizing reason and natural rights."],
+        ["Haitian Revolution", "The successful 1791–1804 revolt of enslaved people against French rule."],
+        ["Nationalism", "Loyalty to a nation defined by shared culture, language or history."],
+        ["Industrial Revolution", "The shift from hand production to machine and factory production."],
+        ["Marxism", "Marx's theory that class struggle would lead workers to overthrow capitalism."],
+        ["Meiji Restoration", "Japan's state-led modernization and industrialization after 1868."],
+      ],
+      mistakes: [
+        "Leaving out the Haitian Revolution, the only successful revolt of enslaved people to create a state.",
+        "Saying industrialization started everywhere at once. It began in BRITAIN, for specific reasons.",
+      ],
+      questions: [
+        { q: "Which revolution was led by enslaved people and created an independent state?", choices: ["The American Revolution", "The French Revolution", "The Haitian Revolution", "The Glorious Revolution"], answer: 2, explain: "Enslaved Haitians, led by Toussaint Louverture, won independence from France in 1804." },
+        { q: "Why did the Industrial Revolution begin in Great Britain?", choices: ["Britain had no colonies", "Britain had coal, iron, capital and a growing labor supply", "Britain banned agriculture", "Britain had the largest population in the world"], answer: 1, explain: "Resources, capital, colonies and an agricultural revolution combined to make Britain first." },
+        { q: "Karl Marx argued that:", choices: ["Free markets would end poverty", "Class struggle would lead workers to overthrow capitalism", "Monarchy was the best government", "Industrialization should be reversed"], answer: 1, explain: "Marxism predicted a proletarian revolution against the capitalist class." },
+        { q: "Japan's response to Western industrial power in the late 1800s was:", choices: ["Complete isolation", "State-led industrialization and modernization (Meiji Restoration)", "Becoming a British colony", "Rejecting all Western technology"], answer: 1, explain: "The Meiji government deliberately adopted Western industry, military methods and education." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE Enlightenment idea that influenced revolutions between 1750 and 1900.\n(b) Explain ONE reason Britain industrialized first.\n(c) Explain ONE way workers or reformers responded to industrialization.",
+        points: [
+          "(a) E.g. natural rights, the social contract, popular sovereignty, or equality before the law.",
+          "(b) E.g. abundant coal and iron, capital from trade and colonies, an agricultural revolution freeing labor, or rivers and ports.",
+          "(c) E.g. labor unions and strikes, socialist and Marxist movements, or reforms limiting child labor.",
+        ],
+      },
+    },
+    {
+      title: "Consequences of Industrialization (c. 1750–1900)",
+      weight: "12–15%",
+      tldr: "Industrial states needed raw materials and markets, so they expanded their empires in Africa and Asia. They justified this with racist ideologies. Colonized peoples resisted, economic imperialism reshaped trade, and millions migrated for work.",
+      concepts: [
+        {
+          title: "Rationales for imperialism",
+          simple: "Industrial countries wanted resources and markets, and used racist ideas to justify taking over other lands.",
+          detail: "Economic motives (raw materials, markets). Social Darwinism and the \"civilizing mission\" / \"White Man's Burden.\" Nationalism and competition among powers.",
+        },
+        {
+          title: "State expansion",
+          simple: "Europeans divided up Africa and took more control of Asia.",
+          detail: "The Berlin Conference (1884–85) and the Scramble for Africa. The British Raj replaced East India Company rule after 1857. Settler colonies included Australia and South Africa. The U.S. and Japan also expanded (the Philippines, Korea).",
+        },
+        {
+          title: "Resistance to imperialism",
+          simple: "Colonized peoples fought back through rebellions, religious movements and new national identities.",
+          detail: "The Sepoy Rebellion (India, 1857), the Ghost Dance, the Xhosa Cattle-Killing, the Zulu resistance, and Ethiopia's victory at Adwa (1896). Anti-imperial nationalism grew.",
+        },
+        {
+          title: "Economic imperialism and migration",
+          simple: "Powerful countries controlled weaker countries' economies, and millions of people moved for work.",
+          detail: "The Opium Wars forced China to open trade and led to spheres of influence. Export economies developed (cotton in Egypt, rubber in the Congo). Indentured laborers migrated from India and China, and Europeans migrated to the Americas. Ethnic enclaves formed, along with anti-immigrant laws.",
+        },
+      ],
+      terms: [
+        ["Social Darwinism", "The misuse of evolution to justify racial hierarchy and imperialism."],
+        ["Berlin Conference", "The 1884–85 meeting where Europeans set rules for claiming Africa."],
+        ["Sepoy Rebellion", "An 1857 Indian uprising against East India Company rule."],
+        ["Opium Wars", "Wars in which Britain forced China to accept opium trade and open its ports."],
+        ["Sphere of influence", "An area where a foreign power holds exclusive economic privileges."],
+        ["Indentured servitude", "Labor under contract for a set term, common for migrant workers."],
+      ],
+      mistakes: [
+        "Seeing imperialism only as political control. Economic imperialism (the Opium Wars, spheres of influence) mattered too.",
+        "Ignoring resistance. Many colonized societies fought back, sometimes successfully (Ethiopia at Adwa).",
+      ],
+      questions: [
+        { q: "The Berlin Conference (1884–85) is significant because it:", choices: ["Ended the slave trade", "Set rules for European powers to claim African territory", "Granted independence to African nations", "Created the League of Nations"], answer: 1, explain: "It organized the Scramble for Africa, with no Africans present." },
+        { q: "Social Darwinism was used to:", choices: ["Oppose imperialism", "Justify imperialism and racial hierarchy", "Promote labor unions", "Support the abolition of slavery"], answer: 1, explain: "It misapplied \"survival of the fittest\" to claim some races should rule others." },
+        { q: "What was an effect of the Sepoy Rebellion of 1857?", choices: ["India won independence", "The British government took direct control of India (the British Raj)", "The Mughal Empire expanded", "Britain withdrew from Asia"], answer: 1, explain: "Rule passed from the East India Company to the British Crown." },
+        { q: "The Opium Wars resulted in:", choices: ["China's victory over Britain", "Unequal treaties that opened China to foreign trade and spheres of influence", "The end of the Qing dynasty that year", "Chinese colonies in Europe"], answer: 1, explain: "Treaties like Nanjing forced open ports and gave foreigners privileges." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE economic motive for imperialism in the 1800s.\n(b) Explain ONE way colonized peoples resisted imperial control.\n(c) Explain ONE way imperialism affected migration patterns.",
+        points: [
+          "(a) E.g. obtaining raw materials (cotton, rubber) or new markets for industrial goods.",
+          "(b) E.g. the Sepoy Rebellion, Ethiopia's victory at Adwa, the Ghost Dance, or nationalist movements.",
+          "(c) E.g. indentured laborers from India and China moved to plantations and colonies, and settlers moved to colonies.",
+        ],
+      },
+    },
+    {
+      title: "Global Conflict (c. 1900–present)",
+      weight: "8–10%",
+      tldr: "Two world wars, the collapse of old empires, economic depression and the rise of totalitarian regimes defined the early 20th century. Total war and genocide caused unprecedented destruction.",
+      concepts: [
+        {
+          title: "Shifting power and the end of empires",
+          simple: "Several old empires collapsed in the early 1900s through revolution and war.",
+          detail: "The Qing fell (1911), the Ottoman Empire collapsed after WWI, the Russian Revolution (1917) created the USSR, and the Mexican Revolution (1910) took place. Internal weaknesses combined with nationalism brought them down.",
+        },
+        {
+          title: "World War I",
+          simple: "Europe's rivalries exploded into a massive war that drew in the world, including colonies.",
+          detail: "Causes (MAIN): militarism, alliances, imperialism, nationalism. It was a total war that mobilized entire economies, with propaganda and colonial troops. The Treaty of Versailles punished Germany.",
+          hook: "Causes of WWI = MAIN: Militarism, Alliances, Imperialism, Nationalism.",
+        },
+        {
+          title: "The interwar years",
+          simple: "After the war, economic collapse helped extreme governments rise to power.",
+          detail: "The Great Depression. Fascism in Italy (Mussolini) and Germany (Hitler). Stalin's Five-Year Plans and collectivization in the USSR. Governments intervened more in their economies (the New Deal, Keynesian ideas).",
+        },
+        {
+          title: "World War II and genocide",
+          simple: "WWII was even more destructive, including the deliberate mass murder of whole groups of people.",
+          detail: "Axis expansion (Germany, Italy, Japan). Total war, the Holocaust, the Armenian genocide (WWI era), the atomic bombs, and the Nanjing Massacre. WWII led to the creation of the United Nations.",
+        },
+      ],
+      terms: [
+        ["Total war", "A war that mobilizes a nation's entire economy and population."],
+        ["Treaty of Versailles", "The 1919 treaty that punished Germany after WWI."],
+        ["Fascism", "Authoritarian, ultranationalist rule that suppresses opposition."],
+        ["Five-Year Plans", "Stalin's state-directed programs for rapid industrialization."],
+        ["Holocaust", "Nazi Germany's genocide of six million Jews and millions of others."],
+        ["Genocide", "The deliberate destruction of a national, ethnic, racial or religious group."],
+      ],
+      mistakes: [
+        "Treating WWI as purely European. Colonial troops and resources were central to it.",
+        "Forgetting that the Depression's economic crisis helped fascism rise.",
+      ],
+      questions: [
+        { q: "Which is a long-term cause of World War I?", choices: ["The Great Depression", "Militarism and the alliance system", "The Cold War", "Decolonization"], answer: 1, explain: "Militarism, Alliances, Imperialism and Nationalism (MAIN) built tension before 1914." },
+        { q: "\"Total war\" in WWI meant that:", choices: ["Only soldiers were involved", "Entire economies and populations were mobilized", "The war was fought only at sea", "No colonies participated"], answer: 1, explain: "Governments directed industry, rationed goods and used propaganda to support the war." },
+        { q: "A major factor in the rise of fascism in the 1920s–30s was:", choices: ["Economic crisis such as the Great Depression", "The end of the Cold War", "The spread of democracy in Africa", "The Green Revolution"], answer: 0, explain: "Economic desperation made extreme promises of order and national revival appealing." },
+        { q: "Stalin's Five-Year Plans aimed to:", choices: ["Restore the monarchy", "Rapidly industrialize the Soviet Union under state control", "Create a free-market economy", "Decolonize Africa"], answer: 1, explain: "They were state-directed industrialization programs with harsh collectivization." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE cause of World War I.\n(b) Explain ONE way governments mobilized for total war.\n(c) Explain ONE similarity between fascist and communist governments in the 1930s.",
+        points: [
+          "(a) E.g. militarism, alliances, imperial rivalry, nationalism, or the assassination of Franz Ferdinand as a trigger.",
+          "(b) E.g. propaganda, rationing, conscription, directing industry, or recruiting colonial troops.",
+          "(c) E.g. both were authoritarian single-party states that suppressed dissent and used propaganda.",
+        ],
+      },
+    },
+    {
+      title: "Cold War and Decolonization (c. 1900–present)",
+      weight: "8–10%",
+      tldr: "After WWII, the U.S. and the USSR competed for global influence without fighting each other directly. At the same time, colonized peoples across Asia and Africa won independence, through negotiation in some places and violent struggle in others.",
+      concepts: [
+        {
+          title: "The Cold War",
+          simple: "The capitalist U.S. and the communist USSR competed for influence around the world.",
+          detail: "Military alliances (NATO and the Warsaw Pact). Proxy wars in Korea, Vietnam and Afghanistan. The nuclear arms race. The Non-Aligned Movement (India, Indonesia) refused to pick a side.",
+        },
+        {
+          title: "Decolonization",
+          simple: "After WWII, most colonies in Asia and Africa became independent nations.",
+          detail: "India (1947) won independence through Gandhi's nonviolent resistance, followed by partition. Ghana (1957) negotiated independence. Algeria (1962) and Kenya won through violent struggle. New states faced borders drawn by colonizers and ethnic conflict.",
+        },
+        {
+          title: "Revolutions and new states",
+          simple: "Some countries became communist through revolution, and new leaders tried to transform their societies.",
+          detail: "The Chinese Communist Revolution (1949), the Great Leap Forward (famine) and the Cultural Revolution. The Cuban Revolution. Many new states pursued state-led economic development.",
+        },
+        {
+          title: "The end of the Cold War",
+          simple: "The Soviet Union collapsed in 1991, ending the Cold War.",
+          detail: "Economic stagnation, costly military spending and the war in Afghanistan weakened the USSR. Gorbachev's reforms (glasnost, perestroika) followed, the Berlin Wall fell (1989), and the USSR dissolved (1991).",
+        },
+      ],
+      terms: [
+        ["Proxy war", "A conflict where superpowers support opposing sides instead of fighting directly."],
+        ["Non-Aligned Movement", "Countries that refused to join either Cold War bloc."],
+        ["Decolonization", "The process of colonies gaining independence."],
+        ["Partition of India", "The 1947 division into India and Pakistan, which caused mass migration and violence."],
+        ["Great Leap Forward", "Mao's failed 1958–62 industrialization campaign, which caused famine."],
+        ["Glasnost", "Gorbachev's policy of openness in the USSR."],
+      ],
+      mistakes: [
+        "Assuming all decolonization was peaceful. Compare nonviolent India with violent Algeria.",
+        "Forgetting the Non-Aligned Movement: not every country chose a side.",
+      ],
+      questions: [
+        { q: "The Korean and Vietnam Wars are examples of:", choices: ["Proxy wars during the Cold War", "Wars of European colonization", "World War I battles", "Religious wars"], answer: 0, explain: "The superpowers backed opposing sides without fighting each other directly." },
+        { q: "India's independence movement is best known for:", choices: ["Violent guerrilla warfare", "Nonviolent civil disobedience led by Gandhi", "Support from the Soviet army", "Joining NATO"], answer: 1, explain: "Gandhi's satyagraha used mass nonviolent resistance." },
+        { q: "Unlike India, Algeria's independence from France came mainly through:", choices: ["Peaceful negotiation", "A violent war of independence", "A UN vote", "An economic boycott only"], answer: 1, explain: "The Algerian War (1954–62) was long and violent." },
+        { q: "Which contributed to the collapse of the Soviet Union?", choices: ["The Marshall Plan", "Economic stagnation and Gorbachev's reforms", "The Great Leap Forward", "The Berlin Conference"], answer: 1, explain: "A weak economy, military costs and glasnost/perestroika loosened control until the USSR dissolved in 1991." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE way the U.S. or the USSR tried to expand its influence during the Cold War.\n(b) Compare how TWO colonies achieved independence.\n(c) Explain ONE challenge newly independent states faced.",
+        points: [
+          "(a) E.g. military alliances (NATO, Warsaw Pact), economic aid, proxy wars, or the arms race.",
+          "(b) E.g. India used nonviolent resistance and negotiation, while Algeria fought a violent war.",
+          "(c) E.g. borders drawn by colonizers causing ethnic conflict, economic dependence, or political instability.",
+        ],
+      },
+    },
+    {
+      title: "Globalization (c. 1900–present)",
+      weight: "8–10%",
+      tldr: "Technology, trade and communication have tied the world together. That has brought medical advances, economic growth and cultural exchange, along with inequality, environmental damage and movements demanding rights.",
+      concepts: [
+        {
+          title: "Advances in technology and medicine",
+          simple: "New technology and medicine changed daily life, though not equally everywhere.",
+          detail: "The Green Revolution raised crop yields. Vaccines eradicated smallpox. Communication technology (radio, the internet) spread. Diseases persisted or emerged (HIV/AIDS, malaria), and environmental change followed (climate change, deforestation).",
+        },
+        {
+          title: "Economic globalization",
+          simple: "Countries traded more freely, and big companies operated worldwide.",
+          detail: "Free-market policies (Reagan, Thatcher, Deng Xiaoping's reforms in China). Free-trade agreements (NAFTA, the WTO, the EU). Multinational corporations. Critics pointed to inequality and exploitation.",
+        },
+        {
+          title: "Calls for reform and rights",
+          simple: "Movements around the world pushed for equality and justice.",
+          detail: "The civil rights movement, women's rights, and the end of apartheid in South Africa (Mandela, 1994). Human rights organizations. Environmentalism.",
+        },
+        {
+          title: "Global culture",
+          simple: "Music, sports, film and consumer brands spread worldwide, sometimes blending cultures and sometimes provoking backlash.",
+          detail: "Global popular culture (Bollywood, K-pop, the Olympics). Some groups responded by reasserting religious or national identity.",
+        },
+      ],
+      terms: [
+        ["Green Revolution", "New seeds, fertilizers and irrigation that greatly increased crop yields."],
+        ["Globalization", "The increasing economic, cultural and political connection of the world."],
+        ["Multinational corporation", "A company operating in many countries."],
+        ["Apartheid", "South Africa's system of legal racial segregation, which ended in 1994."],
+        ["WTO", "The World Trade Organization, which promotes and regulates international trade."],
+      ],
+      mistakes: [
+        "Describing globalization as only positive or only negative. The exam rewards weighing both.",
+        "Forgetting that benefits like the Green Revolution were uneven and had environmental costs.",
+      ],
+      questions: [
+        { q: "The Green Revolution primarily:", choices: ["Reduced global food production", "Increased crop yields through new seeds, fertilizers and irrigation", "Ended industrial pollution", "Began the Cold War"], answer: 1, explain: "High-yield crops and new technology boosted food production, especially in Asia and Latin America." },
+        { q: "Which is an example of economic globalization?", choices: ["The Berlin Wall", "Free-trade agreements like NAFTA", "The Sepoy Rebellion", "Feudalism"], answer: 1, explain: "Lowering trade barriers linked national economies." },
+        { q: "The end of apartheid in South Africa is associated with:", choices: ["Nelson Mandela", "Mao Zedong", "Otto von Bismarck", "Simón Bolívar"], answer: 0, explain: "Mandela became president in 1994 after apartheid ended." },
+        { q: "A criticism of economic globalization is that it:", choices: ["Always equalizes wealth", "Has increased inequality and exploitation in some places", "Ended all trade", "Eliminated multinational corporations"], answer: 1, explain: "Critics point to uneven benefits, labor exploitation and environmental harm." },
+      ],
+      frq: {
+        prompt: "Short answer:\n(a) Identify ONE technological or medical advance after 1900 and its effect.\n(b) Explain ONE effect of economic globalization.\n(c) Explain ONE movement that called for reform or rights after 1900.",
+        points: [
+          "(a) E.g. the Green Revolution raised food supply, or vaccines eradicated smallpox.",
+          "(b) E.g. the growth of multinational corporations, rising trade, or increased inequality.",
+          "(c) E.g. the anti-apartheid movement, women's rights, civil rights, or environmentalism.",
+        ],
+      },
+    },
+  ],
+};
+
+</script>
 <script>/* content/diagnostics/biology.js */
 // Concept tags and wrong-answer diagnoses for content/biology.js.
 // Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
@@ -5049,6 +6890,132 @@ window.AP_DIAG["physics-1"] = {
 };
 
 </script>
+<script>/* content/diagnostics/physics-2.js */
+// Concept tags and wrong-answer diagnoses for content/physics-2.js.
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["physics-2"] = {
+  "0.0": [1, { 0: "Constant temperature means ΔU = 0 for an ideal gas, so internal energy can't rise.", 2: "Work is done ON the gas, so heat must LEAVE to keep ΔU = 0.", 3: "In compression, work is done ON the gas, not by it, and ΔU stays 0." }],
+  "0.1": [0, { 0: "Average KE is directly proportional to Kelvin temperature, so it can't halve.", 1: "Temperature IS a measure of average kinetic energy.", 3: "The relationship is linear, not squared." }],
+  "0.2": [2, { 0: "The slope isn't work. Work = ∫P dV, the AREA under the curve.", 2: "Pressure alone isn't energy. You need P × ΔV.", 3: "ΔV alone has units of volume, not energy." }],
+  "0.3": [1, { 1: "Heat IS added. It's the work that's zero at constant volume.", 2: "The gas absorbs heat and does no work, so U rises.", 3: "No volume change means no work is done." }],
+  "1.0": [0, { 0: "That's only one doubling. Both charges double (×4) AND the distance halves (×4).", 1: "That misses a factor: q's give ×4, and 1/r² gives another ×4.", 2: "Halving r multiplies F by 4 (inverse square), not 2." }],
+  "1.1": [1, { 0: "That's how a PROTON would move. Electrons are pushed opposite to E.", 2: "The force is along the field line, not perpendicular to it.", 3: "Any charge in a field feels a force." }],
+  "1.2": [2, { 0: "Along an equipotential ΔV = 0, so W = qΔV = 0.", 1: "Zero ΔV means zero work, with no sign to worry about.", 3: "W = qΔV, and ΔV = 0 makes it zero for any charge." }],
+  "1.3": [3, { 0: "In a conductor, charges repel to the SURFACE.", 2: "Like charges push away from each other and from the center.", 3: "An isolated conductor holds its charge on the surface." }],
+  "2.0": [1, { 0: "12 Ω is the SERIES sum. Parallel resistance is smaller than either resistor.", 1: "6 Ω would mean nothing changed. Adding a path lowers resistance.", 3: "1/3 is 1/R. Flip it to get R = 3 Ω." }],
+  "2.1": [0, { 0: "R ∝ L, so a longer wire has MORE resistance.", 1: "Length directly affects resistance: R = ρL/A.", 3: "It's linear in L. Quadrupling would need length × 4 or area ÷ 4." }],
+  "2.2": [1, { 0: "Parallel branches LOWER total resistance, so current increases.", 1: "The new branch draws its own current, so the total increases.", 3: "The battery still drives current through both bulbs." }],
+  "2.3": [3, { 0: "Maximum current happens at the START, when the capacitor is empty.", 2: "At steady state no current flows through the capacitor branch.", 3: "The current decreases toward zero as the capacitor charges." }],
+  "3.0": [0, { 0: "sin 0° = 0, so the force is zero, not maximum.", 2: "Magnetic forces are always perpendicular to B and v.", 3: "The force is perpendicular to v, never opposite to it." }],
+  "3.1": [0, { 0: "The force is perpendicular to the motion, so it does no work.", 1: "A perpendicular force doesn't slow the particle.", 3: "qvB is a force, not work. The work is zero." }],
+  "3.2": [1, { 1: "OPPOSITE currents repel. Same-direction currents attract.", 2: "Each wire sits in the other's magnetic field, so they feel forces.", 3: "The forces are along the line between the wires, so they don't rotate them." }],
+  "3.3": [3, { 0: "A steady field gives no CHANGE in flux, so there's no emf.", 2: "Alternating current needs a changing flux, like a moving or rotating magnet.", 3: "Nothing is changing, so there's nothing to increase." }],
+  "4.0": [1, { 0: "Entering a slower medium (higher n), light bends TOWARD the normal and slows down.", 2: "At an angle, the speed change bends the ray.", 3: "Total reflection only happens going from high n to low n." }],
+  "4.1": [2, { 0: "Air → water goes INTO a higher n, so no TIR is possible.", 2: "Air → glass also goes to a higher n.", 3: "Along the normal, light passes straight through." }],
+  "4.2": [3, { 0: "Virtual, upright images need the object INSIDE f.", 2: "Real images from a single lens are inverted, not upright.", 3: "At 2f the lens forms a real image at 2f." }],
+  "4.3": [3, { 0: "Diverging lenses can't form real images of real objects.", 2: "Diverging lenses always make SMALLER images.", 3: "Virtual images from lenses are upright, not inverted." }],
+  "5.0": [0, { 0: "v is fixed by the medium, so doubling f HALVES λ.", 2: "v = fλ, so if f changes, λ must change.", 3: "It's inversely proportional, not squared." }],
+  "5.1": [1, { 0: "An approaching source RAISES the observed frequency.", 2: "Relative motion changes the observed pitch (the Doppler effect).", 3: "Motion doesn't silence sound." }],
+  "5.2": [3, { 0: "A larger λ means LARGER angles (d sin θ = mλ), so fringes spread out.", 2: "Changing λ shifts the fringes. They don't disappear.", 3: "Fringe spacing depends on λ." }],
+  "5.3": [3, { 0: "L/2 is the SECOND harmonic's half-wavelength. The fundamental fits half a wavelength in L.", 1: "λ = L is the second harmonic. The fundamental has λ = 2L.", 3: "4L applies to a pipe closed at one end, not a string fixed at both ends." }],
+  "6.0": [0, { 0: "More intense light below threshold still has photons that are too weak.", 1: "Electron energy depends on FREQUENCY, not intensity.", 3: "The work function is a property of the metal." }],
+  "6.1": [1, { 0: "3.4 eV is only one level's magnitude. Use the difference.", 2: "13.6 eV would be ionizing from the ground state.", 3: "17.0 adds the levels. Subtract instead." }],
+  "6.2": [3, { 0: "Half-lives HALVE the sample, so it doesn't divide by 3.", 1: "That's 1/2 × 1/3. It should be (1/2)³.", 3: "1/9 uses thirds. Each half-life halves the sample." }],
+  "6.3": [3, { 1: "That swaps the numbers: the mass number drops by 4 and the atomic number by 2.", 2: "That describes beta-minus decay (a neutron → a proton).", 3: "Alpha particles carry away 4 nucleons, so the mass number drops by 4." }],
+};
+
+</script>
+<script>/* content/diagnostics/physics-c-em.js */
+// Concept tags and wrong-answer diagnoses for content/physics-c-em.js.
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["physics-c-em"] = {
+  "0.0": [0, { 0: "E isn't just 1/r. It's inverse SQUARE, so tripling r divides it by 9.", 2: "The field gets WEAKER farther away, not stronger.", 3: "The factor of 9 is right, but E falls with distance. It's 1/9, not 9×." }],
+  "0.1": [1, { 0: "kQ/R² would be the field of a point charge. Around the ring, opposite pieces cancel at the center.", 2: "kQ/R is the POTENTIAL at the center, not the field.", 3: "No charge sits at the center, so nothing blows up. By symmetry E = 0." }],
+  "0.2": [2, { 0: "q/ε₀ would need q INSIDE the surface. Outside charge adds zero net flux.", 2: "The sign doesn't flip for outside charge. Its lines enter and leave, so the net is zero.", 3: "Half the flux would still count an outside charge. Only enclosed charge matters." }],
+  "0.3": [3, { 0: "1/d² is a point charge. An infinite sheet's field doesn't spread out with distance.", 1: "1/d is a long LINE of charge. A sheet gives a constant field.", 3: "The field doesn't grow with distance. σ/(2ε₀) is constant." }],
+  "1.0": [2, { 0: "You forgot the minus sign: E = −dV/dx.", 2: "10 V/m is dV/dx at x = 1. Evaluate at x = 2 and include the minus sign.", 3: "The sign is right but check the value: −10x at x = 2 is −20." }],
+  "1.1": [1, { 0: "Potential is a SCALAR. The −q contributes a negative potential that cancels.", 1: "Signs matter: +kq/(d/2) and −kq/(d/2) add to zero.", 3: "The two contributions cancel exactly, since they're equal size and opposite sign." }],
+  "1.2": [3, { 0: "Positive charges move DOWNHILL in potential, along the field.", 2: "Moving along E always lowers V, so V doesn't stay constant.", 3: "In a uniform field the field is the same everywhere. The charge follows E toward lower V." }],
+  "1.3": [3, { 1: "1 eV would be for 1 V. Across 100 V the electron gains 100 eV.", 2: "1.6 × 10⁻¹⁹ J is 1 eV. Multiply by 100.", 3: "The field does work on the electron, so it gains kinetic energy." }],
+  "2.0": [0, { 0: "σ/ε₀ is the field just OUTSIDE the surface, not inside.", 2: "kQ/r² applies outside a spherical charge, not inside a conductor.", 3: "For any conductor shape, the field inside at equilibrium is zero." }],
+  "2.1": [1, { 0: "C = ε₀A/d, so a bigger gap LOWERS capacitance.", 2: "Separation d is in the formula, so C must change.", 3: "C depends on 1/d, not 1/d². Doubling d halves C." }],
+  "2.2": [2, { 0: "V would be constant only if the battery were connected. Here Q is fixed.", 1: "Pulling the plates apart takes work, which becomes stored energy.", 3: "U = Q²/(2C): C halves, so U doubles, not quadruples." }],
+  "2.3": [3, { 0: "12 μF is the PARALLEL rule. Capacitors in series combine like resistors in parallel.", 1: "Adding a capacitor in series lowers the total, so it can't stay 6.", 3: "Multiplying doesn't give an equivalent. Use 1/C = 1/C₁ + 1/C₂." }],
+  "3.0": [0, { 0: "3 W is V/R, which is current (3 A), not power.", 1: "48 W is IV with I = 4 A. The current is 12/4 = 3 A, so P = 36 W.", 3: "16 W doesn't come from any power formula here. Use P = V²/R." }],
+  "3.1": [1, { 0: "18 Ω is the SERIES sum. Parallel resistance is smaller than any branch.", 1: "Adding parallel paths lowers the resistance below 6 Ω.", 3: "3 Ω is two 6 Ω resistors in parallel. With three it's 2 Ω." }],
+  "3.2": [2, { 1: "Check the units: 5 μF is 5 × 10⁻⁶ F, not 5 × 10⁻⁴.", 2: "2.5 ms divides R by C. τ = RC, a product.", 3: "10 s forgets the micro prefix on the capacitance." }],
+  "3.3": [2, { 0: "An EMPTY capacitor acts like a wire at first. Current starts at its maximum.", 2: "The capacitor has no voltage at t = 0, so the full ε is across R.", 3: "The initial current is set by ε and R alone. C only sets how fast it decays." }],
+  "4.0": [0, { 0: "qvB needs v perpendicular to B. Parallel motion gives sin 0° = 0.", 2: "Parallel to B there's no perpendicular component, so no force at all.", 3: "Magnetic forces are never along B. Here the force is zero." }],
+  "4.1": [3, { 0: "1/r² is a point charge's electric field. A long wire's B falls as 1/r.", 2: "B gets WEAKER farther from the wire.", 3: "B depends on distance: μ₀I/(2πr)." }],
+  "4.2": [1, { 0: "Repulsion is for OPPOSITE currents. Same-direction currents attract.", 2: "Each wire is in the other's field, so they feel a force.", 3: "The force is along the line between the wires, so it doesn't twist them." }],
+  "4.3": [3, { 0: "More turns per length means a STRONGER field.", 1: "B = μ₀nI depends on n, so it must change.", 3: "B is linear in n, so doubling n doubles B." }],
+  "5.0": [0, { 1: "10 V divides instead of multiplying. Use ε = BLv = 0.2 × 0.5 × 4.", 2: "1.6 V drops the 0.5 m length. ε = BLv needs all three.", 3: "0.1 V leaves out the speed. Include v: ε = BLv." }],
+  "5.1": [1, { 0: "Clockwise makes field INTO the page, adding to the increase. Lenz's law opposes it.", 2: "The flux is changing, so an emf and current are induced.", 3: "The flux is increasing steadily, so the current flows one way." }],
+  "5.2": [2, { 0: "8 s multiplies L × R. τ = L/R.", 1: "0.5 s is R/L, upside down. τ = L/R.", 3: "Adding L and R mixes units. τ = L/R = 2 s." }],
+  "5.3": [2, { 0: "Frequency goes DOWN when C goes up: ω = 1/√(LC).", 1: "A bigger C slows the oscillation, so frequency drops.", 3: "ω depends on C, so it must change." }]
+};
+
+</script>
+<script>/* content/diagnostics/physics-c-mechanics.js */
+// Concept tags and wrong-answer diagnoses for content/physics-c-mechanics.js.
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["physics-c-mechanics"] = {
+  "0.0": [0, { 0: "You may have dropped the constant term: v = 6t − 2, so v(2) = 12 − 2 = 10.", 2: "6t = 12 forgets the −2 from differentiating −2t.", 3: "6 m/s doesn't match v = 6t − 2 at t = 2. Differentiate first, then plug in." }],
+  "0.1": [1, { 1: "4 m is v(1), not x(1). Integrate: x = t⁴, so x(1) = 1.", 2: "12 m is the acceleration 12t² at t = 1. You differentiated instead of integrating.", 3: "∫4t³ dt = t⁴, not t⁴/4. The 4 cancels." }],
+  "0.2": [1, { 0: "6 is a(t) at t = 1, not a function. Integrate 6t to get 3t².", 2: "∫6t dt = 3t², not 6t². Remember to divide by the new power.", 3: "t³ integrates the wrong power. ∫6t dt = 3t²." }],
+  "0.3": [3, { 0: "30° and 60° give EQUAL ranges, both less than 45°.", 2: "60° goes higher but spends that height, not distance. Range ∝ sin 2θ peaks at 45°.", 3: "Straight up gives zero range. The ball lands where it started." }],
+  "1.0": [1, { 0: "mg is the weight (a force), not a speed. Set mg = bv and solve for v.", 2: "That's upside down. mg = bv gives v = mg/b.", 3: "The square root belongs to QUADRATIC drag (F = cv²), not linear drag." }],
+  "1.1": [0, { 0: "g is free fall. The incline only lets the component along the slope accelerate the block.", 1: "g cos θ is the component INTO the incline, balanced by the normal force.", 3: "tan θ appears in friction problems (μ = tan θ), not for the acceleration here." }],
+  "1.2": [2, { 0: "At zero speed the string goes slack before the top. Gravity alone must supply mv²/r.", 2: "√(2gr) comes from an energy equation, not the minimum-speed condition mg = mv²/r.", 3: "gr has units of speed², not speed." }],
+  "1.3": [3, { 0: "Orbital speed DECREASES with radius: v = √(GM/r).", 1: "Speed goes like 1/√r, so it falls, not rises.", 3: "v = √(GM/r) depends on r, so it must change." }],
+  "2.0": [1, { 0: "6 J treats the force like it was linear. Integrate: W = ∫3x² dx = x³ from 0 to 2 = 8 J.", 2: "12 J is F(2) × 1. Work is the integral, not force × one number.", 3: "24 J is F(2) × 2, treating the force as constant at its maximum." }],
+  "2.1": [1, { 0: "You forgot the minus sign: F = −dU/dx.", 2: "F = −dU/dx, so differentiate AND flip the sign: −8x.", 3: "That integrates U instead of differentiating it." }],
+  "2.2": [1, { 0: "At a maximum of U, a small push makes the force drive the object AWAY. That's unstable.", 2: "U = 0 depends on your reference choice. Equilibrium needs dU/dx = 0.", 3: "Steepest U means the LARGEST force, the opposite of equilibrium." }],
+  "2.3": [3, { 0: "Dividing force by speed doesn't give power. P = Fv.", 2: "Adding force and speed mixes units. Multiply: P = Fv.", 3: "Subtracting speed from force mixes units. P = Fv = 10,000 W." }],
+  "3.0": [0, { 0: "6 N·s uses F(1). Impulse is the AREA: ∫6t dt = 3t² from 0 to 2 = 12.", 2: "24 N·s is F(2) × 2, as if the force were constant at its max.", 3: "3 N·s is the antiderivative's coefficient, not the value at t = 2." }],
+  "3.1": [3, { 0: "1 m pulls the center toward the LIGHTER mass. It's weighted by mass: (6 × 4)/8 = 3.", 1: "2 m is the midpoint, which only works for equal masses.", 3: "The center of mass lies between the two masses, not on the heavier one." }],
+  "3.2": [2, { 0: "Sticking together is a perfectly INELASTIC collision, not an elastic one.", 2: "Half speed each conserves momentum but loses kinetic energy, so it isn't elastic.", 3: "The target was at rest, so both can't reverse. That breaks momentum conservation." }],
+  "3.3": [3, { 1: "Internal forces can't move the center of mass. It stays at rest.", 2: "The center of mass isn't any single piece. With no external force its velocity stays zero.", 3: "Momentum conservation fixes it: initially zero, so the CM velocity stays zero." }],
+  "4.0": [2, { 0: "ML²/12 is about the CENTER. Use the parallel-axis theorem: add M(L/2)².", 1: "Check the parallel-axis step: ML²/12 + ML²/4 = ML²/3.", 3: "ML² would put all the mass at the far end." }],
+  "4.1": [3, { 0: "20 multiplies τ × I. Use α = τ/I = 10/2.", 2: "0.2 is I/τ, upside down. α = τ/I.", 3: "Adding τ and I mixes units. α = τ/I = 5 rad/s²." }],
+  "4.2": [1, { 0: "Maximum torque needs the force PERPENDICULAR to the lever arm.", 2: "Torque isn't force. τ = rF sin θ, and θ = 0 here.", 3: "A force through the pivot has zero lever arm, so the torque is zero, not negative." }],
+  "4.3": [3, { 0: "In equilibrium, torques balance about EVERY axis, not just the CM.", 1: "You can choose any pivot. Picking one where an unknown force acts is just a shortcut.", 3: "Any axis works. Choose one that eliminates unknowns." }],
+  "5.0": [0, { 0: "Check the ratio: K_rot = ¼Mv² and K_trans = ½Mv², so rotational is 1/3 of the total.", 2: "Half would need I = MR² (a hoop), not a disk.", 3: "2/3 is the TRANSLATIONAL fraction. Rotational is the smaller part." }],
+  "5.1": [1, { 0: "6 is just mv. Multiply by the perpendicular distance: L = mvr⊥ = 24.", 2: "12 uses half the distance or half the mass. L = 2 × 3 × 4.", 3: "A particle moving in a straight line HAS angular momentum about points not on its line." }],
+  "5.2": [2, { 0: "L stays constant, but K = L²/2I rises as I falls. The skater does work pulling in.", 1: "L is conserved, not kinetic energy. K = L²/2I increases.", 3: "She is still spinning, faster in fact, so K isn't zero." }],
+  "5.3": [2, { 0: "Dividing by ω doesn't give power. P = τω.", 1: "Adding torque and angular speed mixes units. P = τω = 500 W.", 3: "0.2 is ω/τ, upside down. P = τω." }],
+  "6.0": [0, { 0: "25 is ω², not ω. Take the square root: ω = 5.", 2: "625 squares 25 again. ω² = 25, so ω = 5.", 3: "2π/5 is the PERIOD, not the angular frequency." }],
+  "6.1": [1, { 0: "0.2 m is the amplitude. v_max = Aω = 0.2 × 10.", 2: "10 is ω alone. Multiply by the amplitude: v_max = Aω.", 3: "20 m/s is Aω² (max acceleration), not max speed." }],
+  "6.2": [3, { 0: "For a spring, T = 2π√(m/k). Amplitude doesn't appear.", 1: "T doesn't depend on amplitude, so it can't halve.", 3: "√2 would come from changing m or k, not amplitude." }],
+  "6.3": [2, { 0: "At max displacement the mass stops momentarily, so KE = 0 there.", 2: "Halfway out, some energy is already potential. KE peaks at x = 0.", 3: "Energy shifts between K and U, so KE isn't constant." }]
+};
+
+</script>
+<script>/* content/diagnostics/precalculus.js */
+// Concept tags and wrong-answer diagnoses for content/precalculus.js.
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["precalculus"] = {
+  "0.0": [0, { 0: "2 is the change in x. Divide the change in OUTPUT by the change in input: (9 − 1)/2.", 2: "8 is the change in output. Divide it by the change in input, 2.", 3: "9 is f(3), a single value, not a rate of change." }],
+  "0.1": [1, { 0: "The leading coefficient is NEGATIVE, so large x makes f very negative.", 2: "Polynomials of positive degree don't level off at 0. The leading term grows without bound.", 3: "−2 is the leading coefficient, not a limit value." }],
+  "0.2": [1, { 0: "Multiplicity 1 would make the graph CROSS the axis.", 2: "An odd multiplicity (1, 3, 5…) still crosses, just flatter.", 3: "Multiplicity directly controls whether the graph crosses or bounces." }],
+  "0.3": [2, { 0: "The (x − 2) factor CANCELS, so x = 2 is a hole, not an asymptote.", 2: "Swapped: x = 2 cancels (hole) and x = 3 remains (asymptote).", 3: "x − 3 remains in the denominator, so there IS a vertical asymptote." }],
+  "0.4": [3, { 0: "f(x − 3) shifts RIGHT. Inside the parentheses works opposite to intuition.", 2: "+2 outside the function shifts UP, not down.", 3: "Both directions are flipped: x − 3 means right, +2 means up." }],
+  "1.0": [0, { 0: "3n is arithmetic (it adds 3). This sequence DOUBLES each time.", 1: "That's arithmetic with difference 3, but the differences here grow (3, 6, 12).", 3: "The first term is 3 and the ratio is 2. This swaps them." }],
+  "1.1": [1, { 0: "0.2 is the part LOST. The value kept each year is 80%, so the factor is 0.8.", 2: "1.2 would mean GROWING by 20%.", 3: "Growth factors are positive multipliers, not negative rates." }],
+  "1.2": [2, { 1: "2⁴ = 16, not 8. The exponent that gives 8 is 3.", 2: "16 is 2⁴ (or 2 × 8). The log asks for an exponent.", 3: "The answer is exactly 3. There's no need to approximate." }],
+  "1.3": [2, { 0: "There's no rule for log(x + y). The product rule is log(xy) = log x + log y.", 2: "Logs turn MULTIPLICATION into ADDITION, not addition into multiplication.", 3: "log(x/y) = log x − log y (subtraction), not addition." }],
+  "1.4": [3, { 0: "Linear data is straight on a regular plot. A log scale would CURVE it.", 1: "Quadratic data doesn't become linear when you take log(y).", 3: "Logarithmic data is straight when x (not y) is on a log scale." }],
+  "2.0": [1, { 0: "The period isn't b. It's 2π/b.", 1: "3π multiplies by 3. The period is 2π DIVIDED by 3.", 3: "6π multiplies 2π by 3. Divide instead." }],
+  "2.1": [1, { 1: "Amplitude is the coefficient in front (4). The added constant (−1) is the midline.", 2: "The −1 shifts the midline down to y = −1.", 3: "Amplitude is |a| = 4. Don't combine it with the shift." }],
+  "2.2": [0, { 0: "√3/2 is sin(π/3), which is 60°, not 30°.", 2: "√2/2 is sin(π/4), which is 45°.", 3: "1 is sin(π/2), which is 90°." }],
+  "2.3": [3, { 0: "That swaps sine and cosine: x = r cos θ = 0.", 2: "cos(π/2) = 0, so x = 0.", 3: "sin(π/2) = +1, so y = +2." }],
+  "2.4": [2, { 0: "tan 0 = 0, which is defined.", 1: "tan π = 0, which is defined.", 3: "tan(π/4) = 1, which is defined. It's undefined where cos x = 0." }],
+  "3.0": [1, { 1: "7 adds the components. Magnitude is √(3² + 4²).", 2: "12 multiplies them. Use the Pythagorean theorem.", 3: "25 is the SQUARED magnitude. Take the square root." }],
+  "3.1": [0, { 0: "y = t², not t. Substitute t = x.", 2: "That swaps x and y.", 3: "Nothing doubles here. y = t² = x²." }],
+  "3.2": [2, { 1: "8 is only ad. Subtract bc = 3.", 2: "11 ADDS bc. The determinant is ad − bc.", 3: "The sign is flipped: it's ad − bc = 8 − 3." }],
+};
+
+</script>
 <script>/* content/diagnostics/psychology.js */
 // Concept tags and wrong-answer diagnoses for content/psychology.js.
 // Key "unit.question" -> [concept index, { wrongChoiceIndex: "why a student might pick it" }]
@@ -5118,6 +7085,49 @@ window.AP_DIAG["us-history"] = {
   "8.0": [0, { 0: "Reagan sought to CUT social spending, not expand welfare.", 2: "Reagan favored free markets, not nationalization.", 3: "Reagan cut the top tax rate sharply." }],
   "8.1": [1, { 0: "The Patriot Act was about surveillance and security, not trade.", 2: "Women's suffrage was settled in 1920.", 3: "Railroad regulation was a Gilded Age and Progressive Era issue." }],
   "8.2": [2, { 0: "Manufacturing jobs DECLINED as factories automated or moved overseas.", 2: "Agricultural employment kept shrinking.", 3: "Trade expanded, with NAFTA and globalization." }],
+};
+
+</script>
+<script>/* content/diagnostics/world-history.js */
+// Concept tags and wrong-answer diagnoses for content/world-history.js.
+window.AP_DIAG = window.AP_DIAG || {};
+window.AP_DIAG["world-history"] = {
+  "0.0": [0, { 0: "Buddhism spread through missionaries and trade, not through a new rice strain.", 2: "Civil-service exams continued. Champa rice affected FOOD and population.", 3: "The Mongol conquest came from the steppe. It wasn't caused by rice." }],
+  "0.1": [0, { 0: "Song China deliberately moved AWAY from hereditary aristocracy toward merit-based exams.", 1: "The military mattered, but officials were chosen by exams.", 3: "Buddhist and Daoist clergy didn't staff the bureaucracy. Confucian scholars did." }],
+  "0.2": [1, { 0: "They did the opposite: they translated and built on Greek works.", 2: "Movable type came from China, and the printing press from Gutenberg's Europe.", 3: "Dar al-Islam traded actively with Europe." }],
+  "0.3": [3, { 0: "The Inca had no money-based taxes. They required LABOR.", 2: "Mit'a was a labor obligation, not a ritual.", 3: "The Inca and Aztecs weren't trading partners, and mit'a was internal labor." }],
+  "1.0": [0, { 1: "No such bans explain it. Transport cost did.", 2: "Merchants of many classes traveled the routes.", 3: "It was about cost versus value, not legality." }],
+  "1.1": [1, { 0: "Mongol rule made trade SAFER and expanded it.", 2: "The Mongols actually helped SPREAD the Black Death along trade routes.", 3: "Feudalism developed independently in Europe, centuries earlier." }],
+  "1.2": [2, { 0: "Camels are for the SAHARA. The Indian Ocean ran on sailing.", 2: "Steamships came centuries later (the 1800s).", 3: "The Grand Canal was an internal Chinese waterway." }],
+  "1.3": [3, { 0: "Islam reached Europe earlier (Spain, 700s). The pilgrimage showcased Mali's wealth.", 2: "Trans-Saharan trade continued and thrived.", 3: "The Atlantic slave trade began in the 1400s–1500s with Europeans." }],
+  "2.0": [1, { 0: "The Ottomans used tax FARMING for revenue. The devshirme recruited people.", 2: "The devshirme served the state. It wasn't a mission to Europe.", 3: "The Taj Mahal is MUGHAL (in India), not Ottoman." }],
+  "2.1": [3, { 1: "The Reformation was a split in Western Christianity, not an Islamic conflict.", 2: "Neither empire had Atlantic colonies.", 3: "The Opium Wars were 1800s Britain versus China." }],
+  "2.2": [2, { 0: "The Taj Mahal is a building, a symbol of power, not a conquest.", 2: "Tax farming was about revenue, not legitimacy through art.", 3: "Joint-stock companies were European trading ventures." }],
+  "2.3": [3, { 0: "The Reformation SPLIT Christianity rather than unifying it.", 2: "The Catholic Church survived and launched the Counter-Reformation.", 3: "The Reformation was a Christian split, unrelated to Islam." }],
+  "3.0": [0, { 0: "The steam engine is 1700s industrial technology.", 2: "The telegraph is 1800s technology.", 3: "The cotton gin (1793) is industrial, not maritime." }],
+  "3.1": [2, { 0: "Smallpox devastated the AMERICAS, not Afro-Eurasia.", 2: "The slave trade GREW with plantation economies.", 3: "Chinese trade expanded, absorbing American silver." }],
+  "3.2": [1, { 0: "Joint-stock companies were owned by private SHAREHOLDERS, not run by monarchs.", 2: "These companies were deeply involved in slavery and exploitation.", 3: "They were tools of mercantilism, not an end to it." }],
+  "3.3": [3, { 1: "The Pueblo Revolt happened in the Americas, against Spain.", 2: "The Ottomans weren't involved in North America.", 3: "It was 1680 and had nothing to do with industry." }],
+  "4.0": [0, { 0: "The American Revolution was led by colonial elites, some of whom enslaved people.", 1: "The French Revolution overthrew a monarchy, but enslaved people didn't lead it.", 3: "The Glorious Revolution (1688) was an English change of monarchs." }],
+  "4.1": [2, { 0: "Britain HAD colonies, and they supplied capital and markets.", 2: "Agriculture improved (the agricultural revolution). It wasn't banned.", 3: "China and India had larger populations. Resources and capital mattered more." }],
+  "4.2": [2, { 0: "That's liberal or laissez-faire thinking (Adam Smith), not Marx.", 2: "Marx wanted to END class rule, not restore monarchy.", 3: "Marx accepted industry. He wanted workers to control it." }],
+  "4.3": [3, { 0: "Japan ended isolation and deliberately modernized.", 2: "Japan was never colonized. It became an imperial power itself.", 3: "Japan ADOPTED Western technology selectively." }],
+  "5.0": [1, { 0: "The Berlin Conference ORGANIZED colonization. The slave trade had ended earlier.", 2: "It divided Africa among Europeans rather than freeing it.", 3: "The League of Nations came after WWI (1920)." }],
+  "5.1": [1, { 0: "Social Darwinism was used to SUPPORT imperialism.", 2: "Unions opposed that kind of thinking.", 3: "It was used to justify racial hierarchy, not to end slavery." }],
+  "5.2": [2, { 0: "India didn't gain independence until 1947.", 2: "The rebellion ended what remained of the Mughal Empire.", 3: "Britain tightened its control of India." }],
+  "5.3": [2, { 0: "Britain WON the Opium Wars.", 2: "The Qing fell in 1911, decades later.", 3: "China gained no colonies. It LOST sovereignty to foreign powers." }],
+  "6.0": [0, { 0: "The Depression came AFTER WWI (1929).", 2: "The Cold War followed WWII.", 3: "Decolonization mostly happened after WWII." }],
+  "6.1": [1, { 0: "Total war mobilized CIVILIANS and economies, not just soldiers.", 2: "WWI was fought on land, at sea and in the air.", 3: "Colonies sent troops and resources." }],
+  "6.2": [3, { 1: "The Cold War ended in 1991, long after fascism rose.", 2: "Most of Africa was still colonized then.", 3: "The Green Revolution came in the 1960s." }],
+  "6.3": [2, { 0: "Stalin led a COMMUNIST state and didn't restore a monarchy.", 2: "The plans were state-controlled, the opposite of a free market.", 3: "Decolonization wasn't a Soviet domestic plan." }],
+  "7.0": [0, { 1: "European colonization of Asia happened centuries earlier. These were Cold War conflicts.", 2: "WWI was 1914–18, and these wars were in the 1950s–70s.", 3: "They were ideological (capitalism vs. communism), not religious." }],
+  "7.1": [1, { 0: "India's movement is famous for NONviolence. Algeria's was the violent example.", 2: "The Soviet army didn't free India.", 3: "India led the Non-Aligned Movement and didn't join NATO." }],
+  "7.2": [1, { 0: "Algeria's independence required a long, violent war.", 2: "The UN didn't grant it by vote.", 3: "It took far more than a boycott." }],
+  "7.3": [1, { 0: "The Marshall Plan rebuilt Western Europe after 1947.", 2: "The Great Leap Forward was Chinese.", 3: "The Berlin Conference was 1884, about Africa." }],
+  "8.0": [0, { 0: "It INCREASED food production.", 2: "Pollution wasn't solved. Fertilizer use even added environmental costs.", 3: "The Green Revolution came in the 1960s, not the start of the Cold War." }],
+  "8.1": [1, { 0: "The Berlin Wall symbolized Cold War DIVISION.", 2: "The Sepoy Rebellion was an 1857 revolt against imperial rule.", 3: "Feudalism was medieval." }],
+  "8.2": [2, { 1: "Mao led communist China.", 2: "Bismarck unified Germany in 1871.", 3: "Bolívar led Latin American independence in the 1800s." }],
+  "8.3": [3, { 0: "Critics argue the opposite: benefits are uneven.", 2: "Trade grew enormously.", 3: "Multinationals EXPANDED with globalization." }],
 };
 
 </script>
@@ -5360,6 +7370,129 @@ window.AP_TRAPS["physics-1"] = {
 };
 
 </script>
+<script>/* content/traps/physics-2.js */
+// "AP Trap" for every concept in content/physics-2.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["physics-2"] = {
+  "0.0": "Temperature must be in KELVIN. Average KE ∝ T means doubling from 20 °C to 40 °C does NOT double the energy.",
+  "0.1": "AP defines W as work done ON the gas: ΔU = Q + W. Compression makes W positive. Using the other convention flips your signs.",
+  "0.2": "Work is the AREA under a PV curve, not the slope. For a cycle, the net work is the ENCLOSED area.",
+  "0.3": "Heat flows from hot to cold on its own, and the entropy of an isolated system never decreases. Don't confuse \"heat\" with \"temperature.\"",
+  "1.0": "Coulomb's law is inverse SQUARE. Scaling questions combine the charge factors AND 1/r² factors.",
+  "1.1": "Negative charges feel forces OPPOSITE to E. Field direction is defined for a positive test charge.",
+  "1.2": "Potential is a SCALAR: add values with signs, not as vectors. Moving along an equipotential does zero work.",
+  "1.3": "Inside a conductor in equilibrium E = 0, and charge sits on the outer surface. Induction polarizes without transferring charge.",
+  "2.0": "Current isn't used up by resistors. The same current flows through every element in series.",
+  "2.1": "Adding a resistor in PARALLEL lowers total resistance and INCREASES total current. This is counterintuitive and heavily tested.",
+  "2.2": "Kirchhoff's loop rule is energy conservation. The junction rule is charge conservation. Justifications should name which principle.",
+  "2.3": "At steady state a charged capacitor carries NO current: treat its branch as open.",
+  "3.0": "Magnetic force is perpendicular to velocity, so it does NO work and can't change speed. A charge moving parallel to B feels no force.",
+  "3.1": "Use the right-hand rule for POSITIVE charges and flip it for negative ones. Many wrong answers are simply reversed.",
+  "3.2": "Field lines around a straight wire are CIRCLES, not radial lines. B ∝ 1/r, not 1/r².",
+  "3.3": "Only a CHANGING flux induces emf. A magnet at rest inside a coil induces nothing.",
+  "4.0": "Measure angles from the NORMAL, not the surface.",
+  "4.1": "Frequency stays the same when light changes media. Speed and wavelength change. Bending TOWARD the normal means entering a higher n.",
+  "4.2": "Total internal reflection requires going from HIGHER n to LOWER n, beyond the critical angle.",
+  "4.3": "An object inside the focal length of a converging lens gives a VIRTUAL, upright, magnified image (a negative dᵢ).",
+  "5.0": "The medium sets wave speed. Changing frequency changes wavelength, not speed.",
+  "5.1": "In the Doppler effect, the SOURCE's actual frequency doesn't change. Only the observed frequency does.",
+  "5.2": "For a string fixed at both ends, the fundamental λ = 2L. Harmonics are whole-number multiples of f₁.",
+  "5.3": "A larger λ or a SMALLER slit spacing d spreads fringes farther apart.",
+  "6.0": "Intensity controls HOW MANY electrons are ejected. Frequency controls their ENERGY. Below threshold, no electrons at any intensity.",
+  "6.1": "Photon energy equals the DIFFERENCE between energy levels, not the energy of either level.",
+  "6.2": "A larger momentum means a SHORTER de Broglie wavelength. Everyday objects have wavelengths far too small to notice.",
+  "6.3": "Balance BOTH mass number and atomic number in decay equations. An alpha particle is ⁴₂He.",
+};
+
+</script>
+<script>/* content/traps/physics-c-em.js */
+// "AP Trap" for every concept in content/physics-c-em.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["physics-c-em"] = {
+  "0.0": "Fields are VECTORS. Add components, not magnitudes. Two equal charges can produce zero net field between them.",
+  "0.1": "Cancel components by symmetry BEFORE integrating. Integrating the full magnitude of dE gives an answer that is too large.",
+  "0.2": "Gauss's law is always true, but it only gives E easily when symmetry makes E constant on the surface. Zero flux does NOT mean zero field.",
+  "0.3": "Inside a uniformly charged solid sphere, only the charge within radius r counts, so E grows as r, not 1/r².",
+  "1.0": "U = kq₁q₂/r is positive for like charges and negative for unlike ones. Keep the signs of the charges in the formula.",
+  "1.1": "Potential is a SCALAR. Zero potential at a point doesn't mean zero field there, and zero field doesn't mean zero potential.",
+  "1.2": "E = −dV/dx. The field points toward DECREASING potential, and it's perpendicular to equipotential surfaces.",
+  "1.3": "Negative charges gain kinetic energy moving to HIGHER potential. Track the sign of q in ΔU = qΔV.",
+  "2.0": "A conductor's interior field is zero, but its potential is NOT zero. The whole conductor sits at one constant potential.",
+  "2.1": "Capacitance depends only on geometry and material. Adding more charge doesn't change C; it raises V.",
+  "2.2": "First decide what's constant: connected to a battery means V is fixed, disconnected means Q is fixed. Then pick the matching energy formula.",
+  "2.3": "Capacitors combine OPPOSITE to resistors: parallel capacitors add directly, series capacitors add as reciprocals.",
+  "3.0": "Current is not \"used up\" by a resistor. The same current flows into and out of it; energy is what's converted.",
+  "3.1": "Walking a loop, going through a resistor WITH the current is a voltage DROP (−IR). Mixing signs breaks the loop equation.",
+  "3.2": "An uncharged capacitor acts like a WIRE at t = 0 and like a BREAK at steady state. Many questions test just those two moments.",
+  "3.3": "While charging a capacitor through a resistor, half the battery's energy is lost as heat, whatever the value of R.",
+  "4.0": "For negative charges, the force is OPPOSITE to what the right-hand rule gives for v × B. Flip it.",
+  "4.1": "Wires carrying current the SAME way attract. This is the reverse of electric charges, where like charges repel.",
+  "4.2": "The Biot–Savart law uses dl × r̂. Wire segments pointing straight at the point (dl parallel to r̂) contribute nothing.",
+  "4.3": "Ampère's law counts only current passing THROUGH the loop. Inside a thick wire, the enclosed current is a fraction of I.",
+  "5.0": "Only a CHANGING flux induces emf. A strong but steady field through a stationary loop gives nothing.",
+  "5.1": "The induced current opposes the CHANGE in flux, not the flux itself. If inward flux is decreasing, the induced field points inward.",
+  "5.2": "An inductor acts like a BREAK right after switching and like a WIRE at steady state, the reverse of a capacitor.",
+  "5.3": "In an LC circuit, maximum current happens when the capacitor's charge is ZERO, just as max speed in SHM happens at x = 0."
+};
+
+</script>
+<script>/* content/traps/physics-c-mechanics.js */
+// "AP Trap" for every concept in content/physics-c-mechanics.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["physics-c-mechanics"] = {
+  "0.0": "Differentiate EVERY term. Dropping the linear term (−2t → −2) is the most common slip on graded answers.",
+  "0.1": "Integrating needs the initial condition. Without x₀ or v₀ you only have the answer up to a constant, and AP takes points for missing it.",
+  "0.2": "Kinematic equations only hold for CONSTANT acceleration. If a depends on t, you must integrate.",
+  "0.3": "At the top of a projectile's path, vertical velocity is zero but acceleration is still g downward, not zero.",
+  "1.0": "For drag problems, write Newton's 2nd law as a differential equation (m dv/dt = mg − bv) and separate variables. Don't just jump to terminal velocity.",
+  "1.1": "The normal force is NOT always mg. On inclines, in elevators and in loops, find N from the free-body diagram.",
+  "1.2": "\"Centripetal force\" is not a new force on the FBD. It's the NET inward force from tension, gravity, normal, friction and so on.",
+  "1.3": "Orbital speed and period depend on r, not on the satellite's mass. Bigger orbits are SLOWER.",
+  "2.0": "When force varies with position, W = ∫F dx. Multiplying one force value by distance only works if F is constant.",
+  "2.1": "F = −dU/dx. Forgetting the minus sign points the force the wrong way, and AP grades direction.",
+  "2.2": "Energy is conserved only without nonconservative work. With friction, K + U + thermal energy is conserved, not K + U.",
+  "2.3": "P = F·v uses the component of force along the velocity. Average power is W/Δt, instantaneous power is dW/dt.",
+  "3.0": "Impulse is the AREA under F(t), and it equals Δp, a vector. Watch the sign when an object bounces back.",
+  "3.1": "Momentum is conserved only when the net EXTERNAL force is zero, and it's conserved in each direction separately.",
+  "3.2": "Momentum is conserved in all collisions. Kinetic energy is conserved only in ELASTIC ones.",
+  "3.3": "Internal forces (explosions, collisions) can't change the center of mass's motion. Only external forces can.",
+  "4.0": "Angular and linear quantities link through r: v = rω, a_t = rα. Centripetal acceleration ω²r is a different component.",
+  "4.1": "Torque uses the PERPENDICULAR distance from the axis to the line of force (τ = rF sin θ), not just the distance to where it's applied.",
+  "4.2": "The parallel-axis theorem only works from the CENTER-OF-MASS axis: I = I_cm + Md². Don't apply it between two off-center axes.",
+  "4.3": "For a string over a massive pulley, the tensions on each side are DIFFERENT. Equal tensions would mean zero net torque.",
+  "5.0": "Rolling objects have BOTH translational and rotational KE. Leaving out ½Iω² gives the wrong speed at the bottom of a ramp.",
+  "5.1": "A point particle moving in a straight line still has angular momentum about any point off its line: L = mvr⊥.",
+  "5.2": "Angular momentum is conserved when external TORQUE is zero, but kinetic energy usually is not.",
+  "5.3": "Rotational power is P = τω. It parallels P = Fv exactly, so use the same logic.",
+  "6.0": "Show that F = −kx (or τ = −κθ) to PROVE SHM. Then read ω² off the differential equation d²x/dt² = −ω²x.",
+  "6.1": "Max speed occurs at equilibrium and max acceleration occurs at the ends. They are never at the same time.",
+  "6.2": "Pendulum period T = 2π√(L/g) works only for small angles, and it doesn't depend on mass or amplitude.",
+  "6.3": "Total energy in SHM is ½kA². It depends on amplitude squared, not on mass."
+};
+
+</script>
+<script>/* content/traps/precalculus.js */
+// "AP Trap" for every concept in content/precalculus.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["precalculus"] = {
+  "0.0": "Concavity is about the RATE of change. Increasing and concave down means the rate is positive but DEcreasing. Justifications must name the rate.",
+  "0.1": "End behavior comes ONLY from the leading term, and its SIGN matters. A negative odd-degree polynomial rises on the left and falls on the right.",
+  "0.2": "Factor before naming asymptotes. A factor that cancels is a HOLE, not a vertical asymptote.",
+  "0.3": "Horizontal shifts go the opposite way: f(x − 3) moves RIGHT. A horizontal stretch by b means the graph compresses by a factor of 1/b.",
+  "1.0": "Equal DIFFERENCES over equal intervals mean linear. Equal RATIOS mean exponential. Check the table both ways.",
+  "1.1": "A percent DEcrease of r gives a factor of 1 − r. Writing r itself as the factor is the classic mistake.",
+  "1.2": "log(a + b) has no simplification. Only products, quotients and powers break apart.",
+  "1.3": "To solve a·bˣ = c, isolate bˣ FIRST, then take the log. Don't take the log of a·bˣ as if the a weren't there.",
+  "2.0": "Radian mode vs. degree mode: AP Precalc uses RADIANS. A calculator in degree mode gives wrong answers with no warning.",
+  "2.1": "Period = 2π/b, not b. For tangent it's π/b.",
+  "2.2": "Inverse trig functions only return angles in a restricted range, so arcsin(sin(5π/6)) = π/6, not 5π/6.",
+  "2.3": "A negative r plots the point in the OPPOSITE direction of θ. When r is increasing, the point moves AWAY from the origin.",
+  "3.0": "Eliminating the parameter can lose information about direction and which part of the curve is traced. Note the t-values.",
+  "3.1": "The dot product is a NUMBER, not a vector. Zero means perpendicular.",
+  "3.2": "Matrix multiplication is row × column and NOT commutative (AB ≠ BA). A zero determinant means no inverse.",
+};
+
+</script>
 <script>/* content/traps/psychology.js */
 // "AP Trap" for every concept in content/psychology.js.
 window.AP_TRAPS = window.AP_TRAPS || {};
@@ -5425,6 +7558,49 @@ window.AP_TRAPS["us-history"] = {
   "8.0": "Reagan CUT top tax rates and deregulated while RAISING defense spending. Don't write \"cut spending\" across the board.",
   "8.1": "Post-9/11 debates are about SECURITY vs. CIVIL LIBERTIES (the Patriot Act), which makes a classic continuity-over-time theme.",
   "8.2": "After 1980 the economy shifted from manufacturing to SERVICE and INFORMATION jobs. Manufacturing jobs declined.",
+};
+
+</script>
+<script>/* content/traps/world-history.js */
+// "AP Trap" for every concept in content/world-history.js.
+window.AP_TRAPS = window.AP_TRAPS || {};
+window.AP_TRAPS["world-history"] = {
+  "0.0": "Song innovations (champa rice, paper money, the Grand Canal) matter for their EFFECTS: population growth and commercialization. Name the effect, not just the invention.",
+  "0.1": "By 1200 the Abbasid Caliphate was fragmented. Dar al-Islam is a cultural and religious sphere, not one empire.",
+  "0.2": "Religions changed as they spread (syncretism), for example Buddhism blending with local beliefs. \"Religion X spread\" alone earns less than HOW it adapted.",
+  "0.3": "Compare state-building by LABOR and TRIBUTE: the Mexica took tribute, while the Inca took mit'a labor. Comparison questions want the similarity AND the difference.",
+  "1.0": "The Silk Roads mostly carried LUXURY goods because of high transport costs. Bulk goods traveled by sea.",
+  "1.1": "Mongol rule is double-edged: it boosted trade and the transfer of technology, AND it spread the Black Death.",
+  "1.2": "Indian Ocean trade grew because of monsoon knowledge and borrowed technology (the lateen sail, astrolabe). Link the technology to the growth.",
+  "1.3": "Mansa Musa's hajj is evidence of Mali's WEALTH and its ties to the Islamic world. It didn't begin trans-Saharan trade.",
+  "2.0": "\"Gunpowder empires\" expanded with firearms, but also held power through administration. Don't reduce the answer to guns alone.",
+  "2.1": "The devshirme recruited people. Tax farming raised revenue. These are different tools, and prompts often ask to tell them apart.",
+  "2.2": "Legitimacy (why people accept a ruler) isn't the same as control (how rulers enforce power). Monuments and religion are LEGITIMACY.",
+  "2.3": "The Ottoman–Safavid rivalry was Sunni versus Shia. The Reformation split CHRISTIANITY. Don't mix the two conflicts.",
+  "3.0": "Much European maritime technology was ADAPTED from Asia and the Islamic world (the compass, astrolabe, lateen sail).",
+  "3.1": "The Columbian Exchange affected each side differently: death from disease in the Americas, population GROWTH from new crops in Afro-Eurasia.",
+  "3.2": "Joint-stock companies spread RISK among shareholders. They were private ventures backed by the state, not government departments.",
+  "3.3": "Colonial labor systems differed: encomienda and hacienda (coerced Native labor) versus chattel slavery (hereditary). Name the right one for the region.",
+  "4.0": "The Haitian Revolution is the ONLY successful revolt of enslaved people to found a state. It's a favorite comparison with the American and French Revolutions.",
+  "4.1": "Nationalism can UNIFY (Germany, Italy) or BREAK APART multiethnic empires (the Ottomans, Austria-Hungary). Know both directions.",
+  "4.2": "Explain WHY Britain industrialized first: coal, iron, capital, labor and colonies. \"Because of the steam engine\" isn't a cause.",
+  "4.3": "Responses to industrialization ranged from reform (unions, laws) to revolution (Marxism) to state-led modernization (Meiji Japan). Match the response to the society.",
+  "5.0": "Imperial motives were ECONOMIC (raw materials, markets) and IDEOLOGICAL (Social Darwinism). Strong answers name both.",
+  "5.1": "After 1857, India went from Company rule to CROWN rule (the Raj). The Mughal Empire ended then.",
+  "5.2": "Resistance took many forms: armed revolt, religious movements (the Ghost Dance) and new states (Ethiopia at Adwa). Some of it succeeded.",
+  "5.3": "Economic imperialism can mean control WITHOUT formal colonies, as with the Opium Wars and spheres of influence in China.",
+  "6.0": "Old empires fell from INTERNAL weakness plus external pressure (the Qing, the Ottomans, Russia). Give both causes.",
+  "6.1": "WWI was global because of empires: colonial soldiers and resources were essential. Don't treat it as only European.",
+  "6.2": "The Great Depression helped CAUSE the rise of fascism by discrediting democracies. Link the economic crisis to the political result.",
+  "6.3": "Genocide questions expect specific examples (the Holocaust, the Armenian genocide, Cambodia, Rwanda) and their causes, such as ideology and ethnic nationalism.",
+  "7.0": "The Cold War was mostly fought through PROXY wars and competition, not direct U.S.–Soviet combat.",
+  "7.1": "Decolonization varied: negotiated (Ghana), nonviolent mass movements (India), violent wars (Algeria, Kenya). Comparison is the key skill.",
+  "7.2": "Mao's Great Leap Forward caused a FAMINE. State-directed development could fail disastrously.",
+  "7.3": "The USSR collapsed from economic stagnation, overspending and reform (glasnost/perestroika). It wasn't military defeat by the U.S.",
+  "8.0": "Technology's benefits were UNEVEN. The Green Revolution raised yields but had environmental and social costs.",
+  "8.1": "Economic globalization has winners and losers. Balanced answers mention both growth and inequality.",
+  "8.2": "Rights movements after 1900 spread across borders and inspired one another (civil rights and anti-apartheid). Show those connections.",
+  "8.3": "Global culture spreads through blending AND backlash (movements reasserting religion or nationalism).",
 };
 
 </script>
