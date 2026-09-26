@@ -30,7 +30,8 @@ right before you'd forget it.
   answer before checking it, and "Similar question" for more practice.
 - 🔬 **Unit checks**: two questions per concept, ending with "You understand 3 of 4 Unit 2 concepts. You're
   struggling with Elasticity. Here's a 4-minute review designed around that weakness."
-- 🩺 **5-minute diagnostic**: 12 questions across every unit, and a report of your strong and weak *concepts*
+- 🩺 **Diagnostic, quick or full**: 12 questions (~5 min) across every unit, or a full 42-question diagnostic that
+  tests every concept (you can finish early). The report shows your strong and weak *concepts*
   (not just units), with an explanation for everything you missed.
 - 🎯 **Concept-level mastery**: every question is tagged to a concept. Each concept has a mastery score
   and a status: Not started, Needs practice, Getting there, or Strong.

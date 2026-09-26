@@ -194,8 +194,28 @@ const Engine = (() => {
   /* ---------- Session builders ---------- */
 
   // ~12 authored questions spread across every unit, one concept at a time.
-  function diagnostic(courseId, n = 12) {
+  // Quick diagnostic: ~12 written questions spread across every unit.
+  // Full diagnostic (full = true): every concept at least once, then more questions up to n (default 42).
+  function diagnostic(courseId, n = 12, full = false) {
     const units = window.AP_CONTENT[courseId].units;
+    if (full) {
+      const used = new Set();
+      const out = [];
+      const add = (it) => { if (it && !used.has(it.key) && out.length < n) { used.add(it.key); out.push(it); } };
+      // Pass 1: one question per concept (a written one when it exists).
+      units.forEach((u, ui) => u.concepts.forEach((_, ci) => {
+        const a = shuffle(pool(courseId, ui, ci).authored);
+        if (a.length) add(item(courseId, ui, a[0]));
+        else add(conceptItems(courseId, ui, ci, 6).find((it) => !used.has(it.key))); // skip generated questions already used
+      }));
+      // Pass 2: the remaining written questions, then flashcard-generated ones, round-robin by concept.
+      const rest = units.flatMap((u, ui) => u.questions.map((_, qi) => item(courseId, ui, qi))).filter((it) => !used.has(it.key));
+      shuffle(rest).forEach(add);
+      for (let round = 0; out.length < n && round < 4; round++) {
+        units.forEach((u, ui) => u.concepts.forEach((_, ci) => { conceptItems(courseId, ui, ci, 3).forEach(add); }));
+      }
+      return shuffle(out);
+    }
     const perUnit = units.map((u, ui) => shuffle(u.concepts.map((_, ci) => ci).filter((ci) => pool(courseId, ui, ci).authored.length)));
     const out = [];
     for (let round = 0; out.length < n && perUnit.some((l) => l.length); round++) {

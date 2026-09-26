@@ -711,6 +711,16 @@ main { outline: none; min-height: 70vh; }
   .unit-head-side { width: 100%; justify-content: space-between; }
 }
 
+.diag-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 16px; text-align: left; }
+.diag-opt { display: flex; flex-direction: column; gap: 4px; padding: 18px; border: 1.5px solid var(--border); border-radius: 14px; background: var(--surface); cursor: pointer; text-align: left; transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; }
+.diag-opt:hover { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); transform: translateY(-1px); }
+.diag-opt .overline { color: var(--brand); display: inline-flex; gap: 5px; align-items: center; }
+.diag-opt > b { font-family: var(--display); font-size: 1.5rem; }
+.diag-opt > span:last-child { color: var(--text-2); font-size: 0.9rem; }
+.diag-opt.is-full { border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); background: linear-gradient(135deg, var(--brand-soft), var(--surface)); }
+@media (max-width: 680px) { .diag-choice { grid-template-columns: 1fr; } }
+#finish-early { margin-left: 4px; }
+
 /* ================= Search palette ================= */
 .palette-overlay { position: fixed; inset: 0; background: rgba(8, 10, 20, 0.5); backdrop-filter: blur(4px); z-index: 50; display: flex; justify-content: center; align-items: flex-start; padding: 10vh 16px 16px; animation: fade 0.15s ease; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }

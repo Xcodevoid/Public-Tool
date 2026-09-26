@@ -296,7 +296,7 @@ function renderHome() {
               ? `<a class="btn btn-primary btn-xl" href="#/today">${icon("zap", 20)} What should I study today?</a>
                  <button class="btn btn-lg" data-pick-diagnostic>${icon("stethoscope", 18)} New diagnostic</button>`
               : `<button class="btn btn-primary btn-xl" data-pick-diagnostic>${icon("stethoscope", 20)} Start diagnostic</button>
-                 <span class="muted small">12 questions · about 5 minutes · no sign-up</span>`}
+                 <span class="muted small">Quick (12 questions) or full (42) · no sign-up</span>`}
           </div>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -315,7 +315,7 @@ function renderHome() {
         </div>
       </div>
       <div class="page loop-strip">
-        <div class="loop-step"><div class="loop-ico">${icon("stethoscope", 22)}</div><b>Test what you know</b><span>A 5-minute diagnostic across every unit</span></div>
+        <div class="loop-step"><div class="loop-ico">${icon("stethoscope", 22)}</div><b>Test what you know</b><span>A quick 12-question check or a full 42-question diagnostic</span></div>
         <div class="loop-arrow">${icon("arrowR", 20)}</div>
         <div class="loop-step"><div class="loop-ico">${icon("target", 22)}</div><b>Find your weak concepts</b><span>Concept by concept, with the misconception behind each miss</span></div>
         <div class="loop-arrow">${icon("arrowR", 20)}</div>
@@ -400,7 +400,7 @@ function openDiagnosticPicker() {
   el.innerHTML = `
     <div class="palette picker" role="dialog" aria-label="Choose a course">
       <div class="picker-head"><h2>Which course are you taking?</h2><button class="icon-btn" data-close aria-label="Close">${icon("x", 18)}</button></div>
-      <p class="muted">12 questions across every unit. At the end you'll see exactly which concepts you understand, and which ones to fix first.</p>
+      <p class="muted">Choose a quick check (12 questions) or a full diagnostic (42 questions, every concept). At the end you'll see exactly which concepts you understand, and which ones to fix first.</p>
       <div class="picker-grid">${GUIDE_IDS.map((id) => {
         const c = courseById[id];
         return `<a class="picker-item" href="#/course/${id}/diagnostic" style="${catVars(c.cat)}"><span class="cat-icon sm">${catIcon(c.cat, 16)}</span><span>${esc(c.name)}</span></a>`;
@@ -1050,6 +1050,7 @@ function runSession(body, items, opts = {}) {
         ${bar(Math.round((done / queue.length) * 100))}
         ${feedback ? `<span class="small score-live">${icon("check", 14)} ${right}</span>` : ""}
         ${timeLeft != null ? `<span class="timer" id="timer">${icon("clock", 14)}<span>${fmtTime(timeLeft)}</span></span>` : ""}
+        ${mode === "diagnostic" && queue.length > 12 && results.length ? `<button class="btn btn-sm btn-ghost" id="finish-early">Finish & see report</button>` : ""}
       </div>
       ${rem && !rem.done ? `<div class="rem-banner">${icon("target", 14)} Targeted practice: <b>${esc(rem.title)}</b> · ${Math.min(rem.answered + (picked !== null && queue[i].rem ? 0 : 1), rem.total)} of ${rem.total}</div>` : ""}`;
   };
@@ -1119,6 +1120,7 @@ function runSession(body, items, opts = {}) {
         <p class="kbd-hint"><kbd>1</kbd>–<kbd>${q.choices.length}</kbd> answer · <kbd>Enter</kbd> ${showWeakBtn ? "fix this concept" : "next"}</p>
       </div>`;
     body.querySelectorAll(".choice").forEach((b) => b.addEventListener("click", () => choose(+b.dataset.ci)));
+    body.querySelector("#finish-early")?.addEventListener("click", () => { if (confirm(`Finish now? We'll grade the ${results.length} question${results.length === 1 ? "" : "s"} you've answered.`)) finish(false); });
     body.querySelector("#next")?.addEventListener("click", next);
     body.querySelector("#weak")?.addEventListener("click", () => { stage = "weak"; draw(); });
     (body.querySelector("#weak") || body.querySelector("#next"))?.focus({ preventScroll: true });
@@ -1290,35 +1292,46 @@ const fmtTime = (s) => `${Math.floor(Math.max(0, s) / 60)}:${String(Math.max(0, 
 function renderDiagnostic(course) {
   if (!course.guide) { location.hash = `#/course/${course.id}`; return; }
   document.title = `Diagnostic | ${course.name}`;
-  const items = Engine.diagnostic(course.id);
   const units = window.AP_CONTENT[course.id].units.length;
+  const concepts = Engine.concepts(course.id).length;
+  const fullN = Math.min(42, Math.max(concepts, 42));
+  const crumb = crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"]);
   app.innerHTML = `
     <div class="page narrow" style="${catVars(course.cat)}">
-      ${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"])}
+      ${crumb}
       <div class="card diag-intro">
         <div class="cat-icon lg">${icon("stethoscope", 28)}</div>
         <h1>${esc(course.name)} diagnostic</h1>
-        <p class="lead">${items.length} questions across all ${units} units, about 5 minutes. No hints and no explanations until the end:
-        we just want an honest picture of what you know.</p>
-        <ul class="diag-points">
-          <li>${icon("target", 16)} Pinpoints your weak <b>concepts</b>, not just weak units</li>
-          <li>${icon("zap", 16)} Sets up smart practice to fix them first</li>
-          <li>${icon("rotate", 16)} Explains every question you miss in the report</li>
-        </ul>
-        <button class="btn btn-primary btn-lg" id="go">${icon("play", 16)} Start diagnostic</button>
+        <p class="lead">No hints and no explanations until the end: we just want an honest picture of what you know.
+        Every question you miss is explained in the report.</p>
+        <div class="diag-choice">
+          <button class="diag-opt" data-len="quick">
+            <span class="overline">Quick check</span>
+            <b>12 questions</b>
+            <span>About 5 minutes. Samples every one of the ${units} units to find your weakest areas fast.</span>
+          </button>
+          <button class="diag-opt is-full" data-len="full">
+            <span class="overline">${icon("star", 12)} Full diagnostic</span>
+            <b>${fullN} questions</b>
+            <span>About ${Math.round(fullN * 0.8)} minutes, like a real AP multiple-choice section. Tests <b>all ${concepts} concepts</b>, so nothing is left unchecked.</span>
+          </button>
+        </div>
+        <p class="muted small">Need to stop partway? Use "Finish & see report" at any time and we'll grade what you've answered.</p>
       </div>
     </div>`;
-  app.querySelector("#go").addEventListener("click", () => {
-    app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumbs(["Courses", "#/"], [course.name, `#/course/${course.id}`], ["Diagnostic"])}<div id="quiz-body"></div></div>`;
-    runSession(document.getElementById("quiz-body"), items, { title: "Diagnostic", mode: "diagnostic", courseId: course.id, showSource: true });
-  });
+  app.querySelectorAll("[data-len]").forEach((btn) => btn.addEventListener("click", () => {
+    const full = btn.dataset.len === "full";
+    const items = full ? Engine.diagnostic(course.id, fullN, true) : Engine.diagnostic(course.id, 12);
+    app.innerHTML = `<div class="page narrow" style="${catVars(course.cat)}">${crumb}<div id="quiz-body"></div></div>`;
+    runSession(document.getElementById("quiz-body"), items, { title: full ? "Full diagnostic" : "Diagnostic", mode: "diagnostic", courseId: course.id, full, showSource: true });
+  }));
 }
 
 function renderDiagnosticReport(body, results, opts) {
   const courseId = opts.courseId;
   const unitScoped = opts.unitIdx != null;
   const right = results.filter((r) => r.ok).length;
-  if (!unitScoped) { store.data.diag[courseId] = { t: Date.now(), right, total: results.length }; store.save(); }
+  if (!unitScoped) { store.data.diag[courseId] = { t: Date.now(), right, total: results.length, full: !!opts.full }; store.save(); }
   const byConcept = new Map();
   results.forEach((r) => {
     const key = Engine.conceptKey(r.courseId, r.unitIdx, r.q.concept);
@@ -1349,7 +1362,8 @@ function renderDiagnosticReport(body, results, opts) {
               ? `<p>You're specifically struggling with ${list(weak.slice(0, 3).map((e) => esc(title(e))))}${weak.length > 3 ? ` (+${weak.length - 3} more)` : ""}.
                  Here's a <b>${mins}-minute review</b> designed around ${weak.length === 1 ? "that weakness" : `those ${weak.length} weaknesses`}.</p>`
               : `<p>No weak spots in what we tested. ${unitScoped ? "Move on to the next unit, or" : ""} keep it fresh with smart practice.</p>`}
-            ${!unitScoped && tested.length < allConcepts ? `<p class="muted small">We tested ${tested.length} of ${allConcepts} concepts. Smart practice and unit checks cover the rest.</p>` : ""}
+            ${!unitScoped && tested.length < allConcepts ? `<p class="muted small">We tested ${tested.length} of ${allConcepts} concepts. ${opts.full ? `You finished early, so ${allConcepts - tested.length} weren't tested yet. Smart practice will cover them` : "Take the full diagnostic to test all of them, or let smart practice cover the rest"}.</p>` : ""}
+            <p class="muted small">${right}/${results.length} questions correct.</p>
           </div>
         </div>
         ${weak.length ? `<button class="btn btn-primary btn-xl btn-block" id="fix">${icon("zap", 18)} Start my ${mins}-minute review</button>`
